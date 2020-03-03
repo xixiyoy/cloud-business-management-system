@@ -2,8 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import './assets/css/default.css'
+import './assets/css/axure_rp_page.css'
+import './assets/css/jquery-ui-themes.css'
+import './assets/css/reset.css'
+import MetaInfo from 'vue-meta-info'
 
 Vue.config.productionTip = false
+
+Vue.use(MetaInfo)
 
 new Vue({
   router,
