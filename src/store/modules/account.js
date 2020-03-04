@@ -1,19 +1,21 @@
+import { getAccounts } from '../../api/account'
+
 const state = {
-  accounts: [
-    {
-      accountName: 'tom',
-      accountPassword: 'qwer1234'
-    },
-    {
-      accountName: 'james',
-      accountPassword: '1234qwer'
-    }
-  ]
+  accounts: []
 }
 
-const actions = {}
+const mutations = {
+  'SET_ACCOUNTS' (state, accounts) {
+    state.accounts = accounts
+  }
+}
 
-const mutations = {}
+const actions = {
+  async getAccounts ({ commit }) {
+    const { data: accounts } = await getAccounts()
+    commit('SET_ACCOUNTS', accounts)
+  }
+}
 
 export default {
   state,

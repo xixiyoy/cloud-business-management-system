@@ -327,6 +327,9 @@ export default {
     ...mapState({
       existAccounts: state => state.account.accounts
     })
+  },
+  mounted () {
+    this.$store.dispatch('getAccounts')
   }
 }
 </script>
