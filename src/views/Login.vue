@@ -270,6 +270,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   metaInfo: {
     title: '登录'
@@ -286,7 +288,6 @@ export default {
     handleLoginButtonClick () {
       const accountName = this.accountLoginForm.accountName
       if (this.isAccountExist(accountName)) {
-        console.log(accountName)
         const accountPassword = this.accountLoginForm.accountPassword
         if (this.isPasswordCorrect(accountPassword)) {
           this.loginByAccountNameAndPassword(accountName, accountPassword)
@@ -298,7 +299,8 @@ export default {
       }
     },
     isAccountExist (accountName) {
-      if (accountName === 'tom') {
+      const existAccountNames = this.existAccounts.map(account => account.accountName)
+      if (existAccountNames.includes(accountName)) {
         return true
       } else {
         return false
@@ -308,12 +310,23 @@ export default {
       return /^[0-9A-Za-z]{6,18}$/.test(accountPassword)
     },
     loginByAccountNameAndPassword (accountName, accountPassword) {
-      if (accountName === 'tom' && accountPassword === '123asdf') {
+      let correctAccountPassword = ''
+      this.existAccounts.forEach(account => {
+        if (account.accountName === accountName) {
+          correctAccountPassword = account.accountPassword
+        }
+      })
+      if (correctAccountPassword === accountPassword) {
         alert('登录成功')
       } else {
         alert('密码错误请重新输入')
       }
     }
+  },
+  computed: {
+    ...mapState({
+      existAccounts: state => state.account.accounts
+    })
   }
 }
 </script>
