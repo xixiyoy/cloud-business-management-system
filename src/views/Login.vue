@@ -52,7 +52,7 @@
             </div>
 
             <!-- Unnamed (矩形) -->
-            <div id="u63" class="ax_default box_2">
+            <div id="u63" class="ax_default box_2" @click="handleLoginButtonClick">
               <div id="u63_div" class=""></div>
               <div id="u63_text" class="text ">
                 <p><span>登&nbsp; 录</span></p>
@@ -77,7 +77,7 @@
 
                 <!-- 用户名 (文本框) -->
                 <div id="u68" class="ax_default text_field" data-label="用户名">
-                  <input id="u68_input" type="text" value=""/>
+                  <input id="u68_input" type="text" v-model="accountLoginForm.accountName"/>
                 </div>
               </div>
 
@@ -91,7 +91,7 @@
 
                 <!-- 密码 (文本框) -->
                 <div id="u71" class="ax_default text_field" data-label="密码">
-                  <input id="u71_input" type="password" value=""/>
+                  <input id="u71_input" type="password" v-model="accountLoginForm.accountPassword"/>
                 </div>
 
                 <!-- Unnamed (SVG) -->
@@ -218,7 +218,7 @@
 
                 <!-- 用户名 (文本框) -->
                 <div id="u90" class="ax_default text_field" data-label="用户名">
-                  <input id="u90_input" type="text" value=""/>
+                  <input id="u90_input" type="text"/>
                 </div>
               </div>
 
@@ -273,6 +273,47 @@
 export default {
   metaInfo: {
     title: '登录'
+  },
+  data () {
+    return {
+      accountLoginForm: {
+        accountName: '',
+        accountPassword: ''
+      }
+    }
+  },
+  methods: {
+    handleLoginButtonClick () {
+      const accountName = this.accountLoginForm.accountName
+      if (this.isAccountExist(accountName)) {
+        console.log(accountName)
+        const accountPassword = this.accountLoginForm.accountPassword
+        if (this.isPasswordCorrect(accountPassword)) {
+          this.loginByAccountNameAndPassword(accountName, accountPassword)
+        } else {
+          alert('密码错误请重新输入')
+        }
+      } else {
+        alert('请输入正确的账号')
+      }
+    },
+    isAccountExist (accountName) {
+      if (accountName === 'tom') {
+        return true
+      } else {
+        return false
+      }
+    },
+    isPasswordCorrect (accountPassword) {
+      return /^[0-9A-Za-z]{6,18}$/.test(accountPassword)
+    },
+    loginByAccountNameAndPassword (accountName, accountPassword) {
+      if (accountName === 'tom' && accountPassword === '123asdf') {
+        alert('登录成功')
+      } else {
+        alert('密码错误请重新输入')
+      }
+    }
   }
 }
 </script>
