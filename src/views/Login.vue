@@ -43,7 +43,7 @@
               </div>
 
               <!-- Unnamed (矩形) -->
-              <div id="u62" class="ax_default box_2">
+              <div id="u62" class="ax_default box_2" @click="handleAccountTabLoginClick">
                 <div id="u62_div" class=""></div>
                 <div id="u62_text" class="text ">
                   <p><span>账户登录</span></p>
@@ -60,7 +60,7 @@
             </div>
 
             <!-- 账户 (组 合) -->
-            <div id="u64" class="ax_default" data-label="账户" data-left="60" data-top="129" data-width="400" data-height="135">
+            <div id="u64" class="ax_default" data-label="账户" data-left="60" data-top="129" data-width="400" data-height="135" v-show="isAccountLoginTabShow">
 
               <!-- Unnamed (组 合) -->
               <div id="u65" class="ax_default" data-left="60" data-top="129" data-width="400" data-height="48">
@@ -77,7 +77,7 @@
 
                 <!-- 用户名 (文本框) -->
                 <div id="u68" class="ax_default text_field" data-label="用户名">
-                  <input id="u68_input" type="text" v-model="accountLoginForm.accountName"/>
+                  <input id="u68_input" placeholder="请输入用户名" type="text" v-model="accountLoginForm.accountName"/>
                 </div>
               </div>
 
@@ -91,7 +91,7 @@
 
                 <!-- 密码 (文本框) -->
                 <div id="u71" class="ax_default text_field" data-label="密码">
-                  <input id="u71_input" type="password" v-model="accountLoginForm.accountPassword"/>
+                  <input id="u71_input" placeholder="密码" type="password" v-model="accountLoginForm.accountPassword"/>
                 </div>
 
                 <!-- Unnamed (SVG) -->
@@ -192,7 +192,7 @@
               </div>
 
               <!-- Unnamed (矩形) -->
-              <div id="u85" class="ax_default box_2">
+              <div id="u85" class="ax_default box_2" @click="handlePhoneNumberTabLoginClick">
                 <div id="u85_div" class=""></div>
                 <div id="u85_text" class="text ">
                   <p><span>手机登录</span></p>
@@ -201,7 +201,7 @@
             </div>
 
             <!-- 手机 (组 合) -->
-            <div id="u86" class="ax_default ax_default_hidden" data-label="手机" style="display:none; visibility: hidden" data-left="0" data-top="0" data-width="0" data-height="0">
+            <div id="u86" class="ax_default" data-label="手机" data-left="0" data-top="0" data-width="0" data-height="0" v-if="!isAccountLoginTabShow">
 
               <!-- Unnamed (组 合) -->
               <div id="u87" class="ax_default" data-left="0" data-top="0" data-width="0" data-height="0">
@@ -218,7 +218,7 @@
 
                 <!-- 用户名 (文本框) -->
                 <div id="u90" class="ax_default text_field" data-label="用户名">
-                  <input id="u90_input" type="text"/>
+                  <input id="u90_input" placeholder="请输入手机号码" type="text" v-model="accountLoginForm.accountPhoneNumber"/>
                 </div>
               </div>
 
@@ -280,22 +280,18 @@ export default {
     return {
       accountLoginForm: {
         accountName: '',
-        accountPassword: ''
-      }
+        accountPassword: '',
+        accountPhoneNumber: ''
+      },
+      isAccountLoginTabShow: true
     }
   },
   methods: {
-    handleLoginButtonClick () {
-      const accountName = this.accountLoginForm.accountName
-      if (this.isAccountExist(accountName)) {
-        const accountPassword = this.accountLoginForm.accountPassword
-        if (this.isPasswordCorrect(accountPassword)) {
-          this.loginByAccountNameAndPassword(accountName, accountPassword)
-        } else {
-          alert('密码错误请重新输入')
-        }
+    isAccountNull (accountName) {
+      if (accountName === '') {
+        return true
       } else {
-        alert('请输入正确的账号')
+        return false
       }
     },
     isAccountExist (accountName) {
@@ -321,6 +317,55 @@ export default {
       } else {
         alert('密码错误请重新输入')
       }
+    },
+    handleLoginButtonClick () {
+      if (this.isAccountLoginTabShow) {
+        const accountName = this.accountLoginForm.accountName
+        if (this.isAccountNull(accountName)) {
+          alert('账号或密码不能为空，请输入正确的用户名或密码')
+        } else if (this.isAccountExist(accountName)) {
+          const accountPassword = this.accountLoginForm.accountPassword
+          if (this.isPasswordCorrect(accountPassword)) {
+            this.loginByAccountNameAndPassword(accountName, accountPassword)
+          } else {
+            alert('密码错误请重新输入')
+          }
+        } else {
+          alert('请输入正确的账号')
+        }
+      } else {
+        this.handleLoginByAccountPhoneNumber()
+      }
+    },
+    isPhoneNumberNull (accountPhoneNumber) {
+      if (accountPhoneNumber === '') {
+        return true
+      } else {
+        return false
+      }
+    },
+    isPhoneNumberExist (accountPhoneNumber) {
+      const existAccountPhoneNumber = this.existAccounts.map(account => account.accountPhoneNumber)
+      if (existAccountPhoneNumber.includes(accountPhoneNumber)) {
+        return true
+      } else {
+        return false
+      }
+    },
+    handleLoginByAccountPhoneNumber () {
+      const accountPhoneNumber = this.accountLoginForm.accountPhoneNumber
+      if (this.isPhoneNumberNull(accountPhoneNumber)) {
+        alert('请输入手机号')
+      } else if (this.isPhoneNumberExist(accountPhoneNumber)) {
+      } else {
+        alert('手机号码不存在，请重新输入')
+      }
+    },
+    handlePhoneNumberTabLoginClick () {
+      this.isAccountLoginTabShow = false
+    },
+    handleAccountTabLoginClick () {
+      this.isAccountLoginTabShow = true
     }
   },
   computed: {
