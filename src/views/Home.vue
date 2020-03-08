@@ -1,18 +1,395 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <el-container class="home-el-container">
+      <el-header>
+        <el-row :gutter="20">
+          <el-col :span="20">
+            <div class="grid-content bg-purple">
+              <span class="home-logo-text">企享汇信息科技公司</span>
+            </div>
+          </el-col>
+          <el-col :span="2">
+            <div class="grid-content bg-purple">
+              <img id="u305_img" class="img " src="../assets/images/home/u305.svg" tabindex="0">
+              <span class="help-text">帮助</span>
+            </div>
+          </el-col>
+          <el-col :span="2">
+            <div class="grid-content bg-purple">
+              <img id="u308_img" class="img " src="../assets/images/home/u308.svg" tabindex="0">
+              <span class="settings-text">设置</span>
+            </div>
+          </el-col>
+        </el-row>
+      </el-header>
+      <el-container>
+        <el-aside width="215px">
+          <div class="account-show">
+            <!-- Unnamed (组 合) -->
+                  <div id="u321" class="ax_default" data-left="-1" data-top="50" data-width="215" data-height="230">
+
+                    <!-- Unnamed (动态面板) -->
+                    <div id="u322" class="ax_default">
+                      <div id="u322_state0" class="panel_state" data-label="State1" style="">
+                        <div id="u322_state0_content" class="panel_state_content">
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u323" class="ax_default box_3">
+                      <img id="u323_img" class="img " src="../assets/images/home/u323.png"/>
+                    </div>
+
+                    <!-- Unnamed (图片) -->
+                    <div id="u324" class="ax_default _图片_">
+                      <img id="u324_img" class="img " src="../assets/images/home/u324.png"/>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u325" class="ax_default box_2">
+                      <div id="u325_div" class=""></div>
+                      <div id="u325_text" class="text ">
+                        <p><span>财税一部</span></p><p><span><br></span></p><p><span>张三</span></p>
+                      </div>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u326" class="ax_default box_2">
+                      <div id="u326_div" class=""></div>
+                      <div id="u326_text" class="text ">
+                        <p><span>退出系统</span></p>
+                      </div>
+                    </div>
+                  </div>
+          </div>
+          <div class="account-nav">
+            <el-menu
+              default-active="2"
+              class="el-menu-vertical-demo"
+              @open="handleOpen"
+              @close="handleClose"
+              background-color="#333"
+              text-color="#fff"
+              active-text-color="#ffd04b">
+              <el-menu-item index="2">
+                <span slot="title">首页</span>
+              </el-menu-item>
+              <el-menu-item index="3">
+                <span slot="title">客户</span>
+              </el-menu-item>
+              <el-menu-item index="3">
+                <span slot="title">流程</span>
+              </el-menu-item>
+              <el-submenu index="1">
+                <template slot="title">
+                  <span>报表</span>
+                </template>
+                <el-menu-item-group>
+                  <el-menu-item index="1-1">日记报表</el-menu-item>
+                  <el-menu-item index="1-2">代账报表</el-menu-item>
+                  <el-menu-item index="1-3">开票列表</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+              <el-submenu index="1">
+                <template slot="title">
+                  <span>设置</span>
+                </template>
+                <el-menu-item-group>
+                  <el-menu-item index="1-1">服务产品</el-menu-item>
+                  <el-menu-item index="1-2">渠道商管理</el-menu-item>
+                  <el-menu-item index="1-3">下载管理</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+            </el-menu>
+          </div>
+        </el-aside>
+        <el-main>Main</el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  metaInfo: {
+    title: '首页'
+  },
+  methods: {
+    handleOpen (key, keyPath) {
+      console.log(key, keyPath)
+    },
+    handleClose (key, keyPath) {
+      console.log(key, keyPath)
+    }
   }
 }
 </script>
+
+<style>
+  .el-header {
+    background-color: #333;
+    color: #fff;
+    line-height: 50px;
+    padding: 8px 0px 0px 20px !important;
+  }
+  .el-aside {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    line-height: 200px;
+  }
+  .el-main {
+    background-color: #fff;
+    color: #333;
+    text-align: center;
+    line-height: 160px;
+  }
+  .home-logo-text{
+    font-family: '微软雅黑 Bold', '微软雅黑';
+    font-weight: 700;
+    font-style: normal;
+    font-size: 16px;
+    color: #FFFFFF;
+    text-align: left !important;
+    padding-left: 10px;
+  }
+  .settings-text{
+    font-family: 'PingFang SC Regular', 'PingFang SC';
+    font-weight: 400;
+    font-style: normal;
+    color: #FFFFFF;
+    text-align: center;
+    vertical-align: super;
+    padding-left: 8px;
+  }
+  .help-text{
+    font-family: 'PingFang SC Regular', 'PingFang SC';
+    font-weight: 400;
+    font-style: normal;
+    color: #FFFFFF;
+    text-align: center;
+    vertical-align: super;
+    padding-left: 8px;
+  }
+  .acccount-information-show{
+    border-width: 0px;
+    position: absolute;
+    left: -10px;
+    top: -8px;
+    width: 100px;
+    height: 100px;
+  }
+  #u321 {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:0px;
+  height:0px;
+}
+#u322 {
+  border-width:0px;
+  position:absolute;
+  left:-1px;
+  top:60px;
+  width:200px;
+  height:230px;
+  overflow:hidden;
+}
+#u322_state0 {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:200px;
+  height:230px;
+  -ms-overflow-x:hidden;
+  overflow-x:hidden;
+  -ms-overflow-y:hidden;
+  overflow-y:hidden;
+  background-color:rgba(67, 74, 84, 1);
+  background-image:url('../assets/images/login/bg.jpeg');
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-attachment:scroll;
+  background-size:cover;
+}
+#u322_state0_content {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:1px;
+  height:1px;
+}
+#u323_img {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:215px;
+  height:230px;
+}
+#u323 {
+  border-width:0px;
+  position:absolute;
+  left:-1px;
+  top:60px;
+  width:215px;
+  height:230px;
+}
+#u323_text {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:0px;
+  visibility:hidden;
+  word-wrap:break-word;
+}
+#u324_img {
+  border-width:0px;
+  position:absolute;
+  left:-10px;
+  top:-8px;
+  width:100px;
+  height:100px;
+}
+#u324 {
+  border-width:0px;
+  position:absolute;
+  left:59px;
+  top:67px;
+  width:80px;
+  height:80px;
+}
+#u324_text {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:0px;
+  visibility:hidden;
+  word-wrap:break-word;
+}
+#u325_div {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:200px;
+  height:60px;
+  background:inherit;
+  background-color:rgba(255, 255, 255, 0);
+  border:none;
+  border-radius:0px;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+  font-family:'微软雅黑 Bold', '微软雅黑';
+  font-weight:700;
+  font-style:normal;
+  color:#FFFFFF;
+}
+#u325 {
+  border-width:0px;
+  position:absolute;
+  left:-1px;
+  top:160px;
+  width:200px;
+  height:60px;
+  font-family:'微软雅黑 Bold', '微软雅黑';
+  font-weight:700;
+  font-style:normal;
+  color:#FFFFFF;
+}
+#u325_text {
+  border-width:0px;
+  position:absolute;
+  left:2px;
+  top:2px;
+  width:196px;
+  word-wrap:break-word;
+}
+#u326_div {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:101px;
+  height:30px;
+  background:inherit;
+  background-color:rgba(255, 255, 255, 0);
+  box-sizing:border-box;
+  border-width:1px;
+  border-style:solid;
+  border-color:rgba(255, 255, 255, 1);
+  border-radius:87px;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+  color:#FFFFFF;
+}
+#u326 {
+  border-width:0px;
+  position:absolute;
+  left:49px;
+  top:232px;
+  width:101px;
+  height:30px;
+  color:#FFFFFF;
+}
+#u326_text {
+  border-width:0px;
+  position:absolute;
+  left:2px;
+  top:6px;
+  width:97px;
+  word-wrap:break-word;
+}
+.account-nav{
+  margin-top: 230px;
+}
+.el-menu{
+  border-right: none !important;
+
+}
+.el-menu-item{
+    font-family: '微软雅黑' !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    font-size: 12px !important;
+    color: #FFFFFF !important;
+    text-align: left !important;
+}
+.el-submenu__title{
+    font-family: '微软雅黑' !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    font-size: 12px !important;
+    color: #FFFFFF !important;
+    text-align: left !important;
+}
+.el-submenu>.el-submenu__title .el-submenu__icon-arrow {
+  -webkit-transform: rotateZ(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotateZ(-90deg);
+  color: #fff;
+}
+/*菜单展开*/
+.el-submenu.is-opened>.el-submenu__title .el-submenu__icon-arrow {
+  -webkit-transform: rotateZ(360deg) !important;
+  -ms-transform: rotate(360deg) !important;
+  transform: rotateZ(360deg) !important;
+  color: #fff;
+}
+
+.home-el-container {
+  height: 100%;
+}
+
+.home {
+  height: 100%;
+}
+</style>
