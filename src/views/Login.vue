@@ -380,7 +380,8 @@ export default {
 </script>
 
 <style>
-body {
+.login {
+  min-height: 100%;
   margin:0px;
   background-color:rgba(245, 246, 250, 1);
   background-image:url('../assets/images/login/bg.jpeg');
@@ -390,7 +391,7 @@ body {
   background-size:cover;
   position:static;
   left:auto;
-  width:1366px;
+  /* width:1366px; */
   margin-left:0;
   margin-right:0;
   text-align:left;

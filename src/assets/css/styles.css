@@ -1,20 +1,4 @@
-<template>
-  <div id="app">
-    <router-view/>
-  </div>
-</template>
-
-<style>
-body {
-  margin: 0;
-}
-
-html, body, #app {
-  height: 100%;
-  width: 100%;
-}
-
-.ax_default {
+﻿.ax_default {
   font-family:'微软雅黑';
   font-weight:400;
   font-style:normal;
@@ -294,4 +278,3 @@ html, body, #app {
 .paragraph3 {
   text-align:left;
 }
-</style>
