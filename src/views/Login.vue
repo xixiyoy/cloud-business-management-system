@@ -54,7 +54,7 @@
             <!-- Unnamed (矩形) -->
             <div id="u63" class="ax_default box_2" @click="handleLoginButtonClick">
               <div id="u63_div" class=""></div>
-              <div id="u63_text" class="text ">
+              <div id="u63_text" class="text" style="text-align:center;S">
                 <p><span>登&nbsp; 录</span></p>
               </div>
             </div>
@@ -384,7 +384,7 @@ export default {
   min-height: 100%;
   margin:0px;
   background-color:rgba(245, 246, 250, 1);
-  background-image:url('../assets/images/login/bg.jpeg');
+  background-image:url('../assets/images/login/loginbg.jpeg');
   background-position:left top;
   background-repeat:no-repeat;
   background-attachment:fixed;
