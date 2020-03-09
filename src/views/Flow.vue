@@ -1,10 +1,10 @@
 <template>
-  <div class="home">
-     aa
+  <div class="flow">
+     flow aaaaaa
   </div>
 </template>
 <script>
 export default {
-  name: 'Home'
+  name: 'Flow'
 }
 </script>
