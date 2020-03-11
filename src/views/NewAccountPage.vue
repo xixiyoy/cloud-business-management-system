@@ -9,49 +9,221 @@
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="6">
-                <el-form-item label="活动名称" prop="name">
+                <el-form-item label="客户名称" prop="name">
                   <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6"></el-col>
-              <el-col :span="6"></el-col>
+              <el-col :span="12"></el-col>
               <el-col :span="6">
-                <el-form-item label="活动名称" prop="name">
+                <el-form-item label="联系人" prop="name">
                   <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-form-item label="活动区域" prop="region">
-              <el-select v-model="value5" multiple placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-              <el-select
-                v-model="value11"
-                multiple
-                collapse-tags
-                style="margin-left: 20px;"
-                placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="活动形式" prop="pass">
-              <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-              <el-button @click="resetForm('ruleForm')">重置</el-button>
-            </el-form-item>
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="社会信用代码" prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12"></el-col>
+              <el-col :span="6">
+                <el-form-item label="企业电话" prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="企业电话" prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12"></el-col>
+              <el-col :span="6">
+                <el-form-item label="客户等级" prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="联系地址" prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12"></el-col>
+              <el-col :span="6">
+                <el-form-item label="企业邮箱" prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="客户来源" prop="region">
+                  <el-select class="account-source-left-custom" v-model="value5" multiple placeholder="请选择">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                  <el-select class="account-source-right-custom"
+                    v-model="value11"
+                    multiple
+                    collapse-tags
+                    style="margin-left: 20px;"
+                    placeholder="请选择">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12"></el-col>
+              <el-col :span="6">
+                <el-form-item label="客户代表" prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="备注" prop="pass">
+                  <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12"></el-col>
+            </el-row>
           </el-form>
+        </el-collapse-item>
+        <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
+        <el-collapse-item title="订单列表" name="1">
+          <el-table
+            :data="tableData"
+            style="width: 100%">
+            <el-table-column
+              label="序号"
+              width="180">
+              <template slot-scope="scope">
+                <el-popover trigger="hover" placement="top">
+                  <p>姓名: {{ scope.row.name }}</p>
+                  <p>住址: {{ scope.row.address }}</p>
+                  <div slot="reference" class="name-wrapper">
+                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                  </div>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="产品名称"
+              width="180">
+              <template slot-scope="scope">
+                <el-popover trigger="hover" placement="top">
+                  <p>姓名: {{ scope.row.name }}</p>
+                  <p>住址: {{ scope.row.address }}</p>
+                  <div slot="reference" class="name-wrapper">
+                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                  </div>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="服务单价"
+              width="180">
+              <template slot-scope="scope">
+                <el-popover trigger="hover" placement="top">
+                  <p>姓名: {{ scope.row.name }}</p>
+                  <p>住址: {{ scope.row.address }}</p>
+                  <div slot="reference" class="name-wrapper">
+                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                  </div>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="服务周期"
+              width="180">
+              <template slot-scope="scope">
+                <el-popover trigger="hover" placement="top">
+                  <p>姓名: {{ scope.row.name }}</p>
+                  <p>住址: {{ scope.row.address }}</p>
+                  <div slot="reference" class="name-wrapper">
+                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                  </div>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="赠送"
+              width="180">
+              <template slot-scope="scope">
+                <el-popover trigger="hover" placement="top">
+                  <p>姓名: {{ scope.row.name }}</p>
+                  <p>住址: {{ scope.row.address }}</p>
+                  <div slot="reference" class="name-wrapper">
+                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                  </div>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="付费周期"
+              width="180">
+              <template slot-scope="scope">
+                <el-popover trigger="hover" placement="top">
+                  <p>姓名: {{ scope.row.name }}</p>
+                  <p>住址: {{ scope.row.address }}</p>
+                  <div slot="reference" class="name-wrapper">
+                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                  </div>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="总额"
+              width="180">
+              <template slot-scope="scope">
+                <el-popover trigger="hover" placement="top">
+                  <p>姓名: {{ scope.row.name }}</p>
+                  <p>住址: {{ scope.row.address }}</p>
+                  <div slot="reference" class="name-wrapper">
+                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                  </div>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-collapse-item>
+
+        <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
+        <el-collapse-item title="文档资料" name="1">
+          <el-upload
+            class="upload-demo"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :file-list="fileList2"
+            list-type="picture">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
         </el-collapse-item>
       </div>
     </el-collapse>
@@ -82,7 +254,28 @@ export default {
         desc: [
           { required: true, message: '请填写活动形式', trigger: 'blur' }
         ]
-      }
+      },
+      tableData: [{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1517 弄'
+      }, {
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1519 弄'
+      }, {
+        date: '2016-05-03',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1516 弄'
+      }],
+      fileList2: [
+        { name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' },
+        { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }
+      ]
     }
   },
   methods: {
@@ -101,6 +294,12 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    handleEdit (index, row) {
+      console.log(index, row)
+    },
+    handleDelete (index, row) {
+      console.log(index, row)
     }
   }
 }
@@ -129,5 +328,33 @@ export default {
     width: 17px;
     padding-right: 10px;
     float: left;
+}
+.account-source-left-custom{
+  width: 49%;
+  float: left;
+}
+.account-source-right-custom{
+  width: 49%;
+  float: right;
+  margin-left: 0px !important;
+}
+.el-tag {
+    background-color: #fff;
+    border-color: #fff;
+    display: inline-block;
+    height: 32px;
+    padding: 0 10px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #333;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+.el-table .cell{
+    font-size: 17px;
 }
 </style>

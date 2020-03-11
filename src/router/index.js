@@ -26,6 +26,11 @@ const routes = [
     component: () => import('../views/DiaryReport')
   },
   {
+    path: '/billingList',
+    name: 'BillingList',
+    component: () => import('../views/BillingList')
+  },
+  {
     path: '/ServiceProduct',
     name: 'ServiceProduct',
     component: () => import('../views/ServiceProduct')
@@ -39,6 +44,11 @@ const routes = [
     path: '/newAccountPage',
     name: 'NewAccountPage',
     component: () => import('../views/NewAccountPage')
+  },
+  {
+    path: '/newDiaryReport',
+    name: 'NewDiaryReport',
+    component: () => import('../views/NewDiaryReport')
   }
 ]
 
