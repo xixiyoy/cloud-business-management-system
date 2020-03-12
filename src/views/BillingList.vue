@@ -12,7 +12,7 @@
               <img id="u829_img" class="img " src="../assets/images/account/u829.png">
               <span style="padding-left:10px;">导出</span>
             </el-button></div></el-col>
-          <el-col :span="10"><div class="grid-content bg-purple"></div></el-col>
+          <el-col :span="11" style="margin-right: 26px;"><div class="grid-content bg-purple"></div></el-col>
           <el-col :span="2">
             <div class="grid-content bg-purple">
               <el-dropdown>
@@ -27,16 +27,16 @@
               </el-dropdown>
             </div>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="5">
             <div class="grid-content bg-purple">
               <div>
-                <el-input placeholder="搜索客户名称、联系方式" v-model="input5" class="input-with-select">
+                <el-input placeholder="搜索客户名称、联系方式" class="input-with-select">
                   <el-button slot="append" icon="el-icon-search"></el-button>
                 </el-input>
               </div>
             </div>
           </el-col>
-          <el-col :span="2"><div class="grid-content bg-purple"><el-button class="new-seetings">高级检索</el-button></div></el-col>
+          <el-col :span="2" style="padding-right:0px;"><div class="grid-content bg-purple"><el-button class="new-seetings">高级检索</el-button></div></el-col>
         </el-row>
     </div>
     <div class="account-table-custom">
@@ -52,6 +52,7 @@
         ref="multipleTable"
         :data="tableData3"
         tooltip-effect="dark"
+        :header-cell-style="billingTableHeaderCellStyle"
         style="width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column
@@ -160,12 +161,23 @@ export default {
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
+    },
+    billingTableHeaderCellStyle ({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex === 0) {
+        return `
+          background-color: #f5f7fa;
+        `
+      }
     }
   }
 }
 </script>
 
 <style>
+.billing-table-header {
+
+  background-color: black;
+}
 .billing-list{
   width: 94%;
   margin: 0 auto;

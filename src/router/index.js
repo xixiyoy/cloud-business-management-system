@@ -41,14 +41,19 @@ const routes = [
     component: () => import('../views/Login')
   },
   {
-    path: '/newAccountPage',
+    path: '/new-account-page',
     name: 'NewAccountPage',
     component: () => import('../views/NewAccountPage')
   },
   {
-    path: '/newDiaryReport',
+    path: '/new-diary-report',
     name: 'NewDiaryReport',
     component: () => import('../views/NewDiaryReport')
+  },
+  {
+    path: '/personal-center',
+    name: 'PersonalCenter',
+    component: () => import('../views/PersonalCenter')
   }
 ]
 

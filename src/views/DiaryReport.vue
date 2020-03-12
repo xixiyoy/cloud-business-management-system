@@ -4,7 +4,7 @@
         <el-row :gutter="20">
           <el-col :span="3">
             <div class="grid-content bg-purple">
-              <el-button class="diaryReport-button-custom" type="primary" index="/newDiaryReport">新建收支</el-button>
+              <el-button class="diaryReport-button-custom" type="primary" @click="handleNewDiaryReport">新建收支</el-button>
             </div>
           </el-col>
           <el-col :span="3"><div class="grid-content bg-purple">
@@ -61,6 +61,7 @@
         :data="tableData3"
         tooltip-effect="dark"
         style="width: 100%"
+        :header-cell-style="diaryReportTableHeaderCellStyle"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
@@ -167,6 +168,18 @@ export default {
       }],
       multipleSelection: []
     }
+  },
+  methods: {
+    diaryReportTableHeaderCellStyle ({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex === 0) {
+        return `
+          background-color: #f5f7fa;
+        `
+      }
+    },
+    handleNewDiaryReport () {
+      this.$router.push({ path: '/new-diary-report' })
+    }
   }
 }
 </script>
@@ -189,7 +202,7 @@ export default {
   float: right !important;
 }
 #app > section > section > main > div > div.diaryReport-header-custom > div:nth-child(2) > div:nth-child(3){
-  width: 133px;
+  width: 143px;
 }
 .diaryReport-button-custom{
   padding: 14px 19px !important;
@@ -241,9 +254,6 @@ export default {
 }
 .el-col-3{
   width:7.5%;
-}
-.el-table th, .el-table tr{
-  background-color: #f9fafc;
 }
 .amount-received-show{
   color: #009900;
