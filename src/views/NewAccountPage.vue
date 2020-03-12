@@ -8,60 +8,60 @@
         <el-collapse-item title="基础信息" name="1">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
-              <el-col :span="6">
-                <el-form-item label="客户名称" prop="name">
+              <el-col :span="8">
+                <el-form-item label="客户名称: " prop="name">
                   <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="12"></el-col>
-              <el-col :span="6">
-                <el-form-item label="联系人" prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="6">
-                <el-form-item label="社会信用代码" prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12"></el-col>
-              <el-col :span="6">
-                <el-form-item label="企业电话" prop="name">
+              <el-col :span="8"></el-col>
+              <el-col :span="8">
+                <el-form-item label="联系人: " prop="name">
                   <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
-              <el-col :span="6">
-                <el-form-item label="企业电话" prop="name">
+              <el-col :span="8">
+                <el-form-item label="社会信用代码: " prop="name">
                   <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="12"></el-col>
-              <el-col :span="6">
-                <el-form-item label="客户等级" prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="6">
-                <el-form-item label="联系地址" prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12"></el-col>
-              <el-col :span="6">
-                <el-form-item label="企业邮箱" prop="name">
+              <el-col :span="8"></el-col>
+              <el-col :span="8">
+                <el-form-item label="企业电话: " prop="name">
                   <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
-              <el-col :span="6">
-                <el-form-item label="客户来源" prop="region">
+              <el-col :span="8">
+                <el-form-item label="企业电话: " prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8"></el-col>
+              <el-col :span="8">
+                <el-form-item label="客户等级: " prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="8">
+                <el-form-item label="联系地址: " prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8"></el-col>
+              <el-col :span="8">
+                <el-form-item label="企业邮箱: " prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="8">
+                <el-form-item label="客户来源: " prop="region">
                   <el-select class="account-source-left-custom" v-model="value5" multiple placeholder="请选择">
                     <el-option
                       v-for="item in options"
@@ -85,16 +85,16 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="12"></el-col>
-              <el-col :span="6">
-                <el-form-item label="客户代表" prop="name">
+              <el-col :span="8"></el-col>
+              <el-col :span="8">
+                <el-form-item label="客户代表: " prop="name">
                   <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="备注" prop="pass">
+                <el-form-item label="备注: " prop="pass">
                   <el-input type="textarea" v-model="ruleForm.desc"></el-input>
                 </el-form-item>
               </el-col>
@@ -103,7 +103,7 @@
           </el-form>
         </el-collapse-item>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
-        <el-collapse-item title="订单列表" name="1">
+        <el-collapse-item title="订单列表: " name="2">
           <el-table
             :data="tableData"
             style="width: 100%">
@@ -211,22 +211,66 @@
             </el-table-column>
           </el-table>
         </el-collapse-item>
-
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
-        <el-collapse-item title="文档资料" name="1">
-          <el-upload
-            class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :file-list="fileList2"
-            list-type="picture">
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
+        <el-collapse-item title="文档资料: " name="3">
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-row>
+              <el-col :span="8">
+                <el-form-item label="身份证复印件: " prop="name">
+                  <el-upload
+                    class="upload-demo"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    :on-preview="handlePreview"
+                    :on-remove="handleRemove"
+                    :file-list="fileList2"
+                    list-type="picture">
+                    <el-button size="small" type="primary" class="IDnumber-upload">选择上传文件</el-button>
+                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8"></el-col>
+              <el-col :span="8">
+                <el-form-item label="营业执照复印件: " prop="name">
+                  <el-upload
+                    class="upload-demo"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    :on-preview="handlePreview"
+                    :on-remove="handleRemove"
+                    :file-list="fileList2"
+                    list-type="picture">
+                    <el-button size="small" type="primary" class="IDnumber-upload">选择上传文件</el-button>
+                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                  </el-upload>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="合同原件" prop="name">
+                  <el-upload
+                    class="upload-demo"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    :on-preview="handlePreview"
+                    :on-remove="handleRemove"
+                    :file-list="fileList2"
+                    list-type="picture">
+                    <el-button size="small" type="primary" class="IDnumber-upload">选择上传文件</el-button>
+                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                  </el-upload>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12"></el-col>
+              <el-col :span="6"></el-col>
+            </el-row>
+          </el-form>
         </el-collapse-item>
       </div>
     </el-collapse>
+    <div style="width:200px;float:left;">
+      <el-button type="primary">保存</el-button>
+      <el-button>取消</el-button>
+    </div>
   </div>
 </template>
 
@@ -237,7 +281,7 @@ export default {
   },
   data () {
     return {
-      activeNames: ['1'],
+      activeNames: ['1', '2', '3'],
       ruleForm: {
         name: '',
         region: '',
@@ -306,6 +350,9 @@ export default {
 </script>
 
 <style>
+.el-container{
+  height: 100%;
+}
 .new-account-page{
   width: 94%;
   margin: 0 auto;
@@ -356,5 +403,17 @@ export default {
 }
 .el-table .cell{
     font-size: 17px;
+}
+.el-form-item__label{
+  width: 132px !important;
+}
+.el-form-item__content{
+  margin-left: 135px !important;
+}
+.IDnumber-upload{
+  padding: 14px 160px !important;
+  background-color: #fff !important;
+  color: #111 !important;
+  border: 1px solid #DCDFE6 !important;
 }
 </style>

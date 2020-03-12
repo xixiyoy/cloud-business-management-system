@@ -4,7 +4,7 @@
         <el-row :gutter="20" class="header-custom">
           <el-col :span="3">
             <div class="grid-content bg-purple">
-              <el-button type="primary">新建</el-button>
+              <el-button type="primary" @click="handleClickCreateAccount">新建</el-button>
             </div>
           </el-col>
           <el-col :span="3"><div class="grid-content bg-purple">
@@ -12,11 +12,11 @@
               <img id="u829_img" class="img " src="../assets/images/account/u829.png">
               <span style="padding-left:10px;">导出</span>
             </el-button></div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-          <el-col :span="4">
+          <el-col :span="11" style="margin-right:25px;"><div class="grid-content bg-purple"></div></el-col>
+          <el-col :span="2">
             <div class="grid-content bg-purple">
-              <el-dropdown>
-                <span class="el-dropdown-link">
+              <el-dropdown class="account-home-dropdown">
+                <span class="el-dropdown-link" style="color:#606266;">
                   请选择<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
@@ -30,14 +30,73 @@
           <el-col :span="5">
             <div class="grid-content bg-purple">
               <div>
-                <el-input placeholder="请输入内容" v-model="input5" class="input-with-select">
+                <el-input placeholder="请输入内容" class="input-with-select">
                   <el-button slot="append" icon="el-icon-search"></el-button>
                 </el-input>
               </div>
             </div>
           </el-col>
-          <el-col :span="3"><div class="grid-content bg-purple"><el-button class="new-seetings">高级检索</el-button></div></el-col>
-
+          <el-col :span="2" style="padding-right:0px;">
+            <div class="grid-content bg-purple">
+              <el-button class="new-seetings" @click="handleAdvancedSearch">高级检索</el-button>
+              <el-dialog title="收货地址" width="40%" :visible.sync="advancedSearchDialogVisible">
+                <el-form label-position="top" label-width="120px">
+                  <el-row gutter="20">
+                    <el-col :span="12">
+                      <el-form-item label="客户名称:">
+                        <el-select style="width: 100%;"></el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="客户名称:">
+                        <el-input></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row gutter="20">
+                    <el-col :span="12">
+                      <el-form-item label="客户名称:">
+                        <el-select style="width: 100%;"></el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="客户名称:">
+                        <el-input></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row gutter="20">
+                    <el-col :span="12">
+                      <el-form-item label="客户名称:">
+                        <el-select style="width: 100%;"></el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="客户名称:">
+                        <el-select style="width: 100%;"></el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row gutter="20">
+                    <el-col :span="12">
+                      <el-form-item label="客户名称:">
+                        <el-input></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="客户名称:">
+                        <el-select style="width: 100%;"></el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                  <el-button>取 消</el-button>
+                  <el-button type="primary">确 定</el-button>
+                </div>
+              </el-dialog>
+            </div>
+          </el-col>
         </el-row>
     </div>
     <div class="account-table-custom">
@@ -48,7 +107,6 @@
           <el-button class="title-name" type="text">我创建</el-button>
           <el-button class="title-name" type="text">部门</el-button>
         </div>
-
       </div>
       <el-table
         ref="multipleTable"
@@ -57,29 +115,24 @@
         style="width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column
-          type="selection"
-          width="55">
+          type="selection">
         </el-table-column>
         <el-table-column
           prop="accountName"
-          label="客户名称"
-          width="120">
+          label="客户名称">
         </el-table-column>
         <el-table-column
           prop="accountSource"
-          label="客户来源"
-          width="120">
+          label="客户来源">
         </el-table-column>
         <el-table-column
           prop="contactPerson"
-          label="联系人"
-          width="120">
+          label="联系人">
           <template slot-scope="scope">{{ scope.row.date }}</template>
         </el-table-column>
         <el-table-column
           prop="contactNumber"
-          label="联系电话"
-          width="120">
+          label="联系电话">
         </el-table-column>
         <el-table-column
           prop="accountStatus"
@@ -146,7 +199,8 @@ export default {
         OrderTotal: '2000.00',
         operating: '查看'
       }],
-      multipleSelection: []
+      multipleSelection: [],
+      advancedSearchDialogVisible: false
     }
   },
 
@@ -162,6 +216,12 @@ export default {
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
+    },
+    handleClickCreateAccount () {
+      this.$router.push({ path: '/new-account-page' })
+    },
+    handleAdvancedSearch () {
+      this.advancedSearchDialogVisible = true
     }
   }
 }
@@ -250,5 +310,10 @@ export default {
 }
 .el-col-3{
   width:7.5%;
+}
+.account-home-dropdown{
+  border: 1px solid #DCDFE6;
+  padding: 10px 18px !important;
+  border-radius: 5px;
 }
 </style>

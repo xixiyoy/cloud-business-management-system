@@ -10,14 +10,28 @@
           </el-col>
           <el-col :span="2">
             <div class="grid-content bg-purple">
-              <img id="u305_img" class="img " src="./assets/images/home/u305.svg" tabindex="0">
-              <span class="help-text">帮助</span>
+              <el-dropdown class="home-help">
+                <img id="u305_img" class="img " src="./assets/images/home/u305.svg" tabindex="0">
+                <span class="el-dropdown-link">帮助</span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>在线客服</el-dropdown-item>
+                  <el-dropdown-item>帮助中心</el-dropdown-item>
+                  <el-dropdown-item>更新日志</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </div>
           </el-col>
           <el-col :span="2">
             <div class="grid-content bg-purple">
-              <img id="u308_img" class="img " src="./assets/images/home/u308.svg" tabindex="0">
-              <span class="settings-text">设置</span>
+              <el-dropdown class="home-help" @command="handleSettingDropDownCommand">
+                <img id="u308_img" class="img " src="./assets/images/home/u308.svg" tabindex="0">
+                <span class="el-dropdown-link">设置</span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>服务商管理</el-dropdown-item>
+                  <el-dropdown-item command="personal-center">个人中心</el-dropdown-item>
+                  <el-dropdown-item>权限管理</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </div>
           </el-col>
         </el-row>
@@ -89,10 +103,10 @@
                 <el-menu-item-group>
                   <el-menu-item index="/DiaryReport">日记报表</el-menu-item>
                   <el-menu-item index="1-2">代账报表</el-menu-item>
-                  <el-menu-item index="1-3">开票列表</el-menu-item>
+                  <el-menu-item index="/BillingList">开票列表</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
-              <el-submenu index="1">
+              <el-submenu index="2">
                 <template slot="title">
                   <span>设置</span>
                 </template>
@@ -137,6 +151,11 @@ export default {
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath)
+    },
+    handleSettingDropDownCommand (command) {
+      if (command === 'personal-center') {
+        this.$router.push({ path: '/personal-center' })
+      }
     }
   },
   computed: {
@@ -163,12 +182,12 @@ export default {
     text-align: center;
     line-height: 20px;
   }
-  .el-main {
+  /* .el-main {
     background-color: #fff;
     color: #333;
     text-align: center;
     line-height: 160px;
-  }
+  } */
   .home-logo-text{
     font-family: '微软雅黑 Bold', '微软雅黑';
     font-weight: 700;
@@ -187,11 +206,11 @@ export default {
     vertical-align: super;
     padding-left: 8px;
   }
-  .help-text{
+  .el-dropdown-link{
     font-family: 'PingFang SC Regular', 'PingFang SC';
     font-weight: 400;
     font-style: normal;
-    color: #FFFFFF;
+    /* color: #FFFFFF; */
     text-align: center;
     vertical-align: super;
     padding-left: 8px;
@@ -408,16 +427,17 @@ export default {
   transform: rotateZ(360deg) !important;
   color: #fff;
 }
-
 .home-el-container {
   height: 100%;
 }
-
 html, body, #app {
   height: 100%;
 }
-
 .home {
   height: 100%;
+}
+.home-help{
+  border: none !important;
+  padding: 0px 30px !important;
 }
 </style>
