@@ -12,7 +12,7 @@
             <div class="grid-content bg-purple">
               <el-dropdown class="home-help">
                 <img id="u305_img" class="img " src="./assets/images/home/u305.svg" tabindex="0">
-                <span class="el-dropdown-link">帮助</span>
+                <span class="el-dropdown-link" style="color:#fff !important;">帮助</span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>在线客服</el-dropdown-item>
                   <el-dropdown-item>帮助中心</el-dropdown-item>
@@ -25,9 +25,9 @@
             <div class="grid-content bg-purple">
               <el-dropdown class="home-help" @command="handleSettingDropDownCommand">
                 <img id="u308_img" class="img " src="./assets/images/home/u308.svg" tabindex="0">
-                <span class="el-dropdown-link">设置</span>
+                <span class="el-dropdown-link" style="color:#fff !important;">设置</span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>服务商管理</el-dropdown-item>
+                  <el-dropdown-item command="service-provider-management">服务商管理</el-dropdown-item>
                   <el-dropdown-item command="personal-center">个人中心</el-dropdown-item>
                   <el-dropdown-item>权限管理</el-dropdown-item>
                 </el-dropdown-menu>
@@ -101,9 +101,9 @@
                   <span>报表</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="/DiaryReport">日记报表</el-menu-item>
-                  <el-menu-item index="1-2">代账报表</el-menu-item>
-                  <el-menu-item index="/BillingList">开票列表</el-menu-item>
+                  <el-menu-item index="/diary-report">日记报表</el-menu-item>
+                  <el-menu-item index="agent-report">代账报表</el-menu-item>
+                  <el-menu-item index="/billing-list">开票列表</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
               <el-submenu index="2">
@@ -111,8 +111,8 @@
                   <span>设置</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="/ServiceProduct">服务产品</el-menu-item>
-                  <el-menu-item index="1-2">渠道商管理</el-menu-item>
+                  <el-menu-item index="/service-product">服务产品</el-menu-item>
+                  <el-menu-item index="/channel-dealer-management">渠道商管理</el-menu-item>
                   <el-menu-item index="1-3">下载管理</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>

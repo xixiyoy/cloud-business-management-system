@@ -16,24 +16,39 @@ const routes = [
     component: () => import('../views/Account')
   },
   {
+    path: '/account-details',
+    name: 'AccountDetails',
+    component: () => import('../views/AccountDetails')
+  },
+  {
     path: '/flow',
     name: 'Flow',
     component: () => import('../views/Flow')
   },
   {
-    path: '/diaryReport',
+    path: '/diary-report',
     name: 'DiaryReport',
     component: () => import('../views/DiaryReport')
   },
   {
-    path: '/billingList',
+    path: '/agent-report',
+    name: 'AgentReport',
+    component: () => import('../views/AgentReport')
+  },
+  {
+    path: '/billing-list',
     name: 'BillingList',
     component: () => import('../views/BillingList')
   },
   {
-    path: '/ServiceProduct',
+    path: '/service-product',
     name: 'ServiceProduct',
     component: () => import('../views/ServiceProduct')
+  },
+  {
+    path: '/channel-dealer-management',
+    name: 'ChannelDealerManagement',
+    component: () => import('../views/ChannelDealerManagement')
   },
   {
     path: '/login',
@@ -51,9 +66,24 @@ const routes = [
     component: () => import('../views/NewDiaryReport')
   },
   {
+    path: '/create-product',
+    name: 'CreateProduct',
+    component: () => import('../views/CreateProduct')
+  },
+  {
+    path: '/create-channel-provider',
+    name: 'CreateChannelProvider',
+    component: () => import('../views/CreateChannelProvider')
+  },
+  {
     path: '/personal-center',
     name: 'PersonalCenter',
     component: () => import('../views/PersonalCenter')
+  },
+  {
+    path: '/service-provider-management',
+    name: 'ServiceProviderManagement',
+    component: () => import('../views/ServiceProviderManagement')
   }
 ]
 
