@@ -40,14 +40,15 @@
         </el-row>
     </div>
     <div class="account-table-custom">
-      <div class="account-header-title-custom">
-        <div class="header-title-button-custom">
-          <el-button class="title-name" type="text">全部</el-button>
-          <el-button class="title-name" type="text">我负责</el-button>
-          <el-button class="title-name" type="text">我创建</el-button>
-          <el-button class="title-name" type="text">部门</el-button>
-        </div>
-      </div>
+      <el-tabs type="border-card">
+        <el-tab-pane>
+          <span slot="label">全部</span>
+          我的行程
+        </el-tab-pane>
+        <el-tab-pane label="我负责">消息中心</el-tab-pane>
+        <el-tab-pane label="我创建">角色管理</el-tab-pane>
+        <el-tab-pane label="部门">定时任务补偿</el-tab-pane>
+      </el-tabs>
       <el-table
         ref="multipleTable"
         :data="tableData3"
@@ -191,31 +192,11 @@ export default {
   padding: 12px 24px;
   border-radius:5px;
 }
-.account-header-title-custom{
-  width: 100%;
-  height: 49px;
-  border-top: 1px solid #DCDFE6;
-  border-left: 1px solid #DCDFE6;
-  border-right: 1px solid #DCDFE6;
-  background-color: rgb(243,243,243,1);
-}
 #base > div.account-table-custom > div.el-table.el-table--fit.el-table--enable-row-hover.el-table--enable-row-transition > div.el-table__header-wrapper > table > thead > tr{
   background-color: rgb(249,250,252);
 }
 .el-button--primary{
     padding: 12px 34px;
-}
-.title-name{
-  font-family: '微软雅黑';
-  font-weight: 400;
-  font-size: 12px !important;
-  color: #333 !important;
-  padding-right: none;
-  line-height: 20px;
-}
-.header-title-button-custom{
-  width:200px;
-  float:left;
 }
 .el-row {
     margin-bottom: 20px;

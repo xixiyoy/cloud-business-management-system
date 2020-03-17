@@ -36,10 +36,10 @@
               </div>
             </div>
           </el-col>
-          <el-col :span="2" style="padding-right:0px;">
+          <el-col :span="2" style="padding-right:0px;padding-left: 24px;">
             <div class="grid-content bg-purple">
               <el-button class="new-seetings" @click="handleAdvancedSearch">高级检索</el-button>
-              <el-dialog title="收货地址" width="40%" :visible.sync="advancedSearchDialogVisible">
+              <el-dialog title="高级检索" width="40%" :visible.sync="advancedSearchDialogVisible">
                 <el-form label-position="top" label-width="120px">
                   <el-row gutter="20">
                     <el-col :span="12">
@@ -60,39 +60,54 @@
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                      <el-form-item label="客户名称:">
+                      <el-form-item label="联系人:">
                         <el-input></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
                   <el-row gutter="20">
                     <el-col :span="12">
-                      <el-form-item label="客户名称:">
+                      <el-form-item label="客户状态:">
                         <el-select style="width: 100%;"></el-select>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                      <el-form-item label="客户名称:">
+                      <el-form-item label="联系电话:">
                         <el-select style="width: 100%;"></el-select>
                       </el-form-item>
                     </el-col>
                   </el-row>
                   <el-row gutter="20">
                     <el-col :span="12">
-                      <el-form-item label="客户名称:">
+                      <el-form-item label="销售代表:">
                         <el-input></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                      <el-form-item label="客户名称:">
+                      <el-form-item label="客户等级:">
                         <el-select style="width: 100%;"></el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row gutter="20">
+                    <el-col :span="12">
+                      <el-form-item label="社会信用代码:">
+                        <el-input></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="创建日期:">
+                        <el-date-picker style="width: 100%;"
+                          type="date"
+                          placeholder="选择日期">
+                        </el-date-picker>
                       </el-form-item>
                     </el-col>
                   </el-row>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                  <el-button>取 消</el-button>
-                  <el-button type="primary">确 定</el-button>
+                  <el-button>重  置</el-button>
+                  <el-button type="primary">开始检索</el-button>
                 </div>
               </el-dialog>
             </div>
@@ -100,14 +115,15 @@
         </el-row>
     </div>
     <div class="account-table-custom">
-      <div class="account-header-title-custom">
-        <div class="header-title-button-custom">
-          <el-button class="title-name" type="text">全部</el-button>
-          <el-button class="title-name" type="text">我负责</el-button>
-          <el-button class="title-name" type="text">我创建</el-button>
-          <el-button class="title-name" type="text">部门</el-button>
-        </div>
-      </div>
+      <el-tabs type="border-card">
+        <el-tab-pane>
+          <span slot="label">全部</span>
+          我的行程
+        </el-tab-pane>
+        <el-tab-pane label="我负责">消息中心</el-tab-pane>
+        <el-tab-pane label="我创建">角色管理</el-tab-pane>
+        <el-tab-pane label="部门">定时任务补偿</el-tab-pane>
+      </el-tabs>
       <el-table
         ref="multipleTable"
         :data="tableData3"
@@ -241,31 +257,8 @@ export default {
   padding: 12px 24px;
   border-radius:5px;
 }
-.account-header-title-custom{
-  width: 100%;
-  height: 49px;
-  border-top: 1px solid #DCDFE6;
-  border-left: 1px solid #DCDFE6;
-  border-right: 1px solid #DCDFE6;
-  background-color: rgb(243,243,243,1);
-}
-#base > div.account-table-custom > div.el-table.el-table--fit.el-table--enable-row-hover.el-table--enable-row-transition > div.el-table__header-wrapper > table > thead > tr{
-  background-color: rgb(249,250,252);
-}
 .el-button--primary{
     padding: 12px 34px;
-}
-.title-name{
-  font-family: '微软雅黑';
-  font-weight: 400;
-  font-size: 12px !important;
-  color: #333 !important;
-  padding-right: none;
-  line-height: 20px;
-}
-.header-title-button-custom{
-  width:200px;
-  float:left;
 }
 .el-row {
     margin-bottom: 20px;

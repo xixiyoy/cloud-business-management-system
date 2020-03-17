@@ -210,6 +210,73 @@
               </template>
             </el-table-column>
           </el-table>
+          <div class="add-products-model">
+            <el-button class="add-account-products" @click="handleAddNewProduct"> + 添加产品</el-button>
+            <el-dialog title="添加产品" width="40%" :visible.sync="addProductDialogVisible">
+              <el-form label-position="left">
+                <el-row>
+                  <el-col :span="12">
+                  <el-form-item
+                    label="产品名称: "
+                    label-width="85px !important"
+                    class="add-product-item">
+                    <el-input class="add-product-input"></el-input>
+                  </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="财税顾问: " label-width="85px !important" style="margin-left:0px;">
+                      <el-input class="add-product-input"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="12">
+                  <el-form-item
+                    label="服务单价: "
+                    label-width="85px !important"
+                    class="add-product-item">
+                    <el-input class="add-product-input"></el-input>
+                  </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="会计助理: " label-width="85px !important" style="margin-left:0px;">
+                      <el-input class="add-product-input"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="12">
+                  <el-form-item
+                    label="服务周期: "
+                    label-width="85px !important"
+                    class="add-product-item">
+                    <el-input class="add-product-input"></el-input>
+                  </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="赠送: " label-width="85px !important" style="margin-left:0px;">
+                      <el-input class="add-product-input"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="12">
+                    <el-form-item
+                      label="付费方式: "
+                      label-width="85px !important"
+                      class="add-product-item">
+                      <el-input class="add-product-input"></el-input>
+                    </el-form-item>
+                    </el-col>
+                  <el-col :span="12"></el-col>
+                </el-row>
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button type="primary">确认</el-button>
+                <el-button>取消</el-button>
+              </div>
+            </el-dialog>
+          </div>
         </el-collapse-item>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="文档资料: " name="3">
@@ -267,10 +334,10 @@
         </el-collapse-item>
       </div>
     </el-collapse>
-    <div style="width:200px;float:left;">
-      <el-button type="primary">保存</el-button>
+    <div style="margin-top:25px;">
+       <el-button type="primary">保存</el-button>
       <el-button>取消</el-button>
-    </div>
+    </div><br><br><br><br><br><br><br>
   </div>
 </template>
 
@@ -319,7 +386,8 @@ export default {
       fileList2: [
         { name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' },
         { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }
-      ]
+      ],
+      addProductDialogVisible: false
     }
   },
   methods: {
@@ -344,12 +412,15 @@ export default {
     },
     handleDelete (index, row) {
       console.log(index, row)
+    },
+    handleAddNewProduct () {
+      this.addProductDialogVisible = true
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 .el-container{
   height: 100%;
 }
@@ -415,5 +486,20 @@ export default {
   background-color: #fff !important;
   color: #111 !important;
   border: 1px solid #DCDFE6 !important;
+  width: 375px !important;
+}
+.add-account-products{
+  width: 100%;
+  border: 1px dotted #DCDFE6;
+  text-align: center;
+}
+.add-products-model{
+  padding-top: 25px;
+}
+.add-product-item{
+  margin-left: 0px !important;
+}
+.add-product-input{
+  width: 90% !important;
 }
 </style>
