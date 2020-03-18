@@ -212,7 +212,12 @@
         <el-row>
           <div style="margin: 50px 0;"></div>
           <el-checkbox-group v-model="checkList">
-            <el-checkbox label="提交申请"></el-checkbox><br>由公司员工在线提交<br><br><br>
+            <el-checkbox>
+              <template>
+                提交申请
+                <span>由申请人的部门主管对其进行审核</span>
+              </template>
+            </el-checkbox>
             <el-checkbox label="主管审核"></el-checkbox><br>由申请人的部门主管对其进行审核<br>
             <el-checkbox label="财务审核"></el-checkbox><br>由公司财务人员对其进行审核<br>
             <el-checkbox label="出纳确认"></el-checkbox><br>有公司出纳最终确认<br>
@@ -241,6 +246,24 @@ export default {
         { name: '标签三', type: 'info' },
         { name: '标签四', type: 'warning' },
         { name: '标签五', type: 'danger' }
+      ],
+      accounts: [
+        {
+          company: 'A',
+          type: '现金',
+          accountDetail: {
+            a: '',
+            b: ''
+          }
+        },
+        {
+          company: 'B',
+          type: '银行卡',
+          accountDetail: {
+            c: '',
+            d: ''
+          }
+        }
       ],
       checkList: ['选中且禁用', '复选框 A']
     }
