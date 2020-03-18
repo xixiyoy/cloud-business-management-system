@@ -9,11 +9,13 @@ import './assets/css/reset.css'
 import MetaInfo from 'vue-meta-info'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import VCharts from 'v-charts'
 
 Vue.config.productionTip = false
 
 Vue.use(MetaInfo)
 Vue.use(ElementUI)
+Vue.use(VCharts)
 
 new Vue({
   router,

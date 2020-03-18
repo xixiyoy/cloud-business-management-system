@@ -176,7 +176,6 @@ export default {
 
 <style>
 .billing-table-header {
-
   background-color: black;
 }
 .billing-list{
