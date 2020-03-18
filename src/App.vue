@@ -156,6 +156,9 @@ export default {
       if (command === 'personal-center') {
         this.$router.push({ path: '/personal-center' })
       }
+      if (command === 'service-provider-management') {
+        this.$router.push({ path: '/service-provider-management' })
+      }
     }
   },
   computed: {

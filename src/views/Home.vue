@@ -82,7 +82,7 @@
        <el-col :span="16">
          <div class="line-chart-custom">
            <p class="chart-custom-title">概况</p>
-          <ve-line :data="chartData" :settings="chartSettings"></ve-line>
+          <ve-line :data="chartData" :settings="chartSettings" :extend="chartExtend"></ve-line>
          </div>
        </el-col>
        <el-col :span="8">
@@ -120,19 +120,24 @@ export default {
   name: 'Home',
   data () {
     this.chartSettings = {
-      metrics: ['下单用户'],
-      dimension: ['日期']
+      metrics: ['总额'],
+      dimension: ['日期'],
+      yAxisName: ['总额']
+    }
+    this.chartExtend = {
+      series: {
+        smooth: false
+      }
     }
     return {
-      ChartData: {
-        columns: ['日期', '下单用户'],
+      chartData: {
+        columns: ['日期', '访问用户', '总额', '下单率'],
         rows: [
-          { },
-          { },
-          { },
-          { },
-          { },
-          { }
+          { 日期: '1 月', 访问用户: 1393, 总额: 1093, 下单率: 0.32 },
+          { 日期: '2 月', 访问用户: 3530, 总额: 3230, 下单率: 0.26 },
+          { 日期: '3 月', 访问用户: 2923, 总额: 2623, 下单率: 0.76 },
+          { 日期: '4 月', 访问用户: 1723, 总额: 1423, 下单率: 0.49 },
+          { 日期: '5 月', 访问用户: 3792, 总额: 3492, 下单率: 0.323 }
         ]
       }
     }
