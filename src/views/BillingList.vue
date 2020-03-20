@@ -1,19 +1,19 @@
 <template>
   <div id="billingList" class="billing-list">
     <div class="billing-list-header-custom">
-        <el-row :gutter="20">
-          <el-col :span="3">
+        <el-row :gutter="30">
+          <el-col :span="4">
             <div class="grid-content bg-purple">
-              <el-button type="primary" style="padding: 14px 34px;">新建</el-button>
+              <el-button type="primary" @click="handleClickApplyInvoicing" style="padding: 14px 34px;">+申请开票</el-button>
             </div>
           </el-col>
-          <el-col :span="3"><div class="grid-content bg-purple">
+          <el-col :span="6"><div class="grid-content bg-purple">
             <el-button class="new-seetings">
               <img id="u829_img" class="img " src="../assets/images/account/u829.png">
-              <span style="padding-left:10px;">导出</span>
+              <span style="padding-left:10px;">数据导出</span>
             </el-button></div></el-col>
-          <el-col :span="11" style="margin-right: 26px;"><div class="grid-content bg-purple"></div></el-col>
-          <el-col :span="2">
+          <el-col :span="3" style="margin-right: 78px;"><div class="grid-content bg-purple"></div></el-col>
+          <el-col :span="4">
             <div class="grid-content bg-purple">
               <el-dropdown>
                 <span class="el-dropdown-link">
@@ -162,6 +162,9 @@ export default {
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
+    },
+    handleClickApplyInvoicing () {
+      this.$router.push({ path: '/apply-invoicing' })
     },
     billingTableHeaderCellStyle ({ row, column, rowIndex, columnIndex }) {
       if (rowIndex === 0) {
