@@ -28,7 +28,7 @@
               </el-col>
               <el-col :span="8"></el-col>
               <el-col :span="8">
-                <el-form-item label="企业电话: " prop="name">
+                <el-form-item label="联系电话: " prop="name">
                   <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
               </el-col>

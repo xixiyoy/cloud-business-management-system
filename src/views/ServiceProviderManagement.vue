@@ -9,12 +9,10 @@
             <img src="" alt="">
           </el-col>
           <el-col :span="8">
+            <img src="" alt="">
             <el-upload
               class="upload-demo upload-logo-custom"
               action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :file-list="fileList"
               list-type="picture">
               <el-button size="small" type="primary">上传企业logo</el-button>
               <div slot="tip" class="el-upload__tip">图片仅为png格式，建议尺寸为200*200(必须为1:1)</div>
@@ -136,13 +134,14 @@
                   <el-input autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="服务板块" required="">
-                  <el-tag
-                    v-for="tag in tags"
-                    :key="tag.name"
-                    closable
-                    :type="tag.type">
-                    {{tag.name}}
-                  </el-tag>
+                  <el-select v-model="value1" multiple placeholder="请选择">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">
@@ -240,13 +239,24 @@ export default {
       dialogTableVisible: false,
       addServiceCompanyDialogFormVisible: false,
       addAccountsReceivableDialogVisible: false,
-      tags: [
-        { name: '标签一', type: '' },
-        { name: '标签二', type: 'success' },
-        { name: '标签三', type: 'info' },
-        { name: '标签四', type: 'warning' },
-        { name: '标签五', type: 'danger' }
-      ],
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value1: [],
+      value2: [],
       accounts: [
         {
           company: 'A',

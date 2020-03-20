@@ -15,7 +15,7 @@
           <el-col :span="18"><div class="grid-content bg-purple"></div></el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="3">
+          <el-col :span="20">
             <div class="block">
               <el-date-picker
                 v-model="value1"
@@ -24,8 +24,7 @@
               </el-date-picker>
             </div>
           </el-col>
-          <el-col :span="13"><div class="grid-content bg-purple"></div></el-col>
-          <el-col :span="4" class="diaryReport-select-custom">
+          <el-col :span="2" class="diaryReport-select-custom">
             <div class="grid-content bg-purple">
               <el-dropdown class="diaryReport-select-custom">
                 <span class="el-dropdown-link">
@@ -39,7 +38,7 @@
               </el-dropdown>
             </div>
           </el-col>
-          <el-col :span="4" class="diaryReport-select-custom">
+          <el-col :span="2" class="diaryReport-select-custom">
             <div class="grid-content bg-purple">
               <el-dropdown class="diaryReport-select-custom">
                 <span class="el-dropdown-link">

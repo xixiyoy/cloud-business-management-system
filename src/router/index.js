@@ -26,9 +26,24 @@ const routes = [
     component: () => import('../views/Flow')
   },
   {
+    path: '/agent-bookkeeping',
+    name: 'AgentBookkeeping',
+    component: () => import('../views/AgentBookkeeping')
+  },
+  {
+    path: '/one-time-accounting',
+    name: 'OneTimeAccounting',
+    component: () => import('../views/OneTimeAccounting')
+  },
+  {
     path: '/diary-report',
     name: 'DiaryReport',
     component: () => import('../views/DiaryReport')
+  },
+  {
+    path: '/view-diary-report',
+    name: 'ViewDiaryReport',
+    component: () => import('../views/ViewDiaryReport')
   },
   {
     path: '/agent-report',
@@ -39,6 +54,16 @@ const routes = [
     path: '/billing-list',
     name: 'BillingList',
     component: () => import('../views/BillingList')
+  },
+  {
+    path: '/apply-invoicing',
+    name: 'ApplyInvoicing',
+    component: () => import('../views/ApplyInvoicing')
+  },
+  {
+    path: '/view-invoicing',
+    name: 'ViewInvoicing',
+    component: () => import('../views/ViewInvoicing')
   },
   {
     path: '/service-product',
@@ -61,6 +86,11 @@ const routes = [
     component: () => import('../views/NewAccountPage')
   },
   {
+    path: '/view-account',
+    name: 'ViewAccount',
+    component: () => import('../views/ViewAccount')
+  },
+  {
     path: '/new-diary-report',
     name: 'NewDiaryReport',
     component: () => import('../views/NewDiaryReport')
@@ -74,6 +104,11 @@ const routes = [
     path: '/create-channel-provider',
     name: 'CreateChannelProvider',
     component: () => import('../views/CreateChannelProvider')
+  },
+  {
+    path: '/view-channel-provider',
+    name: 'ViewChannelProvider',
+    component: () => import('../views/ViewChannelProvider')
   },
   {
     path: '/personal-center',

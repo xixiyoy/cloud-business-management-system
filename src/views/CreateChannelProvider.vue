@@ -75,7 +75,11 @@
   </div>
 </template>
 <script>
-export default {}
+export default {
+  metaInfo: {
+    title: '新建渠道商'
+  }
+}
 </script>
 
 <style scoped>
