@@ -46,122 +46,6 @@
     </div>
     <div class="agent-table-show">
       <el-tabs type="border-card" v-model="activeTabName" class="agent-report-tabs">
-        <!-- <el-tab-pane name='all' style="padding: none;">
-          <span slot="label">全部</span>
-          <el-table
-            ref="multipleTable"
-            :data="tableData"
-            tooltip-effect="dark"
-            style="width: 100%">
-            <el-table-column
-              type="selection"
-              header-align="center">
-            </el-table-column>
-            <el-table-column
-              prop="name"
-              label="客户名称"
-              header-align="center">
-            </el-table-column>
-            <el-table-column label="完成情况 (2020)"
-                header-align="center">
-              <el-table-column
-                prop="province"
-                label="1月"
-                header-align="center">
-              </el-table-column>
-              <el-table-column
-                prop="city"
-                label="2月"
-                header-align="center">
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="3月"
-                header-align="center">
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="4月"
-                header-align="center">
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="5月"
-                header-align="center">
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="6月"
-                header-align="center">
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="7月"
-                header-align="center">
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="8月"
-                header-align="center">
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="9月"
-                header-align="center">
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="10月"
-                header-align="center">
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="11月"
-                header-align="center">
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="12月"
-                header-align="center">
-              </el-table-column>
-            </el-table-column>
-            <el-table-column
-              prop="age"
-              label="财税顾问"
-              header-align="center"
-              show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column
-              prop="accountGrade"
-              label="部门"
-              header-align="center"
-              show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column
-              prop="SalesRepresentative"
-              label="月服务费"
-              header-align="center"
-              show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column
-              prop="OrderTotal"
-              label="状态"
-              header-align="center"
-              show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column
-              prop="operating"
-              label="操作"
-              header-align="center"
-              show-overflow-tooltip>
-            </el-table-column>
-          </el-table>
-        </el-tab-pane> -->
-        <!-- <el-tab-pane label="我提交的">消息中心</el-tab-pane>
-        <el-tab-pane label="部门相关">角色管理</el-tab-pane>
-        <el-tab-pane label="业务待审1">定时任务补偿</el-tab-pane>
-        <el-tab-pane label="财务待审1">定时任务补偿</el-tab-pane>
-        <el-tab-pane label="出纳待审1">定时任务补偿</el-tab-pane> -->
         <el-tab-pane v-for="(tab, index) in agentReportTabs" :key="index" :label="tab.label" :name="tab.name">
           <el-table
             ref="multipleTable"
@@ -327,7 +211,6 @@ export default {
     }
   },
   computed: {
-
     tableData () {
       return this.getTableData(this.activeTabName)
     }
