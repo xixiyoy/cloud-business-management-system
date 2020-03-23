@@ -164,6 +164,9 @@
             <el-table-column
               prop="operating"
               label="操作">
+              <template slot-scope="scope">
+                <el-button @click="handleViewAccountClick(scope.row)" type="text" size="small">查看</el-button>
+              </template>
             </el-table-column>
           </el-table>
         </el-tab-pane>
@@ -218,11 +221,11 @@ export default {
       tableAccount: [{
         accountName: '张三的公司',
         accountSource: '渠道-自拓渠道',
-        contactPerson: '李四',
+        contactPerson: '张三',
         contactNumber: '13131324033',
         accountStatus: '服务中',
         accountGrade: '普通',
-        SalesRepresentative: '宇文化',
+        SalesRepresentative: '宇文老大',
         OrderTotal: '2000.00',
         operating: '查看'
       }, {
@@ -263,7 +266,7 @@ export default {
         accountStatus: '服务中',
         accountGrade: 'VIP',
         SalesRepresentative: '宇文化',
-        OrderTotal: '2000.00',
+        OrderTotal: '1100.00',
         operating: '查看'
       }],
       multipleSelection: [],
@@ -290,16 +293,29 @@ export default {
     handleAdvancedSearch () {
       this.advancedSearchDialogVisible = true
     },
+    handleViewAccountClick (row) {
+      this.$router.push({ path: '/view-account', query: { accountName: row.accountName } })
+    }
   },
   computed: {
     accountTabsData () {
-      if ( this.activeTabName === 'all') {
+      if (this.activeTabName === 'all') {
         return this.tableAccount
-      } else if ( this.activeTabName === 'responsible') {
+      } else if (this.activeTabName === 'responsible') {
         return this.tableAccount.filter(account => {
           return account.contactPerson === '李四'
         })
-      } else if ( this.acc)
+      } else if (this.activeTabName === 'create') {
+        return this.tableAccount.filter(account => {
+          return account.SalesRepresentative === '宇文化'
+        })
+      } else if (this.activeTabName === 'department') {
+        return this.tableAccount.filter(account => {
+          return account.OrderTotal === '1100.00'
+        })
+      } else {
+        return []
+      }
     }
   }
 }

@@ -2,7 +2,7 @@
   <div class="view-account">
     <p class="view-account-title">公司名称</p>
     <div class="dividing-line"></div>
-    <el-collapse v-model="activeNames" @change="handleChange">
+    <el-collapse v-model="activeNames">
       <div class="">
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="基础信息" name="1">
@@ -18,20 +18,19 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户名称: " prop="name">
-                  <span>张三的公司</span>
+                  <span>{{account.accountName}}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="联系人: " prop="name">
-                  <span>张三</span>
+                  <span>{{account.contractPerson}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="社会信用代码: " prop="name">
-                  <span>XXXX</span>
+                  <span>{{account.SocialCreditCode}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8"></el-col>
@@ -44,10 +43,9 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="企业电话: " prop="name">
-                  <span>0512-69999999</span>
+                  <span>{{account.companyPhone}}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="客户等级: " prop="name">
                   <span>普通</span>
@@ -57,7 +55,7 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="联系地址: " prop="name">
-                  <span>无</span>
+                  <span>{{account.contractAddress}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8"></el-col>
@@ -70,10 +68,9 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户来源: " prop="region">
-                  <span>渠道-网站</span>
+                  <span>{{account.customerSource}}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="客户代表: " prop="name">
                   <span>邓XX</span>
@@ -83,42 +80,38 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="备注: " prop="pass">
-                  <span>客户要求高</span>
+                  <span>{{account.note}}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12"></el-col>
             </el-row>
           </el-form>
         </el-collapse-item>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="文档资料: " name="2">
-          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
             <el-row>
-              <el-col :span="8">
+              <el-col :span="12">
                 <el-form-item label="身份证复印件: " prop="name">
-                  <img src="" alt="">
+                  <img v-for="(image,index) in idCardImages" :key="index" :src="image" alt="">
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
-              <el-col :span="8">
+              <el-col :span="12">
                 <el-form-item label="营业执照复印件: " prop="name">
-                  <img src="" alt="">
+                  <img v-for="(image,index) in businessLicenseImages" :key="index" :src="image" alt="">
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
-              <el-col :span="6">
-                <el-form-item label="合同原件" prop="name">
-                  <img src="" alt="">
+              <el-col :span="12">
+                <el-form-item label="合同原件: " prop="name">
+                  <img v-for="(image,index) in contractImages" :key="index" :src="image" alt="">
                 </el-form-item>
               </el-col>
-              <el-col :span="12"></el-col>
-              <el-col :span="6"></el-col>
             </el-row>
           </el-form>
         </el-collapse-item>
-        <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
-        <el-collapse-item title="财税信息" name="3">
+        <img v-show="isAgentReport" class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
+        <el-collapse-item title="财税信息" name="3" v-show="isAgentReport">
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="24">
@@ -177,40 +170,43 @@
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="流程列表: " name="4">
           <el-table
-            :data="tableData"
+            :data="processList"
             style="width: 100%">
             <el-table-column
               type="index"
               :index="indexMethod">
             </el-table-column>
             <el-table-column
-              prop="date"
+              prop="productName"
               label="产品名称">
             </el-table-column>
             <el-table-column
-              prop="name"
+              prop="orderNumber"
               label="订单编号">
             </el-table-column>
             <el-table-column
-              prop="address"
+              prop="serviceStatus"
               label="服务状态">
             </el-table-column>
             <el-table-column
-              prop="address"
+              prop="processProgress"
               label="流程进度">
             </el-table-column>
             <el-table-column
-              prop="address"
+              prop="serviceAmount"
               label="服务金额">
             </el-table-column>
             <el-table-column
-              prop="address"
+              prop="principal"
               label="负责人">
             </el-table-column>
             <el-table-column
               fixed="right"
               label="操作"
               width="100">
+                <template slot-scope="scope">
+                  <el-button @click="handleViewAgentClick(scope.row)" type="text" size="small">查看</el-button>
+                </template>
               <template>
                 <el-button type="text" size="small">查看</el-button>
               </template>
@@ -225,8 +221,8 @@
             </el-dialog>
           </div>
         </el-collapse-item>
-        <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
-        <el-collapse-item title="代帐报表: " name="4">
+        <img v-show="isAgentReport" class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
+        <el-collapse-item title="代帐报表: " name="5" v-show="isAgentReport">
           <el-table
             :data="tableData"
             style="width: 100%">
@@ -284,6 +280,45 @@
 export default {
   metaInfo: {
     title: '客户详情'
+  },
+  data () {
+    return {
+      activeNames: ['1'],
+      account: {
+        accountName: '张三的公司hhhh',
+        contractPerson: '张三a',
+        SocialCreditCode: '11111',
+        companyPhone: '0512-69999999',
+        contractAddress: '无',
+        customerSource: '渠道-网站',
+        note: '客户要求高'
+      },
+      idCardImages: [''],
+      businessLicenseImages: [''],
+      contractImages: [''],
+      processList: [{
+        productName: '代理记账',
+        OrderNumber: '1234',
+        serviceStatus: '执行中',
+        processProgress: '1/11+1',
+        serviceAmount: '2500.00',
+        principal: '主演'
+      }]
+    }
+  },
+  mounted () {
+    // 根据数据库获取的字段代替
+    console.log(this.$route.query.accountName)
+  },
+  computed: {
+    isAgentReport () {
+      return this.processList.filter(process => process.productName === '代理记账').length > 0
+    }
+  },
+  methods: {
+    handleViewAgentClick (row) {
+      this.$router.push({ path: '/agent-bookkeeping', query: { accountName: row.accountName } })
+    }
   }
 }
 </script>
