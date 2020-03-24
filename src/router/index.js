@@ -129,6 +129,11 @@ const routes = [
     path: '/service-provider-management',
     name: 'ServiceProviderManagement',
     component: () => import('../views/ServiceProviderManagement')
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: () => import('../views/Test')
   }
 ]
 

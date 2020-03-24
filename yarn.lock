@@ -8454,6 +8454,13 @@ vue-eslint-parser@^7.0.0:
     esquery "^1.0.1"
     lodash "^4.17.15"
 
+vue-horizontal-timeline@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/vue-horizontal-timeline/-/vue-horizontal-timeline-0.6.0.tgz#c5b4889c7e59a24c9c2fff44c27453d607a90a9b"
+  integrity sha512-i8qBK5ofdaGzf2jIbcFaj1Z3gd6UHl6sk/rGLuX6Nvl1LR5DGJ7Iy8OIo4YU0fBg5JZ0PeG/nAJf1KxfOJrUrw==
+  dependencies:
+    vue "^2.6.10"
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
@@ -8513,7 +8520,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.4.2, vue@^2.6.11:
+vue@^2.4.2, vue@^2.6.10, vue@^2.6.11:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==
