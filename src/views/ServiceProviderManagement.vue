@@ -18,7 +18,6 @@
               <div slot="tip" class="el-upload__tip">图片仅为png格式，建议尺寸为200*200(必须为1:1)</div>
             </el-upload>
           </el-col>
-          <el-col :span="12"></el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -28,7 +27,6 @@
               </el-form-item>
             </el-form>
           </el-col>
-          <el-col :span="12"></el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -38,7 +36,6 @@
               </el-form-item>
             </el-form>
           </el-col>
-          <el-col :span="12"></el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -48,7 +45,6 @@
               </el-form-item>
             </el-form>
           </el-col>
-          <el-col :span="12"></el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -58,7 +54,6 @@
               </el-form-item>
             </el-form>
           </el-col>
-          <el-col :span="12"></el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -68,7 +63,6 @@
               </el-form-item>
             </el-form>
           </el-col>
-          <el-col :span="12"></el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -78,13 +72,12 @@
               </el-form-item>
             </el-form>
           </el-col>
-          <el-col :span="12"></el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
               <el-form-item label="经营地址" prop="region" required="">
-                  <el-select placeholder="行政区域">
+                  <el-select placeholder="行政区域" style="width: 100%;">
                     <el-option label="区域一" value="shanghai"></el-option>
                     <el-option label="区域二" value="beijing"></el-option>
                   </el-select>
@@ -92,7 +85,6 @@
                 </el-form-item>
             </el-form>
           </el-col>
-          <el-col :span="12"></el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -102,7 +94,6 @@
               </el-form-item>
             </el-form>
           </el-col>
-          <el-col :span="12"></el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -112,7 +103,6 @@
               </el-form-item>
             </el-form>
           </el-col>
-          <el-col :span="12"></el-col>
         </el-row>
         <el-button type="primary">保存</el-button><br><br><br><br>
       </el-tab-pane>
@@ -186,10 +176,10 @@
                 <el-button
                   size="mini"
                   @click="handleEdit (scope.$index, scope.row)">查看</el-button>
-                <el-button
-                  size="mini"
-                  type="danger"
-                  @click="handleDelete (scope.$index, scope.row)">删除</el-button>
+                <el-popconfirm
+                  title="是否要删除此行？">
+                  <el-button slot="reference">删除</el-button>
+                </el-popconfirm>
               </template>
             </el-table-column>
           </el-table>

@@ -9,10 +9,10 @@
             </el-button></div></el-col>
           <el-col :span="2">
             <div class="grid-content bg-purple">
-              <el-dropdown class="flow-dropdown">
-                <span class="el-dropdown-link" style="color:#606266;">
+              <el-dropdown>
+                <el-button >
                   请选择<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
+                </el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>未开始</el-dropdown-item>
                   <el-dropdown-item>服务中</el-dropdown-item>
@@ -151,11 +151,6 @@ export default {
 }
 .flow-header-custom{
   width: 100%;
-}
-.flow-dropdown{
-  border: 1px solid #DCDFE6;
-  padding: 8px 18px !important;
-  border-radius: 5px;
 }
 .flow-table-show{
   margin-top: 20px;

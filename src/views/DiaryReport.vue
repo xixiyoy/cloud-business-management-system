@@ -12,10 +12,9 @@
               <img id="u829_img" class="img " src="../assets/images/account/u829.png">
               <span style="padding-left:10px;">导出</span>
             </el-button></div></el-col>
-          <el-col :span="18"><div class="grid-content bg-purple"></div></el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="20">
+          <el-col :span="18">
             <div class="block">
               <el-date-picker
                 v-model="value1"
@@ -27,23 +26,9 @@
           <el-col :span="2" class="diaryReport-select-custom">
             <div class="grid-content bg-purple">
               <el-dropdown class="diaryReport-select-custom">
-                <span class="el-dropdown-link">
+                <el-button>
                   请选择<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>全部</el-dropdown-item>
-                  <el-dropdown-item>待审核</el-dropdown-item>
-                  <el-dropdown-item>已审核</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </div>
-          </el-col>
-          <el-col :span="2" class="diaryReport-select-custom">
-            <div class="grid-content bg-purple">
-              <el-dropdown class="diaryReport-select-custom">
-                <span class="el-dropdown-link">
-                  请选择<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
+                </el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>全部</el-dropdown-item>
                   <el-dropdown-item>财税一部</el-dropdown-item>
@@ -68,60 +53,50 @@
         </el-table-column>
         <el-table-column
           prop="processingTime"
-          label="收支时间"
-          width="120">
+          label="收支时间">
         </el-table-column>
         <el-table-column
           prop="summary"
-          label="摘要"
-          width="140">
+          label="摘要">
         </el-table-column>
         <el-table-column
-          prop="RAEdepartment"
-          label="收支部门"
-          width="120">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
+          prop="department"
+          label="收支部门">
         </el-table-column>
         <el-table-column
           prop="RAEtypes"
-          label="收支类型"
-          width="120">
+          label="收支类型">
         </el-table-column>
         <el-table-column
           prop="RAEamount"
-          label="收支金额"
-          show-overflow-tooltip>
+          label="收支金额">
         </el-table-column>
         <el-table-column
           prop="settlementBalance"
-          label="结余"
-          width="100"
-          show-overflow-tooltip>
+          label="结余">
         </el-table-column>
         <el-table-column
           prop="RAEperson"
-          label="收支人员"
-          show-overflow-tooltip>
+          label="收支人员">
         </el-table-column>
         <el-table-column
           prop="accountName"
-          label="客户名称"
-          show-overflow-tooltip>
+          label="客户名称">
         </el-table-column>
         <el-table-column
           prop="accountRepresentative"
-          label="客户代表"
-          width="120">
+          label="客户代表">
           </el-table-column>
           <el-table-column
           prop="checkStatus"
-          label="核对状态"
-          width="120">
+          label="核对状态">
           </el-table-column>
         <el-table-column
           prop="operating"
-          label="操作"
-          show-overflow-tooltip>
+          label="操作">
+          <template slot-scope="scope">
+            <el-button @click="handleViewDiaryReportClick(scope.row)" type="text" size="small">查看</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <div style="border:1px solid #e4e4e4;border-top:none;">
@@ -155,9 +130,35 @@ export default {
       tableData3: [{
         processingTime: '2020-01-04',
         summary: '2020年记账费',
-        RAEdepartment: '财税二部',
+        department: '财税二部',
         RAEtypes: '收款',
         RAEamount: '+500',
+        settlementBalance: '500',
+        RAEperson: '主演',
+        accountName: '张三的公司',
+        accountRepresentative: '等作文',
+        checkStatus: '已审核',
+        operating: '查看'
+      },
+      {
+        processingTime: '2020-02-04',
+        summary: '2020年记账费',
+        department: '财税二部',
+        RAEtypes: '收款',
+        RAEamount: '-500',
+        settlementBalance: '0',
+        RAEperson: '主演',
+        accountName: '张三的公司',
+        accountRepresentative: '等作文',
+        checkStatus: '待审核',
+        operating: '查看'
+      },
+      {
+        processingTime: '2020-01-04',
+        summary: '2020年记账费',
+        department: '财税二部',
+        RAEtypes: '收款',
+        RAEamount: '500',
         settlementBalance: '500',
         RAEperson: '主演',
         accountName: '张三的公司',
@@ -178,12 +179,15 @@ export default {
     },
     handleNewDiaryReport () {
       this.$router.push({ path: '/new-diary-report' })
+    },
+    handleViewDiaryReportClick () {
+      this.$router.push({ path: '/view-diary-report' })
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .diaryReport-custom{
   width: 94%;
   margin: 0 auto;
@@ -191,11 +195,6 @@ export default {
 }
 .diaryReport-header-custom{
   width: 100%;
-}
-.el-dropdown{
-  border: 1px solid #DCDFE6;
-  padding: 12px 24px;
-  border-radius:5px;
 }
 .diaryReport-select-custom{
   float: right !important;

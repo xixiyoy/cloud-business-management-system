@@ -46,6 +46,11 @@ const routes = [
     component: () => import('../views/ViewDiaryReport')
   },
   {
+    path: '/modify-view-diary-report',
+    name: 'ModifyViewDiaryReport',
+    component: () => import('../views/ModifyViewDiaryReport')
+  },
+  {
     path: '/agent-report',
     name: 'AgentReport',
     component: () => import('../views/AgentReport')
@@ -64,6 +69,11 @@ const routes = [
     path: '/view-invoicing',
     name: 'ViewInvoicing',
     component: () => import('../views/ViewInvoicing')
+  },
+  {
+    path: '/modify-view-invoicing',
+    name: 'ModifyViewInvoicing',
+    component: () => import('../views/ModifyViewInvoicing')
   },
   {
     path: '/service-product',

@@ -1,14 +1,9 @@
 <template>
-  <div class="view-diary-report">
+  <div class="modify-view-diary-report">
     <p class="view-diary-report-title">新建</p>
     <div class="dividing-line"></div>
     <p><strong class="view-report-title-custom">基本信息</strong></p>
     <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-row>
-        <el-col :span="4" style="float:right">
-          <el-button @click="handleClickModifyViewDiaryReport">修改内容</el-button>
-        </el-col>
-      </el-row>
       <el-row>
         <el-col :span="24">
           <el-form-item label="审核状态: " prop="name">
@@ -19,71 +14,73 @@
             <el-row>
               <el-col :span="10">
                 <el-form-item label="客户名称: " prop="name">
-                  <span>{{information.clientName}}</span>
+                  <el-input>{{information.clientName}}</el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="客户代表: " prop="name">
-                  <span>{{information.customerName}}</span>
+                  <el-input>{{information.customerName}}</el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="收支部门: " prop="name">
-                  <span>{{information.department}}</span>
+                  <el-input>{{information.department}}</el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="收支人员: " prop="name">
-                  <span>{{information.payee}}</span>
+                  <el-input>{{information.payee}}</el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="收支金额: " prop="name">
-                  <span>{{information.amount}}</span>
+                  <el-input>{{information.amount}}</el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="结余: " prop="name">
-                  <span>{{information.balance}}</span>
+                  <el-input>{{information.balance}}</el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="创建人: " prop="name">
-                  <span>{{information.founder}}</span>
+                  <el-input>{{information.founder}}</el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="审核人: " prop="name">
-                  <span>{{information.reviewer}}</span>
+                  <el-input>{{information.reviewer}}</el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="收支时间: " prop="region">
-                  <span>{{information.time}}</span>
+                  <el-input>{{information.time}}</el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="创建时间: " prop="name">
-                  <span>{{information.createTtime}}</span>
+                  <el-input>{{information.createTtime}}</el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
-              <el-col :span="12">
+              <el-col :span="20">
                 <el-form-item label="摘要: " prop="pass">
-                  <span>{{information.summary}}</span>
+                  <el-input type="textarea">{{information.summary}}</el-input>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
+          <el-button type="primary">确 认</el-button>
+          <el-button>取 消</el-button>
   </div>
 </template>
 <script>
@@ -108,22 +105,12 @@ export default {
         summary: '客户要求高'
       }
     }
-  },
-  methods: {
-    handleClickModifyViewDiaryReport () {
-      this.$router.push({ path: '/modify-view-diary-report' })
-    }
   }
-  // computed: {
-  //   isReview () {
-  //     return this.information.filter(infor => infor.approvalStatus === '已审核').length > 0
-  //   }
-  // }
 }
 </script>
 
 <style>
-.view-diary-report{
+.modify-view-diary-report{
   width: 94%;
   margin: 0 auto;
   margin-top: 40px;

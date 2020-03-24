@@ -7,7 +7,7 @@
         <el-col :span="20">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="渠道商名称: " prop="name" required="">
-              <span>其他中介</span>
+              <span>{{viewChannelProviderDetail.channelProviderName}}</span>
             </el-form-item>
           </el-form>
         </el-col>
@@ -19,7 +19,7 @@
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="联系人: " prop="name" required="">
-              <span>钱磊</span>
+              <span>{{viewChannelProviderDetail.contactPerson}}</span>
             </el-form-item>
           </el-form>
         </el-col>
@@ -28,7 +28,7 @@
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="手机号: " prop="name" required="">
-              <span>13120987837</span>
+              <span>{{viewChannelProviderDetail.phoneNumber}}</span>
             </el-form-item>
           </el-form>
         </el-col>
@@ -37,7 +37,7 @@
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="资源归属: " prop="region" required="">
-              <span>公司资源</span>
+              <span>{{viewChannelProviderDetail.channelLeader}}</span>
             </el-form-item>
           </el-form>
         </el-col>
@@ -46,7 +46,7 @@
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="渠道负责人: " prop="region" required="">
-              <span>钱磊</span>
+              <span>{{viewChannelProviderDetail.resourceAttribution}}</span>
             </el-form-item>
           </el-form>
         </el-col>
@@ -55,11 +55,10 @@
         <el-col :span="12">
           <el-form ref="form" label-width="100px">
             <el-form-item label="备注: ">
-              <span>无</span>
+              <span>{{viewChannelProviderDetail.note}}</span>
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col :span="12"></el-col>
       </el-row>
     </div>
     <br><br><br><br>
@@ -69,6 +68,18 @@
 export default {
   metaInfo: {
     title: '查看详情'
+  },
+  data () {
+    return {
+      viewChannelProviderDetail: {
+        channelProviderName: 'a其他中介',
+        contactPerson: '钱磊',
+        phoneNumber: '13120987837',
+        channelLeader: '公司资源',
+        resourceAttribution: '钱磊',
+        note: '无'
+      }
+    }
   }
 }
 </script>

@@ -7,70 +7,75 @@
       <el-form label-width="150px" class="demo-ruleForm">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="发票类型: " prop="name" required="">
-              <span>KP11111111111</span>
+            <el-form-item label="发票类型: " prop="name">
+              <span>{{billingDetails.invoiceType}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="服务公司: " prop="name" required="">
-              <span>苏州企享汇财务服务公司</span>
+            <el-form-item label="服务公司: " prop="name">
+              <span>{{billingDetails.serviceCompany}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="发票抬头: " prop="name" required="">
-              <span>张三公司名称</span>
+            <el-form-item label="发票抬头: " prop="name">
+              <span>{{billingDetails.invoice}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="社会信用代码: " prop="name" required="">
-              <span>1231231213</span>
+            <el-form-item label="客户名称: " prop="name">
+              <span>{{billingDetails.customerName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="开票金额: " prop="name" required="">
-              <span>500.00</span>
+            <el-form-item label="开票金额: " prop="name">
+              <span>{{billingDetails.amount}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="开票状态: " prop="name" required="">
-              <span>已开票</span>
+            <el-form-item label="开票状态: " prop="name">
+              <span>{{billingDetails.status}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="地址/电话: " prop="name">
-              <span>苏州市工业园区星湖街111号 0512-88888888</span>
+              <span>{{billingDetails.address}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="社会信用代码: " prop="name">
+              <span>{{billingDetails.socialCreditNumber}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
             <el-form-item label="开户行及账号: " prop="name">
-              <span>苏州市工业园区星湖街农行支行 32 0180 21115 16123</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="申请人: " prop="name">
-              <span>朱燕</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="申请时间: " prop="name">
-              <span>2020-01-04 13:22:00</span>
+              <span>{{billingDetails.accountNumber}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
             <el-form-item label="备注信息: " prop="name">
-              <span>客户要求</span>
+              <span>{{billingDetails.note}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="申请人: " prop="name">
+              <span>{{billingDetails.applicant}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="申请时间: " prop="name">
+              <span>{{billingDetails.creationTime}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -79,7 +84,7 @@
     <div class="view-invoicing-silde">
       <el-row>
         <el-col :span="24">
-          <el-button>修改内容</el-button>
+          <el-button @click="handleModifyViewInvoicing">修改内容</el-button>
         </el-col>
       </el-row><br>
       <el-row>
@@ -138,6 +143,7 @@
     <br><br><br>
   </div>
 </template>
+
 <script>
 export default {
   metaInfo: {
@@ -149,17 +155,35 @@ export default {
         message: '开票成功',
         type: 'success'
       })
+    },
+    handleModifyViewInvoicing () {
+      this.$router.push({ path: 'modify-view-invoicing' })
     }
   },
   data () {
     return {
       visible: false,
       turnDownDialogFormVisible: false,
-      voidDialogFormVisible: false
+      voidDialogFormVisible: false,
+      billingDetails: {
+        invoiceType: 'P11111111111',
+        serviceCompany: '苏州企享汇财务服务公司',
+        invoice: '张三公司名称',
+        customerName: '张三公司名称',
+        amount: '500.00',
+        status: '已开票',
+        address: '苏州市工业园区星湖街111号 0512-88888888',
+        socialCreditNumber: '1231231213',
+        accountNumber: '苏州市工业园区星湖街农行支行 32 0180 21115 16123',
+        note: '无',
+        applicant: '朱燕',
+        creationTime: '2020-01-04 13:22:00'
+      }
     }
   }
 }
 </script>
+
 <style scoped>
 .view-invoicing{
   width: 94%;

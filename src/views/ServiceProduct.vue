@@ -6,7 +6,7 @@
        <el-row :gutter="20">
          <el-col :span="3">
            <div class="grid-content bg-purple">
-              <el-button type="primary" style="padding: 12px 26px;">新建产品</el-button>
+              <el-button type="primary" style="padding: 12px 26px;" @click="handleCreateProduct">新建产品</el-button>
             </div>
          </el-col>
          <el-col :span="7"><div class="grid-content bg-purple"></div></el-col>
@@ -28,8 +28,7 @@
         :header-cell-style="serviceProductTableHeaderCellStyle"
         style="width: 100%">
         <el-table-column
-          label="产品板块"
-          >
+          label="产品板块">
           <template slot-scope="scope">
             <el-popover trigger="hover" placement="top">
               <p>姓名: {{ scope.row.name }}</p>
@@ -52,8 +51,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="指导价格"
-          >
+          label="指导价格">
           <template slot-scope="scope">
             <el-popover trigger="hover" placement="top">
               <p>姓名: {{ scope.row.name }}</p>
@@ -64,8 +62,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="创建日期"
-          >
+          label="创建日期">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ scope.row.date }}</span>
           </template>
@@ -75,7 +72,7 @@
             <el-button
               class="detail-button"
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">详情</el-button>
+              @click="handleCreateProduct">详情</el-button>
             <el-button
               size="mini"
               type="danger"
@@ -124,6 +121,9 @@ export default {
           background-color: #f5f7fa;
         `
       }
+    },
+    handleCreateProduct () {
+      this.$router.push({ path: '/create-product' })
     }
   }
 }
