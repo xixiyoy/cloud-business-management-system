@@ -14,6 +14,7 @@
     "element-ui": "^2.13.0",
     "v-charts": "^1.19.0",
     "vue": "^2.6.11",
+    "vue-horizontal-timeline": "^0.6.0",
     "vue-meta-info": "^0.1.7",
     "vue-router": "^3.1.5",
     "vuex": "^3.1.2"

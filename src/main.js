@@ -11,11 +11,14 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VCharts from 'v-charts'
 
+import VueHorizontalTimeline from 'vue-horizontal-timeline'
+
 Vue.config.productionTip = false
 
 Vue.use(MetaInfo)
 Vue.use(ElementUI)
 Vue.use(VCharts)
+Vue.use(VueHorizontalTimeline)
 
 new Vue({
   router,

@@ -41,6 +41,7 @@
     </div>
     <div>
       <el-table
+        border
         ref="multipleTable"
         :data="tableData3"
         tooltip-effect="dark"
@@ -70,6 +71,9 @@
         <el-table-column
           prop="RAEamount"
           label="收支金额">
+          <template slot-scope="scope">
+            <p :class="isAmountColor(scope.row)">{{ scope.row.RAEamount }}</p>
+          </template>
         </el-table-column>
         <el-table-column
           prop="settlementBalance"
@@ -182,6 +186,9 @@ export default {
     },
     handleViewDiaryReportClick () {
       this.$router.push({ path: '/view-diary-report' })
+    },
+    isAmountColor (row) {
+      return Number.parseFloat(row.RAEamount) > 0 ? 'amount-green' : 'amount-red'
     }
   }
 }
@@ -273,5 +280,11 @@ export default {
 .total-model{
   padding: 20px 11px;
   border-right: 1px solid #e4e4e4;
+}
+.amount-red{
+  color: #FF0000;
+}
+.amount-green{
+  color: green;
 }
 </style>
