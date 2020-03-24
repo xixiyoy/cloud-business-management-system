@@ -6,7 +6,7 @@
       <div class="">
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="基础信息" name="1">
-          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户名称: " prop="name">
@@ -296,7 +296,6 @@
                     </el-upload>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="营业执照复印件: " prop="name">
                   <el-upload
@@ -420,7 +419,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped>
 .el-container{
   height: 100%;
 }

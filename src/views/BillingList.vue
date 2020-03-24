@@ -1,24 +1,23 @@
 <template>
   <div id="billingList" class="billing-list">
     <div class="billing-list-header-custom">
-        <el-row :gutter="30">
+        <el-row :gutter="20">
           <el-col :span="4">
             <div class="grid-content bg-purple">
-              <el-button type="primary" @click="handleClickApplyInvoicing" style="padding: 14px 34px;">+申请开票</el-button>
+              <el-button type="primary" @click="handleClickApplyInvoicing" style="padding: 14px 34px;">申请开票</el-button>
             </div>
           </el-col>
-          <el-col :span="6"><div class="grid-content bg-purple">
+          <el-col :span="11"><div class="grid-content bg-purple">
             <el-button class="new-seetings">
               <img id="u829_img" class="img " src="../assets/images/account/u829.png">
               <span style="padding-left:10px;">数据导出</span>
             </el-button></div></el-col>
-          <el-col :span="3" style="margin-right: 78px;"><div class="grid-content bg-purple"></div></el-col>
-          <el-col :span="4">
+          <el-col :span="3">
             <div class="grid-content bg-purple">
               <el-dropdown>
-                <span class="el-dropdown-link">
+                <el-button>
                   请选择<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
+                </el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>服务中</el-dropdown-item>
                   <el-dropdown-item>已完成</el-dropdown-item>
@@ -36,77 +35,67 @@
               </div>
             </div>
           </el-col>
-          <el-col :span="2" style="padding-right:0px;"><div class="grid-content bg-purple"><el-button class="new-seetings">高级检索</el-button></div></el-col>
+          <el-col :span="2" style="padding-right:0px;">
+            <div class="grid-content bg-purple"><el-button class="new-seetings">高级检索</el-button></div>
+          </el-col>
         </el-row>
     </div>
     <div class="account-table-custom">
-      <el-tabs type="border-card">
-        <el-tab-pane>
-          <span slot="label">全部</span>
-          我的行程
+      <el-tabs type="border-card" v-model="activeTabName">
+        <el-tab-pane v-for="(tab,index) in billingListTabs" :key="index" :label="tab.label" :name="tab.name">
+          <el-table
+            ref="multipleTable"
+            :data="tableData3"
+            tooltip-effect="dark"
+            :header-cell-style="billingTableHeaderCellStyle"
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
+            <el-table-column
+              type="selection"
+              width="55">
+            </el-table-column>
+            <el-table-column
+              prop="accountName"
+              label="客户名称">
+            </el-table-column>
+            <el-table-column
+              prop="accountSource"
+              label="客户来源">
+            </el-table-column>
+            <el-table-column
+              prop="contactPerson"
+              label="联系人">
+            </el-table-column>
+            <el-table-column
+              prop="contactNumber"
+              label="联系电话">
+            </el-table-column>
+            <el-table-column
+              prop="accountStatus"
+              label="客户状态">
+            </el-table-column>
+            <el-table-column
+              prop="accountGrade"
+              label="客户等级">
+            </el-table-column>
+            <el-table-column
+              prop="SalesRepresentative"
+              label="销售代表">
+            </el-table-column>
+            <el-table-column
+              prop="OrderTotal"
+              label="订单总额">
+            </el-table-column>
+            <el-table-column
+              prop="operating"
+              label="操作">
+              <template slot-scope="scope">
+                <el-button @click="handleViewBillingListClick(scope.row)" type="text" size="small">查看</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
-        <el-tab-pane label="我负责">消息中心</el-tab-pane>
-        <el-tab-pane label="我创建">角色管理</el-tab-pane>
-        <el-tab-pane label="部门">定时任务补偿</el-tab-pane>
       </el-tabs>
-      <el-table
-        ref="multipleTable"
-        :data="tableData3"
-        tooltip-effect="dark"
-        :header-cell-style="billingTableHeaderCellStyle"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
-        <el-table-column
-          type="selection"
-          width="55">
-        </el-table-column>
-        <el-table-column
-          prop="accountName"
-          label="客户名称"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="accountSource"
-          label="客户来源"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="contactPerson"
-          label="联系人"
-          width="120">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
-        </el-table-column>
-        <el-table-column
-          prop="contactNumber"
-          label="联系电话"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="accountStatus"
-          label="客户状态"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="accountGrade"
-          label="客户等级"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="SalesRepresentative"
-          label="销售代表"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="OrderTotal"
-          label="订单总额"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="operating"
-          label="操作"
-          show-overflow-tooltip>
-        </el-table-column>
-      </el-table>
       <div style="margin-top: 20px">
         <el-pagination
           background
@@ -125,6 +114,29 @@ export default {
   },
   data () {
     return {
+      activeTabName: 'all',
+      billingListTabs: [
+        {
+          label: '全部',
+          name: 'all'
+        },
+        {
+          label: '我提交的',
+          name: 'mine'
+        },
+        {
+          label: '部门数据',
+          name: 'departmentData'
+        },
+        {
+          label: '待审核',
+          name: 'pendingReview'
+        },
+        {
+          label: '已审核',
+          name: 'Audited'
+        }
+      ],
       tableData3: [{
         accountName: '张三的公司',
         accountSource: '渠道-自拓渠道',
@@ -172,6 +184,9 @@ export default {
           background-color: #f5f7fa;
         `
       }
+    },
+    handleViewBillingListClick () {
+      this.$router.push({ path: '/view-invoicing' })
     }
   }
 }
@@ -188,11 +203,6 @@ export default {
 }
 .billing-list-header-custom{
   width: 100%;
-}
-.el-dropdown{
-  border: 1px solid #DCDFE6;
-  padding: 12px 24px;
-  border-radius:5px;
 }
 #base > div.account-table-custom > div.el-table.el-table--fit.el-table--enable-row-hover.el-table--enable-row-transition > div.el-table__header-wrapper > table > thead > tr{
   background-color: rgb(249,250,252);

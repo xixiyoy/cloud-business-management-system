@@ -151,8 +151,7 @@
             <el-table-column
               prop="operating"
               label="操作"
-              header-align="center"
-              show-overflow-tooltip>
+              header-align="center">
             </el-table-column>
           </el-table>
         </el-tab-pane>

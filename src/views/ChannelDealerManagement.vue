@@ -94,7 +94,7 @@
             <el-button
               class="detail-button"
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">详情</el-button>
+              @click="handleViewChannelProvider">详情</el-button>
             <el-button
               size="mini"
               type="danger"
@@ -146,6 +146,9 @@ export default {
     },
     handleClickCreateChannelDealer () {
       this.$router.push({ path: '/create-channel-provider' })
+    },
+    handleViewChannelProvider () {
+      this.$router.push({ path: '/view-channel-provider' })
     }
   }
 }
