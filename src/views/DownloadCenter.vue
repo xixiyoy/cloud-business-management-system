@@ -1,13 +1,28 @@
 <template>
   <div class="serviceProduct">
-      <p class="servuceProduct-title">服务产品</p>
+      <p class="servuceProduct-title">下载中心</p>
       <div class="dividing-line"></div>
      <div class="serviceProduct-header">
        <el-row :gutter="20">
-         <el-col :span="19">
+         <el-col :span="4">
            <div class="grid-content bg-purple">
-              <el-button type="primary" style="padding: 12px 26px;" @click="handleCreateProduct">新建产品</el-button>
-            </div>
+             <el-date-picker
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+           </div>
+         </el-col>
+         <el-col :span="15">
+           <el-dropdown>
+            <el-button>
+              全部模块<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>模块一</el-dropdown-item>
+              <el-dropdown-item>模块二</el-dropdown-item>
+              <el-dropdown-item>模块三</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
          </el-col>
          <el-col :span="4" style="float: right;">
             <div class="grid-content bg-purple">
@@ -22,20 +37,29 @@
      </div>
      <div style="width:100%">
       <el-table
+        border="dark"
         :data="tableData"
         :header-cell-style="serviceProductTableHeaderCellStyle"
         style="width: 100%">
         <el-table-column
-          label="产品板块"
-          prop="productModel">
+          label="报表名称"
+          prop="reportName">
         </el-table-column>
         <el-table-column
-          label="产品名称"
-          prop="productPame">
+          label="报表分类"
+          prop="reportType">
         </el-table-column>
         <el-table-column
-          label="指导价格"
-          prop="guidePrice">
+          label="所属业务板块"
+          prop="guidePrBusinessSegmentice">
+        </el-table-column>
+        <el-table-column
+          label="下载次数"
+          prop="doenloadTimes">
+        </el-table-column>
+        <el-table-column
+          label="创建人"
+          prop="founder">
         </el-table-column>
         <el-table-column
           label="创建日期"
@@ -46,8 +70,7 @@
             <el-button
               class="detail-button"
               size="mini"
-              type="text"
-              @click="handleCreateProduct">详情</el-button>
+              type="text">下载</el-button>
             <el-button
               size="mini"
               type="text"
@@ -68,29 +91,37 @@
 <script>
 export default {
   metaInfo: {
-    title: '服务产品'
+    title: '下载中心'
   },
   data () {
     return {
       tableData: [{
-        productModel: '财税服务',
-        productPame: '代理记账',
-        guidePrice: '300-500',
+        reportName: '客户列表',
+        reportType: '导出',
+        guidePrBusinessSegmentice: '客户模块',
+        doenloadTimes: '1',
+        founder: '老刘',
         createDate: '2016-05-02'
       }, {
-        productModel: '财税服务',
-        productPame: '代理记账',
-        guidePrice: '400-500',
+        reportName: '客户列表',
+        reportType: '导出',
+        guidePrBusinessSegmentice: '客户模块',
+        doenloadTimes: '1',
+        founder: '老刘',
         createDate: '2016-05-02'
       }, {
-        productModel: '工商服务',
-        productPame: '注册',
-        guidePrice: '400-500',
+        reportName: '客户列表',
+        reportType: '导出',
+        guidePrBusinessSegmentice: '客户模块',
+        doenloadTimes: '1',
+        founder: '老刘',
         createDate: '2016-05-02'
       }, {
-        productModel: '工商服务',
-        productPame: '企业变更',
-        guidePrice: '500-600',
+        reportName: '客户列表',
+        reportType: '导出',
+        guidePrBusinessSegmentice: '客户模块',
+        doenloadTimes: '1',
+        founder: '老刘',
         createDate: '2016-05-02'
       }]
     }
@@ -105,15 +136,12 @@ export default {
           background-color: #f5f7fa;
         `
       }
-    },
-    handleCreateProduct () {
-      this.$router.push({ path: '/create-product' })
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .serviceProduct{
   width: 94%;
   margin: 0 auto;
@@ -124,11 +152,6 @@ export default {
 }
 .el-container{
   height: 100%;
-}
-.el-dropdown{
-  border: 1px solid #DCDFE6;
-  padding: 12px 24px;
-  border-radius:5px;
 }
 .title-name{
   font-family: '微软雅黑';

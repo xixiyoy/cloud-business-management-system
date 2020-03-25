@@ -150,6 +150,43 @@
         <el-row>
           <el-button type="primary" @click="addAccountsReceivableDialogVisible = true" class="upload-logo-custom">+新增收款账户</el-button>
           <el-dialog title="编辑收款账户" width="35%" :visible.sync="addAccountsReceivableDialogVisible">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+              <el-form-item label="服务公司：" prop="name" required="">
+                <el-input></el-input>
+              </el-form-item>
+              <el-form-item label="账户名称：" prop="name" required="">
+                <el-input></el-input>
+              </el-form-item>
+              <el-form-item label="账号类型: " prop="name" required="">
+                <el-radio-group v-model="radio">
+                  <el-radio :label="3">银行账号</el-radio>
+                  <el-radio :label="6">支付宝账号</el-radio>
+                  <el-radio :label="9">微信账号</el-radio>
+                  <el-radio :label="12">现金账号</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="银行卡号：" prop="name" required="">
+                <el-input></el-input>
+              </el-form-item>
+              <el-form-item label="开户银行：" prop="name" required="">
+                <el-input></el-input>
+              </el-form-item>
+              <el-form-item label="收款方名称：" prop="name" required="">
+                <el-input></el-input>
+              </el-form-item>
+              <el-form-item label="支付宝账号：" prop="name" required="">
+                <el-input></el-input>
+              </el-form-item>
+              <el-form-item label="收款人名称：" prop="name" required="">
+                <el-input></el-input>
+              </el-form-item>
+              <el-form-item label="微信账号：" prop="name" required="">
+                <el-input></el-input>
+              </el-form-item>
+              <el-form-item label="账户名称：" prop="name" required="">
+                <el-input></el-input>
+              </el-form-item>
+            </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button>取消</el-button>
               <el-button type="primary">保存</el-button>
@@ -157,29 +194,30 @@
           </el-dialog>
         </el-row>
         <el-row>
-          <el-table style="width: 100%">
+          <el-table style="width: 100%"
+          :data="accountsReceivable">
             <el-table-column
               label="服务公司"
-              prop="name">
+              prop="serviceCompany">
             </el-table-column>
             <el-table-column
               label="类型"
-              prop="name">
+              prop="type">
             </el-table-column>
             <el-table-column
               label="卡号/账号"
-              prop="name">
+              prop="cardNumber">
             </el-table-column>
-            <el-table-column
-              align="right">
+            <el-table-column label="操作" width="180">
               <template slot-scope="scope">
                 <el-button
+                  class="detail-button"
                   size="mini"
-                  @click="handleEdit (scope.$index, scope.row)">查看</el-button>
-                <el-popconfirm
-                  title="是否要删除此行？">
-                  <el-button slot="reference">删除</el-button>
-                </el-popconfirm>
+                  type="text">详情</el-button>
+                <el-button
+                  size="mini"
+                  type="text"
+                  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -224,11 +262,25 @@ export default {
   },
   data () {
     return {
+      radio: 3,
       tabPosition: 'left',
       fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }],
       dialogTableVisible: false,
       addServiceCompanyDialogFormVisible: false,
       addAccountsReceivableDialogVisible: false,
+      accountsReceivable: [{
+        serviceCompany: '企享汇',
+        type: '现金账户',
+        cardNumber: '12345678890'
+      }, {
+        serviceCompany: '企享汇',
+        type: '微信账户',
+        cardNumber: '12345678890'
+      }, {
+        serviceCompany: '企享汇',
+        type: '现金账户',
+        cardNumber: '12345678890'
+      }],
       options: [{
         value: '选项1',
         label: '黄金糕'

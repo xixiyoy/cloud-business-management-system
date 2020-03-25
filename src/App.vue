@@ -113,7 +113,7 @@
                 <el-menu-item-group>
                   <el-menu-item index="/service-product">服务产品</el-menu-item>
                   <el-menu-item index="/channel-dealer-management">渠道商管理</el-menu-item>
-                  <el-menu-item index="1-3">下载管理</el-menu-item>
+                  <el-menu-item index="/download-center">下载管理</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
             </el-menu>

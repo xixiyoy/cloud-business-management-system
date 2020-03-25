@@ -10,7 +10,6 @@
                 <el-input></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8"></el-col>
             <el-col :span="8">
               <el-form-item label="性别: " prop="name">
                 <el-radio-group v-model="personalCenterForm.resource">
@@ -26,7 +25,6 @@
                 <el-input></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8"></el-col>
             <el-col :span="8">
               <el-form-item label="邮箱地址: " prop="name">
                 <el-input></el-input>
@@ -35,11 +33,10 @@
           </el-row>
           <el-row>
             <el-col :span="8" style="padding-right:25px;">
-              <el-form-item label="用户名 " prop="name">
+              <el-form-item label="用户名: " prop="name">
                 <span>张三</span>
               </el-form-item>
             </el-col>
-            <el-col :span="8"></el-col>
             <el-col :span="8">
               <el-form-item label="登录密码: " prop="name">
                 <span>***</span>
@@ -48,11 +45,10 @@
           </el-row>
           <el-row>
             <el-col :span="8" style="padding-right:25px;">
-              <el-form-item label="部门 " prop="name">
+              <el-form-item label="部门: " prop="name">
                 <span>苏州企享汇信息科技有限公司</span>
               </el-form-item>
             </el-col>
-            <el-col :span="8"></el-col>
             <el-col :span="8">
               <el-form-item label="身份: " prop="name">
                 <span>主管</span>

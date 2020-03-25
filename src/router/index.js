@@ -16,14 +16,19 @@ const routes = [
     component: () => import('../views/Account')
   },
   {
-    path: '/account-details',
-    name: 'AccountDetails',
-    component: () => import('../views/AccountDetails')
+    path: '/modify-account-detail',
+    name: 'ModifyAccountDetail',
+    component: () => import('../views/ModifyAccountDetail')
   },
   {
     path: '/flow',
     name: 'Flow',
     component: () => import('../views/Flow')
+  },
+  {
+    path: '/download-center',
+    name: 'DownloadCenter',
+    component: () => import('../views/DownloadCenter')
   },
   {
     path: '/agent-bookkeeping',
@@ -119,6 +124,11 @@ const routes = [
     path: '/view-channel-provider',
     name: 'ViewChannelProvider',
     component: () => import('../views/ViewChannelProvider')
+  },
+  {
+    path: '/modify-channel-provider',
+    name: 'ModifyChannelProvider',
+    component: () => import('../views/ModifyChannelProvider')
   },
   {
     path: '/personal-center',
