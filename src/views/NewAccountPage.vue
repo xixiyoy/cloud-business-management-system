@@ -109,103 +109,92 @@
             style="width: 100%">
             <el-table-column
               label="序号"
-              width="180">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              prop="serialNumber">
             </el-table-column>
             <el-table-column
               label="产品名称"
-              width="180">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              prop="productName">
             </el-table-column>
             <el-table-column
               label="服务单价"
-              width="180">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              prop="servicePrice">
             </el-table-column>
             <el-table-column
               label="服务周期"
-              width="180">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              prop="serviceCycle">
             </el-table-column>
             <el-table-column
               label="赠送"
-              width="180">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              prop="giveAway">
             </el-table-column>
             <el-table-column
               label="付费周期"
-              width="180">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              prop="payCycle">
             </el-table-column>
             <el-table-column
               label="总额"
-              width="180">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              prop="totalAmount">
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button
                   size="mini"
-                  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                  type="text"
+                  @click="dialogFormVisible = true">编辑</el-button>
+                  <el-dialog title="收货地址" :visible.sync="dialogFormVisible" width="40%">
+                    <el-form :model="form">
+                      <el-row :gutter="20">
+                        <el-col :span="12">
+                          <el-form-item label="产品名称：">
+                            <el-input></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item label="代账会计 ">
+                            <el-input></el-input>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="20">
+                        <el-col :span="12">
+                          <el-form-item label="服务单价：" required="">
+                            <el-input></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item label="会计助理：">
+                            <el-input></el-input>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="20">
+                        <el-col :span="12">
+                          <el-form-item label="赠送：" required="">
+                            <el-input></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item label="付费周期：" required="">
+                            <el-input></el-input>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="20">
+                        <el-col :span="12">
+                          <el-form-item label="服务数量：">
+                            <el-input></el-input>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                      <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    </div>
+                  </el-dialog>
                 <el-button
                   size="mini"
-                  type="danger"
+                  type="text"
                   @click="handleDelete(scope.$index, scope.row)">删除</el-button>
               </template>
             </el-table-column>
@@ -219,12 +208,12 @@
                   <el-form-item
                     label="产品名称: "
                     label-width="85px !important"
-                    class="add-product-item">
+                    class="add-product-item" required="">
                     <el-input class="add-product-input"></el-input>
                   </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="财税顾问: " label-width="85px !important" style="margin-left:0px;">
+                    <el-form-item label="财税顾问: " label-width="85px !important" style="margin-left:0px;" required="">
                       <el-input class="add-product-input"></el-input>
                     </el-form-item>
                   </el-col>
@@ -234,7 +223,8 @@
                   <el-form-item
                     label="服务单价: "
                     label-width="85px !important"
-                    class="add-product-item">
+                    class="add-product-item"
+                    required="">
                     <el-input class="add-product-input"></el-input>
                   </el-form-item>
                   </el-col>
@@ -247,14 +237,14 @@
                 <el-row>
                   <el-col :span="12">
                   <el-form-item
-                    label="服务周期: "
+                    label="赠送: "
                     label-width="85px !important"
                     class="add-product-item">
                     <el-input class="add-product-input"></el-input>
                   </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="赠送: " label-width="85px !important" style="margin-left:0px;">
+                    <el-form-item label="付费周期: " label-width="85px !important" style="margin-left:0px;" required="">
                       <el-input class="add-product-input"></el-input>
                     </el-form-item>
                   </el-col>
@@ -262,9 +252,10 @@
                 <el-row>
                   <el-col :span="12">
                     <el-form-item
-                      label="付费方式: "
+                      label="服务周期: "
                       label-width="85px !important"
-                      class="add-product-item">
+                      class="add-product-item"
+                      required="">
                       <el-input class="add-product-input"></el-input>
                     </el-form-item>
                     </el-col>
@@ -366,27 +357,21 @@ export default {
         ]
       },
       tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
+        serialNumber: '1',
+        productName: '代理记账',
+        servicePrice: '200',
+        serviceCycle: '2个月',
+        giveAway: '1个月',
+        payCycle: '3',
+        totalAmount: '3000'
       }],
       fileList2: [
         { name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' },
         { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }
       ],
-      addProductDialogVisible: false
+      addProductDialogVisible: false,
+      dialogTableVisible: false,
+      dialogFormVisible: false
     }
   },
   methods: {
@@ -405,9 +390,6 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
-    },
-    handleEdit (index, row) {
-      console.log(index, row)
     },
     handleDelete (index, row) {
       console.log(index, row)

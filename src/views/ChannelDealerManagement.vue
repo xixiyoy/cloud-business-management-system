@@ -28,76 +28,42 @@
         :header-cell-style="serviceProductTableHeaderCellStyle"
         style="width: 100%">
         <el-table-column
-          label="渠道商名称">
-          <template slot-scope="scope">
-            <el-popover trigger="hover" placement="top">
-              <p>姓名: {{ scope.row.name }}</p>
-              <div slot="reference" class="name-wrapper">
-                <el-tag size="medium">{{ scope.row.name }}</el-tag>
-              </div>
-            </el-popover>
-          </template>
+          label="渠道商名称"
+          prop="name">
         </el-table-column>
         <el-table-column
-          label="联系人">
-          <template slot-scope="scope">
-            <el-popover trigger="hover" placement="top">
-              <p>姓名: {{ scope.row.name }}</p>
-              <div slot="reference" class="name-wrapper">
-                <el-tag size="medium">{{ scope.row.name }}</el-tag>
-              </div>
-            </el-popover>
-          </template>
+          label="联系人"
+          prop="contactPerson">
         </el-table-column>
         <el-table-column
           label="联系方式"
-          >
-          <template slot-scope="scope">
-            <el-popover trigger="hover" placement="top">
-              <p>姓名: {{ scope.row.name }}</p>
-              <div slot="reference" class="name-wrapper">
-                <el-tag size="medium">{{ scope.row.name }}</el-tag>
-              </div>
-            </el-popover>
-          </template>
+          prop="contactDetails">
         </el-table-column>
         <el-table-column
           label="渠道负责人"
-          >
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.date }}</span>
-          </template>
+          prop="principal">
         </el-table-column>
         <el-table-column
           label="资源归属"
-          >
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.date }}</span>
-          </template>
+          prop="resourceAttribution">
         </el-table-column>
         <el-table-column
           label="创建人"
-          >
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.date }}</span>
-          </template>
+          prop="createPerson">
         </el-table-column>
         <el-table-column
           label="创建日期"
-          >
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.date }}</span>
-          </template>
+          prop="createDate">
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
             <el-button
-              class="detail-button"
               size="mini"
+              type="text"
               @click="handleViewChannelProvider">详情</el-button>
             <el-button
               size="mini"
-              type="danger"
+              type="text"
               @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -115,25 +81,46 @@
 <script>
 export default {
   metaInfo: {
-    title: '服务产品'
+    title: '渠道商管理'
   },
   data () {
     return {
       tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        name: '公司网站',
+        contactPerson: '朱颜',
+        contactDetails: '13256835746',
+        principal: '朱颜',
+        resourceAttribution: '公司资源',
+        createPerson: '老刘',
+        createDate: '2016-05-02'
       }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
+        name: '公司网站',
+        contactPerson: '朱颜',
+        contactDetails: '13256835746',
+        principal: '朱颜',
+        resourceAttribution: '自拓客户',
+        createPerson: '钱磊',
+        createDate: '2016-05-02'
+      }, {
+        name: '公司网站',
+        contactPerson: '朱颜',
+        contactDetails: '13256835746',
+        principal: '朱颜',
+        resourceAttribution: '自拓客户',
+        createPerson: '钱磊',
+        createDate: '2016-05-02'
+      }, {
+        name: '公司网站',
+        contactPerson: '朱颜',
+        contactDetails: '13256835746',
+        principal: '朱颜',
+        resourceAttribution: '自拓客户',
+        createPerson: '钱磊',
+        createDate: '2016-05-02'
       }]
     }
   },
   methods: {
-    handleEdit (index, row) {
-      console.log(index, row)
-    },
     handleDelete (index, row) {
       console.log(index, row)
     },
@@ -253,9 +240,6 @@ export default {
 .el-button--danger{
   background-color: #fff !important;
   color: #111;
-  border: none;
-}
-.detail-button{
   border: none;
 }
 </style>

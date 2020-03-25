@@ -1,6 +1,6 @@
 <template>
   <div class="view-diary-report">
-    <p class="view-diary-report-title">新建</p>
+    <p class="view-diary-report-title">查看详情</p>
     <div class="dividing-line"></div>
     <p><strong class="view-report-title-custom">基本信息</strong></p>
     <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -114,11 +114,6 @@ export default {
       this.$router.push({ path: '/modify-view-diary-report' })
     }
   }
-  // computed: {
-  //   isReview () {
-  //     return this.information.filter(infor => infor.approvalStatus === '已审核').length > 0
-  //   }
-  // }
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="modify-view-diary-report">
-    <p class="view-diary-report-title">新建</p>
+    <p class="view-diary-report-title">收支详情</p>
     <div class="dividing-line"></div>
     <p><strong class="view-report-title-custom">基本信息</strong></p>
     <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -86,12 +86,12 @@
 <script>
 export default {
   metaInfo: {
-    title: '查看详情'
+    title: '修改收支'
   },
   data () {
     return {
       information: {
-        approvalStatus: '已审核',
+        approvalStatus: '未审核',
         clientName: '张三的公司',
         customerName: '张三',
         department: '财税二部',

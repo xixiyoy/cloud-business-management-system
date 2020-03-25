@@ -17,7 +17,6 @@
           <el-col :span="18">
             <div class="block">
               <el-date-picker
-                v-model="value1"
                 type="date"
                 placeholder="选择日期">
               </el-date-picker>
@@ -77,7 +76,8 @@
         </el-table-column>
         <el-table-column
           prop="settlementBalance"
-          label="结余">
+          label="结余"
+          color="yellow">
         </el-table-column>
         <el-table-column
           prop="RAEperson"

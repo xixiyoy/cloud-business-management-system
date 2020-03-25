@@ -1,6 +1,6 @@
 <template>
-  <div class="view-account">
-    <p class="view-account-title">公司名称</p>
+  <div class="modify-view-account">
+    <p class="modify-view-account-title">公司名称</p>
     <div class="dividing-line"></div>
     <el-collapse v-model="activeNames">
       <div class="">
@@ -9,10 +9,7 @@
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="20">
-                <el-button type="primary" round>{{account.status}}</el-button>
-              </el-col>
-              <el-col :span="4">
-                <el-button @click="handleModifyViewAccount">修改内容</el-button>
+                <el-button type="primary" round>显示服务状态</el-button>
               </el-col>
             </el-row>
             <el-row>
@@ -33,9 +30,10 @@
                   <span>{{account.SocialCreditCode}}</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="联系电话: " prop="name">
-                  <span>{{account.companyPhone}}}</span>
+                  <span>13121111111</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -47,7 +45,7 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="客户等级: " prop="name">
-                  <span>{{account.customerGrade}}</span>
+                  <span></span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -60,7 +58,7 @@
               <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="企业邮箱: " prop="name">
-                  <span>{{account.companyEmail}}</span>
+                  <span>无</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -72,19 +70,7 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="客户代表: " prop="name">
-                  <span>{{account.customerRepresentative}}</span>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="8">
-                <el-form-item label="创建人: " prop="region">
-                  <span>{{account.founder}}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="8">
-                <el-form-item label="创建日期: " prop="name">
-                  <span>{{account.createTime}}</span>
+                  <span>邓XX</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -126,51 +112,55 @@
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="24">
-                <el-button type="primary">{{financialInformation.bookkeeping}}</el-button>
+                <el-button type="primary">显示记账方式</el-button>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="月服务费: " prop="name">
-                  <span>{{financialInformation.monthAmount}}</span>
+                  <span>500.00</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="服务周期: " prop="name">
-                  <span>{{financialInformation.cycle}}</span>
+                  <span>5月+赠送1月</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="服务开始月: " prop="name">
-                  <span>{{financialInformation.start}}</span>
+                  <span>2020-01</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="剩余赠送月: " prop="name">
-                  <span>{{financialInformation.giveAway}}</span>
+                  <span>1月</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="剩余服务月: " prop="name">
-                  <span>{{financialInformation.remaining}}</span>
+                  <span>5月</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="当前报税期: " prop="name">
-                  <span>{{financialInformation.currentTime}}</span>
+                  <span>2020-01</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="付费周期: " prop="name">
-                  <span>{{financialInformation.payCycle}}</span>
+                  <span>季付</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="16"></el-col>
             </el-row>
           </el-form>
         </el-collapse-item>
@@ -212,7 +202,7 @@
               label="操作"
               width="100">
                 <template slot-scope="scope">
-                  <el-button @click="handleViewAgentClick(scope.row)" type="text" size="small">查看</el-button>
+                  <el-button @click="handlemodify-viewAgentClick(scope.row)" type="text" size="small">查看</el-button>
                 </template>
               <template>
                 <el-button type="text" size="small">查看</el-button>
@@ -229,7 +219,7 @@
           </div>
         </el-collapse-item>
         <img v-show="isAgentReport" class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
-        <el-collapse-item title="代帐收费: " name="5" v-show="isAgentReport">
+        <el-collapse-item title="代帐报表: " name="5" v-show="isAgentReport">
           <el-table
             :data="tableData"
             style="width: 100%">
@@ -286,35 +276,19 @@
 <script>
 export default {
   metaInfo: {
-    title: '客户详情'
+    title: '修改详情'
   },
   data () {
     return {
       activeNames: ['1'],
       account: {
-        status: '服务中',
         accountName: '张三的公司hhhh',
         contractPerson: '张三a',
         SocialCreditCode: '11111',
         companyPhone: '0512-69999999',
-        customerGrade: '普通',
         contractAddress: '无',
-        companyEmail: '无',
         customerSource: '渠道-网站',
-        customerRepresentative: '邓左文',
-        founder: '邓左文',
-        createTime: '2020-01-04',
         note: '客户要求高'
-      },
-      financialInformation: {
-        bookkeeping: '代理记账',
-        monthAmount: '500.00',
-        cycle: '5月+赠送1月',
-        start: '2020-01-03',
-        giveAway: '1月',
-        remaining: '5月',
-        currentTime: '2020-01-05',
-        payCycle: '季付'
       },
       idCardImages: [''],
       businessLicenseImages: [''],
@@ -339,24 +313,21 @@ export default {
     }
   },
   methods: {
-    handleViewAgentClick (row) {
+    handlemodifyviewAgentClick (row) {
       this.$router.push({ path: '/agent-bookkeeping', query: { accountName: row.accountName } })
-    },
-    handleModifyViewAccount () {
-      this.$router.push({ path: '/modify-account-detail' })
     }
   }
 }
 </script>
 
 <style scoped>
-.view-account{
+.modify-view-account{
   width: 94%;
   margin: 0 auto;
   margin-top: 40px;
   height: 150%;
 }
-.view-account-title{
+.modify-view-account-title{
   font-size: 20px;
   color: #333;
   text-align: left;
