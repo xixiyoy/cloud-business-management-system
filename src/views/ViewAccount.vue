@@ -284,6 +284,8 @@
   </div>
 </template>
 <script>
+import { getCustomerDetail } from '../api/customer'
+
 export default {
   metaInfo: {
     title: '客户详情'
@@ -329,9 +331,11 @@ export default {
       }]
     }
   },
-  mounted () {
+  mounted: async () => {
     // 根据数据库获取的字段代替
+    const account = await getCustomerDetail(this.$route.query.accountName)
     console.log(this.$route.query.accountName)
+    this.account = account
   },
   computed: {
     isAgentReport () {
