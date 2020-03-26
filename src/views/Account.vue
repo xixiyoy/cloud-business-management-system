@@ -179,6 +179,8 @@
 </template>
 
 <script>
+import { getCustomers } from '../api/customer'
+
 export default {
   metaInfo: {
     title: '客户'
@@ -295,23 +297,8 @@ export default {
   },
   computed: {
     accountTabsData () {
-      if (this.activeTabName === 'all') {
-        return this.tableAccount
-      } else if (this.activeTabName === 'responsible') {
-        return this.tableAccount.filter(account => {
-          return account.contactPerson === '李四'
-        })
-      } else if (this.activeTabName === 'create') {
-        return this.tableAccount.filter(account => {
-          return account.SalesRepresentative === '宇文化'
-        })
-      } else if (this.activeTabName === 'department') {
-        return this.tableAccount.filter(account => {
-          return account.OrderTotal === '1100.00'
-        })
-      } else {
-        return []
-      }
+      const accounts = getCustomers(this.activeTabName)
+      return accounts
     }
   }
 }
