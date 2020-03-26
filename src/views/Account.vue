@@ -136,7 +136,6 @@
             <el-table-column
               prop="contactPerson"
               label="联系人">
-              <template slot-scope="scope">{{ scope.row.date }}</template>
             </el-table-column>
             <el-table-column
               prop="contactNumber"
@@ -144,18 +143,15 @@
             </el-table-column>
             <el-table-column
               prop="accountStatus"
-              label="客户状态"
-              show-overflow-tooltip>
+              label="客户状态">
             </el-table-column>
             <el-table-column
               prop="accountGrade"
-              label="客户等级"
-              show-overflow-tooltip>
+              label="客户等级">
             </el-table-column>
             <el-table-column
               prop="SalesRepresentative"
-              label="销售代表"
-              show-overflow-tooltip>
+              label="销售代表">
             </el-table-column>
             <el-table-column
               prop="OrderTotal"

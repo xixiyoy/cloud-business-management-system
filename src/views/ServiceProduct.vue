@@ -125,11 +125,6 @@ export default {
 .el-container{
   height: 100%;
 }
-.el-dropdown{
-  border: 1px solid #DCDFE6;
-  padding: 12px 24px;
-  border-radius:5px;
-}
 .title-name{
   font-family: '微软雅黑';
   font-weight: 400;
