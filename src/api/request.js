@@ -3,7 +3,8 @@ import axios from 'axios'
 import { baseURL } from '../configuration'
 
 const request = axios.create({
-  baseURL
+  baseURL,
+  withCredentials: true
 })
 
 export default request

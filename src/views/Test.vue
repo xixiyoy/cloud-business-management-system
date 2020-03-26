@@ -1,23 +1,17 @@
 <template>
-  <div class="test" :class="currentMonth === '1'">
-    <el-steps :active="2" align-center>
-      <el-step title="已完成"></el-step>
-      <el-step title="已完成"></el-step>
-      <el-step title="进行中"></el-step>
-      <el-step title="未开始"></el-step>
-      <el-step title="未开始"></el-step>
-      <el-step title="未开始"></el-step>
-      <el-step title="未开始"></el-step>
-      <el-step title="未开始"></el-step>
-      <el-step title="未开始"></el-step>
-      <el-step title="未开始"></el-step>
-      <el-step title="未开始"></el-step>
-      <el-step title="未开始"></el-step>
-    </el-steps>
+  <div class="test">
+    <img src="http://39.100.120.137:8080/captcha.jpg?t=1585229310369"/>
+    <el-input v-model="form.userName"></el-input>
+    <el-input v-model="form.password"></el-input>
+    <el-input v-model="form.captcha"></el-input>
+    <el-button @click="handleLoginButtonClick">登录</el-button>
+    <el-button @click="handleLogoutButtonClick">注销</el-button>
   </div>
 </template>
 
 <script>
+import { loginByUserNameAndPassword, logout } from '../api/sys.login'
+
 export default {
   metaInfo: {
     title: '测试'
@@ -25,116 +19,25 @@ export default {
   name: 'Test',
   data () {
     return {
-      currentMonth: '1'
+      form: {
+        userName: '',
+        password: '',
+        captcha: ''
+      }
+    }
+  },
+  methods: {
+    handleLoginButtonClick () {
+      const { userName, password, captcha } = this.form
+      loginByUserNameAndPassword(userName, password, captcha).then(response => {
+        if (response.code === 0) {
+          alert('登录成功')
+        }
+      })
+    },
+    handleLogoutButtonClick () {
+      logout()
     }
   }
 }
 </script>
-
-<style lang="scss">
-$isFinishColor: rgba(16, 141, 233, 1);
-$isFinishLineColor: red;
-$isFinishCircleColor: yellow;
-$isFinishCircleFontColor: green;
-$isProcessLineColor: blue;
-$isProcessCircleColor: red;
-
-.red {
-
-  .is-finish {
-
-    color: black; // 底下文字颜色
-    border-color: $isFinishLineColor; // 已完成线的颜色
-
-    .el-step__icon {
-      color: $isFinishCircleFontColor;
-      border-color: red; // 已完成圈的颜色
-    }
-
-    .el-step__line {
-      background-color: $isFinishLineColor;
-    }
-  }
-
-  .is-process {
-
-    color: black; // 底下文字颜色
-    border-color: $isProcessLineColor; // 已完成线的颜色
-
-    .el-step__icon {
-      color: $isFinishCircleFontColor;
-      border-color: $isProcessCircleColor; // 已完成圈的颜色
-    }
-
-    .el-step__line {
-      background-color: $isProcessLineColor;
-    }
-  }
-}
-
-.blue {
-
-  .is-finish {
-
-    color: black; // 底下文字颜色
-    border-color: blue; // 已完成线的颜色
-
-    .el-step__icon {
-      color: $isFinishCircleFontColor;
-      border-color: $isFinishCircleColor; // 已完成圈的颜色
-    }
-
-    .el-step__line {
-      background-color: $isFinishLineColor;
-    }
-  }
-
-  .is-process {
-
-    // color: black; // 底下文字颜色
-    // border-color: $isProcessLineColor; // 已完成线的颜色
-
-    // .el-step__icon {
-    //   color: $isFinishCircleFontColor;
-    //   border-color: $isProcessCircleColor; // 已完成圈的颜色
-    // }
-
-    // .el-step__line {
-    //   background-color: $isProcessLineColor;
-    // }
-  }
-}
-
-.yellow {
-
-  .is-finish {
-
-    color: black; // 底下文字颜色
-    border-color: $isFinishLineColor; // 已完成线的颜色
-
-    .el-step__icon {
-      color: $isFinishCircleFontColor;
-      border-color: yellow; // 已完成圈的颜色
-    }
-
-    .el-step__line {
-      background-color: $isFinishLineColor;
-    }
-  }
-
-  .is-process {
-
-    color: black; // 底下文字颜色
-    border-color: $isProcessLineColor; // 已完成线的颜色
-
-    .el-step__icon {
-      color: $isFinishCircleFontColor;
-      border-color: $isProcessCircleColor; // 已完成圈的颜色
-    }
-
-    .el-step__line {
-      background-color: $isProcessLineColor;
-    }
-  }
-}
-</style>
