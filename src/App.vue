@@ -185,12 +185,6 @@ export default {
     text-align: center;
     line-height: 20px;
   }
-  /* .el-main {
-    background-color: #fff;
-    color: #333;
-    text-align: center;
-    line-height: 160px;
-  } */
   .home-logo-text{
     font-family: '微软雅黑 Bold', '微软雅黑';
     font-weight: 700;
