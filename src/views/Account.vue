@@ -179,7 +179,7 @@
 </template>
 
 <script>
-import { getCustomers } from '../api/customer'
+import { getCustomers, getLabel } from '../api/customer'
 
 export default {
   metaInfo: {
@@ -298,6 +298,7 @@ export default {
   computed: {
     accountTabsData () {
       const accounts = getCustomers(this.activeTabName)
+      const tabs = getLabel(this.accountTabs)
       return accounts
     }
   }
