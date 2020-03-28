@@ -1,5 +1,11 @@
 import request from './request'
 
+const createCustomer = customer => request({
+  url: '/customer/add',
+  method: 'POST',
+  data: customer
+})
+
 const getCustomers = (type, accountId, linker, status, phone, relUserId, level, creditCode, createStartTime, createEndTime) => request({
   url: '/customer/list',
   params: {
@@ -18,14 +24,8 @@ const getCustomers = (type, accountId, linker, status, phone, relUserId, level, 
 const getCustomerDetail = customerId => request({
   url: `/customer/detail/${customerId}`
 })
-const getLabel = (labelName) => request({
-  url: '/label/list',
-  params: {
-    label: labelName
-  }
-})
 export {
+  createCustomer,
   getCustomers,
-  getCustomerDetail,
-  getLabel
+  getCustomerDetail
 }

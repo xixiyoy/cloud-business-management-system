@@ -14,6 +14,14 @@ import VCharts from 'v-charts'
 import VueHorizontalTimeline from 'vue-horizontal-timeline'
 import VueCookie from 'vue-cookie'
 
+import 'froala-editor/js/plugins.pkgd.min.js'
+import 'froala-editor/js/third_party/embedly.min'
+import 'froala-editor/js/third_party/font_awesome.min'
+import 'froala-editor/js/third_party/spell_checker.min'
+import 'froala-editor/js/third_party/image_tui.min'
+import 'froala-editor/css/froala_editor.pkgd.min.css'
+import VueFroala from 'vue-froala-wysiwyg'
+
 Vue.config.productionTip = false
 
 Vue.use(MetaInfo)
@@ -21,6 +29,7 @@ Vue.use(ElementUI)
 Vue.use(VCharts)
 Vue.use(VueHorizontalTimeline)
 Vue.use(VueCookie)
+Vue.use(VueFroala)
 
 new Vue({
   router,

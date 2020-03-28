@@ -6,11 +6,11 @@
       <div class="">
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="基础信息" name="1">
-          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+          <el-form :model="createProductForm" label-width="120px" class="demo-ruleForm">
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户名称: " prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
+                  <el-input v-model="createProductForm.name"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8"></el-col>
@@ -338,6 +338,25 @@ export default {
   },
   data () {
     return {
+      createProductForm: {
+        createTime: '2020-03-28T07:35:49.505Z',
+        createUserId: 0,
+        createUserName: 'string',
+        isLongTerm: 'string',
+        isup: 'string',
+        productDesc: 'string',
+        productId: 0,
+        productMoudleId: 0,
+        productMoudleName: 'string',
+        productName: 'string',
+        productPrice: 'string',
+        productSummy: 'string',
+        productUnitType: 'string',
+        tenantId: 0,
+        updateTime: '2020-03-28T07:35:49.505Z',
+        updateUserId: 0,
+        updateUserName: 'string'
+      },
       activeNames: ['1', '2', '3'],
       ruleForm: {
         name: '',

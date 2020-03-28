@@ -1,6 +1,6 @@
 <template>
   <div class="create-product">
-    <div class="create-product-title">新增产品
+    <div class="create-product-title">产品详情
     <div class="dividing-line"></div>
     <div class="create-product-main">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">

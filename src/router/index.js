@@ -116,6 +116,11 @@ const routes = [
     component: () => import('../views/CreateProduct')
   },
   {
+    path: '/view-product',
+    name: 'ViewProduct',
+    component: () => import('../views/ViewProduct')
+  },
+  {
     path: '/create-channel-provider',
     name: 'CreateChannelProvider',
     component: () => import('../views/CreateChannelProvider')
