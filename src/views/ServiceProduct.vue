@@ -47,7 +47,7 @@
               class="detail-button"
               size="mini"
               type="text"
-              @click="handleCreateProduct">详情</el-button>
+              @click="handleViewProduct">详情</el-button>
             <el-button
               size="mini"
               type="text"
@@ -106,8 +106,8 @@ export default {
         `
       }
     },
-    handleCreateProduct () {
-      this.$router.push({ path: '/create-product' })
+    handleViewProduct () {
+      this.$router.push({ path: '/view-product' })
     }
   }
 }
