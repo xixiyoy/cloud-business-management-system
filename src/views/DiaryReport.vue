@@ -42,7 +42,7 @@
       <el-table
         border
         ref="multipleTable"
-        :data="tableData3"
+        :data="fianceList.fianceList"
         tooltip-effect="dark"
         style="width: 100%"
         :header-cell-style="diaryReportTableHeaderCellStyle"
@@ -52,49 +52,51 @@
           width="55">
         </el-table-column>
         <el-table-column
-          prop="processingTime"
+          prop="createTime"
           label="收支时间">
         </el-table-column>
         <el-table-column
-          prop="summary"
+          prop="comment"
           label="摘要">
         </el-table-column>
         <el-table-column
-          prop="department"
+          prop="fianceDeptName"
           label="收支部门">
         </el-table-column>
         <el-table-column
-          prop="RAEtypes"
+          prop="fianceTypeName"
           label="收支类型">
         </el-table-column>
         <el-table-column
-          prop="RAEamount"
+          prop="money"
           label="收支金额">
           <template slot-scope="scope">
-            <p :class="isAmountColor(scope.row)">{{ scope.row.RAEamount }}</p>
+            <p :class="isAmountColor(scope.row)">{{ scope.row.money }}</p>
           </template>
         </el-table-column>
         <el-table-column
-          prop="settlementBalance"
-          label="结余"
-          color="yellow">
+          prop="balance"
+          label="结余">
+          <template slot-scope="scope">
+            <span class="calculating-balance-show">{{ scope.row.balance }}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="RAEperson"
+          prop="createUserName"
           label="收支人员">
         </el-table-column>
         <el-table-column
-          prop="accountName"
+          prop="customerName"
           label="客户名称">
         </el-table-column>
         <el-table-column
-          prop="accountRepresentative"
+          prop="fianceUserName"
           label="客户代表">
           </el-table-column>
-          <el-table-column
-          prop="checkStatus"
+        <el-table-column
+          prop="statusName"
           label="核对状态">
-          </el-table-column>
+        </el-table-column>
         <el-table-column
           prop="operating"
           label="操作">
@@ -107,9 +109,9 @@
           <tr>
             <td class="total-model">合计</td>
             <td>
-              <span class="total-tips">收款：<span class="amount-received-show">1</span></span>
-              <span class="total-tips">支出：<span class="expenditure-show">2</span></span>
-              <span class="total-tips">结余：<span class="calculating-balance-show">3</span></span>
+              <span class="total-tips">收款：<span class="amount-received-show">{{fianceList.incomeMoney}}</span></span>
+              <span class="total-tips">支出：<span class="expenditure-show">{{fianceList.costMoney}}</span></span>
+              <span class="total-tips">结余：<span class="calculating-balance-show">{{fianceList.incomeMoney-fianceList.costMoney}}</span></span>
             </td>
           </tr>
         </div>
@@ -125,6 +127,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   metaInfo: {
     title: '日记报表'
@@ -189,7 +193,18 @@ export default {
     },
     isAmountColor (row) {
       return Number.parseFloat(row.RAEamount) > 0 ? 'amount-green' : 'amount-red'
+    },
+    getFianceList () {
+      this.$store.dispatch('getDiaryReportList')
     }
+  },
+  mounted () {
+    this.getFianceList()
+  },
+  computed: {
+    ...mapState({
+      fianceList: state => state.fiance.fiances
+    })
   }
 }
 </script>

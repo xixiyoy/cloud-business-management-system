@@ -367,7 +367,7 @@ export default {
           productName: '代理记账',
           longTerm: '0',
           price: 200,
-          num: 10,
+          number: 10,
           giftNum: 2,
           payCycle: '月付',
           relUserId: 1,

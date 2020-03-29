@@ -15,69 +15,67 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户名称: " prop="name">
-                  <span>{{account.accountName}}</span>
+                  <el-input v-model="account.accountName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="联系人: " prop="name">
-                  <span>{{account.contractPerson}}</span>
+                  <el-input v-model="account.contractPerson" disabled></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="社会信用代码: " prop="name">
-                  <span>{{account.SocialCreditCode}}</span>
+                  <el-input v-model="account.SocialCreditCode" disabled></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="联系电话: " prop="name">
-                  <span>13121111111</span>
+                  <el-input v-model="account.contractPhone" disabled></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="企业电话: " prop="name">
-                  <span>{{account.companyPhone}}</span>
+                  <el-input v-model="account.companyPhone"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="客户等级: " prop="name">
-                  <span></span>
+                  <el-input v-model="account.accountGrade"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="联系地址: " prop="name">
-                  <span>{{account.contractAddress}}</span>
+                  <el-input v-model="account.contractAddress"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="企业邮箱: " prop="name">
-                  <span>无</span>
+                  <el-input v-model="account.companyEmail"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户来源: " prop="region">
-                  <span>{{account.customerSource}}</span>
+                  <el-input v-model="account.customerSource"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="客户代表: " prop="name">
-                  <span>邓XX</span>
+                  <el-input v-model="account.accountRepresent"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="备注: " prop="pass">
-                  <span>{{account.note}}</span>
+                  <el-input v-model="account.note"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -284,10 +282,14 @@ export default {
       account: {
         accountName: '张三的公司hhhh',
         contractPerson: '张三a',
+        contractPhone: '1111',
         SocialCreditCode: '11111',
         companyPhone: '0512-69999999',
+        accountGrade: '普通',
         contractAddress: '无',
+        companyEmail: 'aaa@gmail.com',
         customerSource: '渠道-网站',
+        accountRepresent: '张三',
         note: '客户要求高'
       },
       idCardImages: [''],

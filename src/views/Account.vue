@@ -114,11 +114,11 @@
         </el-row>
     </div>
     <div class="account-table-custom">
-      <el-tabs type="border-card" v-model="activeTabName">
-        <el-tab-pane v-for="(tab, index) in accountTabs" :key="index" :label="tab.label" :name="tab.name">
+      <el-tabs type="border-card" v-model="getCustomersForm.type" @tab-click="handelTabClick">
+        <el-tab-pane v-for="(tab, index) in accountLabels" :key="index" :label="tab.label" :name="tab.name">
           <el-table
             ref="multipleTable"
-            :data="accountTabsData"
+            :data="customers.list"
             tooltip-effect="dark"
             style="width: 100%"
             @selection-change="handleSelectionChange">
@@ -126,31 +126,31 @@
               type="selection">
             </el-table-column>
             <el-table-column
-              prop="accountName"
+              prop="customerName"
               label="客户名称">
             </el-table-column>
             <el-table-column
-              prop="accountSource"
+              prop="customerFromWay"
               label="客户来源">
             </el-table-column>
             <el-table-column
-              prop="contactPerson"
+              prop="customerLinkerName"
               label="联系人">
             </el-table-column>
             <el-table-column
-              prop="contactNumber"
+              prop="customerLinkerPhone"
               label="联系电话">
             </el-table-column>
             <el-table-column
-              prop="accountStatus"
+              prop="customerStatusName"
               label="客户状态">
             </el-table-column>
             <el-table-column
-              prop="accountGrade"
+              prop="customerLevelValue"
               label="客户等级">
             </el-table-column>
             <el-table-column
-              prop="SalesRepresentative"
+              prop="customerRelUserName"
               label="销售代表">
             </el-table-column>
             <el-table-column
@@ -160,8 +160,8 @@
             <el-table-column
               prop="operating"
               label="操作">
-              <template>
-                <el-button @click="handleViewAccountClick" type="text" size="small">查看</el-button>
+              <template slot-scope="scope">
+                <el-button @click="handleViewAccountClick(scope.row)" type="text" size="small">查看</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -171,7 +171,9 @@
         <el-pagination
           background
           layout="total,prev, pager, next"
-          :total="1000">
+          @current-change="handleCurrentChangeClick"
+          :current-page="getCustomersForm.page"
+          :total="customers.totalCount">
         </el-pagination>
       </div>
     </div>
@@ -179,7 +181,8 @@
 </template>
 
 <script>
-import { getCustomers } from '../api/customer'
+import { getLabels } from '../api/label'
+import { mapState } from 'vuex'
 
 export default {
   metaInfo: {
@@ -187,91 +190,16 @@ export default {
   },
   data () {
     return {
-      activeTabName: 'all',
-      accountTabs: [
-        {
-          label: '全部',
-          name: 'all'
-        },
-        {
-          label: '我负责',
-          name: 'responsible'
-        },
-        {
-          label: '我创建',
-          name: 'create'
-        },
-        {
-          label: '部门',
-          name: 'department'
-        }
-      ],
-      agentReportTable: [
-        {
-          name: 'Tom',
-          age: 12
-        },
-        {
-          name: 'James',
-          age: 13
-        }
-      ],
-      tableAccount: [{
-        accountName: '张三的公司',
-        accountSource: '渠道-自拓渠道',
-        contactPerson: '张三',
-        contactNumber: '13131324033',
-        accountStatus: '服务中',
-        accountGrade: '普通',
-        SalesRepresentative: '宇文老大',
-        OrderTotal: '2000.00',
-        operating: '查看'
-      }, {
-        accountName: '李四的公司',
-        accountSource: '渠道-自拓渠道',
-        contactPerson: '李四',
-        contactNumber: '13131324033',
-        accountStatus: '服务中',
-        accountGrade: 'VIP',
-        SalesRepresentative: '宇文化',
-        OrderTotal: '2000.00',
-        operating: '查看'
-      }, {
-        accountName: '李四的公司',
-        accountSource: '渠道-自拓渠道',
-        contactPerson: '李四',
-        contactNumber: '13131324033',
-        accountStatus: '服务中',
-        accountGrade: 'VIP',
-        SalesRepresentative: '宇文化',
-        OrderTotal: '2000.00',
-        operating: '查看'
-      }, {
-        accountName: '李四的公司',
-        accountSource: '渠道-自拓渠道',
-        contactPerson: '李四',
-        contactNumber: '13131324033',
-        accountStatus: '服务中',
-        accountGrade: 'VIP',
-        SalesRepresentative: '宇文化',
-        OrderTotal: '2000.00',
-        operating: '查看'
-      }, {
-        accountName: '李四的公司',
-        accountSource: '渠道-自拓渠道',
-        contactPerson: '李四',
-        contactNumber: '13131324033',
-        accountStatus: '服务中',
-        accountGrade: 'VIP',
-        SalesRepresentative: '宇文化',
-        OrderTotal: '1100.00',
-        operating: '查看'
-      }],
       multipleSelection: [],
-      advancedSearchDialogVisible: false
+      advancedSearchDialogVisible: false,
+      accountLabels: [],
+      getCustomersForm: {
+        type: '',
+        limit: 10,
+        page: 1
+      }
     }
   },
-
   methods: {
     toggleSelection (rows) {
       if (rows) {
@@ -292,14 +220,42 @@ export default {
       this.advancedSearchDialogVisible = true
     },
     handleViewAccountClick (row) {
-      this.$router.push({ path: '/view-account', query: { accountName: row.accountName } })
+      this.$router.push({ path: '/view-account', query: { customerId: row.customerId } })
+    },
+    getAccountLabels () {
+      getLabels('customer').then(({ data: accountLabels }) => {
+        this.accountLabels = accountLabels.map(accountLabel => {
+          const name = Object.keys(accountLabel)[0]
+          const label = accountLabel[name]
+          return {
+            label,
+            name
+          }
+        })
+        this.getCustomersForm.type = this.accountLabels[0].name
+      })
+    },
+    // 用vuex 获取表单
+    getCustomers () {
+      this.$store.dispatch('getCustomers', this.getCustomersForm)
+    },
+    handelTabClick () {
+      this.getCustomersForm.page = 1
+      this.getCustomers()
+    },
+    handleCurrentChangeClick (currentPage) {
+      this.getCustomersForm.page = currentPage
+      this.getCustomers()
     }
   },
+  mounted () {
+    this.getAccountLabels()
+    this.getCustomers()
+  },
   computed: {
-    accountTabsData () {
-      const accounts = getCustomers(this.activeTabName)
-      return accounts
-    }
+    ...mapState({
+      customers: state => state.customer.customers
+    })
   }
 }
 </script>

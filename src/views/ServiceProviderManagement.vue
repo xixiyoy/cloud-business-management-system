@@ -21,7 +21,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="企业名称" prop="name" required="">
                 <el-input placeholder="苏州企享汇信息科技有限公司"></el-input>
               </el-form-item>
@@ -30,7 +30,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="简称" prop="name">
                 <el-input placeholder="企享科技"></el-input>
               </el-form-item>
@@ -39,7 +39,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="服务区域" prop="name" required="">
                 <el-input placeholder="江苏省苏州市"></el-input>
               </el-form-item>
@@ -48,7 +48,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="服务热线" prop="name">
                 <el-input placeholder="400-1006-833"></el-input>
               </el-form-item>
@@ -57,7 +57,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="联系人" prop="name" required="">
                 <el-input placeholder="钱磊"></el-input>
               </el-form-item>
@@ -66,7 +66,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form  label-width="100px" class="demo-ruleForm">
               <el-form-item label="联系电话" prop="name" required="">
                 <el-input placeholder="13212049876"></el-input>
               </el-form-item>
@@ -75,7 +75,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="经营地址" prop="region" required="">
                   <el-select placeholder="行政区域" style="width: 100%;">
                     <el-option label="区域一" value="shanghai"></el-option>
@@ -88,7 +88,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="企业域名" prop="name" required="">
                 <el-input placeholder="www.qixianghui.com"></el-input>
               </el-form-item>
@@ -97,7 +97,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="备注信息" prop="desc" required="">
                 <el-input type="textarea"></el-input>
               </el-form-item>
@@ -150,7 +150,7 @@
         <el-row>
           <el-button type="primary" @click="addAccountsReceivableDialogVisible = true" class="upload-logo-custom">+新增收款账户</el-button>
           <el-dialog title="编辑收款账户" width="35%" :visible.sync="addAccountsReceivableDialogVisible">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+            <el-form label-width="120px" class="demo-ruleForm">
               <el-form-item label="服务公司：" prop="name" required="">
                 <el-input></el-input>
               </el-form-item>
@@ -158,32 +158,35 @@
                 <el-input></el-input>
               </el-form-item>
               <el-form-item label="账号类型: " prop="name" required="">
-                <el-radio-group v-model="radio">
+                <el-radio-group v-model="radio" @change="handleAccountTypeRadioGroupChange">
                   <el-radio :label="3">银行账号</el-radio>
                   <el-radio :label="6">支付宝账号</el-radio>
                   <el-radio :label="9">微信账号</el-radio>
                   <el-radio :label="12">现金账号</el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item label="银行卡号：" prop="name" required="">
+              <el-form-item v-show="isBankAccount" label="账户名称：" prop="name" required="">
                 <el-input></el-input>
               </el-form-item>
-              <el-form-item label="开户银行：" prop="name" required="">
+              <el-form-item v-show="isBankAccount" label="银行卡号：" prop="name" required="">
                 <el-input></el-input>
               </el-form-item>
-              <el-form-item label="收款方名称：" prop="name" required="">
+              <el-form-item v-show="isBankAccount" label="开户银行：" prop="name" required>
                 <el-input></el-input>
               </el-form-item>
-              <el-form-item label="支付宝账号：" prop="name" required="">
+              <el-form-item v-show="isAlipayAccount" label="收款方名称：" prop="name" required>
                 <el-input></el-input>
               </el-form-item>
-              <el-form-item label="收款人名称：" prop="name" required="">
+              <el-form-item v-show="isAlipayAccount" label="支付宝账号：" prop="name" required>
                 <el-input></el-input>
               </el-form-item>
-              <el-form-item label="微信账号：" prop="name" required="">
+              <el-form-item v-show="isWeChatAccount" label="收款人名称：" prop="name" required>
                 <el-input></el-input>
               </el-form-item>
-              <el-form-item label="账户名称：" prop="name" required="">
+              <el-form-item v-show="isWeChatAccount" label="微信账号：" prop="name" required>
+                <el-input></el-input>
+              </el-form-item>
+              <el-form-item v-show="isCashAccount" label="账户名称：" prop="name" required>
                 <el-input></el-input>
               </el-form-item>
             </el-form>
@@ -317,7 +320,8 @@ export default {
           }
         }
       ],
-      checkList: ['选中且禁用', '复选框 A']
+      checkList: ['选中且禁用', '复选框 A'],
+      checkedAccountType: '3'
     }
   },
   methods: {
@@ -332,6 +336,28 @@ export default {
     },
     handleDelete (index, row) {
       console.log(index, row)
+    },
+    handleAccountTypeRadioGroupChange (label) {
+      this.checkedAccountType = label
+      // console.log(this.checkedAccountType)
+      // console.log(this.isBankAccount)
+      // console.log(this.isAlipayAccount)
+      // console.log(this.isWeChatAccount)
+      // console.log(this.isCashkAccount)
+    }
+  },
+  computed: {
+    isBankAccount () {
+      return this.checkedAccountType === 3
+    },
+    isAlipayAccount () {
+      return this.checkedAccountType === 6
+    },
+    isWeChatAccount () {
+      return this.checkedAccountType === 9
+    },
+    isCashkAccount () {
+      return this.checkedAccountType === 12
     }
   }
 }

@@ -6,7 +6,7 @@
       <div class="">
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="基础信息" name="1">
-          <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+          <el-form label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="20">
                 <el-button type="primary" round>{{account.status}}</el-button>
@@ -35,7 +35,7 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="联系电话: " prop="name">
-                  <span>{{account.companyPhone}}}</span>
+                  <span>{{account.companyPhone}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -99,7 +99,7 @@
         </el-collapse-item>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="文档资料: " name="2">
-          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+          <el-form label-width="120px" class="demo-ruleForm">
             <el-row>
               <el-col :span="12">
                 <el-form-item label="身份证复印件: " prop="name">
@@ -123,7 +123,7 @@
         </el-collapse-item>
         <img v-show="isAgentReport" class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="财税信息" name="3" v-show="isAgentReport">
-          <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+          <el-form label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="24">
                 <el-button type="primary">{{financialInformation.bookkeeping}}</el-button>
@@ -180,8 +180,7 @@
             :data="processList"
             style="width: 100%">
             <el-table-column
-              type="index"
-              :index="indexMethod">
+              type="index">
             </el-table-column>
             <el-table-column
               prop="productName"
@@ -220,7 +219,7 @@
             </el-table-column>
           </el-table>
           <div class="add-products-model">
-            <el-dialog title="代帐报表" width="40%" :visible.sync="addProductDialogVisible">
+            <el-dialog title="代帐报表" width="40%">
               <div slot="footer" class="dialog-footer">
                 <el-button type="primary">确认</el-button>
                 <el-button>取消</el-button>
@@ -231,11 +230,9 @@
         <img v-show="isAgentReport" class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="代帐收费: " name="5" v-show="isAgentReport">
           <el-table
-            :data="tableData"
             style="width: 100%">
             <el-table-column
-              type="index"
-              :index="indexMethod">
+              type="index">
             </el-table-column>
             <el-table-column
               prop="date"
@@ -271,7 +268,7 @@
             </el-table-column>
           </el-table>
           <div class="add-products-model">
-            <el-dialog title="代帐报表" width="40%" :visible.sync="addProductDialogVisible">
+            <el-dialog title="代帐报表" width="40%">
               <div slot="footer" class="dialog-footer">
                 <el-button type="primary">确认</el-button>
                 <el-button>取消</el-button>
@@ -284,30 +281,15 @@
   </div>
 </template>
 <script>
-import { getCustomerDetail } from '../api/customer'
-
 export default {
   metaInfo: {
     title: '客户详情'
   },
   data () {
     return {
+      customerId: 0,
       activeNames: ['1'],
-      account: {
-        status: '服务中',
-        accountName: '张三的公司hhhh',
-        contractPerson: '张三a',
-        SocialCreditCode: '11111',
-        companyPhone: '0512-69999999',
-        customerGrade: '普通',
-        contractAddress: '无',
-        companyEmail: '无',
-        customerSource: '渠道-网站',
-        customerRepresentative: '邓左文',
-        founder: '邓左文',
-        createTime: '2020-01-04',
-        note: '客户要求高'
-      },
+      account: {},
       financialInformation: {
         bookkeeping: '代理记账',
         monthAmount: '500.00',
@@ -331,11 +313,9 @@ export default {
       }]
     }
   },
-  mounted: async () => {
-    // 根据数据库获取的字段代替
-    const account = await getCustomerDetail(this.$route.query.accountName)
-    console.log(this.$route.query.accountName)
-    this.account = account
+  mounted () {
+    this.customerId = this.$route.query.customerId
+    this.getCustomer()
   },
   computed: {
     isAgentReport () {
@@ -347,7 +327,10 @@ export default {
       this.$router.push({ path: '/agent-bookkeeping', query: { accountName: row.accountName } })
     },
     handleModifyViewAccount () {
-      this.$router.push({ path: '/modify-account-detail' })
+      this.$router.push({ path: '/modify-account-detail', query: { customerId: this.customerId } })
+    },
+    getCustomer () {
+      this.$store.dispatch('getCustomerById', this.customerId)
     }
   }
 }

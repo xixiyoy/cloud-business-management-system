@@ -6,19 +6,12 @@ const createCustomer = customer => request({
   data: customer
 })
 
-const getCustomers = (type, accountId, linker, status, phone, relUserId, level, creditCode, createStartTime, createEndTime) => request({
+const getCustomers = (type, limit, page) => request({
   url: '/customer/list',
   params: {
     type,
-    customerId: accountId,
-    linker,
-    status,
-    phone,
-    relUserId,
-    level,
-    creditCode,
-    createStartTime,
-    createEndTime
+    limit,
+    page
   }
 })
 const getCustomerDetail = customerId => request({
