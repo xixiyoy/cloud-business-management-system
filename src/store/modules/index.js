@@ -1,5 +1,7 @@
-import account from './account'
+import customer from './customer'
+import fiance from './fiance'
 
 export default {
-  account
+  customer,
+  fiance
 }
