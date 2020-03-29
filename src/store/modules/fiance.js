@@ -13,7 +13,6 @@ const mutations = {
 const actions = {
   async getDiaryReportList ({ commit }) {
     const { data: fiances } = await getDiaryReportList()
-    console.log(fiances)
     commit('SET_FIANCES', fiances)
   }
 }

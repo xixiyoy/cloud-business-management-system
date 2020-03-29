@@ -29,9 +29,7 @@
                   请选择<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>全部</el-dropdown-item>
-                  <el-dropdown-item>财税一部</el-dropdown-item>
-                  <el-dropdown-item>财税二部</el-dropdown-item>
+                  <el-dropdown-item v-for="(dept, index) in deptList" :key="index">{{dept.name}}</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
@@ -135,45 +133,6 @@ export default {
   },
   data () {
     return {
-      tableData3: [{
-        processingTime: '2020-01-04',
-        summary: '2020年记账费',
-        department: '财税二部',
-        RAEtypes: '收款',
-        RAEamount: '+500',
-        settlementBalance: '500',
-        RAEperson: '主演',
-        accountName: '张三的公司',
-        accountRepresentative: '等作文',
-        checkStatus: '已审核',
-        operating: '查看'
-      },
-      {
-        processingTime: '2020-02-04',
-        summary: '2020年记账费',
-        department: '财税二部',
-        RAEtypes: '收款',
-        RAEamount: '-500',
-        settlementBalance: '0',
-        RAEperson: '主演',
-        accountName: '张三的公司',
-        accountRepresentative: '等作文',
-        checkStatus: '待审核',
-        operating: '查看'
-      },
-      {
-        processingTime: '2020-01-04',
-        summary: '2020年记账费',
-        department: '财税二部',
-        RAEtypes: '收款',
-        RAEamount: '500',
-        settlementBalance: '500',
-        RAEperson: '主演',
-        accountName: '张三的公司',
-        accountRepresentative: '等作文',
-        checkStatus: '已审核',
-        operating: '查看'
-      }],
       multipleSelection: []
     }
   },
@@ -196,14 +155,20 @@ export default {
     },
     getFianceList () {
       this.$store.dispatch('getDiaryReportList')
+    },
+    getDeptsList () {
+      this.$store.dispatch('getDeptList')
     }
   },
   mounted () {
     this.getFianceList()
+    this.getDeptsList()
   },
   computed: {
     ...mapState({
-      fianceList: state => state.fiance.fiances
+      // 定义的变量名            文件名  state中定义的名字
+      fianceList: state => state.fiance.fiances,
+      deptList: state => state.department.depts
     })
   }
 }
