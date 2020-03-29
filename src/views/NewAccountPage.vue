@@ -10,39 +10,37 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户名称: " prop="name">
-                  <el-input v-model="createProductForm.name"></el-input>
+                  <el-input v-model="createProductForm.customerName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="联系人: " prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
+                  <el-input v-model="createProductForm.customerLinkerName"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="社会信用代码: " prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
+                  <el-input v-model="createProductForm.creditCode"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="联系电话: " prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
+                  <el-input v-model="createProductForm.customerLinkerPhone"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="企业电话: " prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
+                  <el-input v-model="createProductForm.companyPhone"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="客户等级: " prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
+                  <el-input v-model="createProductForm.customerLevelName"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -62,7 +60,7 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户来源: " prop="region">
-                  <el-select class="account-source-left-custom" v-model="value5" multiple placeholder="请选择">
+                  <el-select class="account-source-left-custom" placeholder="请选择">
                     <el-option
                       v-for="item in options"
                       :key="item.value"
@@ -71,7 +69,6 @@
                     </el-option>
                   </el-select>
                   <el-select class="account-source-right-custom"
-                    v-model="value11"
                     multiple
                     collapse-tags
                     style="margin-left: 20px;"
@@ -85,10 +82,9 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="客户代表: " prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
+                  <el-input v-model="createProductForm.customerRelUserName"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -105,11 +101,11 @@
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="订单列表: " name="2">
           <el-table
-            :data="tableData"
+            :data="createProductForm.taskList"
             style="width: 100%">
             <el-table-column
               label="序号"
-              prop="serialNumber">
+              prop="productId">
             </el-table-column>
             <el-table-column
               label="产品名称"
@@ -117,15 +113,15 @@
             </el-table-column>
             <el-table-column
               label="服务单价"
-              prop="servicePrice">
+              prop="price">
             </el-table-column>
             <el-table-column
               label="服务周期"
-              prop="serviceCycle">
+              prop="payCycle">
             </el-table-column>
             <el-table-column
               label="赠送"
-              prop="giveAway">
+              prop="giftNumber">
             </el-table-column>
             <el-table-column
               label="付费周期"
@@ -134,6 +130,9 @@
             <el-table-column
               label="总额"
               prop="totalAmount">
+              <template slot-scope="scope">
+                {{scope.row.price * scope.row.number }}
+              </template>
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
@@ -325,13 +324,16 @@
       </div>
     </el-collapse>
     <div style="margin-top:25px;">
-       <el-button type="primary">保存</el-button>
+       <el-button type="primary" @click="handleCreateAccountButtonClick">保存</el-button>
       <el-button>取消</el-button>
     </div><br><br><br><br><br><br><br>
   </div>
 </template>
 
 <script>
+import { Message } from 'element-ui'
+import { createCustomer } from '../api/customer'
+
 export default {
   metaInfo: {
     title: '新建客户'
@@ -339,23 +341,38 @@ export default {
   data () {
     return {
       createProductForm: {
-        createTime: '2020-03-28T07:35:49.505Z',
-        createUserId: 0,
-        createUserName: 'string',
-        isLongTerm: 'string',
-        isup: 'string',
-        productDesc: 'string',
-        productId: 0,
-        productMoudleId: 0,
-        productMoudleName: 'string',
-        productName: 'string',
-        productPrice: 'string',
-        productSummy: 'string',
-        productUnitType: 'string',
-        tenantId: 0,
-        updateTime: '2020-03-28T07:35:49.505Z',
-        updateUserId: 0,
-        updateUserName: 'string'
+        customerName: '企享云-测试客户1',
+        creditCode: '91845555',
+        customerFromWay: '来源',
+        customerFromDetail: '详细来源',
+        customerLinkerName: '客户联系人',
+        customerLinkerPhone: '18913932254',
+        companyPhone: '',
+        customerLevelValue: '0',
+        customerLevelName: '普通',
+        customerRelUserId: 2,
+        customerRelUserName: '孟星驰',
+        taskList: [{
+          productId: 1,
+          productName: '代理记账',
+          longTerm: '0',
+          price: 200,
+          number: 10,
+          giftNumber: 2,
+          payCycle: '月付',
+          relUserId: 2,
+          relUserName: '孟星驰'
+        }, {
+          productId: 1,
+          productName: '代理记账',
+          longTerm: '0',
+          price: 200,
+          num: 10,
+          giftNum: 2,
+          payCycle: '月付',
+          relUserId: 1,
+          relUserName: 'mxc'
+        }]
       },
       activeNames: ['1', '2', '3'],
       ruleForm: {
@@ -415,6 +432,23 @@ export default {
     },
     handleAddNewProduct () {
       this.addProductDialogVisible = true
+    },
+    handleCreateAccountButtonClick () {
+      console.log(this.createProductForm)
+      createCustomer(this.createProductForm).then(({ data: response }) => {
+        const { code, msg } = response
+        if (code === 0) {
+          Message({
+            message: '保存成功',
+            type: 'success'
+          })
+        } else {
+          Message({
+            message: msg,
+            type: 'error'
+          })
+        }
+      })
     }
   }
 }
