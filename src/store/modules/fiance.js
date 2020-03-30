@@ -1,7 +1,7 @@
 import { getDiaryReportList } from '../../api/fiance'
 
 const state = {
-  fiances: []
+  fiances: {}
 }
 
 const mutations = {
@@ -11,8 +11,9 @@ const mutations = {
 }
 
 const actions = {
-  async getDiaryReportList ({ commit }) {
-    const { data: fiances } = await getDiaryReportList()
+  async getDiaryReportList ({ commit }, getDiaryReportForm) {
+    const { page, limit } = getDiaryReportForm
+    const { data: fiances } = await getDiaryReportList(page, limit)
     commit('SET_FIANCES', fiances)
   }
 }

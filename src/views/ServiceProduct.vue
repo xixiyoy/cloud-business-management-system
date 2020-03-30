@@ -12,7 +12,7 @@
          <el-col :span="4" style="float: right;">
             <div class="grid-content bg-purple">
               <div>
-                <el-input placeholder="搜索产品名称" v-model="input5" class="input-with-select">
+                <el-input placeholder="搜索产品名称" class="input-with-select">
                   <el-button slot="append" icon="el-icon-search"></el-button>
                 </el-input>
               </div>
@@ -108,6 +108,9 @@ export default {
     },
     handleViewProduct () {
       this.$router.push({ path: '/view-product' })
+    },
+    handleCreateProduct () {
+      this.$router.push({ path: '/create-product' })
     }
   }
 }

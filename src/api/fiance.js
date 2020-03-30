@@ -1,7 +1,11 @@
 import requst from './request'
 
-const getDiaryReportList = () => requst({
-  url: '/fiance/list'
+const getDiaryReportList = (page, limit) => requst({
+  url: '/fiance/list',
+  params: {
+    page,
+    limit
+  }
 })
 
 export {
