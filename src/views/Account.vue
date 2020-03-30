@@ -156,6 +156,9 @@
             <el-table-column
               prop="OrderTotal"
               label="订单总额">
+                <template slot-scope="scope">
+                  <p>{{ getTotalAmount(scope.row) }}</p>
+                </template>
             </el-table-column>
             <el-table-column
               prop="operating"
@@ -186,7 +189,7 @@ import { mapState } from 'vuex'
 
 export default {
   metaInfo: {
-    title: '客户'
+    title: '客户列表'
   },
   data () {
     return {
@@ -201,6 +204,9 @@ export default {
     }
   },
   methods: {
+    getTotalAmount (row) {
+      return row.taskList.map(task => task.price * task.number).reduce((x, y) => x + y)
+    },
     toggleSelection (rows) {
       if (rows) {
         rows.forEach(row => {
@@ -223,6 +229,7 @@ export default {
       this.$router.push({ path: '/view-account', query: { customerId: row.customerId } })
     },
     getAccountLabels () {
+      // 这个里面的customer 什么意思
       getLabels('customer').then(({ data: accountLabels }) => {
         this.accountLabels = accountLabels.map(accountLabel => {
           const name = Object.keys(accountLabel)[0]
