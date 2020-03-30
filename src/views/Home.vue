@@ -122,6 +122,7 @@
               <div class="text item">
                 <p class="team-member-title">团队成员</p>
                 <div class="dividing-line"></div>
+                <p></p>
               </div>
             </el-card>
          </div>

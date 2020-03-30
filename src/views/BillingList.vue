@@ -41,50 +41,48 @@
         </el-row>
     </div>
     <div class="account-table-custom">
-      <el-tabs type="border-card" v-model="activeTabName">
+      <el-tabs type="border-card" v-model="getBillingListForm.type" @tab-click="handelTabClick">
         <el-tab-pane v-for="(tab,index) in billingListTabs" :key="index" :label="tab.label" :name="tab.name">
           <el-table
             ref="multipleTable"
-            :data="tableData3"
+            :data="billingList.list"
             tooltip-effect="dark"
-            :header-cell-style="billingTableHeaderCellStyle"
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-table-column
-              type="selection"
-              width="55">
+              type="selection">
             </el-table-column>
             <el-table-column
-              prop="accountName"
-              label="客户名称">
+              prop="invoiceCode"
+              label="开票编号">
             </el-table-column>
             <el-table-column
-              prop="accountSource"
-              label="客户来源">
+              prop="invoiceTypeName"
+              label="发票类型">
             </el-table-column>
             <el-table-column
-              prop="contactPerson"
-              label="联系人">
+              prop="invoiceMoney"
+              label="开票金额">
             </el-table-column>
             <el-table-column
-              prop="contactNumber"
-              label="联系电话">
+              prop="invoiceStateName"
+              label="开票状态">
             </el-table-column>
             <el-table-column
-              prop="accountStatus"
-              label="客户状态">
+              prop="invoiceHead"
+              label="发票抬头">
             </el-table-column>
             <el-table-column
-              prop="accountGrade"
-              label="客户等级">
+              prop="updateUserName"
+              label="申请人">
             </el-table-column>
             <el-table-column
-              prop="SalesRepresentative"
-              label="销售代表">
+              prop="appliUserName"
+              label="开票人">
             </el-table-column>
             <el-table-column
-              prop="OrderTotal"
-              label="订单总额">
+              prop="appliTime"
+              label="开票时间">
             </el-table-column>
             <el-table-column
               prop="operating"
@@ -100,7 +98,9 @@
         <el-pagination
           background
           layout="total,prev, pager, next"
-          :total="1000">
+          @current-change="handleCurrentChangeClick"
+          :current-page="getBillingListForm.page"
+          :total="billingList.totalCount">
         </el-pagination>
       </div>
     </div>
@@ -108,6 +108,9 @@
 </template>
 
 <script>
+import { getLabels } from '../api/label'
+import { mapState } from 'vuex'
+
 export default {
   metaInfo: {
     title: '开票列表'
@@ -115,28 +118,12 @@ export default {
   data () {
     return {
       activeTabName: 'all',
-      billingListTabs: [
-        {
-          label: '全部',
-          name: 'all'
-        },
-        {
-          label: '我提交的',
-          name: 'mine'
-        },
-        {
-          label: '部门数据',
-          name: 'departmentData'
-        },
-        {
-          label: '待审核',
-          name: 'pendingReview'
-        },
-        {
-          label: '已审核',
-          name: 'Audited'
-        }
-      ],
+      billingListTabs: [],
+      getBillingListForm: {
+        type: '',
+        limit: 10,
+        page: 1
+      },
       tableData3: [{
         accountName: '张三的公司',
         accountSource: '渠道-自拓渠道',
@@ -187,7 +174,40 @@ export default {
     },
     handleViewBillingListClick () {
       this.$router.push({ path: '/view-invoicing' })
+    },
+    getBillingLabels () {
+      getLabels('invoice').then(({ data: billingLabels }) => {
+        this.billingLabels = billingLabels.map(billingLabel => {
+          const name = Object.keys(billingLabel)[0]
+          const label = billingLabel[name]
+          return {
+            label,
+            name
+          }
+        })
+        this.getBillingListForm.type = this.billingLabels[0].name
+      })
+    },
+    getBillings () {
+      this.$store.dispatch('getBillings', this.getBillingListForm)
+    },
+    handelTabClick () {
+      this.getBillingListForm.page = 1
+      this.getBillings()
+    },
+    handleCurrentChangeClick (currentPage) {
+      this.getBillingListForm.page = currentPage
+      this.getBillings()
     }
+  },
+  mounted () {
+    this.getBillingLabels()
+    this.getBillings()
+  },
+  computed: {
+    ...mapState({
+      billingList: state => state.invoice.billings
+    })
   }
 }
 </script>

@@ -230,17 +230,60 @@
         <p class="service-provider-title">审核设置</p>
         <div class="dividing-line"></div>
         <el-row>
-          <el-col :span="12">
-            <div class="audit-settings-display">
-              <div class="audit-settings-one">
-                <p>员工</p>
+          <el-col :span="24" class="audit-settings-display">
+            <div id="u581" class="ax_default box_1">
+              <img id="u581_img" class="img " src="../assets/images/management/u581.png"/>
+            </div>
+            <!-- Unnamed (矩形) -->
+            <div id="u582" class="ax_default box_1">
+              <div id="u582_div" class=""></div>
+              <div id="u582_text" class="text ">
+                <p><span>员工</span></p>
               </div>
             </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u583" class="ax_default box_1">
+              <div id="u583_div" class=""></div>
+              <div id="u583_text" class="text ">
+                <p><span>主管</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u584" class="ax_default box_1">
+              <div id="u584_div" class=""></div>
+              <div id="u584_text" class="text ">
+                <p><span>财务</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u585" class="ax_default box_1">
+              <div id="u585_div" class=""></div>
+              <div id="u585_text" class="text ">
+                <p><span>出纳</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (水平线) -->
+            <div id="u586" class="ax_default line">
+              <img id="u586_img" class="img " src="../assets/images/management/u586.png"/>
+            </div>
+
+            <!-- Unnamed (水平线) -->
+            <div id="u587" class="ax_default line">
+              <img id="u587_img" class="img " src="../assets/images/management/u586.png"/>
+            </div>
+
+            <!-- Unnamed (水平线) -->
+            <div id="u588" class="ax_default line">
+              <img id="u588_img" class="img " src="../assets/images/management/u586.png"/>
+            </div>
           </el-col>
-          <el-col :span="12"></el-col>
         </el-row>
         <el-row>
-          <div style="margin: 50px 0;"></div>
+          <div style="margin: 150px 0;"></div>
           <el-checkbox-group v-model="checkList">
             <el-checkbox>
               <template>
@@ -390,16 +433,189 @@ export default {
   margin-top: 20px;
 }
 .audit-settings-display{
-  border: 1px dashed #DCDFE6;
   width: 100%;
-  height: 200px;
-  margin-top: 20px;
-  border-radius: 10px;
+  margin-top: 40px;
 }
 .audit-settings-one{
   margin-top: 60px;
   width: 60px;
   height: 60px;
   border: 1px solid rgba(0,153,204,1);
+}
+#u581_img {
+    border-width: 0px;
+    position: absolute;
+    left: 0px;
+    top: 42px;
+    width: 558px;
+    height: 106px;
+}
+#u582 {
+    border-width: 0px;
+    position: absolute;
+    left: 39px;
+    top: 67px;
+    width: 59px;
+    height: 55px;
+    color: #0099CC;
+}
+#u583 {
+    border-width: 0px;
+    position: absolute;
+    left: 187px;
+    top: 67px;
+    width: 59px;
+    height: 55px;
+    color: #0099CC;
+}
+#u584 {
+    border-width: 0px;
+    position: absolute;
+    left: 331px;
+    top: 67px;
+    width: 59px;
+    height: 55px;
+    color: #0099CC;
+}
+#u585 {
+    border-width: 0px;
+    position: absolute;
+    left: 472px;
+    top: 67px;
+    width: 59px;
+    height: 55px;
+    color: #0099CC;
+}
+#u586 {
+    border-width: 0px;
+    position: absolute;
+    left: 115px;
+    top: 83px;
+    width: 62px;
+    height: 1px;
+}
+#u587 {
+    border-width: 0px;
+    position: absolute;
+    left: 259px;
+    top: 83px;
+    width: 62px;
+    height: 1px;
+}
+#u588 {
+    border-width: 0px;
+    position: absolute;
+    left: 400px;
+    top:83px;
+    width: 62px;
+    height: 1px;
+}
+#u582_div {
+    border-width: 0px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 59px;
+    height: 55px;
+    background: inherit;
+    background-color: rgba(255, 255, 255, 1);
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0, 153, 204, 1);
+    border-radius: 0px;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #0099CC;
+}
+#u583_div {
+    border-width: 0px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 59px;
+    height: 55px;
+    background: inherit;
+    background-color: rgba(255, 255, 255, 1);
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0, 153, 204, 1);
+    border-radius: 0px;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #0099CC;
+}
+#u584_div {
+    border-width: 0px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 59px;
+    height: 55px;
+    background: inherit;
+    background-color: rgba(255, 255, 255, 1);
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0, 153, 204, 1);
+    border-radius: 0px;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #0099CC;
+}
+#u585_div {
+    border-width: 0px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 59px;
+    height: 55px;
+    background: inherit;
+    background-color: rgba(255, 255, 255, 1);
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0, 153, 204, 1);
+    border-radius: 0px;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #0099CC;
+}
+#u585_text {
+    border-width: 0px;
+    position: absolute;
+    left: 13px;
+    top: 18px;
+    width: 55px;
+    word-wrap: break-word;
+}
+#u584_text {
+    border-width: 0px;
+    position: absolute;
+    left: 13px;
+    top: 18px;
+    width: 55px;
+    word-wrap: break-word;
+}
+#u583_text {
+    border-width: 0px;
+    position: absolute;
+    left: 13px;
+    top: 18px;
+    width: 55px;
+    word-wrap: break-word;
+}
+#u582_text {
+    border-width: 0px;
+    position: absolute;
+    left: 13px;
+    top: 18px;
+    width: 55px;
+    word-wrap: break-word;
 }
 </style>

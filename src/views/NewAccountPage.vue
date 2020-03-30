@@ -454,9 +454,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .el-container{
-  height: 100%;
+  height: 100% !important;
 }
 .new-account-page{
   width: 94%;
