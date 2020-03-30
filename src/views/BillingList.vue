@@ -42,7 +42,7 @@
     </div>
     <div class="account-table-custom">
       <el-tabs type="border-card" v-model="getBillingListForm.type" @tab-click="handelTabClick">
-        <el-tab-pane v-for="(tab,index) in billingListTabs" :key="index" :label="tab.label" :name="tab.name">
+        <el-tab-pane v-for="(tab,index) in billingLabels" :key="index" :label="tab.label" :name="tab.name">
           <el-table
             ref="multipleTable"
             :data="billingList.list"
@@ -118,33 +118,12 @@ export default {
   data () {
     return {
       activeTabName: 'all',
-      billingListTabs: [],
+      billingLabels: [],
       getBillingListForm: {
         type: '',
         limit: 10,
         page: 1
       },
-      tableData3: [{
-        accountName: '张三的公司',
-        accountSource: '渠道-自拓渠道',
-        contactPerson: '李四',
-        contactNumber: '13131324033',
-        accountStatus: '服务中',
-        accountGrade: '普通',
-        SalesRepresentative: '宇文化',
-        OrderTotal: '2000.00',
-        operating: '查看'
-      }, {
-        accountName: '李四的公司',
-        accountSource: '渠道-自拓渠道',
-        contactPerson: '李四',
-        contactNumber: '13131324033',
-        accountStatus: '服务中',
-        accountGrade: 'VIP',
-        SalesRepresentative: '宇文化',
-        OrderTotal: '2000.00',
-        operating: '查看'
-      }],
       multipleSelection: []
     }
   },

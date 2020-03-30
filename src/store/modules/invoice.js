@@ -1,7 +1,7 @@
 import { getBillings } from '../../api/invoice'
 
 const state = {
-  billings: []
+  billings: {}
 }
 
 const mutations = {
@@ -14,7 +14,6 @@ const actions = {
   async getBillings ({ commit }, getBillingListForm) {
     const { type, limit, page } = getBillingListForm
     const { data: billings } = await getBillings(type, limit, page)
-    console.log(billings)
     commit('SET_BILLINGS', billings)
   }
 }

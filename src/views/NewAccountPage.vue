@@ -2,7 +2,7 @@
   <div class="new-account-page">
     <p class="new-account-page-title">新建客户</p>
     <div class="dividing-line"></div>
-    <el-collapse v-model="activeNames" @change="handleChange">
+    <el-collapse v-model="activeNames">
       <div class="">
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="基础信息" name="1">
@@ -60,24 +60,23 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户来源: " prop="region">
-                  <el-select class="account-source-left-custom" placeholder="请选择">
-                    <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                  <el-select class="account-source-right-custom"
-                    multiple
-                    collapse-tags
-                    style="margin-left: 20px;"
+                  <el-select class="account-source-left-custom"
+                   @change="handleSourceChange"
+                    v-model="selectedSource"
                     placeholder="请选择">
                     <el-option
-                      v-for="item in options"
-                      :key="item.value"
+                      v-for="item in sources"
+                      :key="item.label"
                       :label="item.label"
-                      :value="item.value">
+                      :value="item.label">
+                    </el-option>
+                  </el-select>
+                  <el-select class="account-source-right-custom" v-model="selectedSourceDetail" placeholder="请选择">
+                    <el-option
+                      v-for="item in sourceDetails"
+                      :key="item"
+                      :label="item"
+                      :value="item">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -91,10 +90,9 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="备注: " prop="pass">
-                  <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+                  <el-input type="textarea"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="12"></el-col>
             </el-row>
           </el-form>
         </el-collapse-item>
@@ -333,6 +331,7 @@
 <script>
 import { Message } from 'element-ui'
 import { createCustomer } from '../api/customer'
+import { mapState } from 'vuex'
 
 export default {
   metaInfo: {
@@ -407,12 +406,32 @@ export default {
       ],
       addProductDialogVisible: false,
       dialogTableVisible: false,
-      dialogFormVisible: false
+      dialogFormVisible: false,
+      sources: [
+        {
+          label: '同事',
+          sourceDetails: []
+        },
+        {
+          label: '渠道',
+          sourceDetails: []
+        },
+        {
+          label: '客户',
+          sourceDetails: []
+        }
+      ],
+      selectedSource: '',
+      sourceDetails: [],
+      selectedSourceDetail: ''
     }
   },
   methods: {
-    handleChange (val) {
-      console.log(val)
+    handleSourceChange () {
+      if (this.selectedSource === '渠道') {
+        this.getChannelList()
+        this.sourceDetails = this.channelList.page.list.map(channel => channel.name)
+      }
     },
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
@@ -449,7 +468,19 @@ export default {
           })
         }
       })
+    },
+    getChannelList () {
+      this.$store.dispatch('getChannelList')
     }
+  },
+  mounted () {
+    // 调用当前methonds里的
+    this.getChannelList()
+  },
+  computed: {
+    ...mapState({
+      channelList: state => state.channel.channels
+    })
   }
 }
 </script>

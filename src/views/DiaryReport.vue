@@ -40,7 +40,7 @@
       <el-table
         border
         ref="multipleTable"
-        :data="fianceList.fianceList"
+        :data="fianceList.list"
         tooltip-effect="dark"
         style="width: 100%"
         :header-cell-style="diaryReportTableHeaderCellStyle"
@@ -117,7 +117,9 @@
         <el-pagination
           background
           layout="total,prev, pager, next"
-          :total="1000">
+           @current-change="handleCurrentChangeClick"
+          :current-page="getFiancesForm.page"
+          :total="fianceList.totalCount">
         </el-pagination>
       </div>
     </div>
@@ -133,7 +135,11 @@ export default {
   },
   data () {
     return {
-      multipleSelection: []
+      multipleSelection: [],
+      getFiancesForm: {
+        page: 1,
+        limit: 10
+      }
     }
   },
   methods: {
@@ -154,10 +160,15 @@ export default {
       return Number.parseFloat(row.RAEamount) > 0 ? 'amount-green' : 'amount-red'
     },
     getFianceList () {
-      this.$store.dispatch('getDiaryReportList')
+      this.$store.dispatch('getDiaryReportList', this.getFiancesForm)
     },
     getDeptsList () {
+      // 对应actions 里面的名字
       this.$store.dispatch('getDeptList')
+    },
+    handleCurrentChangeClick (currentPage) {
+      this.getFiancesForm.page = currentPage
+      this.getFianceList()
     }
   },
   mounted () {

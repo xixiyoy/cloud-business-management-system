@@ -1,9 +1,9 @@
 import request from './request'
 
-const getChannelInformation = channelId => request ({
+const getChannelInformation = channelId => request({
   url: `/channel/info/${channelId}`
 })
-const getChannelList = () => request ({
+const getChannelList = () => request({
   url: '/channel/list'
 })
 
