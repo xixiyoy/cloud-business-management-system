@@ -22,24 +22,24 @@
      </div>
      <div style="width:100%">
       <el-table
-        :data="tableData"
+        :data="productList.page.list"
         :header-cell-style="serviceProductTableHeaderCellStyle"
         style="width: 100%">
         <el-table-column
           label="产品板块"
-          prop="productModel">
+          prop="productMoudleName">
         </el-table-column>
         <el-table-column
           label="产品名称"
-          prop="productPame">
+          prop="productName">
         </el-table-column>
         <el-table-column
           label="指导价格"
-          prop="guidePrice">
+          prop="productPrice">
         </el-table-column>
         <el-table-column
           label="创建日期"
-          prop="createDate">
+          prop="createTime">
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
@@ -60,18 +60,26 @@
         <el-pagination
           background
           layout="total,prev, pager, next"
-          :total="1000">
+          @current-change="handleCurrentChangeClick"
+          :current-page="getServiceProductList.page"
+          :total="productList.page.totalCount">
         </el-pagination>
       </div>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
   metaInfo: {
     title: '服务产品'
   },
   data () {
     return {
+      getServiceProductList: {
+        page: 1,
+        limit: 10
+      },
       tableData: [{
         productModel: '财税服务',
         productPame: '代理记账',
@@ -111,7 +119,22 @@ export default {
     },
     handleCreateProduct () {
       this.$router.push({ path: '/create-product' })
+    },
+    getProductList () {
+      this.$store.dispatch('getServiceProductList', this.getServiceProductList)
+    },
+    handleCurrentChangeClick (currentPage) {
+      this.getFiancesForm.page = currentPage
+      this.getServiceProductList()
     }
+  },
+  mounted () {
+    this.getProductList()
+  },
+  computed: {
+    ...mapState({
+      productList: state => state.product.products
+    })
   }
 }
 </script>

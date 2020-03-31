@@ -4,6 +4,7 @@ import department from './department'
 import invoice from './invoice'
 import product from './product'
 import channel from './channel'
+import download from './download'
 
 export default {
   customer,
@@ -11,5 +12,6 @@ export default {
   department,
   invoice,
   product,
-  channel
+  channel,
+  download
 }

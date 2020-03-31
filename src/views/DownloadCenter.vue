@@ -27,7 +27,7 @@
          <el-col :span="4" style="float: right;">
             <div class="grid-content bg-purple">
               <div>
-                <el-input placeholder="搜索产品名称" v-model="input5" class="input-with-select">
+                <el-input placeholder="搜索产品名称" class="input-with-select">
                   <el-button slot="append" icon="el-icon-search"></el-button>
                 </el-input>
               </div>
@@ -38,20 +38,20 @@
      <div style="width:100%">
       <el-table
         border="dark"
-        :data="tableData"
+        :data="downloadList.list"
         :header-cell-style="serviceProductTableHeaderCellStyle"
         style="width: 100%">
         <el-table-column
           label="报表名称"
-          prop="reportName">
+          prop="productName">
         </el-table-column>
         <el-table-column
           label="报表分类"
-          prop="reportType">
+          prop="productMoudleName">
         </el-table-column>
         <el-table-column
           label="所属业务板块"
-          prop="guidePrBusinessSegmentice">
+          prop="productUnitType">
         </el-table-column>
         <el-table-column
           label="下载次数"
@@ -59,11 +59,11 @@
         </el-table-column>
         <el-table-column
           label="创建人"
-          prop="founder">
+          prop="createUserName">
         </el-table-column>
         <el-table-column
           label="创建日期"
-          prop="createDate">
+          prop="createTime">
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
@@ -83,47 +83,26 @@
         <el-pagination
           background
           layout="total,prev, pager, next"
-          :total="1000">
+          @current-change="handleCurrentChangeClick"
+          :current-page="getDownloadList.page"
+          :total="downloadList.totalCount">
         </el-pagination>
       </div>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
   metaInfo: {
     title: '下载中心'
   },
   data () {
     return {
-      tableData: [{
-        reportName: '客户列表',
-        reportType: '导出',
-        guidePrBusinessSegmentice: '客户模块',
-        doenloadTimes: '1',
-        founder: '老刘',
-        createDate: '2016-05-02'
-      }, {
-        reportName: '客户列表',
-        reportType: '导出',
-        guidePrBusinessSegmentice: '客户模块',
-        doenloadTimes: '1',
-        founder: '老刘',
-        createDate: '2016-05-02'
-      }, {
-        reportName: '客户列表',
-        reportType: '导出',
-        guidePrBusinessSegmentice: '客户模块',
-        doenloadTimes: '1',
-        founder: '老刘',
-        createDate: '2016-05-02'
-      }, {
-        reportName: '客户列表',
-        reportType: '导出',
-        guidePrBusinessSegmentice: '客户模块',
-        doenloadTimes: '1',
-        founder: '老刘',
-        createDate: '2016-05-02'
-      }]
+      getDownloadList: {
+        page: 1,
+        limit: 10
+      }
     }
   },
   methods: {
@@ -136,7 +115,22 @@ export default {
           background-color: #f5f7fa;
         `
       }
+    },
+    getDownloads () {
+      this.$store.dispatch('getDownloadList', this.getDownloadList)
+    },
+    handleCurrentChangeClick (currentPage) {
+      this.getDownloadList.page = currentPage
+      this.getDownloads()
     }
+  },
+  mounted () {
+    this.getDownloads()
+  },
+  computed: {
+    ...mapState({
+      downloadList: state => state.download.downloads
+    })
   }
 }
 </script>
@@ -163,9 +157,6 @@ export default {
 }
 .el-row {
     margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
   .el-col {
     border-radius: 4px;
