@@ -431,6 +431,9 @@ export default {
       if (this.selectedSource === '渠道') {
         this.getChannelList()
         this.sourceDetails = this.channelList.page.list.map(channel => channel.name)
+      } else if (this.selectedSource === '客户') {
+        this.getCustomers()
+        this.sourceDetails = this.customers.list.map(customer => customer.customerFromDetail)
       }
     },
     submitForm (formName) {
@@ -451,6 +454,9 @@ export default {
     },
     handleAddNewProduct () {
       this.addProductDialogVisible = true
+    },
+    getCustomers () {
+      this.$store.dispatch('getCustomers', this.getCustomersForm)
     },
     handleCreateAccountButtonClick () {
       console.log(this.createProductForm)
@@ -476,10 +482,12 @@ export default {
   mounted () {
     // 调用当前methonds里的
     this.getChannelList()
+    this.getCustomers()
   },
   computed: {
     ...mapState({
-      channelList: state => state.channel.channels
+      channelList: state => state.channel.channels,
+      customers: state => state.customer.customers
     })
   }
 }

@@ -11,8 +11,9 @@ const mutations = {
 }
 
 const actions = {
-  async getChannelList ({ commit }) {
-    const { data: channels } = await getChannelList()
+  async getChannelList ({ commit }, getChannelFrom) {
+    const { limit, page } = getChannelFrom
+    const { data: channels } = await getChannelList(limit, page)
     commit('SET_CHANNELS', channels)
   }
 }

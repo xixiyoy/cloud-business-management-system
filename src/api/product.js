@@ -1,7 +1,11 @@
 import request from './request'
 
-const getServiceProductList = () => request({
-  url: '/product/list'
+const getServiceProductList = (limit, page) => request({
+  url: '/product/list',
+  params: {
+    limit,
+    page
+  }
 })
 
 export {

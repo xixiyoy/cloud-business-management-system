@@ -24,7 +24,7 @@
      </div>
      <div style="width:100%">
       <el-table
-        :data="tableData"
+        :data="channelList.page.list"
         :header-cell-style="serviceProductTableHeaderCellStyle"
         style="width: 100%">
         <el-table-column
@@ -33,27 +33,27 @@
         </el-table-column>
         <el-table-column
           label="联系人"
-          prop="contactPerson">
+          prop="linkerName">
         </el-table-column>
         <el-table-column
           label="联系方式"
-          prop="contactDetails">
+          prop="linkerMobile">
         </el-table-column>
         <el-table-column
           label="渠道负责人"
-          prop="principal">
+          prop="dutyUserName">
         </el-table-column>
         <el-table-column
           label="资源归属"
-          prop="resourceAttribution">
+          prop="channelBelongName">
         </el-table-column>
         <el-table-column
           label="创建人"
-          prop="createPerson">
+          prop="createUserName">
         </el-table-column>
         <el-table-column
           label="创建日期"
-          prop="createDate">
+          prop="createTime">
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
@@ -73,51 +73,26 @@
         <el-pagination
           background
           layout="total,prev, pager, next"
-          :total="1000">
+           @current-change="handleCurrentChangeClick"
+          :current-page="getChannelList.page"
+          :total="channelList.page.totalCount">
         </el-pagination>
       </div>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
   metaInfo: {
     title: '渠道商管理'
   },
   data () {
     return {
-      tableData: [{
-        name: '公司网站',
-        contactPerson: '朱颜',
-        contactDetails: '13256835746',
-        principal: '朱颜',
-        resourceAttribution: '公司资源',
-        createPerson: '老刘',
-        createDate: '2016-05-02'
-      }, {
-        name: '公司网站',
-        contactPerson: '朱颜',
-        contactDetails: '13256835746',
-        principal: '朱颜',
-        resourceAttribution: '自拓客户',
-        createPerson: '钱磊',
-        createDate: '2016-05-02'
-      }, {
-        name: '公司网站',
-        contactPerson: '朱颜',
-        contactDetails: '13256835746',
-        principal: '朱颜',
-        resourceAttribution: '自拓客户',
-        createPerson: '钱磊',
-        createDate: '2016-05-02'
-      }, {
-        name: '公司网站',
-        contactPerson: '朱颜',
-        contactDetails: '13256835746',
-        principal: '朱颜',
-        resourceAttribution: '自拓客户',
-        createPerson: '钱磊',
-        createDate: '2016-05-02'
-      }]
+      getChannelList: {
+        page: 1,
+        limit: 10
+      }
     }
   },
   methods: {
@@ -136,7 +111,22 @@ export default {
     },
     handleViewChannelProvider () {
       this.$router.push({ path: '/view-channel-provider' })
+    },
+    getChannels () {
+      this.$store.dispatch('getChannelList', this.getChannelList)
+    },
+    handleCurrentChangeClick (currentPage) {
+      this.getChannelList.page = currentPage
+      this.getChannels()
     }
+  },
+  mounted () {
+    this.getChannels()
+  },
+  computed: {
+    ...mapState({
+      channelList: state => state.channel.channels
+    })
   }
 }
 </script>
@@ -163,9 +153,6 @@ export default {
 }
 .el-row {
     margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
   .el-col {
     border-radius: 4px;
