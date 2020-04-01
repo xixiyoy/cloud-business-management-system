@@ -281,6 +281,8 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
   metaInfo: {
     title: '客户详情'
@@ -290,27 +292,9 @@ export default {
       customerId: 0,
       activeNames: ['1'],
       account: {},
-      financialInformation: {
-        bookkeeping: '代理记账',
-        monthAmount: '500.00',
-        cycle: '5月+赠送1月',
-        start: '2020-01-03',
-        giveAway: '1月',
-        remaining: '5月',
-        currentTime: '2020-01-05',
-        payCycle: '季付'
-      },
       idCardImages: [''],
       businessLicenseImages: [''],
-      contractImages: [''],
-      processList: [{
-        productName: '代理记账',
-        OrderNumber: '1234',
-        serviceStatus: '执行中',
-        processProgress: '1/11+1',
-        serviceAmount: '2500.00',
-        principal: '主演'
-      }]
+      contractImages: ['']
     }
   },
   mounted () {
@@ -320,7 +304,10 @@ export default {
   computed: {
     isAgentReport () {
       return this.processList.filter(process => process.productName === '代理记账').length > 0
-    }
+    },
+    ...mapState({
+      account: state => state.customer.customer
+    })
   },
   methods: {
     handleViewAgentClick (row) {
@@ -329,6 +316,7 @@ export default {
     handleModifyViewAccount () {
       this.$router.push({ path: '/modify-account-detail', query: { customerId: this.customerId } })
     },
+    // 写一个获取id 得方法
     getCustomer () {
       this.$store.dispatch('getCustomerById', this.customerId)
     }

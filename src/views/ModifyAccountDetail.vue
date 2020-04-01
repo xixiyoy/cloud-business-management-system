@@ -15,7 +15,7 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户名称: " prop="name">
-                  <el-input v-model="account.accountName"></el-input>
+                  <el-input v-model="updateCustomerForm.customerName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
@@ -261,7 +261,7 @@
           <div class="add-products-model">
             <el-dialog title="代帐报表" width="40%" :visible.sync="addProductDialogVisible">
               <div slot="footer" class="dialog-footer">
-                <el-button type="primary">确认</el-button>
+                <el-button type="primary" @click="handleUpdateCustomerButtonClick">确认</el-button>
                 <el-button>取消</el-button>
               </div>
             </el-dialog>
@@ -272,52 +272,60 @@
   </div>
 </template>
 <script>
+import { Message } from 'element-ui'
+import { mapState } from 'vuex'
+import { updateCustomer } from '../api/customer'
+
 export default {
   metaInfo: {
     title: '修改详情'
   },
   data () {
     return {
+      customerId: 1,
       activeNames: ['1'],
-      account: {
-        accountName: '张三的公司hhhh',
-        contractPerson: '张三a',
-        contractPhone: '1111',
-        SocialCreditCode: '11111',
-        companyPhone: '0512-69999999',
-        accountGrade: '普通',
-        contractAddress: '无',
-        companyEmail: 'aaa@gmail.com',
-        customerSource: '渠道-网站',
-        accountRepresent: '张三',
-        note: '客户要求高'
-      },
       idCardImages: [''],
       businessLicenseImages: [''],
       contractImages: [''],
-      processList: [{
-        productName: '代理记账',
-        OrderNumber: '1234',
-        serviceStatus: '执行中',
-        processProgress: '1/11+1',
-        serviceAmount: '2500.00',
-        principal: '主演'
-      }]
+      updateCustomerForm: {}
     }
-  },
-  mounted () {
-    // 根据数据库获取的字段代替
-    console.log(this.$route.query.accountName)
   },
   computed: {
     isAgentReport () {
       return this.processList.filter(process => process.productName === '代理记账').length > 0
-    }
+    },
+    ...mapState({
+      account: state => state.customer.customer
+    })
   },
   methods: {
     handlemodifyviewAgentClick (row) {
       this.$router.push({ path: '/agent-bookkeeping', query: { accountName: row.accountName } })
+    },
+    getCustomer () {
+      this.$store.dispatch('getCustomerById', this.customerId)
+    },
+    handleUpdateCustomerButtonClick () {
+      updateCustomer(this.updateCustomerForm).then(({ data: response }) => {
+        const { code, msg } = response
+        if (code === 0) {
+          Message({
+            message: '保存成功',
+            type: 'success'
+          })
+        } else {
+          Message({
+            message: msg,
+            type: 'error'
+          })
+        }
+      })
     }
+  },
+  mounted () {
+    this.customerId = this.$route.query.customerId
+    this.getCustomer()
+    this.updateCustomerForm = this.account
   }
 }
 </script>
