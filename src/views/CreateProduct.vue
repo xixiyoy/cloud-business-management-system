@@ -3,22 +3,27 @@
     <div class="create-product-title">新增产品
     <div class="dividing-line"></div>
     <div class="create-product-main">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+      <el-form label-width="120px" class="demo-ruleForm">
         <el-row>
-          <el-col :span="6">
+          <el-col :span="7">
              <el-form-item label="产品板块: " prop="region" required>
-              <el-select placeholder="产品一" style="width:290px;">
-                <el-option label="产品一" value="shanghai"></el-option>
-                <el-option label="产品二" value="beijing"></el-option>
+              <el-select placeholder="请选择" style="width:290px;">
+                <el-option label="工商服务" value="shanghai" v-model="createProductForm.productMoudelName"></el-option>
+                <el-option label="银行服务" value="beijing"></el-option>
+                <el-option label="人事服务" value="beijing"></el-option>
+                <el-option label="知识产权" value="beijing"></el-option>
+                <el-option label="法律服务" value="beijing"></el-option>
+                <el-option label="其他服务" value="beijing"></el-option>
+                <el-option label="行业资质许可证" value="beijing"></el-option>
+                <el-option label="培训" value="beijing"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="7">
             <el-form-item label="产品名称: " prop="name" required>
-              <el-input placeholder="请输入"></el-input>
+              <el-input placeholder="请输入" v-model="createProductForm.productName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4"></el-col>
           <el-col :span="8">
             <el-form-item label="指导价格(元): " required>
               <el-col :span="11">
@@ -46,7 +51,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="概述: " prop="name">
-              <el-input placeholder="请输入"></el-input>
+              <el-input placeholder="请输入" v-model="createProductForm.isUp"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -55,7 +60,7 @@
             <div slot="header" class="clearfix">
               <span>产品描述：</span>
             </div>
-            <froala id="edit" :tag="'textarea'" :config="config" v-model="model"></froala>
+            <froala id="edit" :tag="'textarea'" :config="config" v-model="createProductForm.productSummy"></froala>
           </el-card>
         </el-row>
         <el-button>取 消</el-button>
@@ -67,6 +72,9 @@
 </template>
 
 <script>
+import { Message } from 'element-ui'
+import { createProduct } from '../api/product'
+
 export default {
   metaInfo: {
     title: '新建产品'
@@ -80,7 +88,36 @@ export default {
           }
         }
       },
-      model: 'Edit Your Content Here!'
+      model: 'Edit Your Content Here!',
+      createProductForm: {
+        createProductForm: '',
+        productSummy: '',
+        isUp: '',
+        productName: '',
+        productMoudelName: ''
+      }
+    }
+  },
+  methods: {
+    handleCreateProductButtonClick () {
+      createProduct(this.getServiceProductFrom).then(({ data: response }) => {
+        const { code, msg } = response
+        if (code === 0) {
+          Message({
+            message: '保存成功',
+            type: 'success'
+          })
+        } else {
+          Message({
+            message: msg,
+            type: 'error'
+          })
+        }
+      })
+      this.createProduct()
+    },
+    createProduct () {
+      this.$store.dispatch('createProduct', this.createProductForm)
     }
   }
 }

@@ -1,4 +1,4 @@
-import { getServiceProductList } from '../../api/product'
+import { getServiceProductList, createProduct } from '../../api/product'
 
 const state = {
   products: {}
@@ -16,6 +16,10 @@ const actions = {
     const { data: products } = await getServiceProductList(limit, page)
     console.log(getServiceProductList)
     commit('SET_PRODUCTS', products)
+  },
+  async createProduct ({ commit }, createProductForm) {
+    const response = await createProduct(createProductForm)
+    console.log(response)
   }
 }
 

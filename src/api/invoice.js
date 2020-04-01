@@ -9,6 +9,13 @@ const getBillings = (type, limit, page) => request({
   }
 })
 
+const createInvoice = createInvoiceForm => request({
+  url: '/invoice/add',
+  method: 'POST',
+  params: createInvoiceForm
+})
+
 export {
-  getBillings
+  getBillings,
+  createInvoice
 }

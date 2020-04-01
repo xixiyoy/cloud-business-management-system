@@ -13,7 +13,6 @@
                   <el-input v-model="createProductForm.customerName"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="联系人: " prop="name">
                   <el-input v-model="createProductForm.customerLinkerName"></el-input>
@@ -50,7 +49,6 @@
                   <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="企业邮箱: " prop="name">
                   <el-input v-model="ruleForm.name"></el-input>
@@ -459,7 +457,6 @@ export default {
       this.$store.dispatch('getCustomers', this.getCustomersForm)
     },
     handleCreateAccountButtonClick () {
-      console.log(this.createProductForm)
       createCustomer(this.createProductForm).then(({ data: response }) => {
         const { code, msg } = response
         if (code === 0) {

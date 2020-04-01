@@ -1,5 +1,11 @@
 import request from './request'
 
+const updateCustomer = customer => request({
+  url: '/customer/update',
+  method: 'POST',
+  data: customer
+})
+
 const createCustomer = customer => request({
   url: '/customer/add',
   method: 'POST',
@@ -20,5 +26,6 @@ const getCustomerDetail = customerId => request({
 export {
   createCustomer,
   getCustomers,
-  getCustomerDetail
+  getCustomerDetail,
+  updateCustomer
 }

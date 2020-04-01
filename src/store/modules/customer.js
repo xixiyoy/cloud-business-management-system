@@ -1,4 +1,4 @@
-import { getCustomers, getCustomerDetail } from '../../api/customer'
+import { getCustomers, getCustomerDetail, updateCustomer } from '../../api/customer'
 
 const state = {
   customers: [],
@@ -23,6 +23,9 @@ const actions = {
   async getCustomerById ({ commit }, customerId) {
     const { data: customer } = getCustomerDetail(customerId)
     commit('SET_CUSTOMER', customer)
+  },
+  async updateCustomer ({ commit }, updateCustomerForm) {
+    await updateCustomer(updateCustomerForm)
   }
 }
 

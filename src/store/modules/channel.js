@@ -1,4 +1,4 @@
-import { getChannelList } from '../../api/channel'
+import { getChannelList, createChannel } from '../../api/channel'
 
 const state = {
   channels: {}
@@ -15,6 +15,10 @@ const actions = {
     const { limit, page } = getChannelFrom
     const { data: channels } = await getChannelList(limit, page)
     commit('SET_CHANNELS', channels)
+  },
+  async createChannel ({ commit }, createChannelFrom) {
+    const response = await createChannel(createChannelFrom)
+    console.log(response)
   }
 }
 

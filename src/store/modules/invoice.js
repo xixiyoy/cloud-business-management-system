@@ -1,4 +1,4 @@
-import { getBillings } from '../../api/invoice'
+import { getBillings, createInvoice } from '../../api/invoice'
 
 const state = {
   billings: {}
@@ -15,6 +15,10 @@ const actions = {
     const { type, limit, page } = getBillingListForm
     const { data: billings } = await getBillings(type, limit, page)
     commit('SET_BILLINGS', billings)
+  },
+  async createInvoice ({ commit }, createInvoiceFrom) {
+    const response = await createInvoice(createInvoiceFrom)
+    console.log(response)
   }
 }
 
