@@ -126,7 +126,7 @@
           <el-form label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="24">
-                <el-button type="primary">{{financialInformation.bookkeeping}}</el-button>
+                <el-button type="primary">{{financialInformation.productName}}</el-button>
               </el-col>
             </el-row>
             <el-row>
@@ -294,7 +294,8 @@ export default {
       account: {},
       idCardImages: [''],
       businessLicenseImages: [''],
-      contractImages: ['']
+      contractImages: [''],
+      processList: []
     }
   },
   mounted () {
