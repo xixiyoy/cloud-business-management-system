@@ -19,57 +19,57 @@
               </el-col>
               <el-col :span="10">
                 <el-form-item label="客户代表: " prop="name">
-                  <el-input>{{report.customerRelName}}</el-input>
+                  <el-input v-model="report.customerRelName"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="收支部门: " prop="name">
-                  <el-input>{{report.fianceDeptName}}</el-input>
+                  <el-input v-model="updateFianceForm.fianceDeptName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="收支人员: " prop="name">
-                  <el-input>{{report.fianceUserName}}</el-input>
+                  <el-input v-model="report.fianceUserName"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="收支金额: " prop="name">
-                  <el-input>{{report.money}}</el-input>
+                  <el-input v-model="report.money"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="结余: " prop="name">
-                  <el-input>{{report.balance}}</el-input>
+                  <el-input v-model="report.balance"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="创建人: " prop="name">
-                  <el-input>{{report.createUserName}}</el-input>
+                  <el-input v-model="report.createUserName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="创建时间: " prop="name">
-                  <el-input>{{report.createTime}}</el-input>
+                  <el-input v-model="report.createTime"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="收支时间: " prop="region">
-                  <el-input>{{report.fianceTime}}</el-input>
+                  <el-input v-model="report.fianceTime"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="20">
                 <el-form-item label="摘要: " prop="pass">
-                  <el-input type="textarea">{{report.comment}}</el-input>
+                  <el-input type="textarea" v-model="report.comment"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -81,7 +81,6 @@
 <script>
 import { Message } from 'element-ui'
 import { mapState } from 'vuex'
-import { updateFiance } from '../api/fiance'
 
 export default {
   metaInfo: {
@@ -98,7 +97,7 @@ export default {
       this.$store.dispatch('getFianceById', this.fianceId)
     },
     handleUpdateFianceButtonClick () {
-      updateFiance(this.updateFianceForm).then(({ data: response }) => {
+      this.$store.dispatch('updateFiance', this.report).then(({ data: response }) => {
         const { code, msg } = response
         if (code === 0) {
           Message({
@@ -117,7 +116,6 @@ export default {
   mounted () {
     this.fianceId = this.$route.query.fianceId
     this.getFiance()
-    this.updateFianceForm = this.report
   },
   computed: {
     ...mapState({

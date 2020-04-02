@@ -1,4 +1,4 @@
-import { getChannelList, createChannel, updateChannel, getChannelInformation } from '../../api/channel'
+import { getChannelList, createChannel, updateChannel, getChannelInformation, deleteChannel } from '../../api/channel'
 
 const state = {
   channels: {},
@@ -28,8 +28,11 @@ const actions = {
     await updateChannel(updateChannelForm)
   },
   async getChannelInformation ({ commit }, channelId) {
-    const { data: channel } = getChannelInformation(channelId)
-    commit('SET_CHANNEL', channel)
+    const { data: channel } = await getChannelInformation(channelId)
+    commit('SET_CHANNEL', channel.channel)
+  },
+  async deleteChannel ({ commit }, channelIds) {
+    await deleteChannel(channelIds)
   }
 }
 

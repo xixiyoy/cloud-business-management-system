@@ -116,7 +116,7 @@
         <el-col :span="24">
           <el-button @click="turnDownDialogFormVisible = true">驳回申请</el-button>
           <el-dialog title="驳回申请" :visible.sync="turnDownDialogFormVisible" width="30%">
-            <el-form :model="form">
+            <el-form>
               <el-form-item label="驳回原因" :label-width="120" required="">
                 <el-input autocomplete="off"></el-input>
               </el-form-item>
@@ -132,7 +132,7 @@
         <el-col :span="24">
           <el-button @click="voidDialogFormVisible = true">发票作废</el-button>
           <el-dialog title="发票作废" :visible.sync="voidDialogFormVisible" width="30%">
-            <el-form :model="form">
+            <el-form>
               <el-form-item label="作废备注" :label-width="120" required="">
                 <el-input autocomplete="off"></el-input>
               </el-form-item>
@@ -166,13 +166,12 @@ export default {
       this.$router.push({ path: 'modify-view-invoicing', query: { invoiceId: this.invoiceId } })
     },
     getInvoice () {
-      this.$store.dispatch('getInvoiceById', this.invoiceId)
+      this.$store.dispatch('getBillingById', this.invoiceId)
     }
   },
   data () {
     return {
       invoiceId: 1,
-      invoice: {},
       visible: false,
       turnDownDialogFormVisible: false,
       voidDialogFormVisible: false

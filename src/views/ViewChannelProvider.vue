@@ -53,7 +53,7 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form ref="form" label-width="100px">
+          <el-form label-width="100px">
             <el-form-item label="备注: ">
               <span>{{channel.remark}}</span>
             </el-form-item>
@@ -72,7 +72,6 @@ export default {
   },
   data () {
     return {
-      channel: {},
       channelId: 1
     }
   },
@@ -81,7 +80,7 @@ export default {
       this.$router.push({ path: '/modify-channel-provider', query: { channelId: this.channelId } })
     },
     getChannel () {
-      this.$store.dispatch('getChannelById', this.channelId)
+      this.$store.dispatch('getChannelInformation', this.channelId)
     }
   },
   computed: {

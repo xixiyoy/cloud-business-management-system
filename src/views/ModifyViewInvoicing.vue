@@ -78,7 +78,6 @@
 <script>
 import { Message } from 'element-ui'
 import { mapState } from 'vuex'
-import { updateInvoice } from '../api/invoice'
 export default {
   metaInfo: {
     title: '修改开票'
@@ -99,13 +98,19 @@ export default {
       this.$store.dispatch('getInvoiceById', this.invoiceId)
     },
     handleUpdateInvoiceButtonClick () {
-      updateInvoice(this.updateInvoiceForm).then(({ date: response }) => {
+      this.$store.dispatch('updateInvoice', this.invoice).then(({ date: response }) => {
+        Message({
+          type: 'success',
+          message: 'fsdfsdfsd'
+        })
+
         const { code, msg } = response
         if (code === 0) {
           Message({
             message: '保存成功',
             type: 'success'
           })
+          // 写跳转页面
         } else {
           Message({
             message: msg,

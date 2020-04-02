@@ -1,5 +1,13 @@
 import request from './request'
 
+const deleteChannel = channelIds => request({
+  url: '/channel/delete ',
+  method: 'POST',
+  data: {
+    channelIds
+  }
+})
+
 const updateChannel = channel => request({
   url: '/channel/update',
   method: 'POST',
@@ -26,5 +34,6 @@ export {
   getChannelInformation,
   getChannelList,
   createChannel,
-  updateChannel
+  updateChannel,
+  deleteChannel
 }
