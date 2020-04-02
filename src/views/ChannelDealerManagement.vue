@@ -95,7 +95,12 @@ export default {
   },
   methods: {
     handleDelete (index, row) {
-      console.log(index, row)
+      const channelIds = [
+        row.channelId
+      ]
+      this.$store.dispatch('deleteChannel', channelIds).then(() => {
+        this.getChannels()
+      })
     },
     serviceProductTableHeaderCellStyle ({ row, column, rowIndex, columnIndex }) {
       if (rowIndex === 0) {

@@ -8,7 +8,7 @@ import {
 } from '../../api/fiance'
 
 const state = {
-  fiances: {},
+  fiances: [],
   fiance: {}
 }
 
@@ -38,7 +38,7 @@ const actions = {
     await updateFiance(updateFianceForm)
   },
   async getFianceById ({ commit }, fianceId) {
-    const { data: fiance } = getFianceDetail(fianceId)
+    const { data: fiance } = await getFianceDetail(fianceId)
     commit('SET_FIANCE', fiance)
   }
 }

@@ -7,7 +7,7 @@
         <el-col :span="20">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="渠道商名称: " prop="name" required="">
-              <span>{{channel.name}}</span>
+              <el-input v-model="channel.name"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -16,7 +16,7 @@
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="联系人: " prop="name" required="">
-              <span>{{channel.linkerName}}</span>
+              <el-input v-model="channel.linkerName"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -25,7 +25,7 @@
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="手机号: " prop="name" required="">
-              <span>{{channel.linkerMobile}}</span>
+              <el-input v-model="channel.linkerMobile"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -34,7 +34,7 @@
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="资源归属: " prop="region" required="">
-              <span>{{channel.channelBelongName}}</span>
+              <el-input v-model="channel.channelBelongName"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -43,7 +43,7 @@
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="渠道负责人: " prop="region" required="">
-              <span>{{channel.dutyUserName}}</span>
+              <el-input v-model="channel.dutyUserName"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -52,7 +52,7 @@
         <el-col :span="12">
           <el-form ref="form" label-width="100px">
             <el-form-item label="备注: ">
-              <span>{{channel.remark}}</span>
+              <el-input channel.remark></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -66,7 +66,6 @@
 <script>
 import { Message } from 'element-ui'
 import { mapState } from 'vuex'
-import { updateChannel } from '../api/channel'
 export default {
   metaInfo: {
     title: '修改渠道商详情'
@@ -82,13 +81,14 @@ export default {
       this.$store.dispatch('getChannelById', this.channelId)
     },
     handleUpdateChannelButtonClick () {
-      updateChannel(this.updateChannelForm).then(({ data: response }) => {
+      this.$store.dispatch('updateChannel', this.channel).then(({ data: response }) => {
         const { code, msg } = response
         if (code === 0) {
           Message({
             message: '保存成功',
             type: 'success'
           })
+          this.$route.push({ path: '/channel-dealer-management' })
         } else {
           Message({
             message: msg,

@@ -126,18 +126,18 @@
           <el-form label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="24">
-                <el-button type="primary">{{financialInformation.productName}}</el-button>
+                <el-button type="primary">{{account.productName}}</el-button>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="月服务费: " prop="name">
-                  <span>{{financialInformation.monthAmount}}</span>
+                  <span>{{account.monthAmount}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="服务周期: " prop="name">
-                  <span>{{financialInformation.cycle}}</span>
+                  <span>{{account.cycle}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -303,9 +303,6 @@ export default {
     this.getCustomer()
   },
   computed: {
-    isAgentReport () {
-      return this.processList.filter(process => process.productName === '代理记账').length > 0
-    },
     ...mapState({
       account: state => state.customer.customer
     })
@@ -318,8 +315,8 @@ export default {
       this.$router.push({ path: '/modify-account-detail', query: { customerId: this.customerId } })
     },
     // 写一个获取id 得方法
-    getCustomer () {
-      this.$store.dispatch('getCustomerById', this.customerId)
+    async getCustomer () {
+      await this.$store.dispatch('getCustomerById', this.customerId)
     }
   }
 }

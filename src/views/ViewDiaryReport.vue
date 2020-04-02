@@ -90,7 +90,6 @@ export default {
   },
   data () {
     return {
-      report: {},
       fianceId: 0
     }
   },
