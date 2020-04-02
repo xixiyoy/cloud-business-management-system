@@ -9,8 +9,6 @@
               <el-button type="primary" style="padding: 12px 26px;" @click="handleClickCreateChannelDealer">+新增渠道商</el-button>
             </div>
          </el-col>
-         <el-col :span="7"><div class="grid-content bg-purple"></div></el-col>
-         <el-col :span="10"><div class="grid-content bg-purple"></div></el-col>
          <el-col :span="4" style="float: right;">
             <div class="grid-content bg-purple">
               <div>
@@ -60,7 +58,7 @@
             <el-button
               size="mini"
               type="text"
-              @click="handleViewChannelProvider">详情</el-button>
+              @click="handleViewChannelProvider(scope.row)">详情</el-button>
             <el-button
               size="mini"
               type="text"
@@ -109,8 +107,8 @@ export default {
     handleClickCreateChannelDealer () {
       this.$router.push({ path: '/create-channel-provider' })
     },
-    handleViewChannelProvider () {
-      this.$router.push({ path: '/view-channel-provider' })
+    handleViewChannelProvider (row) {
+      this.$router.push({ path: '/view-channel-provider', query: { channelId: row.channelId } })
     },
     getChannels () {
       this.$store.dispatch('getChannelList', this.getChannelList)

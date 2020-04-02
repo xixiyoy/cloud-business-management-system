@@ -1,12 +1,16 @@
-import { getChannelList, createChannel } from '../../api/channel'
+import { getChannelList, createChannel, updateChannel, getChannelInformation } from '../../api/channel'
 
 const state = {
-  channels: {}
+  channels: {},
+  channel: {}
 }
 
 const mutations = {
   'SET_CHANNELS' (state, channels) {
     state.channels = channels
+  },
+  'SET_CHANNEL' (state, channel) {
+    state.channel = channel
   }
 }
 
@@ -19,6 +23,13 @@ const actions = {
   async createChannel ({ commit }, createChannelFrom) {
     const response = await createChannel(createChannelFrom)
     console.log(response)
+  },
+  async updateChannel ({ commit }, updateChannelForm) {
+    await updateChannel(updateChannelForm)
+  },
+  async getChannelInformation ({ commit }, channelId) {
+    const { data: channel } = getChannelInformation(channelId)
+    commit('SET_CHANNEL', channel)
   }
 }
 

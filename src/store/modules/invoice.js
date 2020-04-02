@@ -1,12 +1,16 @@
-import { getBillings, createInvoice } from '../../api/invoice'
+import { getBillings, createInvoice, updateInvoice, getBillingDetail } from '../../api/invoice'
 
 const state = {
-  billings: {}
+  billings: {},
+  invoice: {}
 }
 
 const mutations = {
   'SET_BILLINGS' (state, billings) {
     state.billings = billings
+  },
+  'SET_BILLING' (state, billing) {
+    state.billing = billing
   }
 }
 
@@ -19,6 +23,13 @@ const actions = {
   async createInvoice ({ commit }, createInvoiceFrom) {
     const response = await createInvoice(createInvoiceFrom)
     console.log(response)
+  },
+  async getBillingById ({ commit }, invoiceId) {
+    const { data: invoice } = getBillingDetail(invoiceId)
+    commit('SET_BILLING', invoice)
+  },
+  async updateInvoice ({ commit }, updateInvoiceForm) {
+    await updateInvoice(updateInvoiceForm)
   }
 }
 

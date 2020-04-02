@@ -2,16 +2,22 @@ import {
   getDiaryReportList,
 
   // 2.1 导入之前 api 中导出的方法
-  createFiance
+  createFiance,
+  updateFiance,
+  getFianceDetail
 } from '../../api/fiance'
 
 const state = {
-  fiances: {}
+  fiances: {},
+  fiance: {}
 }
 
 const mutations = {
   'SET_FIANCES' (state, fiances) {
     state.fiances = fiances
+  },
+  'SET_FIANCE' (state, fiance) {
+    state.fiance = fiance
   }
 }
 
@@ -27,6 +33,13 @@ const actions = {
     // 调用上面导入的方法
     const response = await createFiance(createFianceForm)
     console.log(response)
+  },
+  async updateFiance ({ commit }, updateFianceForm) {
+    await updateFiance(updateFianceForm)
+  },
+  async getFianceById ({ commit }, fianceId) {
+    const { data: fiance } = getFianceDetail(fianceId)
+    commit('SET_FIANCE', fiance)
   }
 }
 

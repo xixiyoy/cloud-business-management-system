@@ -153,8 +153,8 @@ export default {
     handleNewDiaryReport () {
       this.$router.push({ path: '/new-diary-report' })
     },
-    handleViewDiaryReportClick () {
-      this.$router.push({ path: '/view-diary-report' })
+    handleViewDiaryReportClick (row) {
+      this.$router.push({ path: '/view-diary-report', query: { fianceId: row.fianceId } })
     },
     isAmountColor (row) {
       return Number.parseFloat(row.RAEamount) > 0 ? 'amount-green' : 'amount-red'

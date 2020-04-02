@@ -151,8 +151,8 @@ export default {
         `
       }
     },
-    handleViewBillingListClick () {
-      this.$router.push({ path: '/view-invoicing' })
+    handleViewBillingListClick (row) {
+      this.$router.push({ path: '/view-invoicing', query: { invoiceId: row.invoiceId } })
     },
     getBillingLabels () {
       getLabels('invoice').then(({ data: billingLabels }) => {

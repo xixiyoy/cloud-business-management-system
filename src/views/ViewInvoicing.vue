@@ -8,74 +8,79 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="发票类型: " prop="name">
-              <span>{{billingDetails.invoiceType}}</span>
+              <span>{{invoice.invoiceTypeName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="服务公司: " prop="name">
-              <span>{{billingDetails.serviceCompany}}</span>
+              <span>{{invoice.entityName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="发票抬头: " prop="name">
-              <span>{{billingDetails.invoice}}</span>
+              <span>{{invoice.invoiceHead}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="客户名称: " prop="name">
-              <span>{{billingDetails.customerName}}</span>
+            <el-form-item label="社会信用代码: " prop="name">
+              <span>{{invoice.creditCode}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="开票金额: " prop="name">
-              <span>{{billingDetails.amount}}</span>
+              <span>{{invoice.invoiceMoney}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="开票状态: " prop="name">
-              <span>{{billingDetails.status}}</span>
+              <span>{{invoice.accountStatusName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="地址/电话: " prop="name">
-              <span>{{billingDetails.address}}</span>
+            <el-form-item label="地址: " prop="name">
+              <span>{{invoice.address}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="社会信用代码: " prop="name">
-              <span>{{billingDetails.socialCreditNumber}}</span>
+            <el-form-item label="电话: " prop="name">
+              <span>{{invoice.phone}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="24">
-            <el-form-item label="开户行及账号: " prop="name">
-              <span>{{billingDetails.accountNumber}}</span>
+          <el-col :span="12">
+            <el-form-item label="开户银行: " prop="name">
+              <span>{{invoice.bank}}</span>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="备注信息: " prop="name">
-              <span>{{billingDetails.note}}</span>
+          <el-col :span="12">
+            <el-form-item label="开户账号: " prop="name">
+              <span>{{invoice.account}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="申请人: " prop="name">
-              <span>{{billingDetails.applicant}}</span>
+              <span>{{invoice.appliUserName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="申请时间: " prop="name">
-              <span>{{billingDetails.creationTime}}</span>
+              <span>{{invoice.appliTime}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="备注信息: " prop="name">
+              <span>{{invoice.invoiceRemark}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -145,6 +150,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   metaInfo: {
     title: '开票详情'
@@ -157,29 +163,29 @@ export default {
       })
     },
     handleModifyViewInvoicing () {
-      this.$router.push({ path: 'modify-view-invoicing' })
+      this.$router.push({ path: 'modify-view-invoicing', query: { invoiceId: this.invoiceId } })
+    },
+    getInvoice () {
+      this.$store.dispatch('getInvoiceById', this.invoiceId)
     }
   },
   data () {
     return {
+      invoiceId: 1,
+      invoice: {},
       visible: false,
       turnDownDialogFormVisible: false,
-      voidDialogFormVisible: false,
-      billingDetails: {
-        invoiceType: 'P11111111111',
-        serviceCompany: '苏州企享汇财务服务公司',
-        invoice: '张三公司名称',
-        customerName: '张三公司名称',
-        amount: '500.00',
-        status: '已开票',
-        address: '苏州市工业园区星湖街111号 0512-88888888',
-        socialCreditNumber: '1231231213',
-        accountNumber: '苏州市工业园区星湖街农行支行 32 0180 21115 16123',
-        note: '无',
-        applicant: '朱燕',
-        creationTime: '2020-01-04 13:22:00'
-      }
+      voidDialogFormVisible: false
     }
+  },
+  computed: {
+    ...mapState({
+      invoice: state => state.invoice.invoice
+    })
+  },
+  mounted () {
+    this.invoiceId = this.$route.query.invoiceId
+    this.getInvoice()
   }
 }
 </script>
