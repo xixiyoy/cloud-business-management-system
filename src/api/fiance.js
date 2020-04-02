@@ -1,5 +1,15 @@
 import request from './request'
 
+const getFianceDetail = fianceId => request({
+  url: `/fiance/detail/${fianceId}`
+})
+
+const updateFiance = fiance => request({
+  url: '/fiance/update',
+  method: 'POST',
+  data: fiance
+})
+
 // 1. 第一步
 // 先写 api 接口
 // 括号里的是参数
@@ -25,5 +35,7 @@ export {
   getDiaryReportList,
 
   // 1.1 导出 对应上面写的函数名
-  createFiance
+  createFiance,
+  updateFiance,
+  getFianceDetail
 }

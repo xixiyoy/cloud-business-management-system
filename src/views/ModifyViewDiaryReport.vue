@@ -7,104 +7,122 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="审核状态: " prop="name">
-            <span>{{information.approvalStatus}}</span>
+            <span >{{report.statusName}}</span>
           </el-form-item>
         </el-col>
       </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="客户名称: " prop="name">
-                  <el-input>{{information.clientName}}</el-input>
+                  <el-input v-model="report.customerName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="客户代表: " prop="name">
-                  <el-input>{{information.customerName}}</el-input>
+                  <el-input>{{report.customerRelName}}</el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="收支部门: " prop="name">
-                  <el-input>{{information.department}}</el-input>
+                  <el-input>{{report.fianceDeptName}}</el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="收支人员: " prop="name">
-                  <el-input>{{information.payee}}</el-input>
+                  <el-input>{{report.fianceUserName}}</el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="收支金额: " prop="name">
-                  <el-input>{{information.amount}}</el-input>
+                  <el-input>{{report.money}}</el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="结余: " prop="name">
-                  <el-input>{{information.balance}}</el-input>
+                  <el-input>{{report.balance}}</el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="创建人: " prop="name">
-                  <el-input>{{information.founder}}</el-input>
+                  <el-input>{{report.createUserName}}</el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
-                <el-form-item label="审核人: " prop="name">
-                  <el-input>{{information.reviewer}}</el-input>
+                <el-form-item label="创建时间: " prop="name">
+                  <el-input>{{report.createTime}}</el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="收支时间: " prop="region">
-                  <el-input>{{information.time}}</el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="创建时间: " prop="name">
-                  <el-input>{{information.createTtime}}</el-input>
+                  <el-input>{{report.fianceTime}}</el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="20">
                 <el-form-item label="摘要: " prop="pass">
-                  <el-input type="textarea">{{information.summary}}</el-input>
+                  <el-input type="textarea">{{report.comment}}</el-input>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
-          <el-button type="primary">确 认</el-button>
+          <el-button type="primary" @click="handleUpdateFianceButtonClick">确 认</el-button>
           <el-button>取 消</el-button>
   </div>
 </template>
 <script>
+import { Message } from 'element-ui'
+import { mapState } from 'vuex'
+import { updateFiance } from '../api/fiance'
+
 export default {
   metaInfo: {
     title: '修改收支'
   },
   data () {
     return {
-      information: {
-        approvalStatus: '未审核',
-        clientName: '张三的公司',
-        customerName: '张三',
-        department: '财税二部',
-        payee: '朱元',
-        amount: '500.00',
-        balance: '1000.00',
-        founder: '丁雅',
-        reviewer: '钱',
-        time: '2020-01-15',
-        createTtime: '2020-01-15 15:40:51',
-        summary: '客户要求高'
-      }
+      fianceId: 1,
+      updateFianceForm: {}
     }
+  },
+  methods: {
+    getFiance () {
+      this.$store.dispatch('getFianceById', this.fianceId)
+    },
+    handleUpdateFianceButtonClick () {
+      updateFiance(this.updateFianceForm).then(({ data: response }) => {
+        const { code, msg } = response
+        if (code === 0) {
+          Message({
+            message: '保存成功',
+            type: 'success'
+          })
+        } else {
+          Message({
+            message: msg,
+            type: 'error'
+          })
+        }
+      })
+    }
+  },
+  mounted () {
+    this.fianceId = this.$route.query.fianceId
+    this.getFiance()
+    this.updateFianceForm = this.report
+  },
+  computed: {
+    ...mapState({
+      report: state => state.fiance.fiance
+    })
   }
 }
 </script>

@@ -7,7 +7,7 @@
         <el-col :span="20">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="渠道商名称: " prop="name" required="">
-              <span>{{modifyChannelProviderDetail.channelProviderName}}</span>
+              <span>{{channel.name}}</span>
             </el-form-item>
           </el-form>
         </el-col>
@@ -16,7 +16,7 @@
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="联系人: " prop="name" required="">
-              <span>{{modifyChannelProviderDetail.contactPerson}}</span>
+              <span>{{channel.linkerName}}</span>
             </el-form-item>
           </el-form>
         </el-col>
@@ -25,7 +25,7 @@
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="手机号: " prop="name" required="">
-              <span>{{modifyChannelProviderDetail.phoneNumber}}</span>
+              <span>{{channel.linkerMobile}}</span>
             </el-form-item>
           </el-form>
         </el-col>
@@ -34,7 +34,7 @@
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="资源归属: " prop="region" required="">
-              <span>{{modifyChannelProviderDetail.channelLeader}}</span>
+              <span>{{channel.channelBelongName}}</span>
             </el-form-item>
           </el-form>
         </el-col>
@@ -43,7 +43,7 @@
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="渠道负责人: " prop="region" required="">
-              <span>{{modifyChannelProviderDetail.resourceAttribution}}</span>
+              <span>{{channel.dutyUserName}}</span>
             </el-form-item>
           </el-form>
         </el-col>
@@ -52,33 +52,61 @@
         <el-col :span="12">
           <el-form ref="form" label-width="100px">
             <el-form-item label="备注: ">
-              <span>{{modifyChannelProviderDetail.note}}</span>
+              <span>{{channel.remark}}</span>
             </el-form-item>
           </el-form>
         </el-col>
       </el-row><br><br>
-      <el-button type="primary">保存</el-button>
+      <el-button type="primary" @click="handleUpdateChannelButtonClick">保存</el-button>
       <el-button>取消</el-button>
     </div>
     <br><br><br><br>
   </div>
 </template>
 <script>
+import { Message } from 'element-ui'
+import { mapState } from 'vuex'
+import { updateChannel } from '../api/channel'
 export default {
   metaInfo: {
     title: '修改渠道商详情'
   },
   data () {
     return {
-      modifyChannelProviderDetail: {
-        channelProviderName: 'a其他中介',
-        contactPerson: '钱磊',
-        phoneNumber: '13120987837',
-        channelLeader: '公司资源',
-        resourceAttribution: '钱磊',
-        note: '无'
-      }
+      updateChannelForm: {},
+      channelId: 1
     }
+  },
+  methods: {
+    getChannel () {
+      this.$store.dispatch('getChannelById', this.channelId)
+    },
+    handleUpdateChannelButtonClick () {
+      updateChannel(this.updateChannelForm).then(({ data: response }) => {
+        const { code, msg } = response
+        if (code === 0) {
+          Message({
+            message: '保存成功',
+            type: 'success'
+          })
+        } else {
+          Message({
+            message: msg,
+            type: 'error'
+          })
+        }
+      })
+    }
+  },
+  mounted () {
+    this.channelId = this.$route.query.channelId
+    this.getChannel()
+    this.updateChannelForm = this.channel
+  },
+  computed: {
+    ...mapState({
+      channel: state => state.channel.channel
+    })
   }
 }
 </script>

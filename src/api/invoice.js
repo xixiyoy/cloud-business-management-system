@@ -1,5 +1,15 @@
 import request from './request'
 
+const updateInvoice = invoice => request({
+  url: '/invoice/update',
+  method: 'POST',
+  data: invoice
+})
+
+const getBillingDetail = invoiceId => request({
+  url: `/invoice/detail/${invoiceId}`
+})
+
 const getBillings = (type, limit, page) => request({
   url: '/invoice/list',
   params: {
@@ -17,5 +27,7 @@ const createInvoice = createInvoiceForm => request({
 
 export {
   getBillings,
-  createInvoice
+  createInvoice,
+  getBillingDetail,
+  updateInvoice
 }

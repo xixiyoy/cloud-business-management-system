@@ -1,5 +1,11 @@
 import request from './request'
 
+const updateChannel = channel => request({
+  url: '/channel/update',
+  method: 'POST',
+  data: channel
+})
+
 const createChannel = createChannelFrom => request({
   url: '/channel/save',
   method: 'POST',
@@ -19,5 +25,6 @@ const getChannelList = (limit, page) => request({
 export {
   getChannelInformation,
   getChannelList,
-  createChannel
+  createChannel,
+  updateChannel
 }

@@ -9,7 +9,7 @@
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="20">
-                <el-button type="primary" round>显示服务状态</el-button>
+                <el-button type="primary" round>{{updateCustomerForm.taskList.taskStatusName}}</el-button>
               </el-col>
             </el-row>
             <el-row>
@@ -20,62 +20,62 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="联系人: " prop="name">
-                  <el-input v-model="account.contractPerson" disabled></el-input>
+                  <el-input v-model="updateCustomerForm.customerLinkerName" disabled></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="社会信用代码: " prop="name">
-                  <el-input v-model="account.SocialCreditCode" disabled></el-input>
+                  <el-input v-model="updateCustomerForm.creditCode" disabled></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="联系电话: " prop="name">
-                  <el-input v-model="account.contractPhone" disabled></el-input>
+                  <el-input v-model="updateCustomerForm.customerLinkerPhone" disabled></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="企业电话: " prop="name">
-                  <el-input v-model="account.companyPhone"></el-input>
+                  <el-input v-model="updateCustomerForm.customerBusinessPhone"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="客户等级: " prop="name">
-                  <el-input v-model="account.accountGrade"></el-input>
+                  <el-input v-model="updateCustomerForm.customerLevelName"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="联系地址: " prop="name">
-                  <el-input v-model="account.contractAddress"></el-input>
+                  <el-input v-model="updateCustomerForm.customerAddress"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="企业邮箱: " prop="name">
-                  <el-input v-model="account.companyEmail"></el-input>
+                  <el-input v-model="updateCustomerForm.customerBusinessEmail"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户来源: " prop="region">
-                  <el-input v-model="account.customerSource"></el-input>
+                  <el-input v-model="updateCustomerForm.customerFromWay"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="客户代表: " prop="name">
-                  <el-input v-model="account.accountRepresent"></el-input>
+                  <el-input v-model="updateCustomerForm.customerRelUserName"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="备注: " prop="pass">
-                  <el-input v-model="account.note"></el-input>
+                  <el-input v-model="updateCustomerForm.remark"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -83,7 +83,7 @@
         </el-collapse-item>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="文档资料: " name="2">
-          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+          <el-form label-width="120px" class="demo-ruleForm">
             <el-row>
               <el-col :span="12">
                 <el-form-item label="身份证复印件: " prop="name">
@@ -110,55 +110,51 @@
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="24">
-                <el-button type="primary">显示记账方式</el-button>
+                <el-button type="primary">{{updateCustomerForm.taskList.productName}}</el-button>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="月服务费: " prop="name">
-                  <span>500.00</span>
+                  <el-input v-model="updateCustomerForm.taskList.price"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="服务周期: " prop="name">
-                  <span>5月+赠送1月</span>
+                  <el-input v-model="updateCustomerForm.taskList.number"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="服务开始月: " prop="name">
-                  <span>2020-01</span>
+                  <el-input v-model="updateCustomerForm.taskList.serviceStartMonth"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="剩余赠送月: " prop="name">
-                  <span>1月</span>
+                  <el-input v-model="updateCustomerForm.taskList"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="剩余服务月: " prop="name">
-                  <span>5月</span>
+                  <el-input v-model="updateCustomerForm.taskList"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="当前报税期: " prop="name">
-                  <span>2020-01</span>
+                  <el-input v-model="updateCustomerForm.taxDate"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="付费周期: " prop="name">
-                  <span>季付</span>
+                  <el-input v-model="updateCustomerForm.payCycle"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="16"></el-col>
             </el-row>
           </el-form>
         </el-collapse-item>
@@ -299,9 +295,6 @@ export default {
     })
   },
   methods: {
-    handlemodifyviewAgentClick (row) {
-      this.$router.push({ path: '/agent-bookkeeping', query: { accountName: row.accountName } })
-    },
     getCustomer () {
       this.$store.dispatch('getCustomerById', this.customerId)
     },
