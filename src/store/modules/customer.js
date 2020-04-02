@@ -21,7 +21,8 @@ const actions = {
     commit('SET_CUSTOMERS', customers)
   },
   async getCustomerById ({ commit }, customerId) {
-    const { data: customer } = getCustomerDetail(customerId)
+    const { data: { customer } } = await getCustomerDetail(customerId)
+    console.log(customer)
     commit('SET_CUSTOMER', customer)
   },
   async updateCustomer ({ commit }, updateCustomerForm) {
