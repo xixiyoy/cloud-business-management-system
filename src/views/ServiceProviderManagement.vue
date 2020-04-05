@@ -198,22 +198,23 @@
         </el-row>
         <el-row>
           <el-table style="width: 100%"
-          :data="accountsReceivable">
+          :data="providerManagementList.page.list">
             <el-table-column
               label="服务公司"
-              prop="serviceCompany">
+              prop="tenantCompanyName">
             </el-table-column>
             <el-table-column
               label="类型"
-              prop="type">
+              prop="accountType">
             </el-table-column>
             <el-table-column
               label="卡号/账号"
-              prop="cardNumber">
+              prop="account">
             </el-table-column>
             <el-table-column label="操作" width="180">
               <template slot-scope="scope">
                 <el-button
+                @click="handleViewProvider(scope.row)"
                   class="detail-button"
                   size="mini"
                   type="text">详情</el-button>
@@ -302,6 +303,8 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
   metaInfo: {
     title: '企业设置'
@@ -364,7 +367,11 @@ export default {
         }
       ],
       checkList: ['选中且禁用', '复选框 A'],
-      checkedAccountType: '3'
+      checkedAccountType: '3',
+      getTenantAccountListForm: {
+        pageSize: 10,
+        currPage: 1
+      }
     }
   },
   methods: {
@@ -387,9 +394,20 @@ export default {
       // console.log(this.isAlipayAccount)
       // console.log(this.isWeChatAccount)
       // console.log(this.isCashkAccount)
+    },
+    getProviderList () {
+      this.$store.dispatch('getTenantAccountList', this.getTenantAccountListForm).then(() => console.log(this.$store))
     }
+    // handleViewProvider(row) {
+    // }
+  },
+  mounted () {
+    this.getProviderList()
   },
   computed: {
+    ...mapState({
+      providerManagementList: state => state.tenantCollectAccount.tenantAccounts
+    }),
     isBankAccount () {
       return this.checkedAccountType === 3
     },

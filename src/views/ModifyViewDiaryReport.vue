@@ -104,6 +104,7 @@ export default {
             message: '保存成功',
             type: 'success'
           })
+          this.$route.push({ path: '/diary-report' })
         } else {
           Message({
             message: msg,

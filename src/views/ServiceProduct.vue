@@ -47,7 +47,7 @@
               class="detail-button"
               size="mini"
               type="text"
-              @click="handleViewProduct">详情</el-button>
+              @click="handleViewProduct(scope.row)">详情</el-button>
             <el-button
               size="mini"
               type="text"
@@ -79,28 +79,7 @@ export default {
       getServiceProductList: {
         page: 1,
         limit: 10
-      },
-      tableData: [{
-        productModel: '财税服务',
-        productPame: '代理记账',
-        guidePrice: '300-500',
-        createDate: '2016-05-02'
-      }, {
-        productModel: '财税服务',
-        productPame: '代理记账',
-        guidePrice: '400-500',
-        createDate: '2016-05-02'
-      }, {
-        productModel: '工商服务',
-        productPame: '注册',
-        guidePrice: '400-500',
-        createDate: '2016-05-02'
-      }, {
-        productModel: '工商服务',
-        productPame: '企业变更',
-        guidePrice: '500-600',
-        createDate: '2016-05-02'
-      }]
+      }
     }
   },
   methods: {
@@ -114,8 +93,8 @@ export default {
         `
       }
     },
-    handleViewProduct () {
-      this.$router.push({ path: '/view-product' })
+    handleViewProduct (row) {
+      this.$router.push({ path: '/modify-product', query: { productId: row.productId } })
     },
     handleCreateProduct () {
       this.$router.push({ path: '/create-product' })

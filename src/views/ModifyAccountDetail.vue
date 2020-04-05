@@ -270,7 +270,6 @@
 <script>
 import { Message } from 'element-ui'
 import { mapState } from 'vuex'
-import { updateCustomer } from '../api/customer'
 
 export default {
   metaInfo: {
@@ -299,13 +298,14 @@ export default {
       this.$store.dispatch('getCustomerById', this.customerId)
     },
     handleUpdateCustomerButtonClick () {
-      updateCustomer(this.updateCustomerForm).then(({ data: response }) => {
+      this.$store.dispatch('updateCustomer', this.customer).then(({ data: response }) => {
         const { code, msg } = response
         if (code === 0) {
           Message({
             message: '保存成功',
             type: 'success'
           })
+          this.$$route.push({ path: '/account' })
         } else {
           Message({
             message: msg,
