@@ -99,18 +99,13 @@ export default {
     },
     handleUpdateInvoiceButtonClick () {
       this.$store.dispatch('updateInvoice', this.invoice).then(({ date: response }) => {
-        Message({
-          type: 'success',
-          message: 'fsdfsdfsd'
-        })
-
         const { code, msg } = response
         if (code === 0) {
           Message({
             message: '保存成功',
             type: 'success'
           })
-          // 写跳转页面
+          this.$route.push({ path: '/billing-list' })
         } else {
           Message({
             message: msg,

@@ -1,13 +1,13 @@
 import request from './request'
 
-const getCnterpriseInformation = tenantId => request ({
+const getTenantDetail = tenantId => request ({
   url: `/business/tenant/info/${tenantId}`
 })
-const getUpdateTent = () => request ({
+const updateTenant = tenant => request ({
   url: '/business/tenant/update'
 })
 const 
 export {
-  getCnterpriseInformation,
-  getUpdateTent
+  getTenantDetail,
+  updateTenant
 }

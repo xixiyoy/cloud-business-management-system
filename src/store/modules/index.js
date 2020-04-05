@@ -5,6 +5,7 @@ import invoice from './invoice'
 import product from './product'
 import channel from './channel'
 import download from './download'
+import tenantCollectAccount from './tenantCollectAccount'
 
 export default {
   customer,
@@ -13,5 +14,6 @@ export default {
   invoice,
   product,
   channel,
-  download
+  download,
+  tenantCollectAccount
 }

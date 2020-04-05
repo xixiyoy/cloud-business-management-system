@@ -3,13 +3,20 @@
     <div class="create-product-title">产品详情
     <div class="dividing-line"></div>
     <div class="create-product-main">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+      <el-form label-width="120px" class="demo-ruleForm">
         <el-row>
           <el-col :span="6">
              <el-form-item label="产品板块: " prop="region" required>
-              <el-select placeholder="产品一" style="width:290px;">
-                <el-option label="产品一" value="shanghai"></el-option>
-                <el-option label="产品二" value="beijing"></el-option>
+              <el-select style="width:290px;">
+                <el-option label="工商服务"></el-option>
+                <el-option label="财税服务"></el-option>
+                <el-option label="银行服务"></el-option>
+                <el-option label="人事服务"></el-option>
+                <el-option label="知识产权"></el-option>
+                <el-option label="法律服务"></el-option>
+                <el-option label="其他服务"></el-option>
+                <el-option label="行业资质许可证"></el-option>
+                <el-option label="培训"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -18,7 +25,6 @@
               <el-input placeholder="请输入"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4"></el-col>
           <el-col :span="8">
             <el-form-item label="指导价格(元): " required>
               <el-col :span="11">
@@ -59,7 +65,7 @@
           </el-card>
         </el-row>
         <el-button>取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button type="primary" @click="handleUpdateProductButtonClick">确 定</el-button>
       </el-form>
     </div>
     </div>
@@ -67,12 +73,16 @@
 </template>
 
 <script>
+import { Message } from 'element-ui'
+import { mapState } from 'vuex'
 export default {
   metaInfo: {
     title: '新建产品'
   },
   data () {
     return {
+      productId: 1,
+      updateProductForm: {},
       config: {
         events: {
           initialized: function () {
@@ -82,6 +92,38 @@ export default {
       },
       model: 'Edit Your Content Here!'
     }
+  },
+  methods: {
+    getProduct () {
+      this.$store.dispatch('getProductById', this.productId)
+    },
+    handleUpdateProductButtonClick () {
+      this.$store.dispatch('updateProduct', this.product).then(({ data: response }) => {
+        const { code, msg } = response
+        if (code === 0) {
+          Message({
+            message: '保存成功',
+            type: 'success'
+          })
+          this.$route.push({ path: '/service-product' })
+        } else {
+          Message({
+            message: msg,
+            type: 'error'
+          })
+        }
+      })
+    }
+  },
+  mounted () {
+    this.productId = this.$route.query.productId
+    this.getProduct()
+    this.updateProductForm = this.product
+  },
+  computed: {
+    ...mapState({
+      product: state => state.product.product
+    })
   }
 }
 </script>
