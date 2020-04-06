@@ -165,9 +165,6 @@ export default {
     isLoginPage () {
       return this.$route.path === '/login'
     }
-  },
-  mounted () {
-    console.log(this.$router)
   }
 }
 </script>
