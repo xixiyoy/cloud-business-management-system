@@ -22,6 +22,10 @@ import 'froala-editor/js/third_party/image_tui.min'
 import 'froala-editor/css/froala_editor.pkgd.min.css'
 import VueFroala from 'vue-froala-wysiwyg'
 
+import { Button, Steps } from 'ant-design-vue'
+
+const { Step } = Steps
+
 Vue.config.productionTip = false
 
 Vue.use(MetaInfo)
@@ -30,6 +34,9 @@ Vue.use(VCharts)
 Vue.use(VueHorizontalTimeline)
 Vue.use(VueCookie)
 Vue.use(VueFroala)
+Vue.component(Button.name, Button)
+Vue.component(Steps.name, Steps)
+Vue.component(Step.name, Step)
 
 new Vue({
   router,
