@@ -111,34 +111,76 @@
         </el-row>
     </div>
     <div class="flow-table-show">
-      <el-tabs type="border-card">
-        <el-tab-pane>
-          <span slot="label">全部</span>
-          我的行程
+      <el-tabs type="border-card" v-model="getFlowForm.type" @tab-click="handelTabClick">
+        <el-tab-pane v-for="(tab, index) in flowLabels" :key="index" :label="tab.label" :name="tab.name">
         </el-tab-pane>
-        <el-tab-pane label="我负责">消息中心</el-tab-pane>
-        <el-tab-pane label="我创建">角色管理</el-tab-pane>
-        <el-tab-pane label="部门">定时任务补偿</el-tab-pane>
-        <el-tab-pane label="代我接收">定时任务补偿</el-tab-pane>
-        <el-tab-pane label="移交代收">定时任务补偿</el-tab-pane>
       </el-tabs>
+      <div style="margin-top: 20px">
+        <el-pagination
+          background
+          layout="total,prev, pager, next"
+          @current-change="handleCurrentChangeClick"
+          :current-page="getFlowForm.page"
+          :total="tasks.totalCount">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import { getLabels } from '../api/label'
+import { mapState } from 'vuex'
+
 export default {
   metaInfo: {
     title: '订单列表'
   },
   data () {
     return {
-      advancedSearchDialogVisible: false
+      advancedSearchDialogVisible: false,
+      getFlowForm: {
+        type: '',
+        limit: 10,
+        page: 1
+      }
     }
   },
   methods: {
     handleAdvancedSearch () {
       this.advancedSearchDialogVisible = true
+    },
+    handleCurrentChangeClick (currentPage) {
+      this.getCustomersForm.page = currentPage
+      this.getCustomers()
+    },
+    handleTabClick () {
+      this.getFlowForm.page = 1
+      this.getFlows()
+    },
+    getFlowLabels () {
+      getLabels('flow').then(({ data: flowLabels }) => {
+        this.flowLabels = flowLabels.map(flowLabel => {
+          const name = Object.keys(flowLabel)[0]
+          const label = flowLabel[name]
+          return {
+            label,
+            name
+          }
+        })
+        this.getFlowForm.type = this.flowLabels[0].name
+      })
+    },
+    getFlows () {
+      this.$store.dispatch('getTaskList', this.getFlowForm)
     }
+  },
+  mounted () {
+    this.getFlowLabels()
+  },
+  computed: {
+    ...mapState({
+      flows: state => state.tasks.task
+    })
   }
 }
 </script>

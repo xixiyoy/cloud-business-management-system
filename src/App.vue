@@ -10,9 +10,9 @@
           </el-col>
           <el-col :span="2">
             <div class="grid-content bg-purple">
-              <el-dropdown class="home-help">
+              <el-dropdown class="home-help" style="margin-top: -9px;">
                 <img id="u305_img" class="img " src="./assets/images/home/u305.svg" tabindex="0">
-                <span class="el-dropdown-link" style="color:#fff !important;">帮助</span>
+                <span class="el-dropdown-link" style="color:#fff !important;position: relative;top: 7px;">帮助</span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>在线客服</el-dropdown-item>
                   <el-dropdown-item>帮助中心</el-dropdown-item>
@@ -22,10 +22,10 @@
             </div>
           </el-col>
           <el-col :span="2">
-            <div class="grid-content bg-purple">
+            <div class="grid-content bg-purple" style="margin-top: -9px;">
               <el-dropdown class="home-help" @command="handleSettingDropDownCommand">
                 <img id="u308_img" class="img " src="./assets/images/home/u308.svg" tabindex="0">
-                <span class="el-dropdown-link" style="color:#fff !important;">设置</span>
+                <span class="el-dropdown-link" style="color:#fff !important;position: relative;top: 7px;">设置</span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="service-provider-management">服务商管理</el-dropdown-item>
                   <el-dropdown-item command="personal-center">个人中心</el-dropdown-item>
@@ -432,6 +432,6 @@ html, body, #app {
 }
 .home-help{
   border: none !important;
-  padding: 0px 30px !important;
+  padding: 0px 0px !important;
 }
 </style>

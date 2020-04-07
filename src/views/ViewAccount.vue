@@ -126,49 +126,49 @@
           <el-form label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="24">
-                <el-button type="primary">{{account.productName}}</el-button>
+                <el-button type="primary">代理记账</el-button>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="月服务费: " prop="name">
-                  <span>{{account.monthAmount}}</span>
+                  <span>{{account.taskList.price}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="服务周期: " prop="name">
-                  <span>{{account.cycle}}</span>
+                  <span>{{account.taskList.number}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="服务开始月: " prop="name">
-                  <span>{{financialInformation.start}}</span>
+                  <span>{{account.taskList.serviceStartMonth}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="剩余赠送月: " prop="name">
-                  <span>{{financialInformation.giveAway}}</span>
+                  <span>{{account.taskList}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="剩余服务月: " prop="name">
-                  <span>{{financialInformation.remaining}}</span>
+                  <span>{{account.taskList}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="当前报税期: " prop="name">
-                  <span>{{financialInformation.currentTime}}</span>
+                  <span>{{account.taskList.taxDate}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="付费周期: " prop="name">
-                  <span>{{financialInformation.payCycle}}</span>
+                  <span>{{account.taskList.payCycle}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -177,7 +177,7 @@
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="流程列表: " name="4">
           <el-table
-            :data="processList"
+            :data="account.taskList"
             style="width: 100%">
             <el-table-column
               type="index">
@@ -187,31 +187,31 @@
               label="产品名称">
             </el-table-column>
             <el-table-column
-              prop="orderNumber"
+              prop="taskNo"
               label="订单编号">
             </el-table-column>
             <el-table-column
-              prop="serviceStatus"
+              prop="taskStatusName"
               label="服务状态">
             </el-table-column>
             <el-table-column
-              prop="processProgress"
+              prop="completeProgress"
               label="流程进度">
             </el-table-column>
             <el-table-column
-              prop="serviceAmount"
+              prop="price"
               label="服务金额">
             </el-table-column>
             <el-table-column
-              prop="principal"
+              prop="relUserName"
               label="负责人">
             </el-table-column>
             <el-table-column
               fixed="right"
               label="操作"
               width="100">
-                <template slot-scope="scope">
-                  <el-button @click="handleViewAgentClick(scope.row)" type="text" size="small">查看</el-button>
+                <template>
+                  <el-button type="text" size="small">查看</el-button>
                 </template>
               <template>
                 <el-button type="text" size="small">查看</el-button>
@@ -291,7 +291,6 @@ export default {
     return {
       customerId: 0,
       activeNames: ['1'],
-      account: {},
       idCardImages: [''],
       businessLicenseImages: [''],
       contractImages: [''],

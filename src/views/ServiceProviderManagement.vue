@@ -114,16 +114,16 @@
             <el-button style="width: 100%;" @click="addServiceCompanyDialogFormVisible = true"><br><br><p style="font-size:40px;">+</p>添加服务公司<br><br><br><br></el-button>
             <el-dialog title="编辑服务公司" :visible.sync="addServiceCompanyDialogFormVisible" width="35%">
               <el-form :model="form">
-                <el-form-item label="公司名称" required="">
+                <el-form-item label="公司名称" required>
                   <el-input autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="简称">
                   <el-input autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="社会信用代码" required="">
+                <el-form-item label="社会信用代码" required>
                   <el-input autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="服务板块" required="">
+                <el-form-item label="服务板块" required>
                   <el-select v-model="value1" multiple placeholder="请选择">
                     <el-option
                       v-for="item in options"
@@ -140,8 +140,6 @@
               </div>
             </el-dialog>
           </el-col>
-          <el-col :span="8"></el-col>
-          <el-col :span="8"></el-col>
         </el-row>
       </el-tab-pane>
       <el-tab-pane label="收款账户管理">
@@ -149,7 +147,7 @@
         <div class="dividing-line"></div>
         <el-row>
           <el-button type="primary" @click="addAccountsReceivableDialogVisible = true" class="upload-logo-custom">+新增收款账户</el-button>
-          <el-dialog title="编辑收款账户" width="35%" :visible.sync="addAccountsReceivableDialogVisible">
+          <el-dialog title="编辑收款账户" width="45%" :visible.sync="addAccountsReceivableDialogVisible">
             <el-form label-width="120px" class="demo-ruleForm">
               <el-form-item label="服务公司：" prop="name" required="">
                 <el-input></el-input>
@@ -214,10 +212,56 @@
             <el-table-column label="操作" width="180">
               <template slot-scope="scope">
                 <el-button
-                @click="handleViewProvider(scope.row)"
                   class="detail-button"
                   size="mini"
-                  type="text">详情</el-button>
+                  type="text"
+                  @click="viewAccountsReceivableDialogVisible = true">详情</el-button>
+                  <el-dialog title="编辑收款账户" width="45%" :visible.sync="viewAccountsReceivableDialogVisible">
+                    <el-form label-width="120px" class="demo-ruleForm">
+                      <el-form-item label="服务公司：" prop="name" required="">
+                        <el-input></el-input>
+                      </el-form-item>
+                      <el-form-item label="账户名称：" prop="name" required="">
+                        <el-input></el-input>
+                      </el-form-item>
+                      <el-form-item label="账号类型: " prop="name" required="">
+                        <el-radio-group v-model="radio" @change="handleAccountTypeRadioGroupChange">
+                          <el-radio :label="3">银行账号</el-radio>
+                          <el-radio :label="6">支付宝账号</el-radio>
+                          <el-radio :label="9">微信账号</el-radio>
+                          <el-radio :label="12">现金账号</el-radio>
+                        </el-radio-group>
+                      </el-form-item>
+                      <el-form-item v-show="isBankAccount" label="账户名称：" prop="name" required="">
+                        <el-input></el-input>
+                      </el-form-item>
+                      <el-form-item v-show="isBankAccount" label="银行卡号：" prop="name" required="">
+                        <el-input></el-input>
+                      </el-form-item>
+                      <el-form-item v-show="isBankAccount" label="开户银行：" prop="name" required>
+                        <el-input></el-input>
+                      </el-form-item>
+                      <el-form-item v-show="isAlipayAccount" label="收款方名称：" prop="name" required>
+                        <el-input></el-input>
+                      </el-form-item>
+                      <el-form-item v-show="isAlipayAccount" label="支付宝账号：" prop="name" required>
+                        <el-input></el-input>
+                      </el-form-item>
+                      <el-form-item v-show="isWeChatAccount" label="收款人名称：" prop="name" required>
+                        <el-input></el-input>
+                      </el-form-item>
+                      <el-form-item v-show="isWeChatAccount" label="微信账号：" prop="name" required>
+                        <el-input></el-input>
+                      </el-form-item>
+                      <el-form-item v-show="isCashAccount" label="账户名称：" prop="name" required>
+                        <el-input></el-input>
+                      </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                      <el-button>取消</el-button>
+                      <el-button type="primary">保存</el-button>
+                    </div>
+                  </el-dialog>
                 <el-button
                   size="mini"
                   type="text"
@@ -304,7 +348,9 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-
+import { Message } from 'element-ui'
+import { createTenantAccount } from '../api/tenantCollectAccount'
+import { createServiceCompany } from '../api/tenantCompany'
 export default {
   metaInfo: {
     title: '企业设置'
@@ -317,6 +363,7 @@ export default {
       dialogTableVisible: false,
       addServiceCompanyDialogFormVisible: false,
       addAccountsReceivableDialogVisible: false,
+      viewAccountsReceivableDialogVisible: false,
       accountsReceivable: [{
         serviceCompany: '企享汇',
         type: '现金账户',
@@ -371,12 +418,18 @@ export default {
       getTenantAccountListForm: {
         pageSize: 10,
         currPage: 1
-      }
+      },
+      createProductForm: {}
     }
   },
   methods: {
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
+    handleRemove (index, row) {
+      const tenantCollectAccountIds = [
+        row.tenantCollectAccountId
+      ]
+      this.$store.dispatch('deleteTenantAccount', tenantCollectAccountIds).then(() => {
+        this.getProviderList()
+      })
     },
     handlePreview (file) {
       console.log(file)
@@ -397,16 +450,58 @@ export default {
     },
     getProviderList () {
       this.$store.dispatch('getTenantAccountList', this.getTenantAccountListForm).then(() => console.log(this.$store))
-    }
+    },
     // handleViewProvider(row) {
     // }
+    handleCreateCollectButtonClick () {
+      createTenantAccount(this.getTenantAccountListForm).then(({ data: response }) => {
+        const { code, msg } = response
+        if (code === 0) {
+          Message({
+            message: '保存成功',
+            type: 'success'
+          })
+        } else {
+          Message({
+            message: msg,
+            type: 'error'
+          })
+        }
+      })
+      this.createTenantAccount()
+    },
+    handleCreateCompanyButtonClick () {
+      createServiceCompany(this.getServiceCompanyFrom).then(({ data: response }) => {
+        const { code, msg } = response
+        if (code === 0) {
+          Message({
+            message: '保存成功',
+            type: 'success'
+          })
+        } else {
+          Message({
+            message: msg,
+            type: 'error'
+          })
+        }
+      })
+      this.createServiceCompany()
+    },
+    createTenantAccount () {
+      this.$store.dispatch('createTenantAccount', this.createTenantAccountFrom)
+    },
+    createServiceCompany () {
+      this.$store.dispatch('createServiceCompany', this.createServiceCompanyForm)
+    }
   },
   mounted () {
     this.getProviderList()
   },
   computed: {
     ...mapState({
-      providerManagementList: state => state.tenantCollectAccount.tenantAccounts
+      providerManagementList: state => state.tenantCollectAccount.tenantAccounts,
+      companyList: state => state.serviceCompanys.tenantCompany
+
     }),
     isBankAccount () {
       return this.checkedAccountType === 3
