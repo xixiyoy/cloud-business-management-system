@@ -84,7 +84,12 @@ export default {
   },
   methods: {
     handleDelete (index, row) {
-      console.log(index, row)
+      const productIds = [
+        row.productId
+      ]
+      this.$store.dispatch('deleteProduct', productIds).then(() => {
+        this.getServiceProductList()
+      })
     },
     serviceProductTableHeaderCellStyle ({ row, column, rowIndex, columnIndex }) {
       if (rowIndex === 0) {
@@ -140,9 +145,6 @@ export default {
 }
 .el-row {
     margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
   .el-col {
     border-radius: 4px;

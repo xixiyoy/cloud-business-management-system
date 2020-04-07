@@ -6,6 +6,8 @@ import product from './product'
 import channel from './channel'
 import download from './download'
 import tenantCollectAccount from './tenantCollectAccount'
+import tenantCompany from './tenantCompany'
+import task from './task'
 
 export default {
   customer,
@@ -15,5 +17,7 @@ export default {
   product,
   channel,
   download,
-  tenantCollectAccount
+  tenantCollectAccount,
+  tenantCompany,
+  task
 }

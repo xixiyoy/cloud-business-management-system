@@ -3,13 +3,13 @@
     <p class="modify-view-account-title">公司名称</p>
     <div class="dividing-line"></div>
     <el-collapse v-model="activeNames">
-      <div class="">
+      <div>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="基础信息" name="1">
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="20">
-                <el-button type="primary" round>{{updateCustomerForm.taskList.taskStatusName}}</el-button>
+                <el-button type="primary" round>{{updateCustomerForm.taskStatusName}}</el-button>
               </el-col>
             </el-row>
             <el-row>
@@ -105,8 +105,8 @@
             </el-row>
           </el-form>
         </el-collapse-item>
-        <img v-show="isAgentReport" class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
-        <el-collapse-item title="财税信息" name="3" v-show="isAgentReport">
+        <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
+        <el-collapse-item title="财税信息" name="3">
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="24">
@@ -161,7 +161,7 @@
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="流程列表: " name="4">
           <el-table
-            :data="processList"
+            :data="updateCustomerForm.taskList"
             style="width: 100%">
             <el-table-column
               type="index"
@@ -172,23 +172,23 @@
               label="产品名称">
             </el-table-column>
             <el-table-column
-              prop="orderNumber"
+              prop="taskNo"
               label="订单编号">
             </el-table-column>
             <el-table-column
-              prop="serviceStatus"
+              prop="taskStatusName"
               label="服务状态">
             </el-table-column>
             <el-table-column
-              prop="processProgress"
+              prop="completeProgress"
               label="流程进度">
             </el-table-column>
             <el-table-column
-              prop="serviceAmount"
+              prop="price"
               label="服务金额">
             </el-table-column>
             <el-table-column
-              prop="principal"
+              prop="relUserName"
               label="负责人">
             </el-table-column>
             <el-table-column
@@ -204,7 +204,68 @@
             </el-table-column>
           </el-table>
           <div class="add-products-model">
-            <el-dialog title="代帐报表" width="40%" :visible.sync="addProductDialogVisible">
+            <el-button class="add-account-products" @click="handleAddNewProduct"> + 添加产品</el-button>
+            <el-dialog title="添加产品" width="40%" :visible.sync="addProductDialogVisible">
+              <el-form label-position="left">
+                <el-row>
+                  <el-col :span="12">
+                  <el-form-item
+                    label="产品名称: "
+                    label-width="85px !important"
+                    class="add-product-item" required="">
+                    <el-input class="add-product-input"></el-input>
+                  </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="财税顾问: " label-width="85px !important" style="margin-left:0px;" required="">
+                      <el-input class="add-product-input"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="12">
+                  <el-form-item
+                    label="服务单价: "
+                    label-width="85px !important"
+                    class="add-product-item"
+                    required="">
+                    <el-input class="add-product-input"></el-input>
+                  </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="会计助理: " label-width="85px !important" style="margin-left:0px;">
+                      <el-input class="add-product-input"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="12">
+                  <el-form-item
+                    label="赠送: "
+                    label-width="85px !important"
+                    class="add-product-item">
+                    <el-input class="add-product-input"></el-input>
+                  </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="付费周期: " label-width="85px !important" style="margin-left:0px;" required="">
+                      <el-input class="add-product-input"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="12">
+                    <el-form-item
+                      label="服务周期: "
+                      label-width="85px !important"
+                      class="add-product-item"
+                      required="">
+                      <el-input class="add-product-input"></el-input>
+                    </el-form-item>
+                    </el-col>
+                  <el-col :span="12"></el-col>
+                </el-row>
+              </el-form>
               <div slot="footer" class="dialog-footer">
                 <el-button type="primary">确认</el-button>
                 <el-button>取消</el-button>
@@ -282,7 +343,8 @@ export default {
       idCardImages: [''],
       businessLicenseImages: [''],
       contractImages: [''],
-      updateCustomerForm: {}
+      updateCustomerForm: {},
+      addProductDialogVisible: false
     }
   },
   computed: {
@@ -313,6 +375,9 @@ export default {
           })
         }
       })
+    },
+    handleAddNewProduct () {
+      this.addProductDialogVisible = true
     }
   },
   mounted () {
@@ -347,5 +412,8 @@ export default {
     width: 17px;
     padding-right: 10px;
     float: left;
+}
+.add-products-model{
+  padding-top: 25px;
 }
 </style>
