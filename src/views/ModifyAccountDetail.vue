@@ -110,49 +110,49 @@
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="24">
-                <el-button type="primary">{{updateCustomerForm.taskList.productName}}</el-button>
+                <!-- <el-button type="primary">{{updateCustomerForm.newestTask.productName}}</el-button> -->
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="月服务费: " prop="name">
-                  <el-input v-model="updateCustomerForm.taskList.price"></el-input>
+                  <el-input v-model="updateCustomerForm.newestTask.price"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="服务周期: " prop="name">
-                  <el-input v-model="updateCustomerForm.taskList.number"></el-input>
+                  <el-input v-model="updateCustomerForm.newestTask.number"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="服务开始月: " prop="name">
-                  <el-input v-model="updateCustomerForm.taskList.serviceStartMonth"></el-input>
+                  <el-input v-model="updateCustomerForm.newestTask.serviceStartMonth"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="剩余赠送月: " prop="name">
-                  <el-input v-model="updateCustomerForm.taskList"></el-input>
+                  <el-input></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="剩余服务月: " prop="name">
-                  <el-input v-model="updateCustomerForm.taskList"></el-input>
+                  <el-input></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="当前报税期: " prop="name">
-                  <el-input v-model="updateCustomerForm.taxDate"></el-input>
+                  <el-input></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="付费周期: " prop="name">
-                  <el-input v-model="updateCustomerForm.payCycle"></el-input>
+                  <el-input></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -163,10 +163,6 @@
           <el-table
             :data="updateCustomerForm.taskList"
             style="width: 100%">
-            <el-table-column
-              type="index"
-              :index="indexMethod">
-            </el-table-column>
             <el-table-column
               prop="productName"
               label="产品名称">
@@ -276,12 +272,7 @@
         <img v-show="isAgentReport" class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="代帐报表: " name="5" v-show="isAgentReport">
           <el-table
-            :data="tableData"
             style="width: 100%">
-            <el-table-column
-              type="index"
-              :index="indexMethod">
-            </el-table-column>
             <el-table-column
               prop="date"
               label="产品名称">
@@ -343,13 +334,19 @@ export default {
       idCardImages: [''],
       businessLicenseImages: [''],
       contractImages: [''],
-      updateCustomerForm: {},
+      updateCustomerForm: {
+        customerName: '',
+        newestTask: {
+          price: 0,
+          number: 0
+        }
+      },
       addProductDialogVisible: false
     }
   },
   computed: {
     isAgentReport () {
-      return this.processList.filter(process => process.productName === '代理记账').length > 0
+      return this.account.taskList.filter(process => process.productName === '代理记账').length > 0
     },
     ...mapState({
       account: state => state.customer.customer
@@ -383,7 +380,7 @@ export default {
   mounted () {
     this.customerId = this.$route.query.customerId
     this.getCustomer()
-    this.updateCustomerForm = this.account
+    this.updateCustomerForm.customerName = this.account.customerName
   }
 }
 </script>

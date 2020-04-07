@@ -2,7 +2,10 @@ import { getCustomers, getCustomerDetail, updateCustomer } from '../../api/custo
 
 const state = {
   customers: [],
-  customer: {}
+  customer: {
+    taskList: [],
+    newestTask: {}
+  }
 }
 
 const mutations = {

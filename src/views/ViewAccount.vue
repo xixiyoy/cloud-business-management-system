@@ -9,7 +9,7 @@
           <el-form label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="20">
-                <el-button type="primary" round>{{account.status}}</el-button>
+                <el-button type="primary" round>{{account.customerStatusName}}</el-button>
               </el-col>
               <el-col :span="4">
                 <el-button @click="handleModifyViewAccount">修改内容</el-button>
@@ -18,68 +18,67 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户名称: " prop="name">
-                  <span>{{account.accountName}}</span>
+                  <span>{{account.customerName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="联系人: " prop="name">
-                  <span>{{account.contractPerson}}</span>
+                  <span>{{account.customerLinkerName}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="社会信用代码: " prop="name">
-                  <span>{{account.SocialCreditCode}}</span>
+                  <span>{{account.creditCode}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="联系电话: " prop="name">
-                  <span>{{account.companyPhone}}</span>
+                  <span>{{account.customerLinkerPhone}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="企业电话: " prop="name">
-                  <span>{{account.companyPhone}}</span>
+                  <span>{{account.customerBusinessPhone}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="客户等级: " prop="name">
-                  <span>{{account.customerGrade}}</span>
+                  <span>{{account.customerLevelName}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="联系地址: " prop="name">
-                  <span>{{account.contractAddress}}</span>
+                  <span>{{account.customerAddress}}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="8"></el-col>
               <el-col :span="8">
                 <el-form-item label="企业邮箱: " prop="name">
-                  <span>{{account.companyEmail}}</span>
+                  <span>{{account.customerBusinessEmail}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户来源: " prop="region">
-                  <span>{{account.customerSource}}</span>
+                  <span>{{account.customerFromWay}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="客户代表: " prop="name">
-                  <span>{{account.customerRepresentative}}</span>
+                  <span>{{account.customerRelUserName}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="创建人: " prop="region">
-                  <span>{{account.founder}}</span>
+                  <span>{{account.createUserName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
@@ -91,7 +90,7 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="备注: " prop="pass">
-                  <span>{{account.note}}</span>
+                  <span>{{account.remark}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -122,7 +121,7 @@
           </el-form>
         </el-collapse-item>
         <img v-show="isAgentReport" class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
-        <el-collapse-item title="财税信息" name="3" v-show="isAgentReport">
+        <el-collapse-item title="财税信息" name="3">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="24">
@@ -132,43 +131,43 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="月服务费: " prop="name">
-                  <span>{{account.taskList.price}}</span>
+                  <span>{{ account.newestTask.price }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="服务周期: " prop="name">
-                  <span>{{account.taskList.number}}</span>
+                  <span>{{account.newestTask.number}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="服务开始月: " prop="name">
-                  <span>{{account.taskList.serviceStartMonth}}</span>
+                  <span>{{account.newestTask.serviceStartMonth}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="剩余赠送月: " prop="name">
-                  <span>{{account.taskList}}</span>
+                  <span>{{ getLeftGifts(account.newestTask) }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="剩余服务月: " prop="name">
-                  <span>{{account.taskList}}</span>
+                  <span>{{ getLeftGifts(account.newestTask) }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="当前报税期: " prop="name">
-                  <span>{{account.taskList.taxDate}}</span>
+                  <span>{{account.newestTask.taxDate}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="付费周期: " prop="name">
-                  <span>{{account.taskList.payCycle}}</span>
+                  <span>{{account.newestTask.payCycle}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -302,6 +301,9 @@ export default {
     this.getCustomer()
   },
   computed: {
+    isAgentReport () {
+      return this.account.taskList.filter(process => process.productName === '代理记账').length > 0
+    },
     ...mapState({
       account: state => state.customer.customer
     })
@@ -315,7 +317,14 @@ export default {
     },
     // 写一个获取id 得方法
     async getCustomer () {
-      await this.$store.dispatch('getCustomerById', this.customerId)
+      await this.$store.dispatch('getCustomerById', this.customerId).then(() => console.log(this.account))
+    },
+    getLeftGifts (newestTask) {
+      const { giftNumber, number, completeCount } = newestTask
+      if (completeCount < number) {
+        return giftNumber
+      }
+      return giftNumber - (number - completeCount)
     }
   }
 }
