@@ -11,7 +11,6 @@
           <el-col :span="15">
             <div class="block">
               <el-date-picker
-                v-model="value1"
                 type="date"
                 placeholder="统计年份">
               </el-date-picker>
@@ -45,11 +44,11 @@
         </el-row>
     </div>
     <div class="agent-table-show">
-      <el-tabs type="border-card" v-model="activeTabName" class="agent-report-tabs">
-        <el-tab-pane v-for="(tab, index) in agentReportTabs" :key="index" :label="tab.label" :name="tab.name">
+      <el-tabs type="border-card" v-model="getAccountsForm.type" @tab-click="handelTabClick" class="agent-report-tabs">
+        <el-tab-pane v-for="(tab, index) in accountLabels" :key="index" :label="tab.label" :name="tab.name">
           <el-table
             ref="multipleTable"
-            :data="tableData"
+            :data="accounts"
             tooltip-effect="dark"
             style="width: 100%">
             <el-table-column
@@ -160,13 +159,17 @@
         <el-pagination
           background
           layout="total,prev, pager, next"
-          :total="1000">
+          @current-change="handleCurrentChangeClick"
+          :current-page="getAccountsForm.page"
+          :total="accounts.totalCount">
         </el-pagination>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { getLabels } from '../api/label'
+import { mapState } from 'vuex'
 export default {
   metaInfo: {
     title: '代帐报表'
@@ -174,45 +177,48 @@ export default {
   data () {
     return {
       activeTabName: 'all',
-      agentReportTabs: [
-        {
-          label: '全部',
-          name: 'all'
-        },
-        {
-          label: '我提交的',
-          name: 'mine'
-        },
-        {
-          label: '部门相关',
-          name: 'department'
-        }
-      ],
-      agentReportTable: [
-        {
-          name: 'Tom',
-          age: 12
-        },
-        {
-          name: 'James',
-          age: 13
-        }
-      ]
+      getAccountsForm: {
+        type: '',
+        limit: 10,
+        page: 1
+      },
+      accountLabels: []
     }
   },
   methods: {
-    getTableData (activeTabName) {
-      if (activeTabName === 'all') {
-        return this.agentReportTable
-      } else {
-        return this.agentReportTable.filter(user => user.name === 'Tom')
-      }
+    getAccounts () {
+      this.$store.dispatch('getAccounts', this.getAccountsForm)
+    },
+    getAccountLabels () {
+      getLabels('account').then(({ data: accountLabels }) => {
+        this.accountLabels = accountLabels.map(accountLabel => {
+          const name = Object.keys(accountLabel)[0]
+          const label = accountLabel[name]
+          return {
+            label,
+            name
+          }
+        })
+        this.getAccountsForm.type = this.accountsLabels[0].name
+      })
+    },
+    handleCurrentChangeClick (currentPage) {
+      this.getAccountsForm.page = currentPage
+      this.getAccounts()
+    },
+    handelTabClick () {
+      this.getAccountsForm.page = 1
+      this.getAccounts()
     }
   },
+  mounted () {
+    this.getAccountLabels()
+    this.getAccounts()
+  },
   computed: {
-    tableData () {
-      return this.getTableData(this.activeTabName)
-    }
+    ...mapState({
+      accounts: state => state.account.accounts
+    })
   }
 }
 </script>

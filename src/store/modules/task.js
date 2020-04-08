@@ -14,8 +14,8 @@ const mutations = {
 }
 const actions = {
   async getTaskList ({ commit }, getTaskFrom) {
-    const { limit, page } = getTaskFrom
-    const { data: tasks } = await getTaskList(limit, page)
+    const { type, limit, page } = getTaskFrom
+    const { data: tasks } = await getTaskList(type, limit, page)
     commit('SET_TASKS', tasks)
   },
   async createtask ({ commit }, createtaskForm) {

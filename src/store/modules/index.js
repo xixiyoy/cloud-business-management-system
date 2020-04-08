@@ -8,6 +8,9 @@ import download from './download'
 import tenantCollectAccount from './tenantCollectAccount'
 import tenantCompany from './tenantCompany'
 import task from './task'
+import tenant from './tenant'
+import sysUser from './sysUser'
+import account from './account'
 
 export default {
   customer,
@@ -19,5 +22,8 @@ export default {
   download,
   tenantCollectAccount,
   tenantCompany,
-  task
+  task,
+  tenant,
+  sysUser,
+  account
 }

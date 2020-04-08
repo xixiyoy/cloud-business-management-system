@@ -1,8 +1,9 @@
 import request from './request'
 
-const getTaskList = (limit, page) => request({
+const getTaskList = (type, limit, page) => request({
   url: '/task/list',
   params: {
+    type,
     limit,
     page
   }
