@@ -1,6 +1,6 @@
 <template>
   <div class="service-provider-management">
-    <el-tabs :tab-position="tabPosition" style="height: 120%;">
+    <el-tabs style="height: 120%;">
       <el-tab-pane label="基本信息">
         <p class="service-provider-title">基本信息</p>
         <div class="dividing-line"></div>
@@ -23,7 +23,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="企业名称" prop="name" required="">
-                <el-input placeholder="苏州企享汇信息科技有限公司"></el-input>
+                <el-input v-model="tenantDetail.tenant.fullName"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -32,7 +32,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="简称" prop="name">
-                <el-input placeholder="企享科技"></el-input>
+                <el-input v-model="tenantDetail.shortName"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -41,7 +41,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="服务区域" prop="name" required="">
-                <el-input placeholder="江苏省苏州市"></el-input>
+                <el-input v-model="tenantDetail.serviceArea"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -50,7 +50,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="服务热线" prop="name">
-                <el-input placeholder="400-1006-833"></el-input>
+                <el-input v-model="tenantDetail.serviceHotLine"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -59,7 +59,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="联系人" prop="name" required="">
-                <el-input placeholder="钱磊"></el-input>
+                <el-input v-model="tenantDetail.contactName"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -68,7 +68,7 @@
           <el-col :span="12">
             <el-form  label-width="100px" class="demo-ruleForm">
               <el-form-item label="联系电话" prop="name" required="">
-                <el-input placeholder="13212049876"></el-input>
+                <el-input v-model="tenantDetail.contactMobile"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -90,7 +90,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="企业域名" prop="name" required="">
-                <el-input placeholder="www.qixianghui.com"></el-input>
+                <el-input v-model="tenantDetail.domainName"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -99,12 +99,12 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="备注信息" prop="desc" required="">
-                <el-input type="textarea"></el-input>
+                <el-input type="textarea" v-model="tenantDetail.remark"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
         </el-row>
-        <el-button type="primary">保存</el-button><br><br><br><br>
+        <el-button type="primary" @click="handleSaveCompanyButtonClick">保存</el-button><br><br><br><br>
       </el-tab-pane>
       <el-tab-pane label="服务公司信息">
         <p class="service-provider-title">服务公司信息</p>
@@ -357,6 +357,7 @@ export default {
   },
   data () {
     return {
+      tenantId: 1,
       radio: 3,
       tabPosition: 'left',
       fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }],
@@ -364,62 +365,12 @@ export default {
       addServiceCompanyDialogFormVisible: false,
       addAccountsReceivableDialogVisible: false,
       viewAccountsReceivableDialogVisible: false,
-      accountsReceivable: [{
-        serviceCompany: '企享汇',
-        type: '现金账户',
-        cardNumber: '12345678890'
-      }, {
-        serviceCompany: '企享汇',
-        type: '微信账户',
-        cardNumber: '12345678890'
-      }, {
-        serviceCompany: '企享汇',
-        type: '现金账户',
-        cardNumber: '12345678890'
-      }],
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      value1: [],
-      value2: [],
-      accounts: [
-        {
-          company: 'A',
-          type: '现金',
-          accountDetail: {
-            a: '',
-            b: ''
-          }
-        },
-        {
-          company: 'B',
-          type: '银行卡',
-          accountDetail: {
-            c: '',
-            d: ''
-          }
-        }
-      ],
       checkList: ['选中且禁用', '复选框 A'],
       checkedAccountType: '3',
       getTenantAccountListForm: {
         pageSize: 10,
         currPage: 1
-      },
-      createProductForm: {}
+      }
     }
   },
   methods: {
@@ -487,6 +438,23 @@ export default {
       })
       this.createServiceCompany()
     },
+    handleSaveCompanyButtonClick () {
+      createServiceCompany(this.updateTenantForm).then(({ data: response }) => {
+        const { code, msg } = response
+        if (code === 0) {
+          Message({
+            message: '保存成功',
+            type: 'success'
+          })
+        } else {
+          Message({
+            message: msg,
+            type: 'error'
+          })
+        }
+      })
+      this.createServiceCompany()
+    },
     createTenantAccount () {
       this.$store.dispatch('createTenantAccount', this.createTenantAccountFrom)
     },
@@ -495,13 +463,19 @@ export default {
     }
   },
   mounted () {
+    // 基本信息的获取
+    this.tenantId = this.$route.query.tenantId
+    // 更新基本信息
     this.getProviderList()
   },
   computed: {
     ...mapState({
+      // 收款账户里的获取所有的收款账户
       providerManagementList: state => state.tenantCollectAccount.tenantAccounts,
-      companyList: state => state.serviceCompanys.tenantCompany
-
+      // 服务公司信息里获取所有公司
+      companyList: state => state.serviceCompanys.tenantCompany,
+      // 更新公司的基本信息
+      tenantDetail: state => state.tenant.tenant
     }),
     isBankAccount () {
       return this.checkedAccountType === 3

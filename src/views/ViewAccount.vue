@@ -155,7 +155,7 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="剩余服务月: " prop="name">
-                  <span>{{ getLeftGifts(account.newestTask) }}</span>
+                  <span>{{ getLeftMonths(account.newestTask) }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
@@ -325,6 +325,10 @@ export default {
         return giftNumber
       }
       return giftNumber - (number - completeCount)
+    },
+    getLeftMonths (newestTask) {
+      const { number, completeCount } = newestTask
+      return completeCount - number
     }
   }
 }

@@ -121,7 +121,7 @@
           layout="total,prev, pager, next"
           @current-change="handleCurrentChangeClick"
           :current-page="getFlowForm.page"
-          :total="tasks.totalCount">
+          :total="tasks.total">
         </el-pagination>
       </div>
     </div>
@@ -142,7 +142,8 @@ export default {
         type: '',
         limit: 10,
         page: 1
-      }
+      },
+      flowLabels: []
     }
   },
   methods: {
