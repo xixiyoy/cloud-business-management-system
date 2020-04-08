@@ -1,11 +1,12 @@
 import request from './request'
 
-const getAccounts = (type, limit, page) => request({
+const getAccounts = (type, limit, page, year) => request({
   url: '/account/list',
   params: {
     type,
     limit,
-    page
+    page,
+    year
   }
 })
 

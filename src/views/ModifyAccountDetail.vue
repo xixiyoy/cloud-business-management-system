@@ -9,7 +9,7 @@
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="20">
-                <el-button type="primary" round>{{updateCustomerForm.taskStatusName}}</el-button>
+                <el-button type="primary" round>{{updateCustomerForm.newestTask.taskStatusName}}</el-button>
               </el-col>
             </el-row>
             <el-row>
@@ -110,7 +110,7 @@
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="24">
-                <!-- <el-button type="primary">{{updateCustomerForm.newestTask.productName}}</el-button> -->
+                <el-button type="primary">{{updateCustomerForm.newestTask.productName}}</el-button>
               </el-col>
             </el-row>
             <el-row>
@@ -317,6 +317,10 @@
         </el-collapse-item>
       </div>
     </el-collapse>
+    <div>
+      <el-button type="primary">保 存</el-button>
+      <el-button>取 消</el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -335,10 +339,151 @@ export default {
       businessLicenseImages: [''],
       contractImages: [''],
       updateCustomerForm: {
-        customerName: '',
+        customerId: 15,
+        tenantId: 1,
+        customerName: '企享',
+        creditCode: '9184',
+        customerFromWay: '来源',
+        customerFromDetail: '详细来源',
+        customerLinkerName: '客户联系人',
+        customerLinkerPhone: '18913932254',
+        customerBusinessPhone: null,
+        customerBusinessEmail: null,
+        customerAddress: null,
+        customerStatusValue: '0',
+        customerStatusName: '服务中',
+        customerLevelValue: '0',
+        customerLevelName: '普通',
+        customerRelUserId: 3,
+        customerRelUserName: '孟星驰',
+        customerRelDeptId: 7,
+        remark: null,
+        createUserId: 2,
+        createUserName: '孟星驰',
+        createTime: '2020-03-18 10:42:58',
+        updateUserId: 2,
+        updateUserName: '孟星驰',
+        updateTime: '2020-04-03 09:37:47',
+        attribute1: null,
+        attribute2: null,
+        collectStatusValue: null,
+        collectStatusName: null,
+        royaltyStatusValue: null,
+        royaltyStatusName: null,
+        collectDate: null,
+        royaltyDate: null,
+        royaltyCoefficient: null,
+        accountList: null,
+        taskList: [
+          {
+            taskId: 10,
+            longTerm: '0',
+            tenant_id: null,
+            customerId: 15,
+            taskNo: 'DD20200318104257893',
+            productId: 1,
+            productName: '代理记账',
+            price: 300,
+            number: 2,
+            giftNumber: 1,
+            taxDate: '2020-06-01 00:00:00',
+            completeCount: 4,
+            taskStatusValue: '1',
+            taskStatusName: '服务中',
+            serviceStartMonth: '2020-03-01 00:00:00',
+            relUserId: 3,
+            relUserName: '胡歌',
+            relDeptId: 7,
+            relDeptName: null,
+            relHelpUserId: null,
+            relHelpUserName: null,
+            transferredUserId: null,
+            transferredUserName: null,
+            receiveUserId: null,
+            receiveUserName: null,
+            createUserId: 2,
+            createUserName: '孟星驰',
+            createTime: '2020-03-18 10:42:58',
+            updateUserId: null,
+            updateUserName: null,
+            updateTime: null,
+            payCycle: '月付',
+            completeProgress: '4+2/2+1',
+            taskFlowList: null
+          },
+          {
+            taskId: 11,
+            longTerm: '1',
+            tenant_id: null,
+            customerId: 15,
+            taskNo: 'DD20200318104257904',
+            productId: 2,
+            productName: '企业变更',
+            price: 400,
+            number: null,
+            giftNumber: null,
+            taxDate: '2020-03-01 00:00:00',
+            completeCount: 0,
+            taskStatusValue: '0',
+            taskStatusName: '未开始',
+            serviceStartMonth: null,
+            relUserId: 3,
+            relUserName: '胡歌',
+            relDeptId: 7,
+            relDeptName: null,
+            relHelpUserId: null,
+            relHelpUserName: null,
+            transferredUserId: null,
+            transferredUserName: null,
+            receiveUserId: null,
+            receiveUserName: null,
+            createUserId: 2,
+            createUserName: '孟星驰',
+            createTime: '2020-03-18 10:42:58',
+            updateUserId: null,
+            updateUserName: null,
+            updateTime: null,
+            payCycle: null,
+            completeProgress: null,
+            taskFlowList: null
+          }
+        ],
+        fileList: null,
         newestTask: {
-          price: 0,
-          number: 0
+          taskId: 10,
+          longTerm: '0',
+          tenant_id: null,
+          customerId: 15,
+          taskNo: 'DD20200318104257893',
+          productId: 1,
+          productName: '代理记账',
+          price: 300,
+          number: 2,
+          giftNumber: 1,
+          taxDate: '2020-06-01 00:00:00',
+          completeCount: 4,
+          taskStatusValue: '1',
+          taskStatusName: '服务中',
+          serviceStartMonth: '2020-03-01 00:00:00',
+          relUserId: 3,
+          relUserName: '胡歌',
+          relDeptId: 7,
+          relDeptName: null,
+          relHelpUserId: null,
+          relHelpUserName: null,
+          transferredUserId: null,
+          transferredUserName: null,
+          receiveUserId: null,
+          receiveUserName: null,
+          createUserId: 2,
+          createUserName: '孟星驰',
+          createTime: '2020-03-18 10:42:58',
+          updateUserId: null,
+          updateUserName: null,
+          updateTime: null,
+          payCycle: '月付',
+          completeProgress: null,
+          taskFlowList: null
         }
       },
       addProductDialogVisible: false
@@ -353,8 +498,8 @@ export default {
     })
   },
   methods: {
-    getCustomer () {
-      this.$store.dispatch('getCustomerById', this.customerId)
+    async getCustomer () {
+      await this.$store.dispatch('getCustomerById', this.customerId)
     },
     handleUpdateCustomerButtonClick () {
       this.$store.dispatch('updateCustomer', this.customer).then(({ data: response }) => {
@@ -379,8 +524,9 @@ export default {
   },
   mounted () {
     this.customerId = this.$route.query.customerId
-    this.getCustomer()
-    this.updateCustomerForm.customerName = this.account.customerName
+    this.getCustomer().then(() => {
+      this.updateCustomerForm = this.account
+    })
   }
 }
 </script>

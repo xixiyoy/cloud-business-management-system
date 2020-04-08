@@ -48,7 +48,7 @@
         <el-tab-pane v-for="(tab, index) in accountLabels" :key="index" :label="tab.label" :name="tab.name">
           <el-table
             ref="multipleTable"
-            :data="accounts"
+            :data="accounts.list"
             tooltip-effect="dark"
             style="width: 100%">
             <el-table-column
@@ -56,7 +56,7 @@
               header-align="center">
             </el-table-column>
             <el-table-column
-              prop="name"
+              prop="customerName"
               label="客户名称"
               header-align="center">
             </el-table-column>
@@ -124,25 +124,24 @@
               </el-table-column>
             </el-table-column>
             <el-table-column
-              prop="age"
+              prop="newestTask.relUserName"
               label="财税顾问"
-              header-align="center"
-              show-overflow-tooltip>
+              header-align="center">
             </el-table-column>
             <el-table-column
-              prop="accountGrade"
+              prop="newestTask.relDeptName"
               label="部门"
               header-align="center"
               show-overflow-tooltip>
             </el-table-column>
             <el-table-column
-              prop="SalesRepresentative"
+              prop="newestTask.price"
               label="月服务费"
               header-align="center"
               show-overflow-tooltip>
             </el-table-column>
             <el-table-column
-              prop="OrderTotal"
+              prop="newestTask.taskStatusName"
               label="状态"
               header-align="center"
               show-overflow-tooltip>
@@ -180,7 +179,8 @@ export default {
       getAccountsForm: {
         type: '',
         limit: 10,
-        page: 1
+        page: 1,
+        year: 2020
       },
       accountLabels: []
     }
@@ -199,7 +199,7 @@ export default {
             name
           }
         })
-        this.getAccountsForm.type = this.accountsLabels[0].name
+        this.getAccountsForm.type = this.accountLabels[0].name
       })
     },
     handleCurrentChangeClick (currentPage) {

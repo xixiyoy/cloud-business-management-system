@@ -16,6 +16,7 @@ const actions = {
   async getTaskList ({ commit }, getTaskFrom) {
     const { type, limit, page } = getTaskFrom
     const { data: tasks } = await getTaskList(type, limit, page)
+    console.log(tasks)
     commit('SET_TASKS', tasks)
   },
   async createtask ({ commit }, createtaskForm) {

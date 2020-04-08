@@ -10,9 +10,9 @@ const mutations = {
   }
 }
 const actions = {
-  async getSysInfoById ({ commit }, userId) {
-    const response = await getSysInfo(userId)
-    const user = response.data.user
+  async getSysInfo ({ commit }) {
+    const response = await getSysInfo()
+    const user = response.data
     commit('SET_USER', user)
   },
   async updateSysInfo ({ commit }, updateUserInfo) {
