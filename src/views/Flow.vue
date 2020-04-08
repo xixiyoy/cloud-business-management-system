@@ -111,7 +111,7 @@
         </el-row>
     </div>
     <div class="flow-table-show">
-      <el-tabs type="border-card" v-model="getFlowForm.type" @tab-click="handelTabClick">
+      <el-tabs type="border-card" v-model="getFlowForm.type" @tab-click="handleTabClick">
         <el-tab-pane v-for="(tab, index) in flowLabels" :key="index" :label="tab.label" :name="tab.name">
         </el-tab-pane>
       </el-tabs>
@@ -159,7 +159,7 @@ export default {
       this.getFlows()
     },
     getFlowLabels () {
-      getLabels('flow').then(({ data: flowLabels }) => {
+      getLabels('task').then(({ data: flowLabels }) => {
         this.flowLabels = flowLabels.map(flowLabel => {
           const name = Object.keys(flowLabel)[0]
           const label = flowLabel[name]
@@ -169,6 +169,7 @@ export default {
           }
         })
         this.getFlowForm.type = this.flowLabels[0].name
+        this.getFlows()
       })
     },
     getFlows () {
@@ -180,7 +181,7 @@ export default {
   },
   computed: {
     ...mapState({
-      flows: state => state.tasks.task
+      tasks: state => state.task.tasks
     })
   }
 }

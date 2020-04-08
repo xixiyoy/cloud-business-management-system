@@ -7,7 +7,7 @@
           <el-row>
             <el-col :span="8" style="padding-right:25px;">
               <el-form-item label="姓名: " prop="name">
-                <el-input v-model="updateUserInfo.user.username"></el-input>
+                <el-input v-model="updateUserForm.user.userName"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -22,36 +22,36 @@
           <el-row>
             <el-col :span="8" style="padding-right:25px;">
               <el-form-item label="手机号码: " prop="name">
-                <el-input v-model="updateUserInfo.user.mobile"></el-input>
+                <el-input v-model="updateUserForm.user.mobile"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="邮箱地址: " prop="name">
-                <el-input v-model="updateUserInfo.user.email"></el-input>
+                <el-input v-model="updateUserForm.user.email"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8" style="padding-right:25px;">
               <el-form-item label="用户名: " prop="name">
-                <span>{{updateUserInfo.user.account}}</span>
+                <span>{{updateUserForm.user.account}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="登录密码: " prop="name">
-                <span>{{updateUserInfo.user.password}}</span>
+                <span>{{updateUserForm.user.salt}}</span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8" style="padding-right:25px;">
               <el-form-item label="部门: " prop="name">
-                <span>{{updateUserInfo.user.deptName}}</span>
+                <span>{{updateUserForm.user.deptName}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="身份: " prop="name">
-                <span>{{updateUserInfo.roleNameList}}</span>
+                <span>{{updateUserForm.roleNameList[0]}}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -105,7 +105,27 @@ export default {
       },
       changePasswordDialogVisible: false,
       userId: 1,
-      updateUserInfo: {}
+      updateUserForm: {
+        msg: 'success',
+        code: 0,
+        roleNameList: [
+          '开发工程师'
+        ],
+        user: {
+          userId: 2,
+          userName: '孟星驰',
+          account: 'mxc',
+          salt: 'LQ9IhLYJymjaVXwZtHdh',
+          email: '2321@qq.com',
+          mobile: '18913932276',
+          status: 1,
+          roleIdList: null,
+          createTime: '2020-03-10 10:05:09',
+          deptId: 7,
+          deptName: null,
+          tenantId: 1
+        }
+      }
     }
   },
   methods: {
@@ -116,10 +136,12 @@ export default {
       this.changePasswordDialogVisible = true
     },
     getUserInfo () {
-      this.$store.dispatch('getSysInfo', this.userId)
+      this.$store.dispatch('getSysInfo').then(() => {
+        this.updateUserForm = this.userInfo
+      })
     },
     handleUpdateUserButtnClick () {
-      this.$store.dispatch('updateSysInfo', this.user).then(({ data: response }) => {
+      this.$store.dispatch('updateSysInfo', this.updateUserForm).then(({ data: response }) => {
         const { code, msg } = response
         if (code === 0) {
           Message({
@@ -138,14 +160,12 @@ export default {
   },
   computed: {
     ...mapState({
-      userInfo: state => state.user.sysUser
+      userInfo: state => state.sysUser.user
     })
   },
   mounted () {
     // 获取更新用户信息
-    this.userId = this.$route.query.userId
     this.getUserInfo()
-    this.updateUserInfo = this.user
   }
 }
 </script>

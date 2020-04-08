@@ -1,6 +1,6 @@
 <template>
   <div class="service-provider-management">
-    <el-tabs style="height: 120%;">
+    <el-tabs style="height: 120%;" tab-position="left">
       <el-tab-pane label="基本信息">
         <p class="service-provider-title">基本信息</p>
         <div class="dividing-line"></div>
@@ -23,7 +23,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="企业名称" prop="name" required="">
-                <el-input v-model="tenantDetail.tenant.fullName"></el-input>
+                <el-input v-model="updateTenantForm.fullName"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -32,7 +32,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="简称" prop="name">
-                <el-input v-model="tenantDetail.shortName"></el-input>
+                <el-input v-model="updateTenantForm.shortName"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -41,7 +41,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="服务区域" prop="name" required="">
-                <el-input v-model="tenantDetail.serviceArea"></el-input>
+                <el-input v-model="updateTenantForm.serviceArea"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -50,7 +50,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="服务热线" prop="name">
-                <el-input v-model="tenantDetail.serviceHotLine"></el-input>
+                <el-input v-model="updateTenantForm.serviceHotLine"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -59,7 +59,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="联系人" prop="name" required="">
-                <el-input v-model="tenantDetail.contactName"></el-input>
+                <el-input v-model="updateTenantForm.contactName"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -68,7 +68,7 @@
           <el-col :span="12">
             <el-form  label-width="100px" class="demo-ruleForm">
               <el-form-item label="联系电话" prop="name" required="">
-                <el-input v-model="tenantDetail.contactMobile"></el-input>
+                <el-input v-model="updateTenantForm.contactMobile"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -90,7 +90,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="企业域名" prop="name" required="">
-                <el-input v-model="tenantDetail.domainName"></el-input>
+                <el-input v-model="updateTenantForm.domainName"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -99,7 +99,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="备注信息" prop="desc" required="">
-                <el-input type="textarea" v-model="tenantDetail.remark"></el-input>
+                <el-input type="textarea" v-model="updateTenantForm.remark"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -357,7 +357,7 @@ export default {
   },
   data () {
     return {
-      tenantId: 1,
+      tenantId: 2,
       radio: 3,
       tabPosition: 'left',
       fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }],
@@ -370,6 +370,21 @@ export default {
       getTenantAccountListForm: {
         pageSize: 10,
         currPage: 1
+      },
+      updateTenantForm: {
+        tenantCompanyId: 2,
+        tenantId: 1,
+        fullName: '全称',
+        shortName: '简称',
+        creditCode: '11111',
+        servicePlate: '工商注册',
+        companyOrder: null,
+        createUserId: 2,
+        createUserName: '孟星驰',
+        createTime: '2020-03-28 19:48:34',
+        updateUserId: null,
+        updateUserName: null,
+        updateTime: null
       }
     }
   },
@@ -460,13 +475,24 @@ export default {
     },
     createServiceCompany () {
       this.$store.dispatch('createServiceCompany', this.createServiceCompanyForm)
+    },
+    getUser () {
+      this.$store.dispatch('getSysInfo').then(() => {
+        // this.tenantId = this.user.user.tenantId
+        this.getTenant()
+        this.getProviderList()
+      })
+    },
+    // 获取基本信息2
+    getTenant () {
+      this.$store.dispatch('getTenantById', this.tenantId).then(() => {
+        this.updateTenantForm = this.tenantDetail
+      })
     }
   },
   mounted () {
-    // 基本信息的获取
-    this.tenantId = this.$route.query.tenantId
-    // 更新基本信息
-    this.getProviderList()
+    // 基本信息的获取1
+    this.getUser()
   },
   computed: {
     ...mapState({
@@ -474,8 +500,10 @@ export default {
       providerManagementList: state => state.tenantCollectAccount.tenantAccounts,
       // 服务公司信息里获取所有公司
       companyList: state => state.serviceCompanys.tenantCompany,
-      // 更新公司的基本信息
-      tenantDetail: state => state.tenant.tenant
+      // 根据获取到的 tenantId 获取 tenant 的form
+      tenantDetail: state => state.tenant.tenant,
+      // 通过 user 获取tenantId
+      user: state => state.sysUser.user
     }),
     isBankAccount () {
       return this.checkedAccountType === 3

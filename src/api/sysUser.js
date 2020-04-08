@@ -5,8 +5,8 @@ const updateSysInfo = user => request({
   method: 'POST',
   data: user
 })
-const getSysInfo = userId => request({
-  url: `/sys/user/${userId}`
+const getSysInfo = () => request({
+  url: '/sys/user/info'
 })
 const updatePassWord = userId => request({
   url: `/sys/user/password/${userId}`
