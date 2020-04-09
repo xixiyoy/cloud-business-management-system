@@ -85,6 +85,7 @@
               <el-table-column
                 prop="address"
                 label="5月"
+                class-name="none-border"
                 header-align="center">
               </el-table-column>
               <el-table-column
@@ -223,7 +224,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 .agent-report{
   width: 94%;
   margin: 0 auto;
@@ -237,5 +238,10 @@ export default {
 }
 .agent-report-tabs .el-tabs__content {
   padding: none;
+}
+
+.none-border {
+  border-left: none;
+  border-right: none;
 }
 </style>
