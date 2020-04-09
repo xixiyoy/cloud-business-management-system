@@ -11,13 +11,13 @@ const mutations = {
 }
 
 const actions = {
-  async getTenantById ({ commmit }, tenantId) {
-    const response = await getTenantDetail(tenantId)
-    const tenant = response.data.page
+  async getTenantById ({ commit }) {
+    const response = await getTenantDetail()
+    const tenant = response.data.tenant
     console.log(tenant)
-    commmit('SET_TENANT', tenant)
+    commit('SET_TENANT', tenant)
   },
-  async updateTenant ({ commmit }, updateTenantForm) {
+  async updateTenant ({ commit }, updateTenantForm) {
     await updateTenant(updateTenantForm)
   }
 }

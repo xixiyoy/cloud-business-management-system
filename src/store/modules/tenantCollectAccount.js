@@ -7,7 +7,6 @@ const state = {
 
 const mutations = {
   'SET_TENANTACCOUNTS' (state, tenantAccounts) {
-    console.log(tenantAccounts)
     state.tenantAccounts = tenantAccounts
   },
   'SET_TENANTACCOUNT' (state, tenantAccount) {

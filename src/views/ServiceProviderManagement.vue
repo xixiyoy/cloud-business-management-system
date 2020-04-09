@@ -78,8 +78,8 @@
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="经营地址" prop="region" required="">
                   <el-select placeholder="行政区域" style="width: 100%;">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                    <el-option label="区域一"></el-option>
+                    <el-option label="区域二"></el-option>
                   </el-select>
                   <el-input></el-input>
                 </el-form-item>
@@ -109,7 +109,19 @@
       <el-tab-pane label="服务公司信息">
         <p class="service-provider-title">服务公司信息</p>
         <div class="dividing-line"></div>
-        <el-row class="upload-logo-custom">
+        <el-row class="upload-logo-custom" :gutter="20">
+          <el-col :span="8">
+            <el-card class="box-card">
+              <div slot="header" class="clearfix">
+                <span>卡片名称</span>
+              </div>
+              <div class="text item">
+                <p>aa</p>
+              </div>
+              <el-button type="text" style="float: left; padding: 3px 0">编 辑</el-button>
+              <el-button type="text" style="float: lefy; padding: 3px 0">删 除</el-button>
+            </el-card>
+          </el-col>
           <el-col :span="8">
             <el-button style="width: 100%;" @click="addServiceCompanyDialogFormVisible = true"><br><br><p style="font-size:40px;">+</p>添加服务公司<br><br><br><br></el-button>
             <el-dialog title="编辑服务公司" :visible.sync="addServiceCompanyDialogFormVisible" width="35%">
@@ -124,7 +136,7 @@
                   <el-input autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="服务板块" required>
-                  <el-select v-model="value1" multiple placeholder="请选择">
+                  <el-select multiple placeholder="请选择">
                     <el-option
                       v-for="item in options"
                       :key="item.value"
@@ -148,14 +160,15 @@
         <el-row>
           <el-button type="primary" @click="addAccountsReceivableDialogVisible = true" class="upload-logo-custom">+新增收款账户</el-button>
           <el-dialog title="编辑收款账户" width="45%" :visible.sync="addAccountsReceivableDialogVisible">
-            <el-form label-width="120px" class="demo-ruleForm">
-              <el-form-item label="服务公司：" prop="name" required="">
+            <el-form label-width="120px" class="demo-ruleForm"
+            :data="collectAccounts.list">
+              <el-form-item label="服务公司：" prop="tenantCompanyName" required="">
                 <el-input></el-input>
               </el-form-item>
-              <el-form-item label="账户名称：" prop="name" required="">
+              <el-form-item label="账户名称：" prop="accountName" required="">
                 <el-input></el-input>
               </el-form-item>
-              <el-form-item label="账号类型: " prop="name" required="">
+              <el-form-item label="账号类型: " prop="accountType" required="">
                 <el-radio-group v-model="radio" @change="handleAccountTypeRadioGroupChange">
                   <el-radio :label="3">银行账号</el-radio>
                   <el-radio :label="6">支付宝账号</el-radio>
@@ -196,7 +209,7 @@
         </el-row>
         <el-row>
           <el-table style="width: 100%"
-          :data="providerManagementList.page.list">
+          :data="collectAccounts.page.list">
             <el-table-column
               label="服务公司"
               prop="tenantCompanyName">
@@ -332,13 +345,24 @@
           <el-checkbox-group v-model="checkList">
             <el-checkbox>
               <template>
-                提交申请
-                <span>由申请人的部门主管对其进行审核</span>
+                提交申请<p> (由申请人的部门主管对其进行审核)</p>
+              </template>
+            </el-checkbox><br>
+            <el-checkbox label="主管审核">
+              <template>
+                主管审核<p> (由申请人的部门主管对其进行审核)</p>
+              </template>
+            </el-checkbox><br>
+            <el-checkbox label="财务审核">
+              <template>
+                财务审核<p> (由公司财务人员对其进行审核)</p>
+              </template>
+            </el-checkbox><br>
+            <el-checkbox label="出纳确认">
+              <template>
+                出纳确认<p> (有公司出纳最终确认)</p>
               </template>
             </el-checkbox>
-            <el-checkbox label="主管审核"></el-checkbox><br>由申请人的部门主管对其进行审核<br>
-            <el-checkbox label="财务审核"></el-checkbox><br>由公司财务人员对其进行审核<br>
-            <el-checkbox label="出纳确认"></el-checkbox><br>有公司出纳最终确认<br>
           </el-checkbox-group>
         </el-row><br><br><br>
          <el-button type="primary">保存</el-button>
@@ -357,7 +381,7 @@ export default {
   },
   data () {
     return {
-      tenantId: 2,
+      tenantId: 1,
       radio: 3,
       tabPosition: 'left',
       fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }],
@@ -367,21 +391,30 @@ export default {
       viewAccountsReceivableDialogVisible: false,
       checkList: ['选中且禁用', '复选框 A'],
       checkedAccountType: '3',
+      getServiceCompanyFrom: {
+        limit: 10,
+        page: 1
+      },
       getTenantAccountListForm: {
-        pageSize: 10,
-        currPage: 1
+        limit: 10,
+        page: 1
       },
       updateTenantForm: {
-        tenantCompanyId: 2,
         tenantId: 1,
-        fullName: '全称',
-        shortName: '简称',
-        creditCode: '11111',
-        servicePlate: '工商注册',
-        companyOrder: null,
-        createUserId: 2,
-        createUserName: '孟星驰',
-        createTime: '2020-03-28 19:48:34',
+        fullName: '苏州企享云网络科技有限公司',
+        shortName: '企享云',
+        logoUrl: null,
+        serviceArea: '工业园区',
+        serviceHotLine: null,
+        contactName: '朱桂彬',
+        contactMobile: '1898',
+        contactRole: null,
+        businessAddress: '工业园区',
+        domainName: null,
+        remark: null,
+        createUserId: null,
+        createUserName: null,
+        createTime: null,
         updateUserId: null,
         updateUserName: null,
         updateTime: null
@@ -408,11 +441,6 @@ export default {
     },
     handleAccountTypeRadioGroupChange (label) {
       this.checkedAccountType = label
-      // console.log(this.checkedAccountType)
-      // console.log(this.isBankAccount)
-      // console.log(this.isAlipayAccount)
-      // console.log(this.isWeChatAccount)
-      // console.log(this.isCashkAccount)
     },
     getProviderList () {
       this.$store.dispatch('getTenantAccountList', this.getTenantAccountListForm).then(() => console.log(this.$store))
@@ -476,34 +504,38 @@ export default {
     createServiceCompany () {
       this.$store.dispatch('createServiceCompany', this.createServiceCompanyForm)
     },
-    getUser () {
-      this.$store.dispatch('getSysInfo').then(() => {
-        // this.tenantId = this.user.user.tenantId
-        this.getTenant()
+    // 基本信息 from 获取
+    getTenant () {
+      this.$store.dispatch('getTenantById').then(() => {
+        this.updateTenantForm = this.tenantDetail
         this.getProviderList()
       })
     },
-    // 获取基本信息2
-    getTenant () {
-      this.$store.dispatch('getTenantById', this.tenantId).then(() => {
-        this.updateTenantForm = this.tenantDetail
-      })
+    // 服务公司的 list 的获取
+    getCompanies () {
+      this.$store.dispatch('getCompanyList', this.getServiceCompanyFrom)
+    },
+    // h获取所有收款账户 list
+    getCollectAccounts () {
+      this.$store.dispatch('getTenantAccountList', this.getTenantAccountListForm)
     }
   },
   mounted () {
     // 基本信息的获取1
-    this.getUser()
+    this.getTenant()
+    // 所有公司list 获取
+    this.getCompanies()
+    // 所有收款账户的list获取
+    this.getCollectAccounts()
   },
   computed: {
     ...mapState({
-      // 收款账户里的获取所有的收款账户
-      providerManagementList: state => state.tenantCollectAccount.tenantAccounts,
-      // 服务公司信息里获取所有公司
-      companyList: state => state.serviceCompanys.tenantCompany,
-      // 根据获取到的 tenantId 获取 tenant 的form
+      // 服务公司信息list获取
+      companyList: state => state.tenantCompany.serviceCompanys,
+      // 获取基本信息 tenant 的form
       tenantDetail: state => state.tenant.tenant,
-      // 通过 user 获取tenantId
-      user: state => state.sysUser.user
+      // 收款账户里的获取所有的收款账户
+      collectAccounts: state => state.tenantCollectAccount.tenantAccounts
     }),
     isBankAccount () {
       return this.checkedAccountType === 3
@@ -733,4 +765,20 @@ export default {
     width: 55px;
     word-wrap: break-word;
 }
+.text {
+    font-size: 14px;
+  }
+
+  .item {
+    margin-bottom: 18px;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
 </style>

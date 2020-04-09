@@ -3,8 +3,12 @@ import request from './request'
 const getServiceCompanyDetail = tenantCompanyId => request({
   url: `/tenantCompany/info/${tenantCompanyId}`
 })
-const getCompanyList = () => request({
-  url: '/tenantCompany/list'
+const getCompanyList = (limit, page) => request({
+  url: '/tenantCompany/list',
+  params: {
+    limit,
+    page
+  }
 })
 const createServiceCompany = createServiceCompanyFrom => request({
   url: '/tenantCompany/save',
