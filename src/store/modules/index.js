@@ -11,6 +11,7 @@ import task from './task'
 import tenant from './tenant'
 import sysUser from './sysUser'
 import account from './account'
+import flowConfig from './flowConfig'
 
 export default {
   customer,
@@ -25,5 +26,6 @@ export default {
   task,
   tenant,
   sysUser,
-  account
+  account,
+  flowConfig
 }

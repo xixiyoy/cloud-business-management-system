@@ -1,6 +1,6 @@
 <template>
   <div class="agent-bookkeeping">进入流程后的页面
-    <p class="new-account-page-title">代理记账<span>订单编号: cs-2020010101</span></p>
+    <p class="new-account-page-title">代理记账<span>订单编号: {{agentOrder.baseInformation.task.taskNo}}</span></p>
     <div class="dividing-line"></div>
     <div class="agent-bookkeeping-main">
       <div class="agent-flow"></div>
@@ -12,67 +12,67 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="任务状态: " prop="name">
-                  <span>服务中</span>
+                  <span>{{agentOrder.baseInformation.task.taskStatusName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="服务金额: " prop="name">
-                  <span>2500.00</span>
+                  <span>{{agentOrder.baseInformation.task.price}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="客户名称: " prop="name">
-                  <span>公司名</span>
+                  <span>{{agentOrder.baseInformation.customer.customerName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="联系电话: " prop="name">
-                  <span>13109879871</span>
+                  <span>{{agentOrder.baseInformation.customer.customerLinkerPhone}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="联系人: " prop="name">
-                  <span>张三</span>
+                  <span>{{agentOrder.baseInformation.customer.customerLinkerName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="客户代表: " prop="name">
-                  <span>邓</span>
+                  <span>{{agentOrder.baseInformation.customer.customerRelUserName}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="社会信用代码: " prop="name">
-                  <span>123456789</span>
+                  <span>{{agentOrder.baseInformation.customer.creditCode}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="会计助理: " prop="name">
-                  <span>毛敏</span>
+                  <span>{{agentOrder.baseInformation.task.relHelpUserName}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="24">
                 <el-form-item label="财税顾问: " prop="region">
-                  <span>朱燕</span>
+                  <span>{{agentOrder.baseInformation.task.relUserName}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="创建人: " prop="pass">
-                  <span>老刘</span>
+                  <span>{{agentOrder.baseInformation.customer.createUserName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="创建时间: " prop="pass">
-                  <span>2020-01-04</span>
+                  <span>{{agentOrder.baseInformation.customer.createUTime}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -84,36 +84,36 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="月服务费: " prop="name">
-                  <span>500.00</span>
+                  <span>{{agentOrder.baseInformation.task.price}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="服务周期: " prop="name">
-                  <span>5月+赠送1月</span>
+                  <span>{{agentOrder.baseInformation.task.number}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="服务开始月: " prop="name">
-                  <span>2020-01</span>
+                  <span>{{agentOrder.baseInformation.task.serviceStartMonth}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="赠送月: " prop="name">
-                  <span>1月</span>
+                  <span>{{agentOrder.baseInformation.accountInformation.surplusGiftNum}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="剩余服务月: " prop="name">
-                  <span>5月</span>
+                  <span>{{agentOrder.baseInformation.accountInformation.surplusNum}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="当前报税期: " prop="name">
-                  <span>2020-01</span>
+                  <span>{{agentOrder.baseInformation.task.taxDate}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -122,134 +122,54 @@
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="交接信息: " name="3">
           <el-table
-            :data="tableData"
+            :data="agentOrder.baseInformation.relList"
             style="width: 100%">
             <el-table-column
-              label="操作时间">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              label="操作时间"
+              prop="createTime">
             </el-table-column>
             <el-table-column
-              label="报税期">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              label="报税期"
+              prop="taxDate">
             </el-table-column>
             <el-table-column
-              label="操作人">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              label="操作人"
+              prop="createUserName">
             </el-table-column>
             <el-table-column
-              label="类型">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              label="类型"
+              prop="type">
             </el-table-column>
             <el-table-column
-              label="备注">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              label="备注"
+              prop="remark">
             </el-table-column>
             <el-table-column
-              label="交接资料">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              label="交接资料"
+              prop="relNotice">
             </el-table-column>
           </el-table>
         </el-collapse-item>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="环节备注: " name="4">
           <el-table
-            :data="tableData"
+            :data="agentOrder.baseInformation.taskFlowList"
             style="width: 100%">
             <el-table-column
-              label="操作时间">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              label="操作时间"
+              prop="createTime">
             </el-table-column>
             <el-table-column
-              label="报税期">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              label="报税期"
+              prop="taxDate">
             </el-table-column>
             <el-table-column
-              label="财税顾问">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              label="财税顾问"
+              prop="relUserName">
             </el-table-column>
             <el-table-column
-              label="备注">
-              <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top">
-                  <p>姓名: {{ scope.row.name }}</p>
-                  <p>住址: {{ scope.row.address }}</p>
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                  </div>
-                </el-popover>
-              </template>
+              label="备注"
+              prop="remark">
             </el-table-column>
           </el-table>
         </el-collapse-item>
@@ -356,6 +276,8 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
   metaInfo: {
     title: '订单详情'
@@ -367,8 +289,23 @@ export default {
       receiveOuterVisible: false,
       innerVisible: false,
       carryOutTaskDialogFormVisible: false,
-      terminationTaskDialogFormVisible: false
+      terminationTaskDialogFormVisible: false,
+      taskId: 0
     }
+  },
+  computed: {
+    ...mapState({
+      agentOrder: state => state.task.task
+    })
+  },
+  methods: {
+    async getAgentOrderDetail () {
+      this.$store.dispatch('getTaskById', this.getTaskDetail)
+    }
+  },
+  mounted () {
+    this.taskId = this.$route.query.taskId
+    this.getAgentOrderDetail()
   }
 }
 </script>

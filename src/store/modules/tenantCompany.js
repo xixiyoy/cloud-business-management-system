@@ -16,6 +16,7 @@ const actions = {
   async getCompanyList ({ commit }, getServiceCompanyFrom) {
     const { limit, page } = getServiceCompanyFrom
     const { data: serviceCompanys } = await getCompanyList(limit, page)
+    console.log(serviceCompanys)
     commit('SET_SERVICECOMPANYS', serviceCompanys)
   },
   async createServiceCompany ({ commit }, createServiceCompanyForm) {

@@ -25,7 +25,8 @@ const actions = {
   },
   async getTaskById ({ commit }, taskId) {
     const response = await getTaskDetail(taskId)
-    const task = response.data.task
+    const task = response.data
+    console.log(task)
     commit('SET_TASK', task)
   },
   async updateTask ({ commit }, updateTaskForm) {
