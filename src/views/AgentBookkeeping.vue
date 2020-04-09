@@ -3,9 +3,37 @@
     <p class="new-account-page-title">代理记账<span>订单编号: {{agentOrder.baseInformation.task.taskNo}}</span></p>
     <div class="dividing-line"></div>
     <div class="agent-bookkeeping-main">
-      <div class="agent-flow"></div>
+      <!-- <div class="agent-flow"></div> -->
       <el-collapse style="margin-top:40px;">
       <div class="">
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <div style="float: right; padding: 3px 0">
+                <el-date-picker
+                  align="right"
+                  type="year"
+                  placeholder="选择年">
+                </el-date-picker>
+              </div>
+            </div>
+            <el-row :gutter="20">
+              <el-col>
+                <a-steps :current="0" class="four-steps">
+                  <template slot="progressDot" slot-scope="{ description }">
+                    <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
+                  </template>
+                  <a-step :title="taskFlow.monthLabel" :description="taskFlow.status" v-for="(taskFlow, index) in getTaskFlows(agentOrder.taskFlowList)" :key="index"/>
+                </a-steps>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10" style="margin-top:50px;">
+              <el-col :span="4" :offset="2">服务中</el-col>
+              <el-col :span="4">已完成</el-col>
+              <el-col :span="4">已终止</el-col>
+              <el-col :span="4">交接中</el-col>
+              <el-col :span="4">未开始</el-col>
+            </el-row>
+          </el-card>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="基础信息" name="1">
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -101,14 +129,14 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="赠送月: " prop="name">
-                  <span>{{agentOrder.baseInformation.accountInformation.surplusGiftNum}}</span>
+                  <span>{{agentOrder.accountInformation.surplusGiftNum}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="剩余服务月: " prop="name">
-                  <span>{{agentOrder.baseInformation.accountInformation.surplusNum}}</span>
+                  <span>{{agentOrder.accountInformation.surplusNum}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -180,7 +208,7 @@
       <el-row>
         <el-button @click="HandoverTaskDialogFormVisible = true">交接任务</el-button>
         <el-dialog title="交接任务: " :visible.sync="HandoverTaskDialogFormVisible" width="40%">
-          <el-form :model="form">
+          <el-form>
             <el-form-item label="新负责人" required="">
               <el-select placeholder="请选择">
                 <el-option label="一" value="shanghai"></el-option>
@@ -202,8 +230,7 @@
         <el-dialog
           title="提示"
           :visible.sync="WithdrawTaskDialogVisible"
-          width="30%"
-          :before-close="handleClose">
+          width="30%">
           <span>确定要撤回交接吗?</span>
           <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="WithdrawTaskDialogVisible = false">确 认</el-button>
@@ -247,7 +274,7 @@
       <el-row>
         <el-button @click="carryOutTaskDialogFormVisible = true">完成记账</el-button>
         <el-dialog title="开始记账" :visible.sync="carryOutTaskDialogFormVisible" width="40%">
-          <el-form :model="form">
+          <el-form>
             <el-form-item label="备注: ">
               <el-input autocomplete="off"></el-input>
             </el-form-item>
@@ -261,7 +288,7 @@
       <el-row>
         <el-button @click="terminationTaskDialogFormVisible = true">终止任务</el-button>
         <el-dialog title="请确认是否种植任务?" :visible.sync="terminationTaskDialogFormVisible" width="40%">
-          <el-form :model="form">
+          <el-form>
             <el-form-item label="终止原因: " required="">
               <el-input autocomplete="off" type="textarea"></el-input>
             </el-form-item>
@@ -278,6 +305,8 @@
 <script>
 import { mapState } from 'vuex'
 
+const getMonth = taxDate => new Date(taxDate).getMonth() + 1
+
 export default {
   metaInfo: {
     title: '订单详情'
@@ -290,7 +319,21 @@ export default {
       innerVisible: false,
       carryOutTaskDialogFormVisible: false,
       terminationTaskDialogFormVisible: false,
-      taskId: 0
+      taskId: 0,
+      year: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
     }
   },
   computed: {
@@ -300,17 +343,53 @@ export default {
   },
   methods: {
     async getAgentOrderDetail () {
-      this.$store.dispatch('getTaskById', this.getTaskDetail)
+      this.$store.dispatch('getTaskById', this.taskId)
+    },
+    getStepsIconClass (description) {
+      switch (description) {
+        case '未开始': {
+          return 'custom-wait'
+        }
+        case '已完成': {
+          return 'custom-finish'
+        }
+        case '服务中': {
+          return 'custom-process'
+        }
+        case '交接中': {
+          return 'custom-jiaojie-zhong'
+        }
+      }
+    },
+    getTaskFlows (taskFlows) {
+      console.log(taskFlows)
+      const availableTaskFlows = taskFlows.map(({ taxDate }) => ({
+        month: getMonth(taxDate),
+        monthLabel: `${getMonth(taxDate)} 月`,
+        status: '已完成'
+      })).sort((x, y) => x.month - y.month)
+      return this.year.map(month => {
+        const awailableTaskFlow = availableTaskFlows.filter(availableTaskFlow => availableTaskFlow.month === month)[0]
+        if (awailableTaskFlow !== undefined) {
+          return awailableTaskFlow
+        }
+        return {
+          month,
+          monthLabel: `${month} 月`,
+          status: '未开始'
+        }
+      })
     }
   },
   mounted () {
     this.taskId = this.$route.query.taskId
+    console.log(this.taskId)
     this.getAgentOrderDetail()
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 .agent-bookkeeping{
   width: 94%;
   margin: 0 auto;
@@ -343,5 +422,40 @@ export default {
     width: 17px;
     padding-right: 10px;
     float: left;
+}
+
+.agent-order-steps, .four-steps {
+  .ant-steps-item-description {
+    display: none;
+  }
+  .ant-steps-item-tail {
+    top: 5px !important;
+    margin: 0 0 0 73px !important;
+  }
+  .ant-steps-item-icon {
+    width: 15px !important;
+    height: 15px !important;
+  }
+  .ant-steps-icon-dot {
+    border: 1px solid #e9e9e9;
+  }
+  .custom-finish {
+    background-color: #0099cc !important;
+  }
+  .custom-process {
+    background-color: #00cc01 !important;
+  }
+  .custom-wait {
+    background-color: #fff !important;
+  }
+  .custom-jiaojie-zhong {
+    background-color: #E6A23C !important;
+  }
+}
+
+.agent-order-steps {
+  .ant-steps-item-description {
+    display: block;
+  }
 }
 </style>

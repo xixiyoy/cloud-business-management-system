@@ -3,7 +3,33 @@
     <p class="one-time-accounting-title">企业变更-普通<span>订单编号: cs-2020010101</span></p>
     <div class="dividing-line"></div>
     <div class="one-time-accounting-main">
-      <div class="agent-flow"></div>
+      <!-- <div class="agent-flow"></div> -->
+      <div>
+        <el-card class="box-card">
+          <el-row>
+            <el-col :span="3">
+              企业变更
+            </el-col>
+            <el-col :span="21">
+              <a-steps :current="0" class="agent-order-steps">
+                <template slot="progressDot" slot-scope="{ description }">
+                  <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
+                </template>
+                <a-step title="老刘" description="2020-01-01" />
+                <a-step title="服务中" description="服务中" />
+                <a-step title="未开始" description="未开始" />
+              </a-steps>
+            </el-col>
+          </el-row>
+          <el-row :gutter="10" style="margin-top:50px;">
+            <el-col :span="4" :offset="2">服务中</el-col>
+            <el-col :span="4">已完成</el-col>
+            <el-col :span="4">已终止</el-col>
+            <el-col :span="4">交接中</el-col>
+            <el-col :span="4">未开始</el-col>
+          </el-row>
+        </el-card>
+      </div>
       <el-collapse style="margin-top:40px;">
       <div class="">
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
@@ -236,6 +262,8 @@
   </div>
 </template>
 <script>
+const getMonth = taxDate => new Date(taxDate).getMonth() + 1
+
 export default {
   metaInfo: {
     title: '订单详情'
@@ -249,11 +277,48 @@ export default {
       carryOutTaskDialogFormVisible: false,
       terminationTaskDialogFormVisible: false
     }
+  },
+  methods: {
+    getStepsIconClass (description) {
+      switch (description) {
+        case '未开始': {
+          return 'custom-wait'
+        }
+        case '已完成': {
+          return 'custom-finish'
+        }
+        case '服务中': {
+          return 'custom-process'
+        }
+        case '交接中': {
+          return 'custom-jiaojie-zhong'
+        }
+      }
+    },
+    getTaskFlows (taskFlows) {
+      console.log(taskFlows)
+      const availableTaskFlows = taskFlows.map(({ taxDate }) => ({
+        month: getMonth(taxDate),
+        monthLabel: `${getMonth(taxDate)} 月`,
+        status: '已完成'
+      })).sort((x, y) => x.month - y.month)
+      return this.year.map(month => {
+        const awailableTaskFlow = availableTaskFlows.filter(availableTaskFlow => availableTaskFlow.month === month)[0]
+        if (awailableTaskFlow !== undefined) {
+          return awailableTaskFlow
+        }
+        return {
+          month,
+          monthLabel: `${month} 月`,
+          status: '未开始'
+        }
+      })
+    }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 .one-time-accounting{
   width: 94%;
   margin: 0 auto;
@@ -286,5 +351,40 @@ export default {
     width: 17px;
     padding-right: 10px;
     float: left;
+}
+
+.agent-order-steps, .four-steps {
+  .ant-steps-item-description {
+    display: none;
+  }
+  .ant-steps-item-tail {
+    top: 5px !important;
+    margin: 0 0 0 73px !important;
+  }
+  .ant-steps-item-icon {
+    width: 15px !important;
+    height: 15px !important;
+  }
+  .ant-steps-icon-dot {
+    border: 1px solid #e9e9e9;
+  }
+  .custom-finish {
+    background-color: #0099cc !important;
+  }
+  .custom-process {
+    background-color: #00cc01 !important;
+  }
+  .custom-wait {
+    background-color: #fff !important;
+  }
+  .custom-jiaojie-zhong {
+    background-color: #E6A23C !important;
+  }
+}
+
+.agent-order-steps {
+  .ant-steps-item-description {
+    display: block;
+  }
 }
 </style>
