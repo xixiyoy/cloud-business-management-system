@@ -116,9 +116,9 @@
           <el-card class="box-card" v-for="(task, index) in tasks.rows" :key="index" style="margin: 10px 0;">
             <div slot="header" class="clearfix">
               <el-row :gutter="20">
-                <el-col :span="2">公司名称: 这里需要改</el-col>
-                <el-col :span="2">DB 编号：{{ task.taskNo }}</el-col>
-                <el-col :span="2">客户代表：{{ task.relUserName }}</el-col>
+                <el-col :span="4">公司名称: {{ task.customerName }}</el-col>
+                <el-col :span="6">DB 编号：{{ task.taskNo }}</el-col>
+                <el-col :span="4">客户代表：{{ task.relUserName }}</el-col>
               </el-row>
               <div style="float: right; padding: 3px 0" v-if="!isAgentOrder(task)">
                 <el-date-picker
@@ -162,12 +162,16 @@
             </el-row>
             <el-row :gutter="10" v-if="!isAgentOrder(task)">
               <el-col>
-                <el-button type="primary" round>进入流程 ></el-button>
+                <template slot-scope="scope">
+                  <el-button type="primary" round @click="handleVieAgentaOrder(scope.row)">进入流程 ></el-button>
+                </template>
               </el-col>
             </el-row>
             <el-row :gutter="10" v-if="isAgentOrder(task)">
               <el-col>
-                <el-button type="primary" round>进入流程 ></el-button>
+                <template slot-scope="scope">
+                  <el-button type="primary" round @click="handleViewOrder(scope.row)">进入流程 ></el-button>
+                </template>
               </el-col>
             </el-row>
           </el-card>
@@ -230,6 +234,14 @@ export default {
     handleCurrentChangeClick (currentPage) {
       this.getFlowForm.page = currentPage
       this.getFlows()
+    },
+    handleVieAgentaOrder (row) {
+      this.$router.push({ path: '/agent-bookkeepin', query: { taskId: row.id } })
+      console.log(row)
+      console.log(111)
+    },
+    handleViewOrder (row) {
+      this.$router.push({ path: '/one-time-accounting', query: { taskId: row.id } })
     },
     handleTabClick () {
       this.getFlowForm.page = 1

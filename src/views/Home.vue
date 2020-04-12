@@ -8,7 +8,7 @@
               <div style="100%;">
                 <div class="date-show-custom">
                   <p class="data-font-custom">总客户数</p>
-                  <p class="dynamic-value">288</p><br><br>
+                  <p class="dynamic-value">{{ homeBaseInfo.customerCount }}</p><br><br>
                 </div>
                 <div class="icon-custom">
                   <img class="date-icon-custom" src="../assets/images/home/u167.png" alt="">
@@ -31,7 +31,7 @@
               <div style="100%;">
                 <div class="date-show-custom">
                   <p class="data-font-custom">订单总数</p>
-                  <p class="dynamic-value">288</p><br><br>
+                  <p class="dynamic-value">{{ homeBaseInfo.accountCustomerCount }}</p><br><br>
                 </div>
                 <div class="icon-custom">
                   <img class="date-icon-custom" src="../assets/images/home/u177.png" alt="">
@@ -54,7 +54,7 @@
               <div style="100%;">
                 <div class="date-show-custom">
                   <p class="data-font-custom">总代帐数</p>
-                  <p class="dynamic-value">288</p><br><br>
+                  <p class="dynamic-value">{{ homeBaseInfo.taskCount }}</p><br><br>
                 </div>
                 <div class="icon-custom">
                   <img class="date-icon-custom" src="../assets/images/home/u189.png" alt="">
@@ -77,7 +77,7 @@
               <div style="100%;">
                 <div class="date-show-custom">
                   <p class="data-font-custom">总开票数</p>
-                  <p class="dynamic-value">288</p><br><br>
+                  <p class="dynamic-value">{{ homeBaseInfo.invoiceCount }}</p><br><br>
                 </div><br><br>
                 <div class="icon-custom">
                   <img class="date-icon-custom" src="../assets/images/home/u200.png" alt="">
@@ -121,7 +121,14 @@
             <el-card class="box-card">
               <div class="text item">
                 <p class="team-member-title">团队成员</p>
-                <div class="dividing-line"></div>
+                    <el-table
+                      :data="members.userList"
+                      style="width: 100%">
+                      <el-table-column
+                        prop="userName"
+                        align="left">
+                      </el-table-column>
+                    </el-table>
                 <p></p>
               </div>
             </el-card>
@@ -131,10 +138,12 @@
          <div class="team-member-custom">
             <el-card class="box-card">
               <div class="text item">
-                <el-badge :value="12" class="item" style="padding: 5px 8px 12px 0px;">
-                  <p class="team-member-title" style="line-height: 34px;">接受通知</p>
+                <el-badge :value="homeBaseInfo.receiveTaskList.length" class="item">
+                <p class="team-member-title">进度跟踪</p>
                 </el-badge>
-                <div class="dividing-line"></div>
+                <div v-for="(receiveTask, index) in homeBaseInfo.receiveTaskList" :key="index">
+                  {{ receiveTask.relUserName }} 将 {{ receiveTask.productName }} 移交给你，请接受！
+                </div>
               </div>
             </el-card>
          </div>
@@ -144,7 +153,9 @@
             <el-card class="box-card">
               <div class="text item">
                 <p class="team-member-title">进度跟踪</p>
-                <div class="dividing-line"></div>
+                <div v-for="(taskFlow, index) in homeBaseInfo.taskFollwList" :key="index">
+                  {{ taskFlow.customerName }}-{{ taskFlow.productName }} - 当前进度 {{ getMonth(taskFlow.taxDate) }} 月
+                </div>
               </div>
             </el-card>
          </div>
@@ -153,6 +164,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'Home',
   data () {
@@ -167,24 +179,58 @@ export default {
       }
     }
     return {
+      getHomeBaseForm: {
+        type: 'business:home:all'
+      },
+      getDeptMembers: {},
       chartData: {
-        columns: ['日期', '访问用户', '总额', '下单率'],
+        columns: ['日期', '总额'],
         rows: [
-          { 日期: '1 月', 访问用户: 1393, 总额: 1093, 下单率: 0.32 },
-          { 日期: '2 月', 访问用户: 3530, 总额: 3230, 下单率: 0.26 },
-          { 日期: '3 月', 访问用户: 2923, 总额: 2623, 下单率: 0.76 },
-          { 日期: '4 月', 访问用户: 1723, 总额: 1423, 下单率: 0.49 },
-          { 日期: '5 月', 访问用户: 3792, 总额: 3492, 下单率: 0.323 },
-          { 日期: '6 月', 访问用户: 3792, 总额: 3492, 下单率: 0.323 },
-          { 日期: '7 月', 访问用户: 3792, 总额: 3492, 下单率: 0.323 },
-          { 日期: '8 月', 访问用户: 3792, 总额: 3492, 下单率: 0.323 },
-          { 日期: '9 月', 访问用户: 3792, 总额: 3492, 下单率: 0.323 },
-          { 日期: '10 月', 访问用户: 3792, 总额: 3492, 下单率: 0.323 },
-          { 日期: '11 月', 访问用户: 3792, 总额: 3492, 下单率: 0.323 },
-          { 日期: '12 月', 访问用户: 3792, 总额: 3492, 下单率: 0.323 }
+          { 日期: '1 月', 总额: 1093 },
+          { 日期: '2 月', 总额: 3230 },
+          { 日期: '3 月', 总额: 2623 },
+          { 日期: '4 月', 总额: 1423 },
+          { 日期: '5 月', 总额: 3492 },
+          { 日期: '6 月', 总额: 3492 },
+          { 日期: '7 月', 总额: 3492 },
+          { 日期: '8 月', 总额: 3492 },
+          { 日期: '9 月', 总额: 3492 },
+          { 日期: '10 月', 总额: 3492 },
+          { 日期: '11 月', 总额: 3492 },
+          { 日期: '12 月', 总额: 3492 }
         ]
       }
     }
+  },
+  methods: {
+    getMembers () {
+      this.$store.dispatch('getDeptMembers', this.getDeptMembers)
+    },
+    async getBaseInfo () {
+      await this.$store.dispatch('getHomeBase', this.getHomeBaseForm)
+    },
+    getMonth (taxDate) {
+      return new Date(taxDate).getMonth() + 1
+    }
+  },
+  mounted () {
+    this.getMembers()
+    this.getBaseInfo().then(() => {
+      this.chartData.rows = []
+      const rows = this.homeBaseInfo.allTaskMap
+      for (const dot in rows) {
+        this.chartData.rows.push({
+          日期: `${dot} 月`,
+          总额: rows[dot]
+        })
+      }
+    })
+  },
+  computed: {
+    ...mapState({
+      members: state => state.department.members,
+      homeBaseInfo: state => state.home.home
+    })
   }
 }
 </script>

@@ -61,67 +61,126 @@
               header-align="center">
             </el-table-column>
             <el-table-column label="完成情况 (2020)"
-                header-align="center">
+                header-align="center"
+                border="false">
               <el-table-column
                 prop="province"
                 label="1月"
-                header-align="center">
+                class-name="none-border">
+                <template>
+                  <el-radio-group v-model="radio">
+                    <el-radio></el-radio>
+                  </el-radio-group>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="city"
                 label="2月"
-                header-align="center">
+                class-name="none-border">
+                <template>
+                  <el-radio-group v-model="radio">
+                    <el-radio></el-radio>
+                  </el-radio-group>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="3月"
-                header-align="center">
+                class-name="none-border">
+                <template>
+                  <el-radio-group v-model="radio">
+                    <el-radio></el-radio>
+                  </el-radio-group>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="4月"
-                header-align="center">
+                class-name="none-border">
+                <template>
+                  <el-radio-group v-model="radio">
+                    <el-radio></el-radio>
+                  </el-radio-group>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="5月"
-                class-name="none-border"
-                header-align="center">
+                class-name="none-border">
+                <template>
+                  <el-radio-group v-model="radio">
+                    <el-radio></el-radio>
+                  </el-radio-group>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="6月"
-                header-align="center">
+                class-name="none-border">
+                <template>
+                  <el-radio-group v-model="radio">
+                    <el-radio></el-radio>
+                  </el-radio-group>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="7月"
-                header-align="center">
+                class-name="none-border">
+                <template>
+                  <el-radio-group v-model="radio">
+                    <el-radio></el-radio>
+                  </el-radio-group>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="8月"
-                header-align="center">
+                class-name="none-border">
+                <template>
+                  <el-radio-group v-model="radio">
+                    <el-radio></el-radio>
+                  </el-radio-group>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="9月"
-                header-align="center">
+                class-name="none-border">
+                <template>
+                  <el-radio-group v-model="radio">
+                    <el-radio></el-radio>
+                  </el-radio-group>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="10月"
-                header-align="center">
+                class-name="none-border">
+                <template>
+                  <el-radio-group v-model="radio">
+                    <el-radio></el-radio>
+                  </el-radio-group>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="11月"
-                header-align="center">
+                class-name="none-border">
+                <template>
+                  <el-radio-group v-model="radio">
+                    <el-radio></el-radio>
+                  </el-radio-group>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
-                label="12月"
-                header-align="center">
+                label="12月">
+                <template>
+                  <el-radio-group v-model="radio">
+                    <el-radio></el-radio>
+                  </el-radio-group>
+                </template>
               </el-table-column>
             </el-table-column>
             <el-table-column
@@ -142,8 +201,14 @@
               show-overflow-tooltip>
             </el-table-column>
             <el-table-column
-              prop="newestTask.taskStatusName"
-              label="状态"
+              prop="collectStatusName"
+              label="收款状态"
+              header-align="center"
+              show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column
+              prop="royaltyStatusName"
+              label="提成状态"
               header-align="center"
               show-overflow-tooltip>
             </el-table-column>
@@ -154,6 +219,29 @@
             </el-table-column>
           </el-table>
         </el-tab-pane>
+        <el-row :gutter="10" style="margin-top:20px;">
+          <el-col :span="3">
+            <template>
+              <el-radio-group v-model="radio">
+                <el-radio label="未收款"></el-radio>
+              </el-radio-group>
+            </template>
+          </el-col>
+          <el-col :span="3">
+            <template>
+              <el-radio-group v-model="radio">
+                <el-radio label="已收款"></el-radio>
+              </el-radio-group>
+            </template>
+          </el-col>
+          <el-col :span="3">
+            <template>
+              <el-radio-group v-model="radio">
+                <el-radio label="已发提成"></el-radio>
+              </el-radio-group>
+            </template>
+          </el-col>
+        </el-row>
       </el-tabs>
       <div style="margin-top: 20px">
         <el-pagination
@@ -176,6 +264,7 @@ export default {
   },
   data () {
     return {
+      radio: 3,
       activeTabName: 'all',
       getAccountsForm: {
         type: '',
@@ -239,9 +328,7 @@ export default {
 .agent-report-tabs .el-tabs__content {
   padding: none;
 }
-
 .none-border {
-  border-left: none;
-  border-right: none;
+  border-right: 0px solid #EBEEF5 !important;
 }
 </style>

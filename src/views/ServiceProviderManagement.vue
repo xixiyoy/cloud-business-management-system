@@ -77,10 +77,10 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="经营地址" prop="region" required="">
-                  <el-select placeholder="行政区域" style="width: 100%;">
+                  <!-- <el-select placeholder="行政区域" style="width: 100%;">
                     <el-option label="区域一"></el-option>
                     <el-option label="区域二"></el-option>
-                  </el-select>
+                  </el-select> -->
                   <el-input></el-input>
                 </el-form-item>
             </el-form>
@@ -110,45 +110,75 @@
         <p class="service-provider-title">服务公司信息</p>
         <div class="dividing-line"></div>
         <el-row class="upload-logo-custom" :gutter="20">
-          <el-col :span="8">
+          <el-col :span="8" v-for="(list, index) in companyList.page.list" :key="index"
+          style="margin: 20px 0;">
             <el-card class="box-card">
-              <div slot="header" class="clearfix">
-                <span>卡片名称</span>
-              </div>
               <div class="text item">
-                <p>aa</p>
+                <div>
+                  <p class="team-member-title">{{ list.fullName }}<br>({{ list.shortName }})</p>
+                  <div class="line"></div>
+                    <p>{{ list.creditCode }}</p><br>
+                    {{ list.servicePlate }}
+                </div><br><br>
+                <el-button type="text" style="float: left; padding: 3px 13px"  @click="handleEditServiceCompanyButtonClick(list)">编 辑</el-button>
+                  <el-dialog title="编辑服务公司" :visible.sync="editServiceCompanyDialogFormVisible"         width="35%">
+                  <el-form>
+                    <el-form-item label="公司名称" required>
+                      <el-input v-model="updateCompanyFrom.fullName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="简称">
+                      <el-input v-model="updateCompanyFrom.shortName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="社会信用代码" required>
+                      <el-input v-model="updateCompanyFrom.creditCode"></el-input>
+                    </el-form-item>
+                    <el-form-item label="服务板块" required>
+                      <el-select v-model="updateCompanyFrom.shortName.servicePlate">
+                        <el-option
+                          v-for="item in options"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                  <div slot="footer" class="dialog-footer">
+                    <el-button @click="editServiceCompanyDialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="handleUpdateCompanyButtonClick">确 定</el-button>
+                  </div>
+                </el-dialog>
+                <el-button type="text" style="float: lefy; padding: 3px 0">删 除</el-button>
               </div>
-              <el-button type="text" style="float: left; padding: 3px 0">编 辑</el-button>
-              <el-button type="text" style="float: lefy; padding: 3px 0">删 除</el-button>
             </el-card>
           </el-col>
           <el-col :span="8">
-            <el-button style="width: 100%;" @click="addServiceCompanyDialogFormVisible = true"><br><br><p style="font-size:40px;">+</p>添加服务公司<br><br><br><br></el-button>
+            <el-button style="width: 100%;"><br><br><p style="font-size:40px;" @click="handleAddServiceCompanyButtonClick">+</p>添加服务公司<br><br><br><br></el-button>
             <el-dialog title="编辑服务公司" :visible.sync="addServiceCompanyDialogFormVisible" width="35%">
-              <el-form :model="form">
+              <el-form>
                 <el-form-item label="公司名称" required>
-                  <el-input autocomplete="off"></el-input>
+                  <el-input v-model="createServiceCompanyForm.fullName"></el-input>
                 </el-form-item>
                 <el-form-item label="简称">
-                  <el-input autocomplete="off"></el-input>
+                  <el-input v-model="createServiceCompanyForm.shortName"></el-input>
                 </el-form-item>
                 <el-form-item label="社会信用代码" required>
-                  <el-input autocomplete="off"></el-input>
+                  <el-input v-model="createServiceCompanyForm.creditCode"></el-input>
                 </el-form-item>
                 <el-form-item label="服务板块" required>
-                  <el-select multiple placeholder="请选择">
+                  <el-select placeholder="请选择" v-model="createServiceCompanyForm.servicePlate">
                     <el-option
                       v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
+                      :key="item"
+                      :label="item"
+                      :value="item">
                     </el-option>
                   </el-select>
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">
                 <el-button @click="addServiceCompanyDialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="addServiceCompanyDialogFormVisible = false">确 定</el-button>
+                <el-button type="primary" @click="handleCreateCompanyButtonClick">确 定</el-button>
               </div>
             </el-dialog>
           </el-col>
@@ -374,7 +404,7 @@
 import { mapState } from 'vuex'
 import { Message } from 'element-ui'
 import { createTenantAccount } from '../api/tenantCollectAccount'
-import { createServiceCompany } from '../api/tenantCompany'
+import { createServiceCompany, updateServiceCompany } from '../api/tenantCompany'
 export default {
   metaInfo: {
     title: '企业设置'
@@ -387,6 +417,7 @@ export default {
       fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }],
       dialogTableVisible: false,
       addServiceCompanyDialogFormVisible: false,
+      editServiceCompanyDialogFormVisible: false,
       addAccountsReceivableDialogVisible: false,
       viewAccountsReceivableDialogVisible: false,
       checkList: ['选中且禁用', '复选框 A'],
@@ -418,6 +449,37 @@ export default {
         updateUserId: null,
         updateUserName: null,
         updateTime: null
+      },
+      createServiceCompanyForm: {
+        fullName: '',
+        shortName: '',
+        creditCode: '',
+        servicePlate: ''
+      },
+      options: [
+        '工商服务',
+        '财税服务',
+        '银行服务',
+        '知识产权',
+        '法律服务',
+        '行业资质许可证',
+        '其他服务',
+        '培训'
+      ],
+      updateCompanyFrom: {
+        tenantCompanyId: 2,
+        tenantId: 1,
+        fullName: '全称',
+        shortName: '简称',
+        creditCode: '11111',
+        servicePlate: '工商注册',
+        companyOrder: null,
+        createUserId: 2,
+        createUserName: '孟星驰',
+        createTime: '2020-03-28 19:48:34',
+        updateUserId: null,
+        updateUserName: null,
+        updateTime: null
       }
     }
   },
@@ -430,11 +492,20 @@ export default {
         this.getProviderList()
       })
     },
+    isCashAccount () {},
     handlePreview (file) {
       console.log(file)
     },
     handleEdit (index, row) {
       console.log(index, row)
+    },
+    handleAddServiceCompanyButtonClick () {
+      console.log(1111)
+      this.addServiceCompanyDialogFormVisible = true
+    },
+    handleEditServiceCompanyButtonClick (list) {
+      this.updateCompanyFrom = list
+      this.editServiceCompanyDialogFormVisible = true
     },
     handleDelete (index, row) {
       console.log(index, row)
@@ -464,14 +535,17 @@ export default {
       })
       this.createTenantAccount()
     },
+    // 添加服务公司
     handleCreateCompanyButtonClick () {
-      createServiceCompany(this.getServiceCompanyFrom).then(({ data: response }) => {
+      createServiceCompany(this.createServiceCompanyForm).then(({ data: response }) => {
         const { code, msg } = response
         if (code === 0) {
           Message({
             message: '保存成功',
             type: 'success'
           })
+          this.getCompanies()
+          this.addServiceCompanyDialogFormVisible = false
         } else {
           Message({
             message: msg,
@@ -479,7 +553,25 @@ export default {
           })
         }
       })
-      this.createServiceCompany()
+    },
+    // 更新服务公司
+    handleUpdateCompanyButtonClick () {
+      updateServiceCompany(this.updateCompanyFrom).then(({ data: response }) => {
+        const { code, msg } = response
+        if (code === 0) {
+          Message({
+            message: '保存成功',
+            type: 'success'
+          })
+          this.getCompanies()
+          this.editServiceCompanyDialogFormVisible = false
+        } else {
+          Message({
+            message: msg,
+            type: 'error'
+          })
+        }
+      })
     },
     handleSaveCompanyButtonClick () {
       createServiceCompany(this.updateTenantForm).then(({ data: response }) => {
@@ -515,9 +607,13 @@ export default {
     getCompanies () {
       this.$store.dispatch('getCompanyList', this.getServiceCompanyFrom)
     },
-    // h获取所有收款账户 list
+    // 获取所有收款账户 list
     getCollectAccounts () {
       this.$store.dispatch('getTenantAccountList', this.getTenantAccountListForm)
+    },
+    // 根据ID获取一个服务公司
+    async getCompanyById () {
+      await this.$store.dispatch('getServiceCompanyById', this.tenantId)
     }
   },
   mounted () {
@@ -532,6 +628,7 @@ export default {
     ...mapState({
       // 服务公司信息list获取
       companyList: state => state.tenantCompany.serviceCompanys,
+      serviceCompany: state => state.tenantCompany.serviceCompany,
       // 获取基本信息 tenant 的form
       tenantDetail: state => state.tenant.tenant,
       // 收款账户里的获取所有的收款账户
@@ -568,6 +665,12 @@ export default {
   height: 1px;
   background-color: #DCDFE6;
   margin-top: 25px;
+}
+.line{
+  width: 100%;
+  height: 1px;
+  background-color: #DCDFE6;
+  margin: 10px 0 25px 0;
 }
 .service-provider-title{
   font-size: 20px;

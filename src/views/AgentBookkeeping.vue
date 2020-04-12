@@ -383,7 +383,6 @@ export default {
   },
   mounted () {
     this.taskId = this.$route.query.taskId
-    console.log(this.taskId)
     this.getAgentOrderDetail()
   }
 }
