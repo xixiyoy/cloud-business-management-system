@@ -121,15 +121,10 @@
             <el-card class="box-card">
               <div class="text item">
                 <p class="team-member-title">团队成员</p>
-                    <el-table
-                      :data="members.userList"
-                      style="width: 100%">
-                      <el-table-column
-                        prop="userName"
-                        align="left">
-                      </el-table-column>
-                    </el-table>
-                <p></p>
+                <div class="dividing-line"></div>
+                <div v-for="(userList, index) in members.userList" :key="index">
+                  {{ userList.userName }}
+                </div>
               </div>
             </el-card>
          </div>
@@ -139,8 +134,9 @@
             <el-card class="box-card">
               <div class="text item">
                 <el-badge :value="homeBaseInfo.receiveTaskList.length" class="item">
-                <p class="team-member-title">进度跟踪</p>
+                <p class="team-member-title">接收通知</p>
                 </el-badge>
+                <div class="dividing-line"></div>
                 <div v-for="(receiveTask, index) in homeBaseInfo.receiveTaskList" :key="index">
                   {{ receiveTask.relUserName }} 将 {{ receiveTask.productName }} 移交给你，请接受！
                 </div>
@@ -153,6 +149,7 @@
             <el-card class="box-card">
               <div class="text item">
                 <p class="team-member-title">进度跟踪</p>
+                <div class="dividing-line"></div>
                 <div v-for="(taskFlow, index) in homeBaseInfo.taskFollwList" :key="index">
                   {{ taskFlow.customerName }}-{{ taskFlow.productName }} - 当前进度 {{ getMonth(taskFlow.taxDate) }} 月
                 </div>
@@ -248,7 +245,7 @@ export default {
   width: 100%;
   height: 1px;
   background-color: #DCDFE6;
-  margin-top: 25px;
+  margin: 13px 0;
 }
 .date-show-custom{
   width: 70%;
