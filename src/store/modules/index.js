@@ -12,6 +12,7 @@ import tenant from './tenant'
 import sysUser from './sysUser'
 import account from './account'
 import flowConfig from './flowConfig'
+import home from './home'
 
 export default {
   customer,
@@ -27,5 +28,6 @@ export default {
   tenant,
   sysUser,
   account,
-  flowConfig
+  flowConfig,
+  home
 }

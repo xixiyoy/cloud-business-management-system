@@ -13,7 +13,7 @@ const getCompanyList = (limit, page) => request({
 const createServiceCompany = createServiceCompanyFrom => request({
   url: '/tenantCompany/save',
   method: 'POST',
-  params: createServiceCompanyFrom
+  data: createServiceCompanyFrom
 })
 const updateServiceCompany = serviceCompany => request({
   url: '/tenantCompany/update',
