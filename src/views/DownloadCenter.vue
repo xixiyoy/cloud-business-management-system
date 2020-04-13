@@ -4,7 +4,7 @@
       <div class="dividing-line"></div>
      <div class="serviceProduct-header">
        <el-row :gutter="20">
-         <el-col :span="4">
+         <el-col :span="5">
            <div class="grid-content bg-purple">
              <el-date-picker
                 type="date"
@@ -12,7 +12,7 @@
               </el-date-picker>
            </div>
          </el-col>
-         <el-col :span="15">
+         <el-col :span="14">
            <el-dropdown>
             <el-button>
               全部模块<i class="el-icon-arrow-down el-icon--right"></i>
@@ -24,7 +24,7 @@
             </el-dropdown-menu>
           </el-dropdown>
          </el-col>
-         <el-col :span="4" style="float: right;">
+         <el-col :span="5" style="float: right;">
             <div class="grid-content bg-purple">
               <div>
                 <el-input placeholder="搜索产品名称" class="input-with-select">
@@ -43,14 +43,17 @@
         style="width: 100%">
         <el-table-column
           label="报表名称"
+          :show-overflow-tooltip="true"
           prop="productName">
         </el-table-column>
         <el-table-column
           label="报表分类"
+          :show-overflow-tooltip="true"
           prop="productMoudleName">
         </el-table-column>
         <el-table-column
           label="所属业务板块"
+          :show-overflow-tooltip="true"
           prop="productUnitType">
         </el-table-column>
         <el-table-column
@@ -63,6 +66,7 @@
         </el-table-column>
         <el-table-column
           label="创建日期"
+          :show-overflow-tooltip="true"
           prop="createTime">
         </el-table-column>
         <el-table-column label="操作" width="180">

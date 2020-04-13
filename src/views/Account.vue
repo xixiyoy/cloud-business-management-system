@@ -7,14 +7,14 @@
               <el-button type="primary" @click="handleClickCreateAccount">新  建</el-button>
             </div>
           </el-col>
-          <el-col :span="13"><div class="grid-content bg-purple">
+          <el-col :span="10"><div class="grid-content bg-purple">
             <el-button class="new-seetings">
               <img id="u829_img" class="img " src="../assets/images/account/u829.png">
               <span style="padding-left:10px;">导出</span>
             </el-button></div></el-col>
-          <el-col :span="2">
+          <el-col :span="4">
             <div class="grid-content bg-purple">
-              <el-dropdown>
+              <el-dropdown style="float: right;">
                 <el-button>
                   请选择<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
@@ -35,9 +35,10 @@
               </div>
             </div>
           </el-col>
-          <el-col :span="2" style="padding-right:0px;padding-left: 24px;">
+          <el-col :span="1"><el-button type="text"></el-button></el-col>
+          <el-col :span="3">
             <div class="grid-content bg-purple">
-              <el-button class="new-seetings" @click="handleAdvancedSearch">高级检索</el-button>
+              <el-button class="new-seetings" style="float:right;" @click="handleAdvancedSearch">高级检索</el-button>
               <el-dialog title="高级检索" width="40%" :visible.sync="advancedSearchDialogVisible">
                 <el-form label-position="top" label-width="120px">
                   <el-row gutter="20">
@@ -123,10 +124,12 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-table-column
+              fixed
               type="selection">
             </el-table-column>
             <el-table-column
               prop="customerName"
+              :show-overflow-tooltip="true"
               label="客户名称">
             </el-table-column>
             <el-table-column
@@ -139,6 +142,7 @@
             </el-table-column>
             <el-table-column
               prop="customerLinkerPhone"
+              :show-overflow-tooltip="true"
               label="联系电话">
             </el-table-column>
             <el-table-column
@@ -267,7 +271,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .account-custom{
   width: 94%;
   margin: 0 auto;
@@ -292,15 +296,6 @@ export default {
     border-radius: 4px;
     min-height: 36px;
   }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-  }
-.el-table td, .el-table th.is-leaf{
-  border: 1px solid #DCDFE6;
-  text-align: center;
-
-}
 .el-main{
   line-height: 10px;
 }
@@ -310,5 +305,8 @@ export default {
 }
 .el-col-3{
   width:7.5%;
+}
+.el-tabs--border-card>.el-tabs__content{
+  padding: 0;
 }
 </style>

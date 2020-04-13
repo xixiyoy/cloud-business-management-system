@@ -1,4 +1,4 @@
-import { getTaskList, createtask, getTaskDetail, updateTask } from '../../api/task'
+import { getTaskList, createtask, getTaskDetail, updateTask, transferTask } from '../../api/task'
 
 const state = {
   tasks: {},
@@ -114,6 +114,9 @@ const actions = {
   },
   async updateTask ({ commit }, updateTaskForm) {
     await updateTask(updateTaskForm)
+  },
+  async transferTask ({ commit }, transferTaskForm) {
+    await transferTask(transferTaskForm)
   }
 }
 export default {

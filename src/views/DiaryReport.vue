@@ -4,13 +4,14 @@
         <el-row :gutter="20">
           <el-col :span="3">
             <div class="grid-content bg-purple">
-              <el-button class="diaryReport-button-custom" type="primary" @click="handleNewDiaryReport">新建收支</el-button>
+              <el-button type="primary" @click="handleNewDiaryReport">新建收支</el-button>
             </div>
           </el-col>
+          <el-col :span="1"><el-button type="text"></el-button></el-col>
           <el-col :span="3"><div class="grid-content bg-purple">
             <el-button class="new-seetings">
               <img id="u829_img" class="img " src="../assets/images/account/u829.png">
-              <span style="padding-left:10px;">导出</span>
+              <span>导出</span>
             </el-button></div></el-col>
         </el-row>
         <el-row :gutter="20">
@@ -51,6 +52,7 @@
         </el-table-column>
         <el-table-column
           prop="createTime"
+          :show-overflow-tooltip="true"
           label="收支时间">
         </el-table-column>
         <el-table-column
@@ -85,6 +87,7 @@
         </el-table-column>
         <el-table-column
           prop="customerName"
+          :show-overflow-tooltip="true"
           label="客户名称">
         </el-table-column>
         <el-table-column
@@ -199,9 +202,6 @@ export default {
 }
 #app > section > section > main > div > div.diaryReport-header-custom > div:nth-child(2) > div:nth-child(3){
   width: 143px;
-}
-.diaryReport-button-custom{
-  padding: 14px 19px !important;
 }
 .title-name{
   font-family: '微软雅黑';
