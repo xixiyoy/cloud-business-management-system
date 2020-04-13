@@ -27,6 +27,7 @@
         style="width: 100%">
         <el-table-column
           label="渠道商名称"
+          :show-overflow-tooltip="true"
           prop="name">
         </el-table-column>
         <el-table-column
@@ -51,6 +52,7 @@
         </el-table-column>
         <el-table-column
           label="创建日期"
+          :show-overflow-tooltip="true"
           prop="createTime">
         </el-table-column>
         <el-table-column label="操作" width="180">

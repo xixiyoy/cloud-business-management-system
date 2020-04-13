@@ -2,19 +2,20 @@
   <div id="billingList" class="billing-list">
     <div class="billing-list-header-custom">
         <el-row :gutter="20">
-          <el-col :span="4">
+          <el-col :span="3">
             <div class="grid-content bg-purple">
               <el-button type="primary" @click="handleClickApplyInvoicing" style="padding: 14px 34px;">申请开票</el-button>
             </div>
           </el-col>
-          <el-col :span="11"><div class="grid-content bg-purple">
+          <el-col :span="1"><el-button type="text"></el-button></el-col>
+          <el-col :span="10"><div class="grid-content bg-purple">
             <el-button class="new-seetings">
               <img id="u829_img" class="img " src="../assets/images/account/u829.png">
               <span style="padding-left:10px;">数据导出</span>
             </el-button></div></el-col>
-          <el-col :span="3">
+          <el-col :span="4">
             <div class="grid-content bg-purple">
-              <el-dropdown>
+              <el-dropdown style="float:right;">
                 <el-button>
                   请选择<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
@@ -35,7 +36,7 @@
               </div>
             </div>
           </el-col>
-          <el-col :span="2" style="padding-right:0px;">
+          <el-col :span="3">
             <div class="grid-content bg-purple"><el-button class="new-seetings">高级检索</el-button></div>
           </el-col>
         </el-row>
@@ -54,6 +55,7 @@
             </el-table-column>
             <el-table-column
               prop="invoiceCode"
+              :show-overflow-tooltip="true"
               label="开票编号">
             </el-table-column>
             <el-table-column
@@ -82,6 +84,7 @@
             </el-table-column>
             <el-table-column
               prop="appliTime"
+              :show-overflow-tooltip="true"
               label="开票时间">
             </el-table-column>
             <el-table-column

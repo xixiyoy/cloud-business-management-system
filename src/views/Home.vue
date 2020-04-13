@@ -11,14 +11,12 @@
                   <p class="dynamic-value">{{ homeBaseInfo.customerCount }}</p><br><br>
                 </div>
                 <div class="icon-custom">
-                  <img class="date-icon-custom" src="../assets/images/home/u167.png" alt="">
+                  <img class="date-icon-custom" src="../assets/images/home/客户.png" alt="">
                 </div>
-                <img class="date-icon-second" src="../assets/images/home/u169.png" alt="">
               </div>
               <div class="date-total-show">
-                <img class="date-total-icon" src="../assets/images/home/u171.svg" alt="">
-                <span class="date-total-dynamic-value">3.48%</span>
-                <span class="date-total-summary">自上个月以来</span>
+                <span class="date-total-dynamic-value"></span>
+                <span class="date-total-summary"></span>
               </div>
             </div>
           </el-card>
@@ -34,14 +32,12 @@
                   <p class="dynamic-value">{{ homeBaseInfo.accountCustomerCount }}</p><br><br>
                 </div>
                 <div class="icon-custom">
-                  <img class="date-icon-custom" src="../assets/images/home/u177.png" alt="">
+                  <img class="date-icon-custom" src="../assets/images/home/订单.png" alt="">
                 </div>
-                <img class="date-icon-second" src="../assets/images/home/u179.png" alt="">
               </div>
               <div class="date-total-show">
-                <img class="date-total-icon" src="../assets/images/home/u171.svg" alt="">
-                <span class="date-total-dynamic-value">3.48%</span>
-                <span class="date-total-summary">自上个月以来</span>
+                <span class="date-total-dynamic-value"></span>
+                <span class="date-total-summary"></span>
               </div>
             </div>
           </el-card>
@@ -57,14 +53,12 @@
                   <p class="dynamic-value">{{ homeBaseInfo.taskCount }}</p><br><br>
                 </div>
                 <div class="icon-custom">
-                  <img class="date-icon-custom" src="../assets/images/home/u189.png" alt="">
+                  <img class="date-icon-custom" src="../assets/images/home/代账服务费.png" alt="">
                 </div>
-                <img class="date-icon-second" src="../assets/images/home/u191.png" alt="">
               </div>
               <div class="date-total-show">
-                <img class="date-total-icon" src="../assets/images/home/u171.svg" alt="">
-                <span class="date-total-dynamic-value">3.48%</span>
-                <span class="date-total-summary">自上个月以来</span>
+                <span class="date-total-dynamic-value"></span>
+                <span class="date-total-summary"></span>
               </div>
             </div>
           </el-card>
@@ -78,16 +72,14 @@
                 <div class="date-show-custom">
                   <p class="data-font-custom">总开票数</p>
                   <p class="dynamic-value">{{ homeBaseInfo.invoiceCount }}</p><br><br>
-                </div><br><br>
-                <div class="icon-custom">
-                  <img class="date-icon-custom" src="../assets/images/home/u200.png" alt="">
                 </div>
-                <img class="date-icon-second" src="../assets/images/home/u203.png" alt="">
+                <div class="icon-custom">
+                  <img class="date-icon-custom" src="../assets/images/home/开票总额.png" alt="">
+                </div>
               </div>
               <div class="date-total-show">
-                <img class="date-total-icon" src="../assets/images/home/u171.svg" alt="">
-                <span class="date-total-dynamic-value">3.48%</span>
-                <span class="date-total-summary">自上个月以来</span>
+                <span class="date-total-dynamic-value"></span>
+                <span class="date-total-summary"></span>
               </div>
             </div>
           </el-card>
@@ -99,8 +91,8 @@
          <div class="chart-custom">
            <el-card class="box-card">
             <div class="text item">
-              <p class="chart-custom-title">概况</p>
-              <ve-line :data="chartData" :settings="chartSettings" :extend="chartExtend"></ve-line>
+              <p class="chart-custom-title"></p>
+              <ve-line :data="accountMoneyChartData" :settings="chartSettings" :extend="chartExtend"></ve-line>
             </div>
           </el-card>
          </div>
@@ -109,7 +101,7 @@
          <div class="chart-custom">
           <el-card class="box-card">
             <div class="text item">
-              <ve-histogram :data="chartData" :settings="chartSettings"></ve-histogram>
+              <ve-histogram :data="allTaskChartData" :settings="chartSettings"></ve-histogram>
             </div>
           </el-card>
          </div>
@@ -180,22 +172,23 @@ export default {
         type: 'business:home:all'
       },
       getDeptMembers: {},
-      chartData: {
-        columns: ['日期', '总额'],
-        rows: [
-          { 日期: '1 月', 总额: 1093 },
-          { 日期: '2 月', 总额: 3230 },
-          { 日期: '3 月', 总额: 2623 },
-          { 日期: '4 月', 总额: 1423 },
-          { 日期: '5 月', 总额: 3492 },
-          { 日期: '6 月', 总额: 3492 },
-          { 日期: '7 月', 总额: 3492 },
-          { 日期: '8 月', 总额: 3492 },
-          { 日期: '9 月', 总额: 3492 },
-          { 日期: '10 月', 总额: 3492 },
-          { 日期: '11 月', 总额: 3492 },
-          { 日期: '12 月', 总额: 3492 }
-        ]
+      accountMoneyChartData: {
+        columns: [
+          '日期',
+          '总额'
+        ],
+        rows: []
+      },
+      allTaskChartData: {
+        columns: [
+          '日期',
+          '总额'
+        ],
+        rows: []
+      },
+      getAccountMoneyForm: {
+        type: 'business:home:all',
+        year: '2020'
       }
     }
   },
@@ -208,25 +201,48 @@ export default {
     },
     getMonth (taxDate) {
       return new Date(taxDate).getMonth() + 1
+    },
+    async getAllTask () {
+      await this.$store.dispatch('getAllTask', this.getAccountMoneyForm)
+    },
+    async getAccountMoney () {
+      await this.$store.dispatch('getAccountMoney', this.getAccountMoneyForm)
     }
   },
   mounted () {
     this.getMembers()
-    this.getBaseInfo().then(() => {
-      this.chartData.rows = []
-      const rows = this.homeBaseInfo.allTaskMap
-      for (const dot in rows) {
-        this.chartData.rows.push({
-          日期: `${dot} 月`,
-          总额: rows[dot]
+    this.getAllTask().then(() => {
+      const dots = this.allTask
+      const rows = []
+      for (const index in dots) {
+        rows.push({
+          日期: `${index} 月`,
+          总额: dots[index],
+          index: Number.parseInt(index)
         })
       }
+      this.allTaskChartData.rows = rows.sort((a, b) => a.index - b.index)
     })
+    this.getAccountMoney().then(() => {
+      const dots = this.accountMoney
+      const rows = []
+      for (const index in dots) {
+        rows.push({
+          日期: `${index} 月`,
+          总额: dots[index],
+          index: Number.parseInt(index)
+        })
+      }
+      this.accountMoneyChartData.rows = rows.sort((a, b) => a.index - b.index)
+    })
+    this.getBaseInfo()
   },
   computed: {
     ...mapState({
       members: state => state.department.members,
-      homeBaseInfo: state => state.home.home
+      homeBaseInfo: state => state.home.home,
+      allTask: state => state.home.task,
+      accountMoney: state => state.home.accountMoney
     })
   }
 }
@@ -267,7 +283,6 @@ export default {
 }
 .date-icon-custom{
   width: 70px;
-  padding-top: 11px;
   float: left;
 }
 .icon-custom{

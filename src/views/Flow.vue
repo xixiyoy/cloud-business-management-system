@@ -2,12 +2,12 @@
   <div class="flow">
     <div class="flow-header-custom">
         <el-row :gutter="20" class="header-custom">
-          <el-col :span="15"><div class="grid-content bg-purple">
+          <el-col :span="13"><div class="grid-content bg-purple">
             <el-button>
               <img id="u829_img" class="img " src="../assets/images/account/u829.png">
               <span style="padding-left:10px;">导出</span>
             </el-button></div></el-col>
-          <el-col :span="2">
+          <el-col :span="3">
             <div class="grid-content bg-purple">
               <el-dropdown>
                 <el-button >
@@ -32,9 +32,9 @@
               </div>
             </div>
           </el-col>
-          <el-col :span="2" style="padding-right:0px;padding-left: 24px;">
+          <el-col :span="3">
             <div class="grid-content bg-purple">
-              <el-button class="new-seetings" @click="handleAdvancedSearch">高级检索</el-button>
+              <el-button class="new-seetings" @click="handleAdvancedSearch" style="float:right;">高级检索</el-button>
               <el-dialog title="高级检索" width="40%" :visible.sync="advancedSearchDialogVisible">
                 <el-form label-position="top" label-width="120px">
                   <el-row gutter="20">
@@ -118,24 +118,30 @@
               <el-row :gutter="20">
                 <el-col :span="4">公司名称: {{ task.customerName }}</el-col>
                 <el-col :span="6">DB 编号：{{ task.taskNo }}</el-col>
-                <el-col :span="4">客户代表：{{ task.relUserName }}</el-col>
+                <el-col :span="9">客户代表：{{ task.relUserName }}</el-col>
+                <el-col :span="4">
+                  <div style="float: right; padding: 3px 0" v-if="!isAgentOrder(task)">
+                    <el-date-picker
+                      align="right"
+                      type="year"
+                      placeholder="选择年">
+                    </el-date-picker>
+                  </div>
+                </el-col>
               </el-row>
-              <div style="float: right; padding: 3px 0" v-if="!isAgentOrder(task)">
-                <el-date-picker
-                  align="right"
-                  type="year"
-                  placeholder="选择年">
-                </el-date-picker>
-              </div>
             </div>
             <el-row :gutter="20" v-if="!isAgentOrder(task)">
               <el-col>
-                <a-steps :current="0" class="four-steps">
-                  <template slot="progressDot" slot-scope="{ description }">
-                    <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
-                  </template>
-                  <a-step :title="taskFlow.monthLabel" :description="taskFlow.status" v-for="(taskFlow, index) in getTaskFlows(task.taskFlowList)" :key="index"/>
-                </a-steps>
+                <a-row>
+                  <a-col :span="12">
+                    <a-steps :current="0" class="four-steps">
+                      <template slot="progressDot" slot-scope="{ description }">
+                        <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
+                      </template>
+                      <a-step :title="taskFlow.monthLabel" :description="taskFlow.status" v-for="(taskFlow, index) in getTaskFlows(task.taskFlowList)" :key="index"/>
+                    </a-steps>
+                  </a-col>
+                </a-row>
               </el-col>
             </el-row>
             <el-row v-if="isAgentOrder(task)">
@@ -154,24 +160,20 @@
               </el-col>
             </el-row>
             <el-row :gutter="10" style="margin-top:50px;">
-              <el-col :span="4" :offset="2">服务中</el-col>
-              <el-col :span="4">已完成</el-col>
-              <el-col :span="4">已终止</el-col>
-              <el-col :span="4">交接中</el-col>
-              <el-col :span="4">未开始</el-col>
+              <el-col :span="4" :offset="2"><i style="width:15px;height:15px;border-radius:50%;background-color:#67C23A;margin: 2px 5px 0 0px;display: inline-block;"></i>服务中</el-col>
+              <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:#409EFF;margin: 2px 5px 0 0px;display: inline-block;"></i>已完成</el-col>
+              <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:red;margin: 2px 5px 0 0px;display: inline-block;"></i>已终止</el-col>
+              <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:#E6A23C;margin: 2px 5px 0 0px;display: inline-block;"></i>交接中</el-col>
+              <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:#fff;margin: 2px 5px 0 0px;display: inline-block;border:1px solid rgb(232, 232, 232)"></i>未开始</el-col>
             </el-row>
             <el-row :gutter="10" v-if="!isAgentOrder(task)">
               <el-col>
-                <template slot-scope="scope">
-                  <el-button type="primary" round @click="handleVieAgentaOrder(scope.row)">进入流程 ></el-button>
-                </template>
+                <el-button type="primary" round @click="handleVieAgentaOrder(task)">进入流程 ></el-button>
               </el-col>
             </el-row>
             <el-row :gutter="10" v-if="isAgentOrder(task)">
               <el-col>
-                <template slot-scope="scope">
-                  <el-button type="primary" round @click="handleViewOrder(scope.row)">进入流程 ></el-button>
-                </template>
+                <el-button type="primary" round @click="handleViewOrder(task)">进入流程 ></el-button>
               </el-col>
             </el-row>
           </el-card>
@@ -236,12 +238,12 @@ export default {
       this.getFlows()
     },
     handleVieAgentaOrder (row) {
-      this.$router.push({ path: '/agent-bookkeepin', query: { taskId: row.id } })
+      this.$router.push({ path: '/agent-bookkeeping', query: { taskId: row.taskId } })
       console.log(row)
       console.log(111)
     },
     handleViewOrder (row) {
-      this.$router.push({ path: '/one-time-accounting', query: { taskId: row.id } })
+      this.$router.push({ path: '/one-time-accounting', query: { taskId: row.taskId } })
     },
     handleTabClick () {
       this.getFlowForm.page = 1

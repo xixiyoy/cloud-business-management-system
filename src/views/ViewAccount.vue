@@ -7,7 +7,7 @@
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="基础信息" name="1">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-row>
+            <el-row :gutter="1">
               <el-col :span="20">
                 <el-button type="primary" round>{{account.customerStatusName}}</el-button>
               </el-col>
@@ -183,10 +183,12 @@
             </el-table-column>
             <el-table-column
               prop="productName"
+              :show-overflow-tooltip="true"
               label="产品名称">
             </el-table-column>
             <el-table-column
               prop="taskNo"
+              :show-overflow-tooltip="true"
               label="订单编号">
             </el-table-column>
             <el-table-column
@@ -239,6 +241,7 @@
             </el-table-column>
             <el-table-column
               prop="name"
+              :show-overflow-tooltip="true"
               label="订单编号">
             </el-table-column>
             <el-table-column
@@ -358,5 +361,8 @@ export default {
     width: 17px;
     padding-right: 10px;
     float: left;
+}
+.el-form-item {
+    margin-bottom: 0px;
 }
 </style>

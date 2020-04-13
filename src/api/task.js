@@ -22,9 +22,16 @@ const updateTask = taskId => request({
   data: taskId
 })
 
+const transferTask = transferTaskForm => request({
+  url: '/task/transfer',
+  method: 'POST',
+  params: transferTaskForm
+})
+
 export {
   getTaskList,
   createtask,
   getTaskDetail,
-  updateTask
+  updateTask,
+  transferTask
 }

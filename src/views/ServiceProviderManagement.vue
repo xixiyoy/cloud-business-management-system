@@ -115,8 +115,8 @@
             <el-card class="box-card">
               <div class="text item">
                 <div>
-                  <p class="team-member-title">{{ list.fullName }}<br>({{ list.shortName }})</p>
-                  <div class="line"></div>
+                  <p class="team-member-title">{{ list.fullName }}</p><p>({{ list.shortName }})</p>
+                  <div class="line-company"></div>
                     <p>{{ list.creditCode }}</p><br>
                     {{ list.servicePlate }}
                 </div><br><br>
@@ -148,7 +148,9 @@
                     <el-button type="primary" @click="handleUpdateCompanyButtonClick">确 定</el-button>
                   </div>
                 </el-dialog>
-                <el-button type="text" style="float: lefy; padding: 3px 0">删 除</el-button>
+                <el-button type="text"
+                @click="handleCompanyDelete($index, row)"
+                style="float: lefy; padding: 3px 0">删 除</el-button>
               </div>
             </el-card>
           </el-col>
@@ -500,7 +502,6 @@ export default {
       console.log(index, row)
     },
     handleAddServiceCompanyButtonClick () {
-      console.log(1111)
       this.addServiceCompanyDialogFormVisible = true
     },
     handleEditServiceCompanyButtonClick (list) {
@@ -590,6 +591,16 @@ export default {
       })
       this.createServiceCompany()
     },
+    // 删除服务公司
+    handleCompanyDelete (index, row) {
+      const tenantCompanyIds = [
+        row.tenantCompanyId
+      ]
+      this.$store.dispatch('deleteServiceCompany', tenantCompanyIds).then(() => {
+        this.getCompanies()
+        console.log(11111)
+      })
+    },
     createTenantAccount () {
       this.$store.dispatch('createTenantAccount', this.createTenantAccountFrom)
     },
@@ -666,7 +677,7 @@ export default {
   background-color: #DCDFE6;
   margin-top: 25px;
 }
-.line{
+.line-company{
   width: 100%;
   height: 1px;
   background-color: #DCDFE6;

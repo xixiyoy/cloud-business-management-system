@@ -210,13 +210,13 @@
         <el-dialog title="交接任务: " :visible.sync="HandoverTaskDialogFormVisible" width="40%">
           <el-form>
             <el-form-item label="新负责人" required="">
-              <el-select placeholder="请选择">
+              <el-select placeholder="请选择" v-model="transferTaskForm.receiveUserName">
                 <el-option label="一" value="shanghai"></el-option>
                 <el-option label="二" value="beijing"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="交接备注: ">
-              <el-input autocomplete="off"></el-input>
+              <el-input autocomplete="off" v-model="transferTaskForm.remark"></el-input>
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
@@ -333,7 +333,13 @@ export default {
         10,
         11,
         12
-      ]
+      ],
+      transferTaskForm: {
+        taskId: 0,
+        receiveUserId: 0,
+        receiveUserName: '',
+        remark: ''
+      }
     }
   },
   computed: {

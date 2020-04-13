@@ -2,13 +2,13 @@
   <div class="agent-report">
     <div class="agent-header-custom">
         <el-row :gutter="20" class="header-custom">
-          <el-col :span="2"><div class="grid-content bg-purple">
+          <el-col :span="3"><div class="grid-content bg-purple">
             <el-button>
               <img id="u829_img" class="img " src="../assets/images/account/u829.png">
               <span style="padding-left:10px;">导出</span>
             </el-button></div>
           </el-col>
-          <el-col :span="15">
+          <el-col :span="13">
             <div class="block">
               <el-date-picker
                 type="date"
@@ -16,9 +16,9 @@
               </el-date-picker>
             </div>
           </el-col>
-          <el-col :span="2">
+          <el-col :span="3">
             <div class="grid-content bg-purple">
-              <el-dropdown>
+              <el-dropdown style="float:right;">
                 <el-button>
                   请选择<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
@@ -58,6 +58,7 @@
             <el-table-column
               prop="customerName"
               label="客户名称"
+              :show-overflow-tooltip="true"
               header-align="center">
             </el-table-column>
             <el-table-column label="完成情况 (2020)"
