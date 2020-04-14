@@ -15,7 +15,7 @@
             </el-button></div></el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="18">
+          <el-col :span="14">
             <div class="block">
               <el-date-picker
                 type="date"
@@ -23,9 +23,23 @@
               </el-date-picker>
             </div>
           </el-col>
-          <el-col :span="2" class="diaryReport-select-custom">
+          <el-col :span="3">
             <div class="grid-content bg-purple">
-              <el-dropdown class="diaryReport-select-custom">
+              <el-dropdown>
+                <el-button>
+                  请选择<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu>
+                  <el-dropdown-item>全部</el-dropdown-item>
+                  <el-dropdown-item>待审核</el-dropdown-item>
+                  <el-dropdown-item>已审核</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+          </el-col>
+          <el-col :span="3">
+            <div class="grid-content bg-purple">
+              <el-dropdown>
                 <el-button>
                   请选择<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
@@ -213,9 +227,6 @@ export default {
 }
 .el-row {
     margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
   .el-col {
     border-radius: 4px;

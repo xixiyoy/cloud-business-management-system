@@ -68,119 +68,95 @@
                 prop="province"
                 label="1月"
                 class-name="none-border">
-                <template>
-                  <el-radio-group v-model="radio">
-                    <el-radio></el-radio>
-                  </el-radio-group>
+                <template slot-scope="scope">
+                  <i :class="getCompleteCircleClass(1, scope.row)"></i>
                 </template>
               </el-table-column>
               <el-table-column
                 prop="city"
                 label="2月"
                 class-name="none-border">
-                <template>
-                  <el-radio-group v-model="radio">
-                    <el-radio></el-radio>
-                  </el-radio-group>
+                <template slot-scope="scope">
+                  <i :class="getCompleteCircleClass(2, scope.row)"></i>
                 </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="3月"
                 class-name="none-border">
-                <template>
-                  <el-radio-group v-model="radio">
-                    <el-radio></el-radio>
-                  </el-radio-group>
+                <template slot-scope="scope">
+                  <i :class="getCompleteCircleClass(3, scope.row)"></i>
                 </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="4月"
                 class-name="none-border">
-                <template>
-                  <el-radio-group v-model="radio">
-                    <el-radio></el-radio>
-                  </el-radio-group>
+                <template slot-scope="scope">
+                  <i :class="getCompleteCircleClass(4, scope.row)"></i>
                 </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="5月"
                 class-name="none-border">
-                <template>
-                  <el-radio-group v-model="radio">
-                    <el-radio></el-radio>
-                  </el-radio-group>
+                <template slot-scope="scope">
+                  <i :class="getCompleteCircleClass(5, scope.row)"></i>
                 </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="6月"
                 class-name="none-border">
-                <template>
-                  <el-radio-group v-model="radio">
-                    <el-radio></el-radio>
-                  </el-radio-group>
+                <template slot-scope="scope">
+                  <i :class="getCompleteCircleClass(6, scope.row)"></i>
                 </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="7月"
                 class-name="none-border">
-                <template>
-                  <el-radio-group v-model="radio">
-                    <el-radio></el-radio>
-                  </el-radio-group>
+                <template slot-scope="scope">
+                  <i :class="getCompleteCircleClass(7, scope.row)"></i>
                 </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="8月"
                 class-name="none-border">
-                <template>
-                  <el-radio-group v-model="radio">
-                    <el-radio></el-radio>
-                  </el-radio-group>
+                <template slot-scope="scope">
+                  <i :class="getCompleteCircleClass(8, scope.row)"></i>
                 </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="9月"
                 class-name="none-border">
-                <template>
-                  <el-radio-group v-model="radio">
-                    <el-radio></el-radio>
-                  </el-radio-group>
+                <template slot-scope="scope">
+                  <i :class="getCompleteCircleClass(9, scope.row)"></i>
                 </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="10月"
                 class-name="none-border">
-                <template>
-                  <el-radio-group v-model="radio">
-                    <el-radio></el-radio>
-                  </el-radio-group>
+                <template slot-scope="scope">
+                  <i :class="getCompleteCircleClass(10, scope.row)"></i>
                 </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="11月"
                 class-name="none-border">
-                <template>
-                  <el-radio-group v-model="radio">
-                    <el-radio></el-radio>
-                  </el-radio-group>
+                <template slot-scope="scope">
+                  <i :class="getCompleteCircleClass(11, scope.row)"></i>
                 </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="12月">
-                <template>
-                  <el-radio-group v-model="radio">
-                    <el-radio></el-radio>
-                  </el-radio-group>
+                <template slot-scope="scope">
+                  <i :class="getCompleteCircleClass(12, scope.row)"></i>
                 </template>
               </el-table-column>
             </el-table-column>
@@ -220,36 +196,7 @@
               <template>
                 <el-button type="text" icon="el-icon-search" @click="dialogFormVisible = true"></el-button>
 
-                <el-dialog title="提交收款" :visible.sync="dialogFormVisible">
-                  <el-form>
-                    <el-form-item label="付款账户：">
-                      <el-input></el-input>
-                    </el-form-item>
-                    <el-form-item label="收据编号：">
-                      <el-input></el-input>
-                    </el-form-item>
-                    <el-form-item label="收款账户：" required>
-                      <el-input></el-input>
-                    </el-form-item>
-                    <el-form-item label="收款月数：" required>
-                      <el-input></el-input>
-                    </el-form-item>
-                    <el-form-item label="到账日期：" required>
-                      <div class="block">
-                        <el-date-picker
-                          type="date"
-                          placeholder="选择日期">
-                        </el-date-picker>
-                      </div>
-                    </el-form-item>
-                  </el-form>
-                  <div slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-                    <el-button @click="dialogFormVisible = false">取 消</el-button>
-                  </div>
-                </el-dialog>
-
-                <el-dialog title="提交提成" :visible.sync="dialogFormVisible">
+                <!-- <el-dialog title="提交提成" :visible.sync="dialogFormVisible">
                   <el-form>
                     <el-form-item label="提成月数：" required>
                       <div class="block">
@@ -267,10 +214,10 @@
                     <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
                   </div>
-                </el-dialog>
+                </el-dialog> -->
 
               <!-- 展示部分 -->
-              <el-dialog title="收款记录" :visible.sync="dialogTableVisible">
+              <!-- <el-dialog title="收款记录" :visible.sync="dialogTableVisible">
                 <el-form>
                   <el-form-item label="审核状态：">
                     <span></span>
@@ -300,7 +247,7 @@
                     <span></span>
                   </el-form-item>
                 </el-form>
-              </el-dialog>
+              </el-dialog> -->
 
               </template>
             </el-table-column>
@@ -340,6 +287,35 @@
         </el-pagination>
       </div>
     </div>
+    <!-- 提交弹窗 -->
+    <el-dialog title="提交收款" :visible.sync="dialogFormVisible">
+      <el-form>
+        <el-form-item label="付款账户：">
+          <el-input></el-input>
+        </el-form-item>
+        <el-form-item label="收据编号：">
+          <el-input></el-input>
+        </el-form-item>
+        <el-form-item label="收款账户：" required>
+          <el-input></el-input>
+        </el-form-item>
+        <el-form-item label="收款月数：" required>
+          <el-input></el-input>
+        </el-form-item>
+        <el-form-item label="到账日期：" required>
+          <div class="block">
+            <el-date-picker
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </div>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -379,6 +355,16 @@ export default {
         })
         this.getAccountsForm.type = this.accountLabels[0].name
       })
+    },
+    getAccountForTable (month, row) {
+      return row.accountList.filter(account => new Date(account.currentMonth).getMonth() + 1 === month)[0] || null
+    },
+    getCompleteCircleClass (month, row) {
+      const account = this.getAccountForTable(month, row)
+      if (account === null) {
+        return 'info'
+      }
+      return account.statusName === '已发提成' ? 'red' : 'green'
     },
     handleCurrentChangeClick (currentPage) {
       this.getAccountsForm.page = currentPage
@@ -421,5 +407,47 @@ export default {
 }
 .none-border {
   border-right: 0px solid #EBEEF5 !important;
+}
+
+.green {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:#67C23A;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+}
+.blue {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:#409EFF;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+}
+.red {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:red;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+}
+.warn {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:#E6A23C;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+}
+.info {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:#fff;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+  border:1px solid rgb(232, 232, 232);
 }
 </style>
