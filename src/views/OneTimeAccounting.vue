@@ -22,11 +22,11 @@
             </el-col>
           </el-row>
           <el-row :gutter="10" style="margin-top:50px;">
-            <el-col :span="4" :offset="2">服务中</el-col>
-            <el-col :span="4">已完成</el-col>
-            <el-col :span="4">已终止</el-col>
-            <el-col :span="4">交接中</el-col>
-            <el-col :span="4">未开始</el-col>
+              <el-col :span="4" :offset="2"><i class="green"></i>服务中</el-col>
+              <el-col :span="4"><i class="blue"></i>已完成</el-col>
+              <el-col :span="4"><i class="red"></i>已终止</el-col>
+              <el-col :span="4"><i class="warn"></i>交接中</el-col>
+              <el-col :span="4"><i class="info"></i>未开始</el-col>
           </el-row>
         </el-card>
       </div>
@@ -368,5 +368,46 @@ export default {
   .ant-steps-item-description {
     display: block;
   }
+}
+.green {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:#67C23A;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+}
+.blue {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:#409EFF;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+}
+.red {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:red;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+}
+.warn {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:#E6A23C;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+}
+.info {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:#fff;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+  border:1px solid rgb(232, 232, 232);
 }
 </style>

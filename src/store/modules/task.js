@@ -1,4 +1,4 @@
-import { getTaskList, createtask, getTaskDetail, updateTask, transferTask } from '../../api/task'
+import { getTaskList, createtask, getTaskDetail, updateTask, transferTask, getCancelTask, getReceiveTask, getCompleteTask, getStopTask } from '../../api/task'
 
 const state = {
   tasks: {},
@@ -87,7 +87,11 @@ const state = {
       surplusGiftNum: 2
     },
     taskFlowList: []
-  }
+  },
+  cancelTask: {},
+  receiveTask: {},
+  completeTask: {},
+  stopTask: {}
 }
 const mutations = {
   'SET_TASKS' (state, tasks) {
@@ -95,6 +99,18 @@ const mutations = {
   },
   'SET_TASK' (state, task) {
     state.task = task
+  },
+  'SET_CANCELTASK' (state, cancelTask) {
+    state.cancelTask = cancelTask
+  },
+  'SET_RECEIVETASK' (state, receiveTask) {
+    state.receiveTask = receiveTask
+  },
+  'SET_COMPLETETASK' (state, completeTask) {
+    state.completeTask = completeTask
+  },
+  'SET_STOPTASK' (state, stopTask) {
+    state.stopTask = stopTask
   }
 }
 const actions = {
@@ -115,8 +131,33 @@ const actions = {
   async updateTask ({ commit }, updateTaskForm) {
     await updateTask(updateTaskForm)
   },
+  // 交接任务
   async transferTask ({ commit }, transferTaskForm) {
     await transferTask(transferTaskForm)
+  },
+  // 撤回任务
+  async getCancelTask ({ commit }, getCancelTaskForm) {
+    const { taskId } = getCancelTaskForm
+    const { data: cancelTask } = await getCancelTask(taskId)
+    commit('SET_CANCELTASK', cancelTask)
+  },
+  // 接收任务
+  async getReceiveTask ({ commit }, getreceiveTaskForm) {
+    const { taskId, remark } = getreceiveTaskForm
+    const { data: receiveTask } = await getReceiveTask(taskId, remark)
+    commit('SET_RECEIVETASK', receiveTask)
+  },
+  // 完成记账
+  async getCompleteTask ({ commit }, completeTaskForm) {
+    const { taskId, remark } = completeTaskForm
+    const { data: completeTask } = await getCompleteTask(taskId, remark)
+    commit('SET_COMPLETETASK', completeTask)
+  },
+  // 终止任务
+  async getStopTask ({ commit }, stopTaskForm) {
+    const { taskId, remark } = stopTaskForm
+    const { data: stopTask } = await getStopTask(taskId, remark)
+    commit('SET_STOPTASK', stopTask)
   }
 }
 export default {

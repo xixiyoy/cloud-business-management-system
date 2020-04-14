@@ -27,11 +27,11 @@
               </el-col>
             </el-row>
             <el-row :gutter="10" style="margin-top:50px;">
-              <el-col :span="4" :offset="2">服务中</el-col>
-              <el-col :span="4">已完成</el-col>
-              <el-col :span="4">已终止</el-col>
-              <el-col :span="4">交接中</el-col>
-              <el-col :span="4">未开始</el-col>
+              <el-col :span="4" :offset="2"><i class="green"></i>服务中</el-col>
+              <el-col :span="4"><i class="blue"></i>已完成</el-col>
+              <el-col :span="4"><i class="red"></i>已终止</el-col>
+              <el-col :span="4"><i class="warn"></i>交接中</el-col>
+              <el-col :span="4"><i class="info"></i>未开始</el-col>
             </el-row>
           </el-card>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
@@ -210,9 +210,13 @@
         <el-dialog title="交接任务: " :visible.sync="HandoverTaskDialogFormVisible" width="40%">
           <el-form>
             <el-form-item label="新负责人" required="">
-              <el-select placeholder="请选择" v-model="transferTaskForm.receiveUserName">
-                <el-option label="一" value="shanghai"></el-option>
-                <el-option label="二" value="beijing"></el-option>
+              <el-select placeholder="请选择" v-model="getAllUser.list">
+                <el-option
+                v-for="item in list"
+                :key="item.label"
+                :label="item.label"
+                :value="item.label"
+                ></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="交接备注: ">
@@ -339,12 +343,33 @@ export default {
         receiveUserId: 0,
         receiveUserName: '',
         remark: ''
+      },
+      getUserListForm: {},
+      getCancelTaskForm: {
+        taskId: 1
+      },
+      getreceiveTaskForm: {
+        taskId: 1,
+        remark: ''
+      },
+      completeTaskForm: {
+        taskId: 1,
+        remark: ''
       }
     }
   },
   computed: {
     ...mapState({
-      agentOrder: state => state.task.task
+      agentOrder: state => state.task.task,
+      allUser: state => state.sysUser.users,
+      // 撤回任务
+      cancelTask: state => state.task.cancelTask,
+      // 接收任务
+      receiveTask: state => state.task.receiveTask,
+      // 完成记账
+      completeTask: state => state.task.completeTask,
+      // 终止任务
+      stopTask: state => state.task.stopTask
     })
   },
   methods: {
@@ -385,11 +410,36 @@ export default {
           status: '未开始'
         }
       })
+    },
+    // 获取所有用户列表
+    getAllUser () {
+      this.$store.dispatch('getUserList', this.getUserListForm)
+    },
+    // 撤回任务
+    getCancelTask () {
+      this.$store.dispatch('getCancelTask', this.getCancelTaskForm)
+    },
+    // 接收任务
+    getReceiveTask () {
+      this.$store.dispatch('getReceiveTask', this.getreceiveTaskForm)
+    },
+    // 完成记账
+    getCompleteTask () {
+      this.$store.dispatch('getCompleteTask', this.completeTaskForm)
+    },
+    // 终止任务
+    getStopTask () {
+      this.$store.dispatch('getStopTask', this.stopTaskForm)
     }
   },
   mounted () {
     this.taskId = this.$route.query.taskId
     this.getAgentOrderDetail()
+    this.getAllUser()
+    this.getCancelTask()
+    this.getReceiveTask()
+    this.getCompleteTask()
+    this.getStopTask()
   }
 }
 </script>
@@ -462,5 +512,46 @@ export default {
   .ant-steps-item-description {
     display: block;
   }
+}
+.green {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:#67C23A;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+}
+.blue {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:#409EFF;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+}
+.red {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:red;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+}
+.warn {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:#E6A23C;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+}
+.info {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background-color:#fff;
+  margin: 2px 5px 0 0px;
+  display: inline-block;
+  border:1px solid rgb(232, 232, 232);
 }
 </style>

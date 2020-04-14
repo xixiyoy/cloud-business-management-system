@@ -407,7 +407,7 @@ export default {
   top:0px;
   /* 暂时用 css 弥补 js */
   width:2090px;
-  height:1680px;
+  height:110%;
 }
 #u54 {
   border-width:0px;

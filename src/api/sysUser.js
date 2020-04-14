@@ -11,8 +11,12 @@ const getSysInfo = () => request({
 const updatePassWord = userId => request({
   url: `/sys/user/password/${userId}`
 })
+const getUserList = () => request({
+  url: '/sys/user/list'
+})
 export {
   updateSysInfo,
   getSysInfo,
-  updatePassWord
+  updatePassWord,
+  getUserList
 }
