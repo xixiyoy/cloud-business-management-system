@@ -1,4 +1,4 @@
-import { getTaskList, createtask, getTaskDetail, updateTask, transferTask, getCancelTask, getReceiveTask, getCompleteTask, getStopTask } from '../../api/task'
+import { getTaskList, createtask, getTaskDetail, updateTask, transferTask, cancelTask, receiveTask, completeTask, stopTask, backTask } from '../../api/task'
 
 const state = {
   tasks: {},
@@ -88,9 +88,6 @@ const state = {
     },
     taskFlowList: []
   },
-  cancelTask: {},
-  receiveTask: {},
-  completeTask: {},
   stopTask: {}
 }
 const mutations = {
@@ -99,15 +96,6 @@ const mutations = {
   },
   'SET_TASK' (state, task) {
     state.task = task
-  },
-  'SET_CANCELTASK' (state, cancelTask) {
-    state.cancelTask = cancelTask
-  },
-  'SET_RECEIVETASK' (state, receiveTask) {
-    state.receiveTask = receiveTask
-  },
-  'SET_COMPLETETASK' (state, completeTask) {
-    state.completeTask = completeTask
   },
   'SET_STOPTASK' (state, stopTask) {
     state.stopTask = stopTask
@@ -133,33 +121,47 @@ const actions = {
   },
   // 交接任务
   async transferTask ({ commit }, transferTaskForm) {
-    await transferTask(transferTaskForm)
+    const { data: { code, msg } } = await transferTask(transferTaskForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   // 撤回任务
-  async getCancelTask ({ commit }, getCancelTaskForm) {
-    const { taskId } = getCancelTaskForm
-    const { data: cancelTask } = await getCancelTask(taskId)
-    commit('SET_CANCELTASK', cancelTask)
+  async cancelTask ({ commit }, cancelTaskForm) {
+    const { data: { code, msg } } = await cancelTask(cancelTaskForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   // 接收任务
-  async getReceiveTask ({ commit }, getreceiveTaskForm) {
-    const { taskId, remark } = getreceiveTaskForm
-    const { data: receiveTask } = await getReceiveTask(taskId, remark)
-    commit('SET_RECEIVETASK', receiveTask)
+  async receiveTask ({ commit }, receiveTaskForm) {
+    const { data: { code, msg } } = await receiveTask(receiveTaskForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
+  },
+  async backTask ({ commit }, backTaskForm) {
+    const { data: { code, msg } } = await backTask(backTaskForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   // 完成记账
-  async getCompleteTask ({ commit }, completeTaskForm) {
-    const { taskId, remark } = completeTaskForm
-    const { data: completeTask } = await getCompleteTask(taskId, remark)
-    commit('SET_COMPLETETASK', completeTask)
+  async completeTask ({ commit }, completeTaskForm) {
+    const { data: { code, msg } } = await completeTask(completeTaskForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   // 终止任务
-  async getStopTask ({ commit }, stopTaskForm) {
-    const { taskId, remark } = stopTaskForm
-    const { data: stopTask } = await getStopTask(taskId, remark)
-    commit('SET_STOPTASK', stopTask)
+  async stopTask ({ commit }, stopTaskForm) {
+    const { data: { code, msg } } = await stopTask(stopTaskForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   }
 }
+
 export default {
   state,
   actions,

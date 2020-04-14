@@ -28,41 +28,43 @@ const transferTask = transferTaskForm => request({
   params: transferTaskForm
 })
 // 撤回任务
-const getCancelTask = taskId => request({
+const cancelTask = cancelTaskForm => request({
   url: '/task/cancelRel',
   method: 'POST',
-  data: taskId
+  params: cancelTaskForm
 })
 // 接收任务
-const getReceiveTask = (taskId, remark) => request({
+const receiveTask = receiveTaskForm => request({
   url: '/task/receiveTask',
   method: 'POST',
-  data: taskId,
-  remark
+  params: receiveTaskForm
 })
 // 完成记账
-const getCompleteTask = (taskId, remark) => request({
+const completeTask = completeTaskForm => request({
   url: '/task/completeTask',
   method: 'POST',
-  data: taskId,
-  remark
+  data: completeTaskForm
 })
 // 终止任务
-const getStopTask = (taskId, remark) => request({
+const stopTask = stopTaskForm => request({
   url: '/task/stopTask',
-  params: {
-    taskId,
-    remark
-  }
+  params: stopTaskForm
 })
+
+const backTask = backTaskForm => request({
+  url: '/task/backTask',
+  params: backTaskForm
+})
+
 export {
   getTaskList,
   createtask,
   getTaskDetail,
   updateTask,
   transferTask,
-  getCancelTask,
-  getReceiveTask,
-  getCompleteTask,
-  getStopTask
+  cancelTask,
+  receiveTask,
+  completeTask,
+  stopTask,
+  backTask
 }
