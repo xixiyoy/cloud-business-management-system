@@ -217,6 +217,92 @@
               prop="operating"
               label="操作"
               header-align="center">
+              <template>
+                <el-button type="text" icon="el-icon-search" @click="dialogFormVisible = true"></el-button>
+
+                <el-dialog title="提交收款" :visible.sync="dialogFormVisible">
+                  <el-form>
+                    <el-form-item label="付款账户：">
+                      <el-input></el-input>
+                    </el-form-item>
+                    <el-form-item label="收据编号：">
+                      <el-input></el-input>
+                    </el-form-item>
+                    <el-form-item label="收款账户：" required>
+                      <el-input></el-input>
+                    </el-form-item>
+                    <el-form-item label="收款月数：" required>
+                      <el-input></el-input>
+                    </el-form-item>
+                    <el-form-item label="到账日期：" required>
+                      <div class="block">
+                        <el-date-picker
+                          type="date"
+                          placeholder="选择日期">
+                        </el-date-picker>
+                      </div>
+                    </el-form-item>
+                  </el-form>
+                  <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                  </div>
+                </el-dialog>
+
+                <el-dialog title="提交提成" :visible.sync="dialogFormVisible">
+                  <el-form>
+                    <el-form-item label="提成月数：" required>
+                      <div class="block">
+                        <el-date-picker
+                          type="date"
+                          placeholder="">
+                        </el-date-picker>
+                      </div>
+                    </el-form-item>
+                    <el-form-item label="提成金额：">
+                      <el-input></el-input>
+                    </el-form-item>
+                  </el-form>
+                  <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                  </div>
+                </el-dialog>
+
+              <!-- 展示部分 -->
+              <el-dialog title="收款记录" :visible.sync="dialogTableVisible">
+                <el-form>
+                  <el-form-item label="审核状态：">
+                    <span></span>
+                  </el-form-item>
+                  <el-form-item label="提交人：">
+                    <span></span>
+                  </el-form-item>
+                  <el-form-item label="付款账户：">
+                    <span></span>
+                  </el-form-item>
+                  <el-form-item label="收据编号：">
+                    <span></span>
+                  </el-form-item>
+                  <el-form-item label="到账日期：">
+                    <span></span>
+                  </el-form-item>
+                  <el-form-item label="收款月数：">
+                    <span></span>
+                  </el-form-item>
+                  <el-form-item label="审批人：">
+                    <span></span>
+                  </el-form-item>
+                  <el-form-item label="备注：">
+                    <span></span>
+                  </el-form-item>
+                  <el-form-item label="创建日期：">
+                    <span></span>
+                  </el-form-item>
+                </el-form>
+              </el-dialog>
+
+              </template>
             </el-table-column>
           </el-table>
         </el-tab-pane>
@@ -265,6 +351,7 @@ export default {
   },
   data () {
     return {
+      dialogFormVisible: false,
       radio: 3,
       activeTabName: 'all',
       getAccountsForm: {
@@ -300,6 +387,9 @@ export default {
     handelTabClick () {
       this.getAccountsForm.page = 1
       this.getAccounts()
+    },
+    // 用来判断是否收款
+    isReceiveMoney (collectStatusValue) {
     }
   },
   mounted () {

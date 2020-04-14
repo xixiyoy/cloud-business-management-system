@@ -1,13 +1,18 @@
-import { updateSysInfo, getSysInfo, updatePassWord } from '../../api/sysUser'
+import { updateSysInfo, getSysInfo, updatePassWord, getUserList } from '../../api/sysUser'
 
 const state = {
-  user: {}
+  user: {},
+  users: {}
 }
 
 const mutations = {
   'SET_USER' (state, user) {
     state.user = user
+  },
+  'SET_USERS' (state, users) {
+    state.users = users
   }
+
 }
 const actions = {
   async getSysInfo ({ commit }) {
@@ -20,6 +25,10 @@ const actions = {
   },
   async updatePassWord ({ commit }, modifyPassWord) {
     await updatePassWord(modifyPassWord)
+  },
+  async getUserList ({ commit }, getUserListForm) {
+    const { data: users } = await getUserList(getUserListForm)
+    commit('SET_USERS', users)
   }
 }
 

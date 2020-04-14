@@ -1,5 +1,5 @@
 ﻿.ax_default {
-  font-family:'微软雅黑';
+  font-family: 'PingFang';
   font-weight:400;
   font-style:normal;
   font-size:13px;
@@ -7,46 +7,42 @@
   text-align:center;
   line-height:normal;
 }
-._图片_ {
-}
-.button {
-}
 ._一级标题 {
-  font-family:'微软雅黑';
+  font-family:'PingFang SC';
   font-weight:bold;
   font-style:normal;
   font-size:32px;
   text-align:left;
 }
 ._二级标题 {
-  font-family:'微软雅黑';
+  font-family:'PingFang SC';
   font-weight:bold;
   font-style:normal;
   font-size:24px;
   text-align:left;
 }
 ._三级标题 {
-  font-family:'微软雅黑';
+  font-family:'PingFang SC';
   font-weight:bold;
   font-style:normal;
   font-size:18px;
   text-align:left;
 }
 ._四级标题 {
-  font-family:'微软雅黑';
+  font-family:'PingFang SC';
   font-weight:bold;
   font-style:normal;
   font-size:14px;
   text-align:left;
 }
 ._五级标题 {
-  font-family:'微软雅黑';
+  font-family:'PingFang SC';
   font-weight:bold;
   font-style:normal;
   text-align:left;
 }
 ._六级标题 {
-  font-family:'微软雅黑';
+  font-family:'PingFang SC';
   font-weight:bold;
   font-style:normal;
   font-size:10px;
@@ -71,34 +67,18 @@
 ._文本链接 {
   color:#0000FF;
 }
-._鼠标悬停文本链接时 {
-}
-._鼠标按下文本链接时 {
-}
-._流程形状 {
-}
 ._连接线 {
-  font-family:'Arial Normal', 'Arial';
+  font-family:'PingFang SC';
   font-weight:400;
   font-style:normal;
 }
 .refs-design-apple {
-  font-family:'PingFang SC Regular', 'PingFang SC';
+  font-family:'PingFang SC';
   font-weight:400;
   font-style:normal;
 }
-.image {
-}
-._图片 {
-}
-.box_1 {
-}
-.box_2 {
-}
-.horizontal_line {
-}
 ._形状 {
-  font-family:'微软雅黑 Bold', '微软雅黑';
+  font-family:'PingFang SC';
   font-weight:700;
   font-style:normal;
 }
@@ -106,16 +86,14 @@
   text-align:left;
 }
 .heading_1 {
-  font-family:'微软雅黑';
+  font-family:'PingFang SC';
   font-weight:bold;
   font-style:normal;
   font-size:32px;
   text-align:left;
 }
-.shape {
-}
 ._36号字_顶部标题、大按钮、弹窗提示主标题_ {
-  font-family:'PingFang SC Regular', 'PingFang SC';
+  font-family:'PingFang SC';
   font-weight:400;
   font-style:normal;
   font-size:18px;
@@ -145,44 +123,24 @@
 .image1 {
   color:#000000;
 }
-.box_11 {
-}
 .text_field {
   color:#000000;
   text-align:left;
 }
 ._一级标题1 {
-  font-family:'微软雅黑 Bold', '微软雅黑';
+  font-family:'PingFang SC';
   font-weight:700;
   font-style:normal;
   font-size:32px;
   text-align:left;
 }
-._形状1 {
-}
-.box_21 {
-}
-.ellipse {
-}
-.box_3 {
-}
 .primary_button {
   color:#FFFFFF;
 }
-.line {
-}
-.box_22 {
-}
-.shape1 {
-}
-.table_cell {
-}
 .refs-design-material {
-  font-family:'Noto Sans CJK SC Regular', 'Noto Sans CJK SC';
+  font-family:'PingFang SC';
   font-weight:400;
   font-style:normal;
-}
-.icon {
 }
 .text_field1 {
   color:#000000;
@@ -193,8 +151,6 @@
 }
 ._文本段落1 {
   text-align:left;
-}
-._默认样式 {
 }
 .paragraph1 {
   text-align:left;
@@ -213,37 +169,27 @@
 .link_button {
   color:#169BD5;
 }
-._默认样式1 {
-}
-.icon1 {
-}
 .label1 {
-  font-family:'微软雅黑';
+  font-family:'PingFang SC';
   font-weight:400;
   font-style:normal;
   font-size:14px;
   color:#FFFFFF;
   text-align:left;
 }
-.ellipse1 {
-}
 .refs-chart-data {
-  font-family:'Arial Normal', 'Arial';
+  font-family:'PingFang SC';
   font-weight:400;
   font-style:normal;
 }
 .shape2 {
-  font-family:'Arial Normal', 'Arial';
+  font-family:'PingFang SC';
   font-weight:400;
   font-style:normal;
   font-size:13px;
   color:#333333;
   text-align:center;
   line-height:normal;
-}
-.box_31 {
-}
-.line1 {
 }
 .text_area1 {
   color:#000000;
@@ -252,21 +198,11 @@
 .marker {
   color:#FFFFFF;
 }
-.box_23 {
-}
-.placeholder {
-}
-._默认样式2 {
-}
 .radio_button {
   text-align:left;
 }
-._表格 {
-}
 .paragraph2 {
   text-align:left;
-}
-.flow_shape {
 }
 .label2 {
   font-size:14px;

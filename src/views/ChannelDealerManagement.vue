@@ -24,6 +24,7 @@
       <el-table
         :data="channelList.page.list"
         :header-cell-style="serviceProductTableHeaderCellStyle"
+        border="ture"
         style="width: 100%">
         <el-table-column
           label="渠道商名称"
@@ -176,10 +177,6 @@ export default {
     padding: 10px 0;
     background-color: #f9fafc;
   }
-.el-table td, .el-table th.is-leaf{
-  border: 1px solid #DCDFE6;
-  text-align: center;
-}
 .el-main{
   line-height: 10px;
 }

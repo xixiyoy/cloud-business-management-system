@@ -165,12 +165,12 @@
               <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:red;margin: 2px 5px 0 0px;display: inline-block;"></i>已终止</el-col>
               <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:#E6A23C;margin: 2px 5px 0 0px;display: inline-block;"></i>交接中</el-col>
               <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:#fff;margin: 2px 5px 0 0px;display: inline-block;border:1px solid rgb(232, 232, 232)"></i>未开始</el-col>
-            </el-row>
+            </el-row><br>
             <el-row :gutter="10" v-if="!isAgentOrder(task)">
               <el-col>
                 <el-button type="primary" round @click="handleVieAgentaOrder(task)">进入流程 ></el-button>
               </el-col>
-            </el-row>
+            </el-row><br>
             <el-row :gutter="10" v-if="isAgentOrder(task)">
               <el-col>
                 <el-button type="primary" round @click="handleViewOrder(task)">进入流程 ></el-button>
@@ -361,5 +361,8 @@ export default {
   .ant-steps-item-description {
     display: block;
   }
+}
+.ant-steps-item {
+  width: 16%;
 }
 </style>
