@@ -132,55 +132,58 @@
     </div>
     <div class="one-time-accounting-slide">
       <el-row>
-        <el-button @click="carryOutTaskDialogFormVisible = true">开始填报</el-button>
+        <el-button @click="handleCompleteTaskButtonClick">开始填报</el-button>
         <el-dialog title="企业变更" :visible.sync="carryOutTaskDialogFormVisible" width="40%">
-          <el-form :model="form">
+          <el-form>
             <el-form-item label="备注: " required="">
-              <el-input autocomplete="off" type="textarea"></el-input>
+              <el-input v-model="completeTaskForm.remark" type="textarea"></el-input>
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="carryOutTaskDialogFormVisible = false">确 定</el-button>
+            <el-button type="primary" @click="completeTask">确 定</el-button>
             <el-button @click="carryOutTaskDialogFormVisible = false">取 消</el-button>
           </div>
         </el-dialog>
       </el-row><br>
       <el-row>
-        <el-button @click="HandoverTaskDialogFormVisible = true">交接任务</el-button>
+        <el-button @click="handleTransferTaskButtonClick">交接任务</el-button>
         <el-dialog title="交接任务: " :visible.sync="HandoverTaskDialogFormVisible" width="40%">
-          <el-form :model="form">
+          <el-form>
             <el-form-item label="新负责人" required="">
-              <el-select placeholder="请选择">
-                <el-option label="一" value="shanghai"></el-option>
-                <el-option label="二" value="beijing"></el-option>
+              <el-select placeholder="请选择" v-model="transferTaskForm.receiveUserName">
+                <el-option
+                  v-for="item in allUser.list"
+                  :key="item.userName"
+                  :label="item.userName"
+                  :value="item.userName"
+                ></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="交接备注: ">
-              <el-input autocomplete="off"></el-input>
+              <el-input autocomplete="off" v-model="transferTaskForm.remark"></el-input>
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="HandoverTaskDialogFormVisible = false">确 定</el-button>
+            <el-button type="primary" @click="transferTask">确 定</el-button>
             <el-button @click="HandoverTaskDialogFormVisible = false">取 消</el-button>
           </div>
         </el-dialog>
       </el-row><br>
       <el-row>
-        <el-button @click="WithdrawTaskDialogVisible = true">撤回任务</el-button>
+        <el-button @click="handleCancelTaskButtonClick">撤回任务</el-button>
         <el-dialog
           title="提示"
           :visible.sync="WithdrawTaskDialogVisible"
-          width="30%"
-          :before-close="handleClose">
+          width="30%">
           <span>确定要撤回交接吗?</span>
           <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="WithdrawTaskDialogVisible = false">确 认</el-button>
+            <el-button type="primary" @click="cancelTask">确 认</el-button>
             <el-button @click="WithdrawTaskDialogVisible = false">取 消</el-button>
           </span>
         </el-dialog>
       </el-row><br>
       <el-row>
-        <el-button  @click="receiveOuterVisible = true">接收任务</el-button>
+        <el-button  @click="handleRecevieTaskButtonClick">接收任务</el-button>
         <el-dialog title="接收任务" :visible.sync="receiveOuterVisible" width="40%">
           <el-dialog
             width="30%"
@@ -189,40 +192,40 @@
             append-to-body>
             <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
               <el-form-item label="退回备注: " prop="desc">
-                <el-input type="textarea"></el-input>
+                <el-input v-model="backTaskForm.cancelRemark" type="textarea"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">确 认</el-button>
-                <el-button @click="resetForm('ruleForm')">取 消</el-button>
+                <el-button type="primary" @click="backTask">确 认</el-button>
+                <el-button @click="innerVisible = false">取 消</el-button>
               </el-form-item>
             </el-form>
           </el-dialog>
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="交接人: " prop="desc">
-              <span>钱磊</span>
+              <span>{{ agentOrder.baseInformation.task.transferredUserName }}</span>
             </el-form-item>
             <el-form-item label="交接留言: " prop="desc">
-              <el-input></el-input>
+              <el-input v-model="receiveTaskForm.remark"></el-input>
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
-            <el-button @click="innerVisible = true" style="float:left;">退回任务</el-button>
-            <el-button type="primary" @click="receiveOuterVisible = false">确 认</el-button>
+            <el-button @click="handleBackTaskButtonClick" style="float:left;">退回任务</el-button>
+            <el-button type="primary" @click="receiveTask">确 认</el-button>
             <el-button @click="receiveOuterVisible = false">取 消</el-button>
           </div>
         </el-dialog>
       </el-row><br>
       <el-row>
-        <el-button @click="terminationTaskDialogFormVisible = true">终止任务</el-button>
+        <el-button @click="handleStopTaskButtonClick">终止任务</el-button>
         <el-dialog title="请确认是否终止任务?" :visible.sync="terminationTaskDialogFormVisible" width="40%">
-          <el-form :model="form">
+          <el-form>
             <el-form-item label="终止原因: " required="">
-              <el-input autocomplete="off" type="textarea"></el-input>
+              <el-input v-model="stopTaskForm.remark" type="textarea"></el-input>
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="terminationTaskDialogFormVisible = false">取 消</el-button>
-            <el-button type="danger" @click="terminationTaskDialogFormVisible = false">确 定</el-button>
+            <el-button type="danger" @click="stopTask">确 定</el-button>
           </div>
         </el-dialog>
       </el-row>
@@ -231,6 +234,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { Message } from 'element-ui'
 const getMonth = taxDate => new Date(taxDate).getMonth() + 1
 
 export default {
@@ -245,19 +249,93 @@ export default {
       innerVisible: false,
       carryOutTaskDialogFormVisible: false,
       terminationTaskDialogFormVisible: false,
-      taskId: 0
+      taskId: 0,
+      transferTaskForm: {
+        taskId: 0,
+        receiveUserName: '',
+        remark: ''
+      },
+      getUserListForm: {},
+      cancelTaskForm: {
+        taskId: 1
+      },
+      receiveTaskForm: {
+        taskId: 1,
+        remark: ''
+      },
+      backTaskForm: {
+        taskId: 1,
+        cancelRemark: ''
+      },
+      stopTaskForm: {
+        taskId: 1,
+        remark: ''
+      },
+      completeTaskForm: {
+        taskId: 1,
+        remark: ''
+      }
     }
   },
   mounted () {
     this.taskId = this.$route.query.taskId
     this.getAgentOrderDetail()
+    this.getAllUser()
   },
   computed: {
     ...mapState({
-      agentOrder: state => state.task.task
+      agentOrder: state => state.task.task,
+      allUser: state => state.sysUser.users
     })
   },
   methods: {
+    async getAgentOrderDetail () {
+      this.taskId = this.$route.query.taskId
+      this.$store.dispatch('getTaskById', this.taskId)
+    },
+    handleTransferTaskRecevierSelectChange () {},
+    handleTransferTaskButtonClick () {
+      this.HandoverTaskDialogFormVisible = true
+      this.transferTaskForm.taskId = this.taskId
+    },
+    handleCompleteTaskButtonClick () {
+      this.carryOutTaskDialogFormVisible = true
+      this.completeTaskForm.taskId = this.taskId
+    },
+    handleBackTaskButtonClick () {
+      this.innerVisible = true
+      this.receiveOuterVisible = false
+      this.backTaskForm.taskId = this.taskId
+    },
+    transferTask () {
+      this.HandoverTaskDialogFormVisible = false
+      this.$store.dispatch('transferTask', this.transferTaskForm).then(() => {
+        Message({
+          message: '交接成功',
+          type: 'success'
+        })
+        this.transferTaskForm.receiveUserName = ''
+        this.transferTaskForm.remark = ''
+        this.getAgentOrderDetail()
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
+    handleCancelTaskButtonClick () {
+      this.WithdrawTaskDialogVisible = true
+      this.cancelTaskForm.taskId = this.taskId
+    },
+    handleRecevieTaskButtonClick () {
+      this.receiveOuterVisible = true
+      this.receiveTaskForm.taskId = this.taskId
+    },
+    handleStopTaskButtonClick () {
+      this.terminationTaskDialogFormVisible = true
+      this.stopTaskForm.taskId = this.taskId
+    },
     getStepsIconClass (description) {
       switch (description) {
         case '未开始': {
@@ -275,7 +353,6 @@ export default {
       }
     },
     getTaskFlows (taskFlows) {
-      console.log(taskFlows)
       const availableTaskFlows = taskFlows.map(({ taxDate }) => ({
         month: getMonth(taxDate),
         monthLabel: `${getMonth(taxDate)} 月`,
@@ -293,8 +370,96 @@ export default {
         }
       })
     },
-    async getAgentOrderDetail () {
-      this.$store.dispatch('getTaskById', this.taskId)
+    getAllUser () {
+      this.$store.dispatch('getUserList', this.getUserListForm)
+    },
+    // 撤回任务
+    cancelTask () {
+      this.$store.dispatch('cancelTask', this.cancelTaskForm).then(() => {
+        Message({
+          message: '撤回成功',
+          type: 'success'
+        })
+        this.WithdrawTaskDialogVisible = false
+        this.getAgentOrderDetail()
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+        this.WithdrawTaskDialogVisible = false
+      })
+    },
+    // 接收任务
+    receiveTask () {
+      this.$store.dispatch('receiveTask', this.receiveTaskForm).then(() => {
+        Message({
+          message: '接收成功',
+          type: 'success'
+        })
+        this.receiveOuterVisible = false
+        this.receiveTaskForm.cancelRemark = ''
+        this.getAgentOrderDetail()
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+        this.receiveOuterVisible = false
+      })
+    },
+    // 完成记账
+    completeTask () {
+      this.$store.dispatch('completeTask', this.completeTaskForm).then(() => {
+        Message({
+          message: '退回成功',
+          type: 'success'
+        })
+        this.carryOutTaskDialogFormVisible = false
+        this.completeTaskForm.remark = ''
+        this.getAgentOrderDetail()
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+        this.carryOutTaskDialogFormVisible = false
+      })
+    },
+    backTask () {
+      this.$store.dispatch('backTask', this.backTaskForm).then(() => {
+        Message({
+          message: '退回成功',
+          type: 'success'
+        })
+        this.backTaskForm.remark = ''
+        this.innerVisible = false
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+        this.innerVisible = false
+      })
+    },
+    // 终止任务
+    stopTask () {
+      this.$store.dispatch('stopTask', this.stopTaskForm).then(() => {
+        Message({
+          message: '成功终止',
+          type: 'success'
+        })
+        this.terminationTaskDialogFormVisible = false
+        this.stopTaskForm.remark = ''
+        this.getAgentOrderDetail()
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+        this.stopTaskForm.remark = ''
+        this.terminationTaskDialogFormVisible = false
+      })
     }
   }
 }
