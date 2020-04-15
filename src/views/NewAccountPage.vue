@@ -338,25 +338,25 @@ export default {
   data () {
     return {
       createProductForm: {
-        customerName: '企享云-测试客户1',
-        creditCode: '91845555',
-        customerFromWay: '来源',
-        customerFromDetail: '详细来源',
-        customerLinkerName: '客户联系人',
-        customerLinkerPhone: '18913932254',
+        customerName: '',
+        creditCode: '',
+        customerFromWay: '',
+        customerFromDetail: '',
+        customerLinkerName: '',
+        customerLinkerPhone: '',
         companyPhone: '',
-        customerLevelValue: '0',
-        customerLevelName: '普通',
+        customerLevelValue: '',
+        customerLevelName: '',
         customerRelUserId: 2,
-        customerRelUserName: '孟星驰',
+        customerRelUserName: '',
         taskList: [{
           productId: 1,
-          productName: '代理记账',
+          productName: '',
           longTerm: '0',
           price: 200,
           number: 10,
           giftNumber: 2,
-          payCycle: '月付',
+          payCycle: '',
           relUserId: 2,
           relUserName: '孟星驰'
         }, {

@@ -18,12 +18,16 @@
             </div>
             <el-row :gutter="20">
               <el-col>
-                <a-steps :current="0" class="four-steps">
-                  <template slot="progressDot" slot-scope="{ description }">
-                    <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
-                  </template>
-                  <a-step :title="taskFlow.monthLabel" :description="taskFlow.status" v-for="(taskFlow, index) in getTaskFlows(agentOrder.taskFlowList)" :key="index"/>
-                </a-steps>
+                <a-row>
+                  <a-col :span="12">
+                    <a-steps :current="0" class="four-steps">
+                      <template slot="progressDot" slot-scope="{ description }">
+                        <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
+                      </template>
+                      <a-step :title="taskFlow.monthLabel" :description="taskFlow.status" v-for="(taskFlow, index) in getTaskFlows(agentOrder.taskFlowList)" :key="index"/>
+                    </a-steps>
+                  </a-col>
+                </a-row>
               </el-col>
             </el-row>
             <el-row :gutter="10" style="margin-top:50px;">
@@ -150,14 +154,16 @@
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="交接信息: " name="3">
           <el-table
-            :data="agentOrder.baseInformation.relList"
+            :data="agentOrder.relList"
             style="width: 100%">
             <el-table-column
               label="操作时间"
+              :show-overflow-tooltip="true"
               prop="createTime">
             </el-table-column>
             <el-table-column
               label="报税期"
+              :show-overflow-tooltip="true"
               prop="taxDate">
             </el-table-column>
             <el-table-column
@@ -181,14 +187,16 @@
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="环节备注: " name="4">
           <el-table
-            :data="agentOrder.baseInformation.taskFlowList"
+            :data="agentOrder.taskFlowList"
             style="width: 100%">
             <el-table-column
               label="操作时间"
+              :show-overflow-tooltip="true"
               prop="createTime">
             </el-table-column>
             <el-table-column
               label="报税期"
+              :show-overflow-tooltip="true"
               prop="taxDate">
             </el-table-column>
             <el-table-column
