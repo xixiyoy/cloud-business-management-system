@@ -374,30 +374,21 @@
         </el-row>
         <el-row>
           <div style="margin: 150px 0;"></div>
-          <el-checkbox-group v-model="checkList">
-            <el-checkbox>
-              <template>
-                提交申请<p> (由申请人的部门主管对其进行审核)</p>
-              </template>
-            </el-checkbox><br>
-            <el-checkbox label="主管审核">
-              <template>
-                主管审核<p> (由申请人的部门主管对其进行审核)</p>
-              </template>
-            </el-checkbox><br>
-            <el-checkbox label="财务审核">
-              <template>
-                财务审核<p> (由公司财务人员对其进行审核)</p>
-              </template>
-            </el-checkbox><br>
-            <el-checkbox label="出纳确认">
-              <template>
-                出纳确认<p> (有公司出纳最终确认)</p>
-              </template>
-            </el-checkbox>
+          <el-checkbox-group v-model="checkedFlowConfigNames" @change="handleFlowConfigCheckbokGroupChange">
+            <el-checkbox>提交申请 (由申请人的部门主管对其进行审核)</el-checkbox>
+            <el-row
+              v-for="flowConfig in flowConfigs"
+              :key="flowConfig.id"
+              >
+              <el-checkbox
+                :label="flowConfig.name"
+                >
+                {{ getFlowConfigCheckBoxLabel(flowConfig.name) }}
+              </el-checkbox>
+            </el-row>
           </el-checkbox-group>
         </el-row><br><br><br>
-         <el-button type="primary">保存</el-button>
+         <el-button type="primary" @click="handleModifyFLowConfigButtonClick">保存</el-button>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -422,7 +413,6 @@ export default {
       editServiceCompanyDialogFormVisible: false,
       addAccountsReceivableDialogVisible: false,
       viewAccountsReceivableDialogVisible: false,
-      checkList: ['选中且禁用', '复选框 A'],
       checkedAccountType: '3',
       getServiceCompanyFrom: {
         limit: 10,
@@ -482,7 +472,9 @@ export default {
         updateUserId: null,
         updateUserName: null,
         updateTime: null
-      }
+      },
+      checkedFlowConfigNames: [],
+      updateFlowConfigForm: []
     }
   },
   methods: {
@@ -492,6 +484,50 @@ export default {
       ]
       this.$store.dispatch('deleteTenantAccount', tenantCollectAccountIds).then(() => {
         this.getProviderList()
+      })
+    },
+    handleModifyFLowConfigButtonClick () {
+      this.$store.dispatch('updateFlowConfig', this.updateFlowConfigForm).then(() => {
+        Message({
+          message: '修改审核配置成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
+    getFlowConfigCheckBoxLabel (flowConfigName) {
+      if (flowConfigName === '待业务审批') {
+        return `
+          主管审核 (由申请人的部门主管对其进行审核)
+        `
+      }
+      if (flowConfigName === '待财务审批') {
+        return `
+          财务审核 (由公司财务人员对其进行审核)
+        `
+      }
+      if (flowConfigName === '待出纳审批') {
+        return `
+          出纳确认 (有公司出纳最终确认)
+        `
+      }
+    },
+    handleFlowConfigCheckbokGroupChange (checkedFlowConfigNames) {
+      this.updateFlowConfigForm = this.flowConfigs.map(({ id, name }) => {
+        let value = '-1'
+        checkedFlowConfigNames.forEach(checkedFlowConfigName => {
+          if (name === checkedFlowConfigName) {
+            value = '1'
+          }
+        })
+        return {
+          id,
+          value
+        }
       })
     },
     isCashAccount () {},
@@ -515,7 +551,7 @@ export default {
       this.checkedAccountType = label
     },
     getProviderList () {
-      this.$store.dispatch('getTenantAccountList', this.getTenantAccountListForm).then(() => console.log(this.$store))
+      this.$store.dispatch('getTenantAccountList', this.getTenantAccountListForm)
     },
     // handleViewProvider(row) {
     // }
@@ -598,7 +634,6 @@ export default {
       ]
       this.$store.dispatch('deleteServiceCompany', tenantCompanyIds).then(() => {
         this.getCompanies()
-        console.log(11111)
       })
     },
     createTenantAccount () {
@@ -625,6 +660,22 @@ export default {
     // 根据ID获取一个服务公司
     async getCompanyById () {
       await this.$store.dispatch('getServiceCompanyById', this.tenantId)
+    },
+    getFlowConfigs () {
+      this.$store.dispatch('getFlowConfigs').then(() => {
+        this.checkedFlowConfigNames = []
+        this.updateFlowConfigForm = []
+        this.flowConfigs.forEach(({ id, name, value }) => {
+          this.updateFlowConfigForm.push({
+            id,
+            name,
+            value
+          })
+          if (value === '1') {
+            this.checkedFlowConfigNames.push(name)
+          }
+        })
+      })
     }
   },
   mounted () {
@@ -634,6 +685,8 @@ export default {
     this.getCompanies()
     // 所有收款账户的list获取
     this.getCollectAccounts()
+    // 获取审核配置
+    this.getFlowConfigs()
   },
   computed: {
     ...mapState({
@@ -643,7 +696,8 @@ export default {
       // 获取基本信息 tenant 的form
       tenantDetail: state => state.tenant.tenant,
       // 收款账户里的获取所有的收款账户
-      collectAccounts: state => state.tenantCollectAccount.tenantAccounts
+      collectAccounts: state => state.tenantCollectAccount.tenantAccounts,
+      flowConfigs: state => state.flowConfig.flowConfigs
     }),
     isBankAccount () {
       return this.checkedAccountType === 3

@@ -41,3 +41,47 @@ export default {
   }
 }
 </script>
+<style>
+.approval-one{
+  width: 12%;
+  text-align: center;
+  display: inline-block;
+  }
+.approval-two{
+  width: 12%;
+  text-align: center;
+  display: inline-block;
+  margin-left: -25px;
+  }
+.approval-three{
+  width: 12%;
+  text-align: center;
+  display: inline-block;
+  margin-left: -26px;
+  }
+.approval-four{
+  width: 12%;
+  text-align: center;
+  display: inline-block;
+  margin-left: -26px;
+  }
+.time-line-process{
+    width: 100px;
+    height: 1px;
+    background-color: #606266;
+    float: left;
+    margin: 31px 0 0 -20px;
+}
+.approval-content{
+    float: left;
+}
+/* 等待的图标 */
+.wait-statu{
+  width: 14px;
+  height: 14px;
+}
+/* 完成的图标 */
+.approval{
+  display: block;
+}
+</style>

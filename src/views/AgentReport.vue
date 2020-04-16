@@ -242,7 +242,7 @@
       </div>
     </div>
     <!-- 未申请 0 未申请 0 提交弹窗-->
-    <el-dialog title="提交收款" :visible.sync="submitReceiveEditVisible">
+    <el-dialog title="提交收款" :visible.sync="zeroZeroEditVisible">
       <el-form>
         <el-row>
           <el-col :spam="12">
@@ -287,12 +287,12 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitReceive = false">确 定</el-button>
-        <el-button @click="submitReceive = false">取 消</el-button>
+        <el-button type="primary" @click="zeroZeroEditVisible = false">确 定</el-button>
+        <el-button @click="zeroZeroEditVisible = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 待确认 1 未申请 0 提交收款后修改-->
-    <el-dialog title="收款记录" :visible.sync="submitReceiveViewVisible">
+    <el-dialog title="收款记录" :visible.sync="oneZeroSelfEditVisible">
       <el-form>
         <el-row>
           <el-col :spam="12">
@@ -353,11 +353,71 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitReceiveViewVisible = false">修 改</el-button>
+        <el-button type="primary" @click="oneZeroSelfEditVisible = false">修 改</el-button>
+      </div>
+    </el-dialog>
+    <!-- 提交收款待审核后 -->
+    <el-dialog title="收款详情" :visible="oneZeroOtherEditVisible">
+      <el-form>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="审核状态:">
+              <span></span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="收款账户:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="提交人:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="付款账户:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="收据编号:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="到账日期:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="收款月数:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="备注：">
+              <span></span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="oneZeroOtherEditVisible = false">驳 回</el-button>
+        <el-button @click="oneZeroOtherEditVisible = false">确认收款</el-button>
+        <el-button @click="oneZeroOtherEditVisible = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 待确认 1 未申请 0 驳回后展示-->
-    <el-dialog title="收款记录" :visible.sync="oneZeroEditVisible">
+    <el-dialog title="收款记录" :visible.sync="twoZeroViewVisible">
       <el-form>
         <el-row>
           <el-col :spam="12">
@@ -411,7 +471,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="oneZeroEditVisible = false">取 消</el-button>
+        <el-button @click="twoZeroViewVisible = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 待确认 1 未申请 0 提交收款待审核查看-->
@@ -472,151 +532,33 @@
         <el-button @click="oneZeroViewVisible = false">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- 提交收款待审核后 -->
-    <el-dialog title="收款详情" :visible="oneZeroVisible">
-      <el-form>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="审核状态:">
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="收款账户:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="提交人:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="付款账户:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="收据编号:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="到账日期:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="收款月数:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="备注：">
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">驳 回</el-button>
-        <el-button @click="dialogFormVisible = false">确认收款</el-button>
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-      </div>
-    </el-dialog>
-    <!-- 已确认后我提交的点击后的查看 -->
-    <el-dialog title="收款详情" :visible.sync="firstYiqueren">
-      <el-form>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="审核状态:">
-              <span>已确认</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="收款账户:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="提交人:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="付款账户:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="收据编号:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="到账日期:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="收款月数:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="备注：">
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="firstYiqueren = false">取 消</el-button>
-      </div>
-    </el-dialog>
     <!-- 提交收款确认后提交提成操作 -->
-                <el-dialog title="提交提成" :visible="secondSubmitVisible">
-                  <el-form>
-                    <el-form-item label="提成月数：" required>
-                      <div class="block">
-                        <el-date-picker
-                          type="date"
-                          placeholder="">
-                        </el-date-picker>
-                      </div>
-                    </el-form-item>
-                    <el-form-item label="提成金额：">
-                      <el-input></el-input>
-                    </el-form-item>
-                  </el-form>
-                  <div slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-                    <el-button @click="dialogFormVisible = false">取 消</el-button>
-                  </div>
-                </el-dialog>
-    <!-- 提交收款确认后提交提成审批操作 -->
-    <el-dialog title="提交提成">
+    <el-dialog title="提交提成" :visible="threeZeroEditVisible">
+      <el-form>
+        <el-form-item label="提成月数：" required>
+          <div class="block">
+            <el-date-picker
+              type="date"
+              placeholder="">
+            </el-date-picker>
+          </div>
+        </el-form-item>
+        <el-form-item label="提成金额：">
+          <el-input></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="threeZeroEditVisible = false">确 定</el-button>
+        <el-button @click="threeZeroEditVisible = false">取 消</el-button>
+      </div>
+    </el-dialog>
+    <!-- 提交收款确认后提交提成审批操作1 -->
+    <el-dialog title="提交提成" :visible="treeOneEditVisible">
       <el-form>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="审核状态:">
-              <span></span>
+              <span>待业务审批</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
@@ -638,7 +580,56 @@
           </el-col>
         </el-row>
         <el-row>
-          <span>审批流程</span>
+          <span>审批流程:
+            <div style="width:80%;float:right;">
+              <!-- 动态获取 -->
+              <div class="approval-process">
+                    <div class="approval-one">
+                      <div class="approval-content">
+                        <p>申请提交</p>
+                        <div class="approval">
+                        <i class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>提交人</p>
+                        <p>提交时间</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-two">
+                      <div class="approval-content">
+                        <p>业务审批</p>
+                        <div class="approval">
+                          <img class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt=""><br>
+                        </div>
+                        <p>提交人</p>
+                        <p>提交时间</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-three">
+                      <div class="approval-content">
+                        <p>财务审批</p>
+                        <div class="approval">
+                        <i class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>提交人</p>
+                        <p>提交时间</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-four">
+                      <div class="approval-content">
+                        <p>出纳确认</p>
+                        <div class="approval">
+                        <i class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>提交人</p>
+                        <p>提交时间</p>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </span>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -646,7 +637,65 @@
         <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- 提交收款确认后提交提成审批 确认的 操作 -->
+    <!-- 3 4 驳回后查看 -->
+    <el-dialog title="收款详情" :visible="treeFourViewVisible">
+      <el-form>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="审核状态:">
+              <span>已驳回</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="收款账户:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="提交人:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="付款账户:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="收据编号:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="到账日期:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="收款月数:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="收款月数:" required>
+              <span></span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="treeFourViewVisible = false">取 消</el-button>
+      </div>
+    </el-dialog>
+    <!-- 提交收款确认后提交提成审批操作3 -->
     <el-dialog title="提成记录">
       <el-form>
         <el-row>
@@ -679,11 +728,11 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogFormVisible = false">驳 回</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">修 改</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确认审批</el-button>
         <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- 提交收款确认后提交提成审批确认后 出纳待确认 操作 -->
+    <!-- 提交收款确认后提交提成审批操作4 -->
     <el-dialog title="提成记录">
       <el-form>
         <el-row>
@@ -721,7 +770,7 @@
       </div>
     </el-dialog>
     <!-- 已确认 3 已确认 5 所操作完成后查看的 -->
-    <el-dialog title="提成记录" :visible="serivceCompleteVisible">
+    <el-dialog title="提成记录" :visible="treeFiveViewVisible">
       <el-form>
         <el-row>
           <el-col :spam="12">
@@ -752,7 +801,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="serivceCompleteVisible = false">取 消</el-button>
+        <el-button @click="treeFiveViewVisible = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -760,8 +809,6 @@
 <script>
 import { getLabels } from '../api/label'
 import { mapState } from 'vuex'
-import { Message } from 'element-ui'
-// import { Message } from 'element-ui'
 
 export default {
   metaInfo: {
@@ -769,6 +816,14 @@ export default {
   },
   data () {
     return {
+      zeroZeroEditVisible: false,
+      oneZeroSelfEditVisible: false,
+      oneZeroOtherEditVisible: false,
+      twoZeroViewVisible: false,
+      threeZeroEditVisible: false,
+      treeFiveViewVisible: false,
+      treeFourViewVisible: false,
+      treeOneEditVisible: false,
       dialogFormVisible: false,
       radio: 3,
       activeTabName: 'all',
@@ -789,71 +844,40 @@ export default {
     }
   },
   methods: {
-    getRoleByFromLables () {
-    },
-    isDepartment () {
-      return this.accountLabels.filter(({ label }) => label === '部门相关').length > 0
-    },
-    isBusiness (label) {
-      return this.accountLabels.filter(({ label }) => label === '业务待审').length > 0
-    },
-    isFinance (label) {
-      return this.accountLabels.filter(({ label }) => label === '财务待审').length > 0
-    },
-    isCashier (label) {
-      return this.accountLabels.filter(({ label }) => label === '出纳待审').length > 0
+    isSelf () {
+      return true
     },
     // 判断是否可以编辑
     isCanEdit (customer) {
       const { collectStatusValue, royaltyStatusValue } = customer
-      const label = this.getAccountsForm.type
-      // 未申请可以提交申请
-      if (label === 'business:account:list:dept') {
-        if (collectStatusValue === '0') {
-          return false
-        }
-        if (collectStatusValue === '1') {
-          return true
-        }
+      // 未申请 未申请 所有人都可以编辑
+      if (collectStatusValue === '0') {
+        return true
       }
-      if (label === 'business:account:list:create' || label === 'business:account:list:all') {
-        if (collectStatusValue === '0') {
-          return true
-        }
-        if (collectStatusValue === '1') {
-          return false
-        }
-      }
-      // 以驳回不能修改
-      if (collectStatusValue === '2') {
-        return false
+      if (collectStatusValue === '1') {
+        return true
       }
       if (collectStatusValue === '3' && royaltyStatusValue === '0') {
+        return true
+      }
+      if (collectStatusValue === '3' && royaltyStatusValue === '1') {
         return true
       }
     },
     // 判断是否可以查看
     isCanView (customer) {
-      const label = this.getAccountsForm.type
-      const { collectStatusValue } = customer
-      // 未申请不能查看
-      if (collectStatusValue === '0') {
-        return false
+      // const { collectStatusValue } = customer
+      const { collectStatusValue, royaltyStatusValue } = customer
+      if (collectStatusValue === '2') {
+        return true
       }
-      if (label === 'business:account:list:create' || label === 'business:account:list:all') {
-        // 待确认 可以查看
-        if (collectStatusValue === '1') {
-          return true
-        }
+      if (collectStatusValue === '3' && royaltyStatusValue === '0') {
+        return true
       }
-      if (label === 'business:account:list:dept') {
-        // 待确认 可以查看
-        if (collectStatusValue === '1') {
-          return false
-        }
+      if (collectStatusValue === '3' && royaltyStatusValue === '5') {
+        return true
       }
-      // 以驳回和已确认可以查看
-      if (collectStatusValue === '2' || collectStatusValue === '3') {
+      if (collectStatusValue === '3' && royaltyStatusValue === '4') {
         return true
       }
     },
@@ -871,7 +895,6 @@ export default {
           }
         })
         this.getAccountsForm.type = this.accountLabels[0].name
-        this.getRoleByFromLables()
       })
     },
     getAccountForTable (month, row) {
@@ -907,149 +930,35 @@ export default {
       return this.accounts.list.filter(({ customerId }) => customerId === id)[0]
     },
     handleEditCommandClick (customer) {
-      const label = this.getAccountsForm.type
       const { collectStatusValue, royaltyStatusValue } = customer
-      // 我提交的
-      if (label === 'business:account:list:create' || label === 'business:account:list:all') {
-        // 未申请
-        if (collectStatusValue === '0' || collectStatusValue === null) {
-          this.submitReceiveEditVisible = true
-        }
-        // 待确认弹出
-        if (collectStatusValue === '1') {
-          this.submitReceiveViewVisible = true
-        }
-        // 已驳回
-        if (collectStatusValue === '2') {
-        }
-        // 已确认
-        if (collectStatusValue === '3' && royaltyStatusValue === '0') {
-          alert('第二个·提交')
-        }
+      if (collectStatusValue === '0') {
+        this.zeroZeroEditVisible = true
       }
-      // 部门相关
-      if (label === 'business:account:list:dept') {
-        // 未申请
-        if (collectStatusValue === '0' || collectStatusValue === null) {
-          Message({
-            message: '未申请不能查看',
-            type: 'warning'
-          })
-        }
-        // 待确认弹出
-        if (collectStatusValue === '1') {
-          this.oneZeroVisible = true
-        }
-        // 已驳回
-        if (collectStatusValue === '2') {
-          this.oneZeroEditVisible = true
-        }
-        // 已确认
-        if (collectStatusValue === '3') {
-          this.submitReceiveViewVisible = true
-        }
+      if (collectStatusValue === '1') {
+        this.treeOneEditVisible = true
       }
-      // // 未申请 未申请
-      // if ((collectStatusValue === '0' || collectStatusValue === null) && (royaltyStatusValue === '0' || royaltyStatusValue === null)) {
-      //   this.submitReceiveEditVisible = true
-      // }
-      // // 待确认 未申请
-      // if (collectStatusValue === '1' && royaltyStatusValue === '0') {
-      //   this.oneZeroEditVisible = true
-      // }
-      // // 已确认 已确认
-      // if (collectStatusValue === '3' && royaltyStatusValue === '5') {
-      //   Message({
-      //     message: '提成已发放不可修改',
-      //     type: 'warning'
-      //   })
-      // }
+      if (collectStatusValue === '3' && royaltyStatusValue === '0') {
+        this.threeZeroEditVisible = true
+      }
+      if (collectStatusValue === '3' && royaltyStatusValue === '1') {
+        this.treeOneEditVisible = true
+      }
     },
     handleViewCommandClick (customer) {
-      const label = this.getAccountsForm.type
-      const { collectStatusValue } = customer
-      // 我提交的
-      if (label === 'business:account:list:create' || label === 'business:account:list:all') {
-        // 未申请
-        if (collectStatusValue === '0' || collectStatusValue === null) {
-          Message({
-            message: '未申请不能查看',
-            type: 'warning'
-          })
-        }
-        // 待确认弹出
-        if (collectStatusValue === '1') {
-          this.submitReceiveViewVisible = true
-        }
-        // 已驳回
-        if (collectStatusValue === '2') {
-          this.oneZeroEditVisible = true
-        }
-        // 已确认
-        if (collectStatusValue === '3') {
-          this.firstYiqueren = true
-        }
+      const { collectStatusValue, royaltyStatusValue } = customer
+      if (collectStatusValue === '2') {
+        this.twoZeroViewVisible = true
       }
-      // 部门相关
-      if (label === 'business:account:list:dept') {
-        // 未申请
-        if (collectStatusValue === '0' || collectStatusValue === null) {
-          Message({
-            message: '未申请不能查看',
-            type: 'warning'
-          })
-        }
-        // 待确认弹出
-        if (collectStatusValue === '1') {
-          this.oneZeroVisible = true
-        }
-        if (collectStatusValue === '2') {
-          this.oneZeroEditVisible = true
-        }
-        // 已确认
-        if (collectStatusValue === '3') {
-          this.firstYiqueren = true
-        }
+      if (collectStatusValue === '3' && royaltyStatusValue === '0') {
+        alert('3 0 查看')
       }
-      // // 未申请 未申请
-      // if ((collectStatusValue === '0' || collectStatusValue === null) && (royaltyStatusValue === '0' || royaltyStatusValue === null)) {
-      //   this.submitReceiveViewVisible = true
-      // }
-      // // 待确认 未申请
-      // if (collectStatusValue === '1' && royaltyStatusValue === '0') {
-      //   this.oneZeroViewVisible = true
-      // }
-      // // 待确认 未申请
-      // if (collectStatusValue === '1' && royaltyStatusValue === '0') {
-      //   this.oneZeroViewVisible = true
-      // }
-      // // 已确认 已确认
-      // if (collectStatusValue === '3' && royaltyStatusValue === '5') {
-      //   this.serivceCompleteVisible = true
-      // }
+      if (collectStatusValue === '3' && royaltyStatusValue === '4') {
+        this.treeFourViewVisible = true
+      }
+      if (collectStatusValue === '3' && royaltyStatusValue === '5') {
+        this.treeFiveViewVisible = true
+      }
     }
-    // // 当判断未收款的时候弹出用例1
-    // isReceiveMoney (collectStatusValue) {
-    //   const receiveSattu = this.getAccountsForm.list.collectStatusValue
-    //   if ( receiveSattu === 1 ) {
-    //     return dialogFormVisible = ture
-    //   }
-    // },
-    // // 当以收款的时候弹出用例2来当状态待发提成
-    // isCommission (royaltyStatusValue) {
-    //   const commissionStatu = this.getAccountsForm.list.royaltyStatusValue
-    //   if ( commissionStatu === 1 ) {
-    //     return commissionVisible = ture
-    //   }
-    // },
-    // // 当前是已确认发提成待审批状态
-    // isApproval () {
-    //   const approval = this.getAccountsForm.list
-    //   if ( approval === 3 ) {
-    //     return approval = ture
-    //   }
-    // }
-    // 用来展示操作选项
   },
   mounted () {
     this.getAccountLabels()
@@ -1122,5 +1031,48 @@ export default {
   margin: 2px 5px 0 0px;
   display: inline-block;
   border:1px solid rgb(232, 232, 232);
+}
+// 提成流程展示部分
+.approval-one{
+  width: 27%;
+  text-align: center;
+  display: inline-block;
+  }
+.approval-two{
+  width: 27%;
+  text-align: center;
+  display: inline-block;
+  margin-left: -25px;
+  }
+.approval-three{
+  width: 27%;
+  text-align: center;
+  display: inline-block;
+  margin-left: -26px;
+  }
+.approval-four{
+  width: 27%;
+  text-align: center;
+  display: inline-block;
+  margin-left: -26px;
+  }
+.time-line-process{
+    width: 100px;
+    height: 1px;
+    background-color: #606266;
+    float: left;
+    margin: 31px 0 0 -18px;
+}
+.approval-content{
+    float: left;
+}
+/* 等待的图标 */
+.wait-statu{
+  width: 14px;
+  height: 14px;
+}
+/* 完成的图标 */
+.approval{
+  display: block;
 }
 </style>
