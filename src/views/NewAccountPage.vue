@@ -39,7 +39,16 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="客户等级: " prop="name">
-                  <el-input v-model="createProductForm.customerLevelName"></el-input>
+                  <el-select
+                  @change="handleLevelChange"
+                  v-model="createProductForm.customerLevelName">
+                    <el-option
+                    v-for="levelName in levelNames"
+                      :key="levelName"
+                      :label="levelName"
+                      :value="levelName">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -137,46 +146,46 @@
                   type="text"
                   @click="dialogFormVisible = true">编辑</el-button>
                   <el-dialog title="收货地址" :visible.sync="dialogFormVisible" width="40%">
-                    <el-form :model="form">
-                      <el-row :gutter="20">
+                    <el-form>
+                      <el-row :gutter="1">
                         <el-col :span="12">
                           <el-form-item label="产品名称：">
-                            <el-input></el-input>
+                            <el-input disabled>{{}}</el-input>
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                          <el-form-item label="代账会计 ">
-                            <el-input></el-input>
+                          <el-form-item label="财务顾问: ">
+                            <el-input v-model="updateTaskForm.relUserName"></el-input>
                           </el-form-item>
                         </el-col>
                       </el-row>
-                      <el-row :gutter="20">
+                      <el-row :gutter="1">
                         <el-col :span="12">
                           <el-form-item label="服务单价：" required="">
-                            <el-input></el-input>
+                            <el-input v-model="updateTaskForm.price"></el-input>
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
                           <el-form-item label="会计助理：">
-                            <el-input></el-input>
+                            <el-input v-model="updateTaskForm.relHelpUserName"></el-input>
                           </el-form-item>
                         </el-col>
                       </el-row>
-                      <el-row :gutter="20">
+                      <el-row :gutter="1">
+                        <el-col :span="12">
+                          <el-form-item label="服务周期：" required="">
+                            <el-input v-model="updateTaskForm.payCycle"></el-input>
+                          </el-form-item>
+                        </el-col>
                         <el-col :span="12">
                           <el-form-item label="赠送：" required="">
-                            <el-input></el-input>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="付费周期：" required="">
-                            <el-input></el-input>
+                            <el-input v-model="updateTaskForm.giftNumber"></el-input>
                           </el-form-item>
                         </el-col>
                       </el-row>
-                      <el-row :gutter="20">
+                      <el-row :gutter="1">
                         <el-col :span="12">
-                          <el-form-item label="服务数量：">
+                          <el-form-item label="付费方式:">
                             <el-input></el-input>
                           </el-form-item>
                         </el-col>
@@ -202,14 +211,21 @@
                   <el-col :span="12">
                   <el-form-item
                     label="产品名称: "
-                    label-width="85px !important"
                     class="add-product-item" required="">
-                    <el-input class="add-product-input"></el-input>
+                    <el-select
+                    v-model="createTaskForm.productName">
+                    <el-option
+                      v-for="(product, index) in productList.page.list"
+                        :key="index"
+                        :label="product.productName"
+                        :value="product.productName">
+                        </el-option>
+                    </el-select>
                   </el-form-item>
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="财税顾问: " label-width="85px !important" style="margin-left:0px;" required="">
-                      <el-input class="add-product-input"></el-input>
+                      <el-input v-model="createTaskForm.relUserName"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -217,41 +233,39 @@
                   <el-col :span="12">
                   <el-form-item
                     label="服务单价: "
-                    label-width="85px !important"
-                    class="add-product-item"
                     required="">
-                    <el-input class="add-product-input"></el-input>
+                    <el-input v-model="createTaskForm.price"></el-input>
                   </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="会计助理: " label-width="85px !important" style="margin-left:0px;">
-                      <el-input class="add-product-input"></el-input>
+                    <el-form-item label="会计助理: ">
+                      <el-input v-model="createTaskForm.relHelpUserName"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="12">
                   <el-form-item
-                    label="赠送: "
-                    label-width="85px !important"
-                    class="add-product-item">
-                    <el-input class="add-product-input"></el-input>
+                    label="赠送: ">
+                    <el-input v-model="createTaskForm.giftNum"></el-input>
                   </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="付费周期: " label-width="85px !important" style="margin-left:0px;" required="">
-                      <el-input class="add-product-input"></el-input>
+                    <el-form-item label="服务周期: ">
+                      <el-input v-model="createTaskForm.payCycle"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="12">
                     <el-form-item
-                      label="服务周期: "
-                      label-width="85px !important"
-                      class="add-product-item"
-                      required="">
-                      <el-input class="add-product-input"></el-input>
+                      label="付费方式: "
+                      required>
+                      <el-select>
+                        <el-option>月付</el-option>
+                        <el-option>季付</el-option>
+                        <el-option>年付</el-option>
+                      </el-select>
                     </el-form-item>
                     </el-col>
                   <el-col :span="12"></el-col>
@@ -337,6 +351,7 @@ export default {
   },
   data () {
     return {
+      taskId: 1,
       createProductForm: {
         customerName: '',
         creditCode: '',
@@ -370,6 +385,16 @@ export default {
           relUserId: 1,
           relUserName: 'mxc'
         }]
+      },
+      // 添加产品
+      createTaskForm: {
+        productName: '',
+        longTerm: '',
+        number: 10,
+        giftNumber: 2,
+        payCycle: '',
+        relHelpUserName: '',
+        relUserName: ''
       },
       activeNames: ['1', '2', '3'],
       ruleForm: {
@@ -419,9 +444,27 @@ export default {
           sourceDetails: []
         }
       ],
+      levelNames: [
+        '普通',
+        'VIP'
+      ],
       selectedSource: '',
       sourceDetails: [],
-      selectedSourceDetail: ''
+      selectedSourceDetail: '',
+      updateTaskForm: {},
+      getChannelFrom: {
+        limit: 10,
+        page: 1
+      },
+      getCustomersForm: {
+        limit: 100,
+        page: 1,
+        type: 'business:customer:list:all'
+      },
+      getServiceProductForm: {
+        limit: 10,
+        page: 1
+      }
     }
   },
   methods: {
@@ -432,6 +475,15 @@ export default {
       } else if (this.selectedSource === '客户') {
         this.getCustomers()
         this.sourceDetails = this.customers.list.map(customer => customer.customerFromDetail)
+      }
+    },
+    handleLevelChange () {
+      if (this.reateProductForm.customerLevelName === '普通') {
+        this.getCustomersForm()
+        this.reateProductForm.customerLevelName = 0
+      } else if (this.reateProductForm.customerLevelName === 'VIP') {
+        this.getCustomersForm()
+        this.reateProductForm.customerLevelName = 1
       }
     },
     submitForm (formName) {
@@ -450,11 +502,11 @@ export default {
     handleDelete (index, row) {
       console.log(index, row)
     },
-    handleAddNewProduct () {
-      this.addProductDialogVisible = true
-    },
     getCustomers () {
       this.$store.dispatch('getCustomers', this.getCustomersForm)
+    },
+    handleAddNewProduct () {
+      this.addProductDialogVisible = true
     },
     handleCreateAccountButtonClick () {
       createCustomer(this.createProductForm).then(({ data: response }) => {
@@ -473,18 +525,65 @@ export default {
       })
     },
     getChannelList () {
-      this.$store.dispatch('getChannelList')
+      this.$store.dispatch('getChannelList', this.getChannelFrom).then(() => console.log(this.channelList))
+    },
+    getProductList () {
+      this.$store.dispatch('getServiceProductList', this.getServiceProductForm)
+    },
+    // 订单列表里的添加产品
+    createProduct () {
+      this.$store.dispatch('createtask', this.createTaskForm)
+    },
+    // 添加产品里的修改后保存成功
+    handleUpdateTaskButtonClick () {
+      this.$store.dispatch('updateTask', this.taskId).then(({ data: response }) => {
+        const { code, msg } = response
+        if (code === 0) {
+          Message({
+            message: '保存成功',
+            type: 'success'
+          })
+          this.$route.push({ path: '/new-account-page' })
+        } else {
+          Message({
+            message: msg,
+            type: 'error'
+          })
+        }
+      })
+    },
+    // 添加产品成功
+    handleCreateTaskButtonClick () {
+      // createtask(this.getTaskFrom).then(({ data: response }) => {
+      //   const { code, msg } = response
+      //   if (code === 0) {
+      //     Message({
+      //       message: '保存成功',
+      //       type: 'success'
+      //     })
+      //   } else {
+      //     Message({
+      //       message: msg,
+      //       type: 'error'
+      //     })
+      //   }
+      // })
+      // // 调用 3.5 的创建方法
+      // this.createtask()
     }
   },
   mounted () {
     // 调用当前methonds里的
     this.getChannelList()
     this.getCustomers()
+    this.getProductList()
   },
   computed: {
     ...mapState({
       channelList: state => state.channel.channels,
-      customers: state => state.customer.customers
+      productList: state => state.product.products,
+      customers: state => state.customer.customers,
+      task: state => state.task.task
     })
   }
 }

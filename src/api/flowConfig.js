@@ -1,15 +1,15 @@
 import request from './request'
 
-const flowLists = () => request({
+const getFlowConfigs = () => request({
   url: '/flow/list'
 })
-const updateFlow = flow => request({
+const updateFlowConfig = updateFlowConfigForm => request({
   url: '/flow/update',
   method: 'POST',
-  data: flow
+  data: updateFlowConfigForm
 })
 
 export {
-  flowLists,
-  updateFlow
+  getFlowConfigs,
+  updateFlowConfig
 }

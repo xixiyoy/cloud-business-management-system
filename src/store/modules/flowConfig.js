@@ -1,20 +1,25 @@
-import { flowLists, updateFlow } from '../../api/flowConfig'
+import { getFlowConfigs, updateFlowConfig } from '../../api/flowConfig'
 
 const state = {
-  flows: {}
+  flowConfigs: [
+    {}
+  ]
 }
 const mutations = {
-  'SET_FLOWS' (state, flows) {
-    state.flows = flows
+  'SET_FLOW_CONFIGS' (state, flowConfigs) {
+    state.flowConfigs = flowConfigs
   }
 }
 const actions = {
-  async flowLists ({ commit }, getFlowsForm) {
-    const { data: flows } = await flowLists(getFlowsForm)
-    commit('SET_FLOWS', flows)
+  async getFlowConfigs ({ commit }) {
+    const { data: flowConfigs } = await getFlowConfigs()
+    commit('SET_FLOW_CONFIGS', flowConfigs)
   },
-  async updateFlow ({ commit }, updateFlowFrom) {
-    await updateFlow(updateFlowFrom)
+  async updateFlowConfig ({ commit }, updateFlowConfigForm) {
+    const { data: { code, msg } } = await updateFlowConfig(updateFlowConfigForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   }
 }
 export default {
