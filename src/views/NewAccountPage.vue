@@ -211,16 +211,14 @@
                   <el-col :span="12">
                   <el-form-item
                     label="产品名称: "
+                    label-width="85px !important"
                     class="add-product-item" required="">
-                    <el-select
-                    v-model="createTaskForm.productName">
-                    <el-option
-                      v-for="(product, index) in productList.page.list"
-                        :key="index"
-                        :label="product.productName"
-                        :value="product.productName">
-                        </el-option>
-                    </el-select>
+                    <div class="block">
+                      <el-cascader
+                        v-model="createTaskForm.productName"
+                        :options="options"
+                        @change="handleChange"></el-cascader>
+                    </div>
                   </el-form-item>
                   </el-col>
                   <el-col :span="12">
@@ -233,12 +231,13 @@
                   <el-col :span="12">
                   <el-form-item
                     label="服务单价: "
+                    label-width="85px !important"
                     required="">
                     <el-input v-model="createTaskForm.price"></el-input>
                   </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="会计助理: ">
+                    <el-form-item label="会计助理: " label-width="85px !important">
                       <el-input v-model="createTaskForm.relHelpUserName"></el-input>
                     </el-form-item>
                   </el-col>
@@ -246,12 +245,13 @@
                 <el-row>
                   <el-col :span="12">
                   <el-form-item
+                  label-width="85px !important"
                     label="赠送: ">
                     <el-input v-model="createTaskForm.giftNum"></el-input>
                   </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="服务周期: ">
+                    <el-form-item label="服务周期: " label-width="85px !important">
                       <el-input v-model="createTaskForm.payCycle"></el-input>
                     </el-form-item>
                   </el-col>
@@ -260,6 +260,7 @@
                   <el-col :span="12">
                     <el-form-item
                       label="付费方式: "
+                      label-width="85px !important"
                       required>
                       <el-select>
                         <el-option>月付</el-option>
@@ -351,6 +352,139 @@ export default {
   },
   data () {
     return {
+      value: [],
+      options: [{
+        value: 'GSFW',
+        label: '工商服务',
+        children: [{
+          value: 'zhuce',
+          label: '注册'
+        }, {
+          value: 'biangeng',
+          label: '变更'
+        }, {
+          value: 'zhuxiao',
+          label: '注销'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'YHFW',
+        label: '银行服务',
+        children: [{
+          value: 'yhfw',
+          label: '银行服务'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'RSFW',
+        label: '人事服务',
+        children: [{
+          value: 'sbgjj',
+          label: '社保公积金'
+        }, {
+          value: 'jzzhk',
+          label: '居住证户口'
+        }, {
+          value: 'lwzp',
+          label: '劳务招聘'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'ZSCQ',
+        label: '知识产权',
+        children: [{
+          value: 'sb',
+          label: '商标'
+        }, {
+          value: 'zzq',
+          label: '著作权'
+        }, {
+          value: 'zl',
+          label: '专利'
+        }, {
+          value: 'gltxrz',
+          label: '管理体系认证'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'FLFW',
+        label: '法律服务',
+        children: [{
+          value: 'flfw',
+          label: '法律服务'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'QTFW',
+        label: '其他服务',
+        children: [{
+          value: 'jj',
+          label: '加急'
+        }, {
+          value: 'kz',
+          label: '刻章'
+        }, {
+          value: 'ysbb',
+          label: '遗失补办'
+        }, {
+          value: 'yccl',
+          label: '异常处理'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'HYZZXKZ',
+        label: '行业资质许可证',
+        children: [{
+          value: 'dslzz',
+          label: '电商类资质'
+        }, {
+          value: 'jzlzz',
+          label: '建筑类资质'
+        }, {
+          value: 'rlzylzz',
+          label: '人力资源来资质'
+        }, {
+          value: 'spcylzz',
+          label: '食品餐饮类资质'
+        }, {
+          value: 'wlyxlzz',
+          label: '网络游戏类资质'
+        }, {
+          value: 'whcbyyzz',
+          label: '文化出版运营资质'
+        }, {
+          value: 'yllzz',
+          label: '医疗类资质'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'PX',
+        label: '培训',
+        children: [{
+          value: 'zyjnpx',
+          label: '职业技能培训'
+        }, {
+          value: 'ywpx',
+          label: '业务培训'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }],
       taskId: 1,
       createProductForm: {
         customerName: '',
@@ -464,6 +598,10 @@ export default {
       getServiceProductForm: {
         limit: 10,
         page: 1
+      },
+      getUserListForm: {
+        limit: 10,
+        page: 1
       }
     }
   },
@@ -475,6 +613,9 @@ export default {
       } else if (this.selectedSource === '客户') {
         this.getCustomers()
         this.sourceDetails = this.customers.list.map(customer => customer.customerFromDetail)
+      } else if (this.selectedSource === '同事') {
+        this.getAllcolleagues()
+        this.sourceDetails = this.colleague.list.map(user => user.userName)
       }
     },
     handleLevelChange () {
@@ -534,6 +675,10 @@ export default {
     createProduct () {
       this.$store.dispatch('createtask', this.createTaskForm)
     },
+    // 获取所有同事
+    getAllcolleagues () {
+      this.$store.dispatch('getUserList', this.getUserListForm)
+    },
     // 添加产品里的修改后保存成功
     handleUpdateTaskButtonClick () {
       this.$store.dispatch('updateTask', this.taskId).then(({ data: response }) => {
@@ -577,13 +722,16 @@ export default {
     this.getChannelList()
     this.getCustomers()
     this.getProductList()
+    this.getAllcolleagues()
   },
   computed: {
     ...mapState({
       channelList: state => state.channel.channels,
       productList: state => state.product.products,
       customers: state => state.customer.customers,
-      task: state => state.task.task
+      task: state => state.task.task,
+      // 获取所有同事的人名
+      colleague: state => state.sysUser.users
     })
   }
 }
