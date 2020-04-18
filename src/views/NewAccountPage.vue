@@ -213,12 +213,15 @@
                     label="产品名称: "
                     label-width="85px !important"
                     class="add-product-item" required="">
-                    <div class="block">
+                    <el-select v-model="createTaskForm.productName">
+                      <el-option v-for="product in productList.page.list" :key="product.productId" :label="product.productName" :value="product.productName"></el-option>
+                    </el-select>
+                    <!-- <div class="block">
                       <el-cascader
-                        v-model="createTaskForm.productName"
                         :options="options"
-                        @change="handleChange"></el-cascader>
-                    </div>
+                        @change="handleProductNameChange"
+                        ></el-cascader>
+                    </div> -->
                   </el-form-item>
                   </el-col>
                   <el-col :span="12">
@@ -247,12 +250,12 @@
                   <el-form-item
                   label-width="85px !important"
                     label="赠送: ">
-                    <el-input v-model="createTaskForm.giftNum"></el-input>
+                    <el-input type="number" v-model="createTaskForm.giftNumber"></el-input>
                   </el-form-item>
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="服务周期: " label-width="85px !important">
-                      <el-input v-model="createTaskForm.payCycle"></el-input>
+                      <el-input type="number" v-model="createTaskForm.number"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -262,10 +265,10 @@
                       label="付费方式: "
                       label-width="85px !important"
                       required>
-                      <el-select>
-                        <el-option>月付</el-option>
-                        <el-option>季付</el-option>
-                        <el-option>年付</el-option>
+                      <el-select v-model="createTaskForm.payCycle">
+                        <el-option label="月付" value="月付"></el-option>
+                        <el-option label="季付" value="季付"></el-option>
+                        <el-option label="年付" value="年付"></el-option>
                       </el-select>
                     </el-form-item>
                     </el-col>
@@ -273,8 +276,8 @@
                 </el-row>
               </el-form>
               <div slot="footer" class="dialog-footer">
-                <el-button type="primary">确认</el-button>
-                <el-button>取消</el-button>
+                <el-button type="primary" @click="handleAddTaskButtonClick">确认</el-button>
+                <el-button @click="addProductDialogVisible = false">取消</el-button>
               </div>
             </el-dialog>
           </div>
@@ -354,134 +357,134 @@ export default {
     return {
       value: [],
       options: [{
-        value: 'GSFW',
+        value: '工商服务',
         label: '工商服务',
         children: [{
-          value: 'zhuce',
+          value: '注册',
           label: '注册'
         }, {
-          value: 'biangeng',
+          value: '变更',
           label: '变更'
         }, {
-          value: 'zhuxiao',
+          value: '注销',
           label: '注销'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'YHFW',
+        value: '银行服务',
         label: '银行服务',
         children: [{
-          value: 'yhfw',
+          value: '银行服务',
           label: '银行服务'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'RSFW',
+        value: '人事服务',
         label: '人事服务',
         children: [{
-          value: 'sbgjj',
+          value: '社保公积金',
           label: '社保公积金'
         }, {
-          value: 'jzzhk',
+          value: '居住证户口',
           label: '居住证户口'
         }, {
-          value: 'lwzp',
+          value: '劳务招聘',
           label: '劳务招聘'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'ZSCQ',
+        value: '知识产权',
         label: '知识产权',
         children: [{
-          value: 'sb',
+          value: '商标',
           label: '商标'
         }, {
-          value: 'zzq',
+          value: '著作权',
           label: '著作权'
         }, {
-          value: 'zl',
+          value: '专利',
           label: '专利'
         }, {
-          value: 'gltxrz',
+          value: '管理体系认证',
           label: '管理体系认证'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'FLFW',
+        value: '法律服务',
         label: '法律服务',
         children: [{
-          value: 'flfw',
+          value: '法律服务',
           label: '法律服务'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'QTFW',
+        value: '其他服务',
         label: '其他服务',
         children: [{
-          value: 'jj',
+          value: '加急',
           label: '加急'
         }, {
-          value: 'kz',
+          value: '刻章',
           label: '刻章'
         }, {
-          value: 'ysbb',
+          value: '遗失补办',
           label: '遗失补办'
         }, {
-          value: 'yccl',
+          value: '异常处理',
           label: '异常处理'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'HYZZXKZ',
+        value: '行业资质许可证',
         label: '行业资质许可证',
         children: [{
-          value: 'dslzz',
+          value: '电商类资质',
           label: '电商类资质'
         }, {
-          value: 'jzlzz',
+          value: '建筑类资质',
           label: '建筑类资质'
         }, {
-          value: 'rlzylzz',
+          value: '人力资源来资质',
           label: '人力资源来资质'
         }, {
-          value: 'spcylzz',
+          value: '食品餐饮类资质',
           label: '食品餐饮类资质'
         }, {
-          value: 'wlyxlzz',
+          value: '网络游戏类资质',
           label: '网络游戏类资质'
         }, {
-          value: 'whcbyyzz',
+          value: '文化出版运营资质',
           label: '文化出版运营资质'
         }, {
-          value: 'yllzz',
+          value: '医疗类资质',
           label: '医疗类资质'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'PX',
+        value: '培训',
         label: '培训',
         children: [{
-          value: 'zyjnpx',
+          value: '职业技能培训',
           label: '职业技能培训'
         }, {
-          value: 'ywpx',
+          value: '业务培训',
           label: '业务培训'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }],
@@ -498,34 +501,14 @@ export default {
         customerLevelName: '',
         customerRelUserId: 2,
         customerRelUserName: '',
-        taskList: [{
-          productId: 1,
-          productName: '',
-          longTerm: '0',
-          price: 200,
-          number: 10,
-          giftNumber: 2,
-          payCycle: '',
-          relUserId: 2,
-          relUserName: '孟星驰'
-        }, {
-          productId: 1,
-          productName: '代理记账',
-          longTerm: '0',
-          price: 200,
-          number: 10,
-          giftNum: 2,
-          payCycle: '月付',
-          relUserId: 1,
-          relUserName: 'mxc'
-        }]
+        taskList: []
       },
       // 添加产品
       createTaskForm: {
+        productId: 0,
         productName: '',
-        longTerm: '',
-        number: 10,
-        giftNumber: 2,
+        number: 0,
+        giftNumber: 0,
         payCycle: '',
         relHelpUserName: '',
         relUserName: ''
@@ -697,24 +680,22 @@ export default {
         }
       })
     },
+    handleProductNameChange (productNames) {
+      this.createTaskForm.productName = productNames[0] + productNames[1]
+    },
     // 添加产品成功
-    handleCreateTaskButtonClick () {
-      // createtask(this.getTaskFrom).then(({ data: response }) => {
-      //   const { code, msg } = response
-      //   if (code === 0) {
-      //     Message({
-      //       message: '保存成功',
-      //       type: 'success'
-      //     })
-      //   } else {
-      //     Message({
-      //       message: msg,
-      //       type: 'error'
-      //     })
-      //   }
-      // })
-      // // 调用 3.5 的创建方法
-      // this.createtask()
+    handleAddTaskButtonClick () {
+      this.$store.dispatch('createTask', this.createTaskForm).then(() => {
+        Message({
+          message: '保存成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
     }
   },
   mounted () {

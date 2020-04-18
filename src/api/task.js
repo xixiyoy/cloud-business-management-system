@@ -11,7 +11,7 @@ const getTaskList = (type, limit, page) => request({
 const createtask = createtaskForm => request({
   url: '/task/add',
   method: 'POST',
-  params: createtaskForm
+  data: createtaskForm
 })
 const getTaskDetail = taskId => request({
   url: `/task/detail/${taskId} `
