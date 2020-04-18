@@ -938,7 +938,11 @@ export default {
         this.zeroZeroEditVisible = true
       }
       if (collectStatusValue === '1') {
-        this.treeOneEditVisible = true
+        if (this.isSelf()) {
+          this.oneZeroSelfEditVisible = true
+        } else {
+          this.oneZeroOtherEditVisible = true
+        }
       }
       if (collectStatusValue === '3' && royaltyStatusValue === '0') {
         this.threeZeroEditVisible = true
