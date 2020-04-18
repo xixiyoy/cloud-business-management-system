@@ -354,6 +354,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="oneZeroSelfEditVisible = false">修 改</el-button>
+        <el-button type="primary" @click="innerVisible = true">打开内层 Dialog</el-button>
       </div>
     </el-dialog>
     <!-- 提交收款待审核后 -->
@@ -816,6 +817,8 @@ export default {
   },
   data () {
     return {
+      innerVisible: false,
+      // 以上是今天的代码
       zeroZeroEditVisible: false,
       oneZeroSelfEditVisible: false,
       oneZeroOtherEditVisible: false,

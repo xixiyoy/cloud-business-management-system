@@ -375,14 +375,14 @@
         <el-row>
           <div style="margin: 150px 0;"></div>
           <el-checkbox-group v-model="checkedFlowConfigNames" @change="handleFlowConfigCheckbokGroupChange">
-            <el-checkbox>提交申请 (由申请人的部门主管对其进行审核)</el-checkbox>
+            <el-checkbox>提交申请 (由申请人的部门主管对其进行审核)</el-checkbox><br>
             <el-row
               v-for="flowConfig in flowConfigs"
               :key="flowConfig.id"
-              >
+              ><br>
               <el-checkbox
                 :label="flowConfig.name"
-                >
+                ><br>
                 {{ getFlowConfigCheckBoxLabel(flowConfig.name) }}
               </el-checkbox>
             </el-row>
@@ -502,17 +502,20 @@ export default {
     getFlowConfigCheckBoxLabel (flowConfigName) {
       if (flowConfigName === '待业务审批') {
         return `
-          主管审核 (由申请人的部门主管对其进行审核)
+          主管审核
+          (由申请人的部门主管对其进行审核)
         `
       }
       if (flowConfigName === '待财务审批') {
         return `
-          财务审核 (由公司财务人员对其进行审核)
+          财务审核
+          (由公司财务人员对其进行审核)
         `
       }
       if (flowConfigName === '待出纳审批') {
         return `
-          出纳确认 (有公司出纳最终确认)
+          出纳确认
+          (有公司出纳最终确认)
         `
       }
     },

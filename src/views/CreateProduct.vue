@@ -7,17 +7,23 @@
         <el-row>
           <el-col :span="7">
              <el-form-item label="产品板块: " prop="region" required>
-              <el-select placeholder="请选择" style="width:290px;">
-                <el-option label="工商服务" value="shanghai" v-model="createProductForm.productMoudelName"></el-option>
-                <el-option label="银行服务" value="beijing"></el-option>
-                <el-option label="人事服务" value="beijing"></el-option>
-                <el-option label="知识产权" value="beijing"></el-option>
-                <el-option label="法律服务" value="beijing"></el-option>
-                <el-option label="其他服务" value="beijing"></el-option>
-                <el-option label="行业资质许可证" value="beijing"></el-option>
-                <el-option label="培训" value="beijing"></el-option>
-              </el-select>
-            </el-form-item>
+              <div class="block">
+                <el-cascader
+                  v-model="createProductForm.productMoudelName"
+                  :options="options"
+                  @change="handleNameChange"></el-cascader>
+              </div>
+              <!-- <el-select placeholder="请选择" style="width:290px;">
+                  <el-option label="工商服务" v-model="createProductForm.productMoudelName"></el-option>
+                  <el-option label="银行服务"></el-option>
+                  <el-option label="人事服务"></el-option>
+                  <el-option label="知识产权"></el-option>
+                  <el-option label="法律服务"></el-option>
+                  <el-option label="其他服务"></el-option>
+                  <el-option label="行业资质许可证"></el-option>
+                  <el-option label="培训"></el-option>
+              </el-select> -->
+             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="产品名称: " prop="name" required>
@@ -81,6 +87,139 @@ export default {
   },
   data () {
     return {
+      value: [],
+      options: [{
+        value: 'GSFW',
+        label: '工商服务',
+        children: [{
+          value: 'zhuce',
+          label: '注册'
+        }, {
+          value: 'biangeng',
+          label: '变更'
+        }, {
+          value: 'zhuxiao',
+          label: '注销'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'YHFW',
+        label: '银行服务',
+        children: [{
+          value: 'yhfw',
+          label: '银行服务'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'RSFW',
+        label: '人事服务',
+        children: [{
+          value: 'sbgjj',
+          label: '社保公积金'
+        }, {
+          value: 'jzzhk',
+          label: '居住证户口'
+        }, {
+          value: 'lwzp',
+          label: '劳务招聘'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'ZSCQ',
+        label: '知识产权',
+        children: [{
+          value: 'sb',
+          label: '商标'
+        }, {
+          value: 'zzq',
+          label: '著作权'
+        }, {
+          value: 'zl',
+          label: '专利'
+        }, {
+          value: 'gltxrz',
+          label: '管理体系认证'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'FLFW',
+        label: '法律服务',
+        children: [{
+          value: 'flfw',
+          label: '法律服务'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'QTFW',
+        label: '其他服务',
+        children: [{
+          value: 'jj',
+          label: '加急'
+        }, {
+          value: 'kz',
+          label: '刻章'
+        }, {
+          value: 'ysbb',
+          label: '遗失补办'
+        }, {
+          value: 'yccl',
+          label: '异常处理'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'HYZZXKZ',
+        label: '行业资质许可证',
+        children: [{
+          value: 'dslzz',
+          label: '电商类资质'
+        }, {
+          value: 'jzlzz',
+          label: '建筑类资质'
+        }, {
+          value: 'rlzylzz',
+          label: '人力资源来资质'
+        }, {
+          value: 'spcylzz',
+          label: '食品餐饮类资质'
+        }, {
+          value: 'wlyxlzz',
+          label: '网络游戏类资质'
+        }, {
+          value: 'whcbyyzz',
+          label: '文化出版运营资质'
+        }, {
+          value: 'yllzz',
+          label: '医疗类资质'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: 'PX',
+        label: '培训',
+        children: [{
+          value: 'zyjnpx',
+          label: '职业技能培训'
+        }, {
+          value: 'ywpx',
+          label: '业务培训'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }],
       config: {
         events: {
           initialized: function () {
@@ -94,11 +233,15 @@ export default {
         productSummy: '',
         isUp: '',
         productName: '',
-        productMoudelName: ''
+        productMoudelName: '',
+        activeIndex: '2'
       }
     }
   },
   methods: {
+    handleNameChange (value) {
+      console.log(value)
+    },
     handleCreateProductButtonClick () {
       createProduct(this.getServiceProductFrom).then(({ data: response }) => {
         const { code, msg } = response
