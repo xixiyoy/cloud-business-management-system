@@ -2,7 +2,11 @@ import { getServiceProductList, createProduct, updateProduct, deleteProduct, get
 
 const state = {
   products: {},
-  product: {}
+  product: {
+    page: {
+      list: []
+    }
+  }
 }
 
 const mutations = {

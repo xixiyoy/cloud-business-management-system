@@ -107,9 +107,11 @@ const actions = {
     const { data: tasks } = await getTaskList(type, limit, page)
     commit('SET_TASKS', tasks)
   },
-  async createtask ({ commit }, createtaskForm) {
-    const response = await createtask(createtaskForm)
-    console.log(response)
+  async createTask ({ commit }, createtaskForm) {
+    const { data: { code, msg } } = await createtask(createtaskForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async getTaskById ({ commit }, taskId) {
     const response = await getTaskDetail(taskId)

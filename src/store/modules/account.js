@@ -7,8 +7,10 @@ const mutations = {
   'SET_ACCOUNTS' (state, accounts) {
     accounts.list = accounts.list.map(account => {
       if (account.customerId === 15) {
-        account.collectStatusName = '待确认'
+        account.collectStatusName = '未申请'
         account.collectStatusValue = '1'
+        account.royaltyStatusValue = '0'
+        account.royaltyStatusName = '未申请'
       }
       if (account.customerId === 16) {
         account.collectStatusName = '待确认'
