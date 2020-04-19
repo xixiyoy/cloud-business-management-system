@@ -62,7 +62,7 @@
           background
           layout="total,prev, pager, next"
           @current-change="handleCurrentChangeClick"
-          :current-page="getServiceProductList.page"
+          :current-page="getProducts.page"
           :total="productList.page.totalCount">
         </el-pagination>
       </div>
@@ -77,7 +77,7 @@ export default {
   },
   data () {
     return {
-      getServiceProductList: {
+      getProducts: {
         page: 1,
         limit: 10
       }
@@ -89,7 +89,7 @@ export default {
         row.productId
       ]
       this.$store.dispatch('deleteProduct', productIds).then(() => {
-        this.getServiceProductList()
+        this.getProducts()
       })
     },
     serviceProductTableHeaderCellStyle ({ row, column, rowIndex, columnIndex }) {
@@ -106,11 +106,11 @@ export default {
       this.$router.push({ path: '/create-product' })
     },
     getProductList () {
-      this.$store.dispatch('getServiceProductList', this.getServiceProductList)
+      this.$store.dispatch('getProducts', this.getProducts)
     },
     handleCurrentChangeClick (currentPage) {
       this.getFiancesForm.page = currentPage
-      this.getServiceProductList()
+      this.getProducts()
     }
   },
   mounted () {

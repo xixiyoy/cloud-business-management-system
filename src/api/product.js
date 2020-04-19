@@ -24,16 +24,13 @@ const createProduct = createProductForm => request({
   params: createProductForm
 })
 
-const getServiceProductList = (limit, page) => request({
+const getProducts = getProductsForm => request({
   url: '/product/list',
-  params: {
-    limit,
-    page
-  }
+  params: getProductsForm
 })
 
 export {
-  getServiceProductList,
+  getProducts,
   createProduct,
   deleteProduct,
   updateProduct,
