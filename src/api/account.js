@@ -43,7 +43,7 @@ const submitRoyalty = submitRoyaltyForm => request({
 })
 // 获取提成信息
 const getRoyaltyDetail = royaltyId => request({
-  url: `/account/royaltyDetail/${royaltyId}`
+  url: `/account/royaltyDetail?royaltyId=${royaltyId}`
 })
 // 修改提成信息
 const updateRoyalty = royalty => request({

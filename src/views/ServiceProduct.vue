@@ -24,7 +24,6 @@
       <el-table
         :data="productList.page.list"
         :header-cell-style="serviceProductTableHeaderCellStyle"
-        border="ture"
         style="width: 100%">
         <el-table-column
           label="产品板块"

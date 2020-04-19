@@ -46,8 +46,10 @@ const actions = {
     commit('SET_ACCOUNTS', accounts)
   },
   async submitCollection ({ commit }, submitCollectionForm) {
-    const response = await submitCollection(submitCollectionForm)
-    console.log(response)
+    const { data: { code, msg } } = await submitCollection(submitCollectionForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async getCollectDetail ({ commit }, collectId) {
     const response = await getCollectDetail(collectId)
@@ -69,9 +71,11 @@ const actions = {
     console.log(response)
   },
   async getRoyaltyDetail ({ commit }, royaltyId) {
-    const response = await getRoyaltyDetail(royaltyId)
-    const royaltyDetail = response.data.royaltyDetail
-    commit('SET_ROYALTY_DETAIL', royaltyDetail)
+    const { data: { code, msg, royalty } } = await getRoyaltyDetail(royaltyId)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
+    commit('SET_ROYALTY_DETAIL', royalty)
   },
   async updateRoyalty ({ commit }, updateRoyaltyForm) {
     await updateRoyalty(updateRoyaltyForm)
