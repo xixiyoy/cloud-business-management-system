@@ -95,23 +95,23 @@ export default {
   },
   methods: {
     getInvoice () {
-      this.$store.dispatch('getInvoiceById', this.invoiceId)
+      this.$store.dispatch('getBillingById', this.invoiceId)
     },
     handleUpdateInvoiceButtonClick () {
-      this.$store.dispatch('updateInvoice', this.invoice).then(({ date: response }) => {
-        const { code, msg } = response
-        if (code === 0) {
-          Message({
-            message: '保存成功',
-            type: 'success'
-          })
-          this.$route.push({ path: '/billing-list' })
-        } else {
-          Message({
-            message: msg,
-            type: 'error'
-          })
-        }
+      this.modifyInvoice()
+    },
+    modifyInvoice () {
+      this.$store.dispatch('updateInvoice', this.invoice).then(() => {
+        Message({
+          message: '保存成功',
+          type: 'success'
+        })
+        this.$router.push({ path: '/billing-list' })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
       })
     }
   },

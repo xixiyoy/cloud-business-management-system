@@ -29,7 +29,10 @@ const actions = {
     commit('SET_BILLING', invoice)
   },
   async updateInvoice ({ commit }, updateInvoiceForm) {
-    await updateInvoice(updateInvoiceForm)
+    const { data: { code, msg } } = await updateInvoice(updateInvoiceForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   }
 }
 
