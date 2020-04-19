@@ -265,7 +265,7 @@
           <el-col :spam="12">
             <div class="block">
               <el-date-picker
-                v-model="submitReceiveMonths"
+                v-model="submitCollectionDate"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -279,7 +279,7 @@
             <el-form-item label="到账日期：" required>
               <div class="block">
                 <el-date-picker
-                v-model="submitCollectionForm.collectDate"
+                  v-model="submitCollectionReceiveDate"
                   type="date"
                   placeholder="选择日期">
                 </el-date-picker>
@@ -294,7 +294,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="zeroZeroEditVisible = false">确 定</el-button>
+        <el-button type="primary" @click="handleZeroZeroEdit">确 定</el-button>
         <el-button @click="zeroZeroEditVisible = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -808,7 +808,60 @@
           </el-col>
         </el-row>
         <el-row>
-          <span>审批流程</span>
+          <span>审批流程:
+            <div style="width:80%;float:right;">
+              <!-- 动态获取 -->
+              <div class="approval-process">
+                    <div class="approval-one">
+                      <div class="approval-content">
+                        <p>申请提交</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt=""><br>
+                          <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyAppliDate) }}</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-two">
+                      <div class="approval-content">
+                        <p>业务审批</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt=""><br>
+                          <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyBusinessDate) }}</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-three">
+                      <div class="approval-content">
+                        <p>财务审批</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt=""><br>
+                          <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyFianceUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyFianceDate) }}</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-four">
+                      <div class="approval-content">
+                        <p>出纳确认</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt=""><br>
+                          <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyCashUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyCashDate) }}</p>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </span>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -820,6 +873,7 @@
 <script>
 import { getLabels } from '../api/label'
 import { mapState } from 'vuex'
+import { Message } from 'element-ui'
 
 export default {
   metaInfo: {
@@ -827,6 +881,9 @@ export default {
   },
   data () {
     return {
+      submitCollectionDate: [],
+      submitCollectionReceiveDate: '',
+      customerId: '',
       // 提交收款信息
       submitCollectionForm: {
         payAccount: '',
@@ -835,7 +892,8 @@ export default {
         collectDate: '',
         collectStartMonth: '',
         collectEndMonth: '',
-        remark: ''
+        remark: '',
+        customerId: ''
       },
       submitReceiveMonths: [],
       // 修改收款信息
@@ -881,7 +939,9 @@ export default {
       oneZeroEditVisible: false,
       oneZeroViewVisible: false,
       oneZeroVisible: false,
-      firstYiqueren: false
+      firstYiqueren: false,
+      collectId: '',
+      royaltyId: ''
     }
   },
   methods: {
@@ -904,6 +964,14 @@ export default {
       if (collectStatusValue === '3' && royaltyStatusValue === '1') {
         return true
       }
+    },
+    formatDate (date) {
+      const theDate = new Date(date)
+      const month = theDate.getMonth() + 1
+      const day = theDate.getDay()
+      const hour = theDate.getHours()
+      const minute = theDate.getMinutes()
+      return `${month} 月 ${day} 日 ${hour}:${minute}`
     },
     // 判断是否可以查看
     isCanView (customer) {
@@ -956,16 +1024,24 @@ export default {
       this.getAccountsForm.page = 1
       this.getAccounts()
     },
+    hasApproval (name) {
+      return name !== null
+    },
     handleDealServiceCommand (commandWithCustomerId) {
       if (commandWithCustomerId.startsWith('edit')) {
         const customerId = Number.parseInt(commandWithCustomerId.replace('edit', ''))
         const customer = this.getCustomer(customerId)
+        this.collectId = customer.latestCollectId
+        this.customerId = customer.customerId
+        this.royaltyId = customer.latestRoyaltyId
         this.handleEditCommandClick(customer)
       } else {
         const customerId = Number.parseInt(commandWithCustomerId.replace('view', ''))
         const customer = this.getCustomer(customerId)
+        console.log(customer)
         this.collectId = customer.latestCollectId
-        this.getCollectDetail()
+        this.customerId = customer.customerId
+        this.royaltyId = customer.latestRoyaltyId
         this.handleViewCommandClick(customer)
       }
     },
@@ -1003,12 +1079,32 @@ export default {
         this.treeFourViewVisible = true
       }
       if (collectStatusValue === '3' && royaltyStatusValue === '5') {
+        this.getRoyaltyDetail()
         this.treeFiveViewVisible = true
       }
     },
     // 提交收款信息
-    submitCollection () {
-      this.$store.dispatch('submitCollection', this.submitCollectionForm)
+    handleZeroZeroEdit () {
+      const startDate = this.submitCollectionDate[0]
+      const endDate = this.submitCollectionDate[1]
+      this.submitCollectionForm.collectStartMonth = `${startDate.getFullYear()}-${startDate.getMonth() + 1}`
+      this.submitCollectionForm.collectEndMonth = `${endDate.getFullYear()}-${endDate.getMonth() + 1}`
+      const collectDate = this.submitCollectionReceiveDate
+      this.submitCollectionForm.collectDate = `${collectDate.getFullYear()}-${collectDate.getMonth() + 1}-${collectDate.getDay()}`
+      this.zeroZeroEditVisible = false
+      this.submitCollectionForm.customerId = this.customerId
+      console.log(this.submitCollectionForm)
+      this.$store.dispatch('submitCollection', this.submitCollectionForm).then(() => {
+        Message({
+          message: '提交收款成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
     },
     submitReceiveMonth () {
       const startDate = this.submitReceiveMonths[0]
@@ -1140,24 +1236,24 @@ export default {
 }
 // 提成流程展示部分
 .approval-one{
-  width: 27%;
+  width: 15%;
   text-align: center;
   display: inline-block;
   }
 .approval-two{
-  width: 27%;
+  width: 15%;
   text-align: center;
   display: inline-block;
   margin-left: -25px;
   }
 .approval-three{
-  width: 27%;
+  width: 15%;
   text-align: center;
   display: inline-block;
   margin-left: -26px;
   }
 .approval-four{
-  width: 27%;
+  width: 15%;
   text-align: center;
   display: inline-block;
   margin-left: -26px;
