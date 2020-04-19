@@ -26,12 +26,14 @@ const updateCollect = collect => request({
   data: collect
 })
 // 驳回收款
-const rejectCollection = (collectId, rejectRemark) => request({
+const rejectCollection = rejectCollectionForm => request({
   url: '/account/rejectCollect',
-  params: {
-    collectId,
-    rejectRemark
-  }
+  params: rejectCollectionForm
+})
+// 确认收款
+const confirmReceipt = confirmReceipt => request({
+  url: '/account/confirmCollect',
+  params: confirmReceipt
 })
 // 提交提成信息
 const submitRoyalty = submitRoyaltyForm => request({
@@ -50,6 +52,25 @@ const updateRoyalty = royalty => request({
   data: royalty
 })
 // 驳回审批
+const rejectRoyalty = rejectRoyaltyForm => request({
+  url: '/account/rejectRoyalty',
+  params: rejectRoyaltyForm
+})
+// 业务审批
+const businessApproval = businessApprovalForm => request({
+  url: '/account/royaltyBusiness',
+  params: businessApprovalForm
+})
+// 财务审批
+const financialApproval = financialApprovalForm => request({
+  url: '/account/royaltyFiance',
+  params: financialApprovalForm
+})
+// 出纳审批
+const cashierApproval = cashierApprovalForm => request({
+  url: '/account/royaltyCash',
+  params: cashierApprovalForm
+})
 export {
   getAccounts,
   submitCollection,
@@ -58,5 +79,10 @@ export {
   rejectCollection,
   submitRoyalty,
   getRoyaltyDetail,
-  updateRoyalty
+  updateRoyalty,
+  rejectRoyalty,
+  businessApproval,
+  financialApproval,
+  cashierApproval,
+  confirmReceipt
 }
