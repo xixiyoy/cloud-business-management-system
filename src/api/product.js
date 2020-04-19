@@ -21,7 +21,7 @@ const deleteProduct = productIds => request({
 const createProduct = createProductForm => request({
   url: '/product/save',
   method: 'POST',
-  params: createProductForm
+  data: createProductForm
 })
 
 const getProducts = getProductsForm => request({
