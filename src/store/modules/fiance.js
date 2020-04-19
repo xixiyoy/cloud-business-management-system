@@ -31,11 +31,16 @@ const actions = {
   // 2.2 在 actions 中写方法
   async createFiance ({ commit }, createFianceForm) {
     // 调用上面导入的方法
-    const response = await createFiance(createFianceForm)
-    console.log(response)
+    const { data: { code, msg } } = await createFiance(createFianceForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async updateFiance ({ commit }, updateFianceForm) {
-    await updateFiance(updateFianceForm)
+    const { data: { code, msg } } = await updateFiance(updateFianceForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async getFianceById ({ commit }, fianceId) {
     const { data: fiance } = await getFianceDetail(fianceId)

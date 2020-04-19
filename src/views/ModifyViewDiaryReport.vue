@@ -97,20 +97,20 @@ export default {
       this.$store.dispatch('getFianceById', this.fianceId)
     },
     handleUpdateFianceButtonClick () {
-      this.$store.dispatch('updateFiance', this.report).then(({ data: response }) => {
-        const { code, msg } = response
-        if (code === 0) {
-          Message({
-            message: '保存成功',
-            type: 'success'
-          })
-          this.$route.push({ path: '/diary-report' })
-        } else {
-          Message({
-            message: msg,
-            type: 'error'
-          })
-        }
+      this.modifyFiance()
+    },
+    modifyFiance () {
+      this.$store.dispatch('updateFiance').then(() => {
+        Message({
+          message: '修改成功',
+          type: 'success'
+        })
+        this.$router.push({ path: '/diary-report' })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
       })
     }
   },
