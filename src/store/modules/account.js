@@ -16,7 +16,7 @@ const mutations = {
         account.royaltyStatusValue = '0'
         account.royaltyStatusName = '未申请'
       }
-      if (account.customerId === 16) {
+      if (account.customerId === 20) {
         account.collectStatusName = '待确认'
         account.collectStatusValue = '1'
         account.royaltyStatusValue = '0'
@@ -52,19 +52,26 @@ const actions = {
     }
   },
   async getCollectDetail ({ commit }, collectId) {
-    const response = await getCollectDetail(collectId)
-    const collectDetail = response.data.collectDetail
-    commit('SET_COLLECT_DETAIL', collectDetail)
+    const { data: { code, msg, collect } } = await getCollectDetail(collectId)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
+    commit('SET_COLLECT_DETAIL', collect)
   },
   async updateCollect ({ commit }, updateCollectForm) {
     await updateCollect(updateCollectForm)
   },
   async rejectCollection ({ commit }, rejectCollectionForm) {
-    await rejectCollection(rejectCollectionForm)
+    const { data: { code, msg } } = await rejectCollection(rejectCollectionForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async confirmReceipt ({ commit }, confirmReceiptForm) {
-    const response = await confirmReceipt(confirmReceiptForm)
-    console.log(response)
+    const { data: { code, msg } } = await confirmReceipt(confirmReceiptForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async submitRoyalty ({ commit }, submitRoyaltyForm) {
     const response = await submitRoyalty(submitRoyaltyForm)
