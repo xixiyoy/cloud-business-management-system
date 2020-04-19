@@ -247,25 +247,31 @@
         <el-row>
           <el-col :spam="12">
             <el-form-item label="付款账户：">
-              <el-input></el-input>
+              <el-input v-model="submitCollectionForm.payAccount"></el-input>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="收据编号：">
-              <el-input></el-input>
+              <el-input v-model="submitCollectionForm.collectNo"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="收款账户：" required>
-              <el-input></el-input>
+              <el-input v-model="submitCollectionForm.collectAccountName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
-            <el-form-item label="收款月数：" required>
-              <el-input></el-input>
-            </el-form-item>
+            <div class="block">
+              <el-date-picker
+                v-model="submitReceiveMonths"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+            </div>
           </el-col>
         </el-row>
         <el-row>
@@ -273,6 +279,7 @@
             <el-form-item label="到账日期：" required>
               <div class="block">
                 <el-date-picker
+                v-model="submitCollectionForm.collectDate"
                   type="date"
                   placeholder="选择日期">
                 </el-date-picker>
@@ -281,7 +288,7 @@
           </el-col>
           <el-col :spam="12">
             <el-form-item label="备注：">
-              <el-input></el-input>
+              <el-input v-model="submitCollectionForm.remark"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -297,57 +304,57 @@
         <el-row>
           <el-col :spam="12">
             <el-form-item label="审核状态:">
-              <span>待确认</span>
+              <span>{{collectDetail.collectStatusName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="提交人:" required>
-              <span></span>
+              <span>{{collectDetail.createUserName}}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="付款账户:" required>
-              <span></span>
+              <span>{{collectDetail.payAccount}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="收据编号:" required>
-              <span></span>
+              <span>{{collectDetail.collectNo}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="到账日期:" required>
-              <span></span>
+              <span>{{collectDetail.collectDate}}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="收款月数:" required>
-              <span></span>
+              <span>{{ getReceiveMonth(collectDetail) }}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="审批人:" required>
-              <span></span>
+              <span>{{collectDetail.approvalUserName}}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="备注：">
-              <span></span>
+              <span>{{collectDetail.remark}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="创建日期:" required>
-              <span></span>
+              <span>{{collectDetail.createTime}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -533,19 +540,22 @@
         <el-button @click="oneZeroViewVisible = false">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- 提交收款确认后提交提成操作 -->
+    <!-- 提交提成操作 -->
     <el-dialog title="提交提成" :visible="threeZeroEditVisible">
       <el-form>
         <el-form-item label="提成月数：" required>
-          <div class="block">
-            <el-date-picker
-              type="date"
-              placeholder="">
-            </el-date-picker>
-          </div>
+              <div class="block">
+              <el-date-picker
+                v-model="submitMonths"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+            </div>
         </el-form-item>
         <el-form-item label="提成金额：">
-          <el-input></el-input>
+          <el-input v-model="submitRoyaltyForm.royaltyMoney"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -776,24 +786,24 @@
         <el-row>
           <el-col :spam="12">
             <el-form-item label="审核状态:">
-              <span></span>
+              <span>{{royaltyDetail.royaltyStatusName}}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="提成金额:">
-              <span></span>
+              <span>{{royaltyDetail.royaltyMoney}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="提成月数:" required>
-              <span></span>
+              <span>{{ getRoyaltyMonth(royaltyDetail) }}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="创建日期:" required>
-              <span></span>
+              <span>{{royaltyDetail.royaltyAppliDate}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -817,6 +827,34 @@ export default {
   },
   data () {
     return {
+      // 提交收款信息
+      submitCollectionForm: {
+        payAccount: '',
+        collectNo: '',
+        collectAccountName: '',
+        collectDate: '',
+        collectStartMonth: '',
+        collectEndMonth: '',
+        remark: ''
+      },
+      submitReceiveMonths: [],
+      // 修改收款信息
+      updateCollectForm: {
+        payAccount: '',
+        collectNo: '',
+        collectAccountName: '',
+        collectDate: '',
+        collectStartMonth: '',
+        collectEndMonth: '',
+        remark: ''
+      },
+      submitMonths: [],
+      // 提交提成信息
+      submitRoyaltyForm: {
+        royaltyStartMonth: '',
+        royaltyEndMonth: '',
+        royaltyMoney: ''
+      },
       innerVisible: false,
       // 以上是今天的代码
       zeroZeroEditVisible: false,
@@ -926,6 +964,8 @@ export default {
       } else {
         const customerId = Number.parseInt(commandWithCustomerId.replace('view', ''))
         const customer = this.getCustomer(customerId)
+        this.collectId = customer.latestCollectId
+        this.getCollectDetail()
         this.handleViewCommandClick(customer)
       }
     },
@@ -934,7 +974,7 @@ export default {
     },
     handleEditCommandClick (customer) {
       const { collectStatusValue, royaltyStatusValue } = customer
-      if (collectStatusValue === '0') {
+      if (collectStatusValue === '0' && royaltyStatusValue === '0') {
         this.zeroZeroEditVisible = true
       }
       if (collectStatusValue === '1') {
@@ -965,6 +1005,60 @@ export default {
       if (collectStatusValue === '3' && royaltyStatusValue === '5') {
         this.treeFiveViewVisible = true
       }
+    },
+    // 提交收款信息
+    submitCollection () {
+      this.$store.dispatch('submitCollection', this.submitCollectionForm)
+    },
+    submitReceiveMonth () {
+      const startDate = this.submitReceiveMonths[0]
+      const endDate = this.submitReceiveMonths[1]
+      this.submitCollectionForm.collectStartMonth = `${startDate.getFullYear()}-${startDate.getMonth() + 1}`
+      this.submitCollectionForm.collectEndMonth = `${endDate.getFullYear()}-${endDate.getMonth() + 1}`
+    },
+    // 修改收款信息
+    updateCollect () {
+      this.$store.dispatch('updateCollect', this.updateCollectForm)
+    },
+    // 获取收款详情
+    getCollectDetail () {
+      this.$store.dispatch('getCollectDetail', this.collectId)
+    },
+    getReceiveMonth (collectDetail) {
+      const { collectStartMonth, collectEndMonth } = collectDetail
+      const startDate = new Date(collectStartMonth)
+      const endDate = new Date(collectEndMonth)
+      const year = new Date(collectStartMonth).getFullYear()
+      const startMonth = startDate.getMonth() + 1
+      const endMonth = endDate.getMonth() + 1
+      return `${year} 年 ${startMonth} 月 - ${endMonth} 月`
+    },
+    // 驳回收款
+    rejectCollect () {
+      this.$store.dispatch('rejectCollection', this.collectId)
+    },
+    // 提交提成
+    submitRoyalty () {
+      this.$store.dispatch('submitRoyalty', this.submitRoyaltyForm)
+    },
+    submitRoyaltyMonths () {
+      const startDate = this.submitMonths[0]
+      const endDate = this.submitMonths[1]
+      this.submitRoyaltyForm.royaltyStartMonth = `${startDate.getFullYear()}-${startDate.getMonth() + 1}`
+      this.submitRoyaltyForm.royaltyEndMonth = `${endDate.getFullYear()}-${endDate.getMonth() + 1}`
+    },
+    // 获取提成详情
+    getRoyaltyDetail () {
+      this.$store.dispatch('getRoyaltyDetail', this.royaltyId)
+    },
+    getRoyaltyMonth (royaltyDetail) {
+      const { royaltyStartMonth, royaltyEndMonth } = royaltyDetail
+      const startDate = new Date(royaltyStartMonth)
+      const endDate = new Date(royaltyEndMonth)
+      const year = new Date(royaltyStartMonth).getFullYear()
+      const startMonth = startDate.getMonth() + 1
+      const endMonth = endDate.getMonth() + 1
+      return `${year} 年 ${startMonth} 月 - ${endMonth} 月`
     }
   },
   mounted () {
@@ -973,7 +1067,12 @@ export default {
   },
   computed: {
     ...mapState({
-      accounts: state => state.account.accounts
+      accounts: state => state.account.accounts,
+      // 收款信息展示
+      collectDetail: state => state.account.collectDetail,
+      // 驳回收款
+      // 提成信息展示
+      royaltyDetail: state => state.account.royaltyDetail
     })
   }
 }
