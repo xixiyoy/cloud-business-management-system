@@ -22,7 +22,6 @@ const actions = {
   async getServiceProductList ({ commit }, getServiceProductFrom) {
     const { limit, page } = getServiceProductFrom
     const { data: products } = await getServiceProductList(limit, page)
-    console.log(getServiceProductList)
     commit('SET_PRODUCTS', products)
   },
   async createProduct ({ commit }, createProductForm) {
