@@ -1,4 +1,4 @@
-import { getCustomers, getCustomerDetail, updateCustomer } from '../../api/customer'
+import { getCustomers, getCustomerDetail, updateCustomer, createCustomer } from '../../api/customer'
 
 const state = {
   customers: [],
@@ -30,6 +30,12 @@ const actions = {
   },
   async updateCustomer ({ commit }, updateCustomerForm) {
     await updateCustomer(updateCustomerForm)
+  },
+  async createCustomer ({ commit }, createCustomerForm) {
+    const { data: { code, msg } } = await createCustomer(createCustomerForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   }
 }
 

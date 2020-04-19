@@ -1,12 +1,12 @@
-import { getServiceProductList, createProduct, updateProduct, deleteProduct, getProductDetail } from '../../api/product'
+import { getProducts, createProduct, updateProduct, deleteProduct, getProductDetail } from '../../api/product'
 
 const state = {
-  products: {},
-  product: {
+  products: {
     page: {
       list: []
     }
-  }
+  },
+  product: {}
 }
 
 const mutations = {
@@ -19,10 +19,8 @@ const mutations = {
 }
 
 const actions = {
-  async getServiceProductList ({ commit }, getServiceProductFrom) {
-    const { limit, page } = getServiceProductFrom
-    const { data: products } = await getServiceProductList(limit, page)
-    console.log(getServiceProductList)
+  async getProducts ({ commit }, getProductsForm) {
+    const { data: products } = await getProducts(getProductsForm)
     commit('SET_PRODUCTS', products)
   },
   async createProduct ({ commit }, createProductForm) {
