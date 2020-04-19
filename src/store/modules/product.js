@@ -24,8 +24,10 @@ const actions = {
     commit('SET_PRODUCTS', products)
   },
   async createProduct ({ commit }, createProductForm) {
-    const response = await createProduct(createProductForm)
-    console.log(response)
+    const { data: { code, msg } } = await createProduct(createProductForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async getProductById ({ commit }, productId) {
     const response = await getProductDetail(productId)

@@ -3,44 +3,35 @@
     <div class="create-product-title">新增产品
     <div class="dividing-line"></div>
     <div class="create-product-main">
-      <el-form label-width="120px" class="demo-ruleForm">
+      <el-form label-width="120px">
         <el-row>
           <el-col :span="7">
-             <el-form-item label="产品板块: " prop="region" required>
+             <el-form-item label="产品板块: ">
               <div class="block">
                 <el-cascader
-                  v-model="createProductForm.productMoudelName"
-                  :options="options"
-                  @change="handleNameChange"></el-cascader>
+                  v-model="productMoudleName"
+                  @change="handleProductModuleChange"
+                  :options="options">
+                </el-cascader>
               </div>
-              <!-- <el-select placeholder="请选择" style="width:290px;">
-                  <el-option label="工商服务" v-model="createProductForm.productMoudelName"></el-option>
-                  <el-option label="银行服务"></el-option>
-                  <el-option label="人事服务"></el-option>
-                  <el-option label="知识产权"></el-option>
-                  <el-option label="法律服务"></el-option>
-                  <el-option label="其他服务"></el-option>
-                  <el-option label="行业资质许可证"></el-option>
-                  <el-option label="培训"></el-option>
-              </el-select> -->
              </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="产品名称: " prop="name" required>
+            <el-form-item label="产品名称: ">
               <el-input placeholder="请输入" v-model="createProductForm.productName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="指导价格(元): " required>
+            <el-form-item label="指导价格（元）: ">
               <el-col :span="11">
-                <el-form-item prop="">
-                  <el-input></el-input>
+                <el-form-item>
+                  <el-input v-model="productMinPrice"></el-input>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center;">至</el-col>
               <el-col :span="11">
                 <el-form-item prop="">
-                  <el-input></el-input>
+                  <el-input v-model="productMaxPrice"></el-input>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -48,16 +39,17 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="产品单位: " prop="region" required>
-              <el-select placeholder="次" style="width:290px;">
-                <el-option label="月" value="shanghai"></el-option>
-                <el-option label="人/天" value="beijing"></el-option>
+            <el-form-item label="产品单位: ">
+              <el-select placeholder="次" style="width: 290px;" v-model="createProductForm.productUnitType">
+                <el-option label="次" value="0"></el-option>
+                <el-option label="月" value="1"></el-option>
+                <el-option label="人 / 天" value="2"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="概述: " prop="name">
-              <el-input placeholder="请输入" v-model="createProductForm.isUp"></el-input>
+            <el-form-item label="概述: ">
+              <el-input v-model="createProductForm.productSummy"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -66,11 +58,11 @@
             <div slot="header" class="clearfix">
               <span>产品描述：</span>
             </div>
-            <froala id="edit" :tag="'textarea'" :config="config" v-model="createProductForm.productSummy"></froala>
+            <froala id="edit" :tag="'textarea'" v-model="createProductForm.productDesc"></froala>
           </el-card>
         </el-row>
         <el-button>取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button type="primary" @click="handleCreateProductButtonClick">确 定</el-button>
       </el-form>
     </div>
     </div>
@@ -79,7 +71,6 @@
 
 <script>
 import { Message } from 'element-ui'
-import { createProduct } from '../api/product'
 
 export default {
   metaInfo: {
@@ -87,180 +78,197 @@ export default {
   },
   data () {
     return {
+      productMinPrice: '',
+      productMaxPrice: '',
+      productMoudleName: '',
       value: [],
       options: [{
-        value: 'GSFW',
+        value: '工商服务',
         label: '工商服务',
         children: [{
-          value: 'zhuce',
+          value: '注册',
           label: '注册'
         }, {
-          value: 'biangeng',
+          value: '变更',
           label: '变更'
         }, {
-          value: 'zhuxiao',
+          value: '注销',
           label: '注销'
         }, {
+          value: '其他',
+          label: '其他'
+        }]
+      }, {
+        value: '财税服务',
+        label: '财税服务',
+        children: [{
+          value: '代理记账',
+          label: '代理记账'
+        }, {
+          value: '财务服务',
+          label: '财务服务'
+        }, {
+          value: '税务服务',
+          label: '税务服务'
+        }, {
+          value: '发票相关服务',
+          label: '发票相关服务'
+        }, {
           value: 'qita',
           label: '其他'
         }]
       }, {
-        value: 'YHFW',
+        value: '银行服务',
         label: '银行服务',
         children: [{
-          value: 'yhfw',
+          value: '银行服务',
           label: '银行服务'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'RSFW',
+        value: '人事服务',
         label: '人事服务',
         children: [{
-          value: 'sbgjj',
+          value: '社保公积金',
           label: '社保公积金'
         }, {
-          value: 'jzzhk',
+          value: '居住证户口',
           label: '居住证户口'
         }, {
-          value: 'lwzp',
+          value: '劳务招聘',
           label: '劳务招聘'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'ZSCQ',
+        value: '知识产权',
         label: '知识产权',
         children: [{
-          value: 'sb',
+          value: '商标',
           label: '商标'
         }, {
-          value: 'zzq',
+          value: '著作权',
           label: '著作权'
         }, {
-          value: 'zl',
+          value: '专利',
           label: '专利'
         }, {
-          value: 'gltxrz',
+          value: '管理体系认证',
           label: '管理体系认证'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'FLFW',
+        value: '法律服务',
         label: '法律服务',
         children: [{
-          value: 'flfw',
+          value: '法律服务',
           label: '法律服务'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'QTFW',
+        value: '其他服务',
         label: '其他服务',
         children: [{
-          value: 'jj',
+          value: '加急',
           label: '加急'
         }, {
-          value: 'kz',
+          value: '刻章',
           label: '刻章'
         }, {
-          value: 'ysbb',
+          value: '遗失补办',
           label: '遗失补办'
         }, {
-          value: 'yccl',
+          value: '异常处理',
           label: '异常处理'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'HYZZXKZ',
+        value: '行业资质许可证',
         label: '行业资质许可证',
         children: [{
-          value: 'dslzz',
+          value: '电商类资质',
           label: '电商类资质'
         }, {
-          value: 'jzlzz',
+          value: '建筑类资质',
           label: '建筑类资质'
         }, {
-          value: 'rlzylzz',
+          value: '人力资源来资质',
           label: '人力资源来资质'
         }, {
-          value: 'spcylzz',
+          value: '食品餐饮类资质',
           label: '食品餐饮类资质'
         }, {
-          value: 'wlyxlzz',
+          value: '网络游戏类资质',
           label: '网络游戏类资质'
         }, {
-          value: 'whcbyyzz',
+          value: '文化出版运营资质',
           label: '文化出版运营资质'
         }, {
-          value: 'yllzz',
+          value: '医疗类资质',
           label: '医疗类资质'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }, {
-        value: 'PX',
+        value: '培训',
         label: '培训',
         children: [{
-          value: 'zyjnpx',
+          value: '职业技能培训',
           label: '职业技能培训'
         }, {
-          value: 'ywpx',
+          value: '业务培训',
           label: '业务培训'
         }, {
-          value: 'qita',
+          value: '其他',
           label: '其他'
         }]
       }],
-      config: {
-        events: {
-          initialized: function () {
-            console.log('initialized')
-          }
-        }
-      },
-      model: 'Edit Your Content Here!',
       createProductForm: {
-        createProductForm: '',
-        productSummy: '',
-        isUp: '',
+        isLongTerm: '1',
+        isUp: '0',
+        productDesc: '',
+        productMoudleId: 0,
+        productMoudleName: '',
         productName: '',
-        productMoudelName: '',
-        activeIndex: '2'
+        productPrice: '',
+        productSummy: '',
+        productUnitType: ''
       }
     }
   },
   methods: {
-    handleNameChange (value) {
-      console.log(value)
-    },
     handleCreateProductButtonClick () {
-      createProduct(this.getServiceProductFrom).then(({ data: response }) => {
-        const { code, msg } = response
-        if (code === 0) {
-          Message({
-            message: '保存成功',
-            type: 'success'
-          })
-        } else {
-          Message({
-            message: msg,
-            type: 'error'
-          })
-        }
-      })
+      this.createProductForm.productPrice = `${this.productMinPrice}-${this.productMaxPrice}`
       this.createProduct()
     },
+    handleProductModuleChange (productModule) {
+      this.createProductForm.productMoudleName = `${productModule[0]} / ${productModule[1]}`
+      if (productModule[1] === '代理记账') {
+        this.createProductForm.isLongTerm = '0'
+      }
+    },
     createProduct () {
-      this.$store.dispatch('createProduct', this.createProductForm)
+      this.$store.dispatch('createProduct', this.createProductForm).then(() => {
+        Message({
+          message: '保存成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message: message,
+          type: 'error'
+        })
+      })
     }
   }
 }
