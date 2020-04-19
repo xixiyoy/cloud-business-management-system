@@ -17,20 +17,20 @@
             </el-row>
             <el-row>
               <el-col :span="6">
-                <el-form-item label="收支部门" prop="region" required>
-                  <el-select class="account-source-left-custom" multiple placeholder="请选择">
+                <el-form-item label="收支部门">
+                  <el-select class="account-source-left-custom" v-model="createFianceForm.fianceDeptId" @change="handleDepartmentSelectChange">
                     <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
+                      v-for="(department, index) in departments"
+                      :key="index"
+                      :label="department.name"
+                      :value="department.deptId">
                     </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="收支人员" prop="name" required>
-                  <el-input></el-input>
+                  <el-input v-model="createFianceForm.fianceUserName"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -78,7 +78,7 @@
 
 <script>
 import { Message } from 'element-ui'
-import { createFiance } from '../api/fiance'
+import { mapState } from 'vuex'
 
 export default {
   metaInfo: {
@@ -103,30 +103,43 @@ export default {
     }
   },
   methods: {
+    getDepartmentName (id) {
+      return this.departments.filter(({ deptId }) => deptId === id).name
+    },
+    handleDepartmentSelectChange (id) {
+      this.createFianceForm.fianceDeptName = this.getDepartmentName(id)
+    },
     // 3.3 在 methods 中定一个方法
     handleCreateFianceButtonClick () {
-      createFiance(this.getDiaryReportForm).then(({ data: response }) => {
-        const { code, msg } = response
-        if (code === 0) {
-          Message({
-            message: '保存成功',
-            type: 'success'
-          })
-        } else {
-          Message({
-            message: msg,
-            type: 'error'
-          })
-        }
-      })
       // 调用 3.5 的创建方法
-      this.createFianc()
+      this.createFiance()
+    },
+    getDepartments () {
+      this.$store.dispatch('getDeptList')
     },
     // 3.5 在 methods 中定一个方法用来调用 vuex 中 actions 中的方法
     createFiance () {
       // 3.5.1              对应 actions 中的方法名  对应 actions 中第二个参数，实际是 data 中的 form 值来自于输入框
-      this.$store.dispatch('createFiance', this.createFianceForm)
+      this.$store.dispatch('createFiance', this.createFianceForm).then(() => {
+        Message({
+          message: '保存成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
     }
+  },
+  mounted () {
+    this.getDepartments()
+  },
+  computed: {
+    ...mapState({
+      departments: state => state.department.depts
+    })
   }
 }
 </script>
