@@ -17,7 +17,7 @@ const submitCollection = submitCollectionForm => request({
 })
 // 获取收款详情
 const getCollectDetail = collectId => request({
-  url: `/account/collectDetail/${collectId}`
+  url: `/account/collectDetail?collectId=${collectId}`
 })
 // 修改收款提交的信息
 const updateCollect = collect => request({

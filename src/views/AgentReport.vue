@@ -364,63 +364,70 @@
         <el-button type="primary" @click="innerVisible = true">打开内层 Dialog</el-button>
       </div>
     </el-dialog>
-    <!-- 提交收款待审核后 -->
+    <!-- 提交收款待审核后驳回 -->
     <el-dialog title="收款详情" :visible="oneZeroOtherEditVisible">
       <el-form>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="审核状态:">
-              <span></span>
+              <span>{{collectDetail.collectStatusName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
-            <el-form-item label="收款账户:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
           <el-col :spam="12">
             <el-form-item label="提交人:" required>
-              <span></span>
+              <span>{{collectDetail.createUserName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="付款账户:" required>
+              <span>{{collectDetail.payAccount}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
-            <el-form-item label="付款账户:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
             <el-form-item label="收据编号:" required>
-              <span></span>
+              <span>{{collectDetail.collectNo}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="到账日期:" required>
-              <span></span>
+              <span>{{collectDetail.collectDate}}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="收款月数:" required>
-              <span></span>
+              <span>{{ getReceiveMonth(collectDetail) }}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
+            <el-form-item label="审批人:" required>
+              <span>{{collectDetail.approvalUserName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
             <el-form-item label="备注：">
-              <span></span>
+              <span>{{collectDetail.remark}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="创建日期:" required>
+              <span>{{collectDetail.createTime}}</span>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="oneZeroOtherEditVisible = false">驳 回</el-button>
-        <el-button @click="oneZeroOtherEditVisible = false">确认收款</el-button>
+        <el-button @click="handleRejectCollect" type="danger">驳 回</el-button>
+        <el-button @click="handleConfirenCollect" type="primary">确认收款</el-button>
         <el-button @click="oneZeroOtherEditVisible = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -906,6 +913,15 @@ export default {
         collectEndMonth: '',
         remark: ''
       },
+      // 驳回收款表单
+      rejectCollectForm: {
+        collectId: '',
+        rejectRemark: ''
+      },
+      // 缺人收款表单
+      confirmReceiptForm: {
+        collectId: ''
+      },
       submitMonths: [],
       // 提交提成信息
       submitRoyaltyForm: {
@@ -946,7 +962,7 @@ export default {
   },
   methods: {
     isSelf () {
-      return true
+      return false
     },
     // 判断是否可以编辑
     isCanEdit (customer) {
@@ -1038,7 +1054,6 @@ export default {
       } else {
         const customerId = Number.parseInt(commandWithCustomerId.replace('view', ''))
         const customer = this.getCustomer(customerId)
-        console.log(customer)
         this.collectId = customer.latestCollectId
         this.customerId = customer.customerId
         this.royaltyId = customer.latestRoyaltyId
@@ -1054,6 +1069,7 @@ export default {
         this.zeroZeroEditVisible = true
       }
       if (collectStatusValue === '1') {
+        this.getCollectDetail()
         if (this.isSelf()) {
           this.oneZeroSelfEditVisible = true
         } else {
@@ -1093,7 +1109,6 @@ export default {
       this.submitCollectionForm.collectDate = `${collectDate.getFullYear()}-${collectDate.getMonth() + 1}-${collectDate.getDay()}`
       this.zeroZeroEditVisible = false
       this.submitCollectionForm.customerId = this.customerId
-      console.log(this.submitCollectionForm)
       this.$store.dispatch('submitCollection', this.submitCollectionForm).then(() => {
         Message({
           message: '提交收款成功',
@@ -1129,9 +1144,44 @@ export default {
       const endMonth = endDate.getMonth() + 1
       return `${year} 年 ${startMonth} 月 - ${endMonth} 月`
     },
+    handleRejectCollect () {
+      this.rejectCollectForm.collectId = this.collectId
+      this.rejectCollectForm.rejectRemark = '这是博会信息'
+      this.rejectCollect()
+      this.oneZeroOtherEditVisible = false
+    },
     // 驳回收款
     rejectCollect () {
-      this.$store.dispatch('rejectCollection', this.collectId)
+      this.$store.dispatch('rejectCollection', this.rejectCollectForm).then(() => {
+        Message({
+          message: '驳回收款成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
+    // 确认收款
+    handleConfirenCollect () {
+      this.confirmReceiptForm.collectId = this.collectId
+      this.confirmCollect()
+      this.oneZeroOtherEditVisible = false
+    },
+    confirmCollect () {
+      this.$store.dispatch('confirmReceipt', this.confirmReceiptForm).then(() => {
+        Message({
+          message: '确认收款成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
     },
     // 提交提成
     submitRoyalty () {
