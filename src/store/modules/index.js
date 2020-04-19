@@ -13,6 +13,7 @@ import sysUser from './sysUser'
 import account from './account'
 import flowConfig from './flowConfig'
 import home from './home'
+import file from './file'
 
 export default {
   customer,
@@ -29,5 +30,6 @@ export default {
   sysUser,
   account,
   flowConfig,
-  home
+  home,
+  file
 }
