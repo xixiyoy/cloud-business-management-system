@@ -341,9 +341,10 @@
             <el-col :span="8">
               <el-form-item label="身份证复印件: ">
                 <el-upload
-                  class="upload-demo"
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  list-type="picture">
+                  action
+                  :http-request="handleIdCardCopyUploadHttpRequest"
+                  :file-list="idCardCopyFiles"
+                  >
                   <el-button size="small" type="primary">选择上传文件</el-button>
                   <div slot="tip">只能上传jpg/png文件，且不超过500kb</div>
                   </el-upload>
@@ -495,7 +496,14 @@ export default {
       getChannelsForm: {
         limit: 10,
         page: 1
-      }
+      },
+      idCardCopyUploadForm: {
+        type: 'customer',
+        dataId: 10,
+        fileNameInfo: '用于测试',
+        fileType: '电子合同'
+      },
+      idCardCopyFiles: []
     }
   },
   methods: {
@@ -639,6 +647,30 @@ export default {
     },
     handleCreateCustomerButtonClick () {
       this.createCustomer()
+    },
+    handleIdCardCopyUploadHttpRequest ({ file }) {
+      const formData = new FormData()
+      formData.append('file', file)
+      console.log(file)
+      this.idCardCopyUpload(formData)
+    },
+    idCardCopyUpload (formData) {
+      this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.idCardCopyUploadForm }).then(() => {
+        Message({
+          message: '上传成功',
+          type: 'success'
+        })
+        const { fileUrl: url } = this.file
+        this.idCardCopyFiles.push({
+          url
+        })
+        console.log(this.idCardCopyFiles)
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
     }
   },
   mounted () {
@@ -652,7 +684,8 @@ export default {
       products: state => state.product.products.page.list,
       users: state => state.sysUser.users.list,
       customers: state => state.customer.customers.list,
-      channels: state => state.channel.channels.page.list
+      channels: state => state.channel.channels.page.list,
+      file: state => state.file.file
     }),
     isRoyaltyCoefficientShow () {
       return this.isTasksContainAgentReport()
