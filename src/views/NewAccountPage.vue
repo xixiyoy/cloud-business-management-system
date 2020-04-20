@@ -1,6 +1,8 @@
 <template>
   <div class="create-account">
-    <el-collapse v-model="activeNames" style="width: 50%; margin: 0 auto;">
+    <p class="new-account-page-title">新建客户</p>
+    <div class="dividing-line"></div>
+    <el-collapse v-model="activeNames">
       <el-collapse-item
         title="基础信息"
         name="base-info">
@@ -51,12 +53,12 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="联系地址：">
-                <el-input></el-input>
+                <el-input v-model="createCustomerForm.customerAddress"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="企业邮箱：">
-                <el-input></el-input>
+                <el-input v-model="createCustomerForm.customerBusinessEmail"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -235,7 +237,7 @@
             <el-button type="primary" style="width: 100%;" @click="handleAddTaskButtonClick">添加产品</el-button>
             <el-dialog
               :visible="addTaskDialogVisible"
-              width="40%">
+              width="50%">
               <el-form>
                 <el-row :gutter="20">
                   <el-col :span="12">
@@ -430,6 +432,8 @@ export default {
         customerFromWay: '',
         royaltyCoefficient: '',
         remark: '',
+        customerAddress: '',
+        customerBusinessEmail: '',
         taskList: []
       },
       addTaskDialogVisible: false,
@@ -693,3 +697,87 @@ export default {
   }
 }
 </script>
+
+<style>
+.el-container{
+  height: 100% !important;
+}
+.create-account{
+  width: 94%;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+.new-account-page-title{
+  font-size: 20px;
+  color: #333;
+  text-align: left;
+  line-height: 10px;
+}
+.dividing-line{
+  width: 100%;
+  height: 1px;
+  background-color: #DCDFE6;
+  margin-top: 25px;
+}
+.base-information-icon{
+    margin-top: 13px;
+    width: 17px;
+    padding-right: 10px;
+    float: left;
+}
+.account-source-left-custom{
+  width: 49%;
+  float: left;
+}
+.account-source-right-custom{
+  width: 49%;
+  float: right;
+  margin-left: 0px !important;
+}
+.el-tag {
+    background-color: #fff;
+    border-color: #fff;
+    display: inline-block;
+    height: 32px;
+    padding: 0 10px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #333;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+.el-table .cell{
+    font-size: 17px;
+}
+.el-form-item__label{
+  width: 132px !important;
+}
+.el-form-item__content{
+  margin-left: 135px !important;
+}
+.IDnumber-upload{
+  padding: 14px 160px !important;
+  background-color: #fff !important;
+  color: #111 !important;
+  border: 1px solid #DCDFE6 !important;
+  width: 375px !important;
+}
+.add-account-products{
+  width: 100%;
+  border: 1px dotted #DCDFE6;
+  text-align: center;
+}
+.add-products-model{
+  padding-top: 25px;
+}
+.add-product-item{
+  margin-left: 0px !important;
+}
+.add-product-input{
+  width: 90% !important;
+}
+</style>
