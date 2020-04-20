@@ -138,7 +138,7 @@
                       <template slot="progressDot" slot-scope="{ description }">
                         <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
                       </template>
-                      <a-step :title="taskFlow.monthLabel" :description="taskFlow.status" v-for="(taskFlow, index) in getTaskFlows(task.taskFlowList)" :key="index"/>
+                      <a-step :title="taskFlow.monthLabel" :description="taskFlow.status" v-for="(taskFlow, index) in getTaskFlows(task.serviceStartMonth, task.taskFlowList)" :key="index"/>
                     </a-steps>
                   </a-col>
                 </a-row>
@@ -283,17 +283,27 @@ export default {
         case '交接中': {
           return 'custom-jiaojie-zhong'
         }
+        default: {
+          return 'custom-forbiden'
+        }
       }
     },
-    getTaskFlows (taskFlows) {
+    getTaskFlows (startDate, taskFlows) {
+      const startMonth = getMonth(startDate)
       const availableTaskFlows = taskFlows.map(({ taxDate }) => ({
         month: getMonth(taxDate),
         monthLabel: `${getMonth(taxDate)} 月`,
         status: '已完成'
       })).sort((x, y) => x.month - y.month)
-      return this.year.map(month => {
+      let firstAvailableMonth = null
+      let availableTaskCount = 0
+      const temp = this.year.map(month => {
         const awailableTaskFlow = availableTaskFlows.filter(availableTaskFlow => availableTaskFlow.month === month)[0]
         if (awailableTaskFlow !== undefined) {
+          availableTaskCount++
+          if (firstAvailableMonth === null) {
+            firstAvailableMonth = month
+          }
           return awailableTaskFlow
         }
         return {
@@ -302,6 +312,25 @@ export default {
           status: '未开始'
         }
       })
+      if (availableTaskCount === 0 && firstAvailableMonth === null) {
+        temp[startMonth - 1].status = '服务中'
+        temp.forEach(a => {
+          if (a.month < startMonth) {
+            temp[a.month - 1].status = '禁止'
+          }
+        })
+      }
+      if (availableTaskCount !== 0) {
+        temp.forEach(a => {
+          if (a.month > startMonth && a.month < firstAvailableMonth) {
+            temp[a.month - 1].status = '服务中'
+          }
+          if (a.month < startMonth) {
+            temp[a.month - 1].status = '禁止'
+          }
+        })
+      }
+      return temp
     }
   },
   mounted () {
@@ -354,6 +383,9 @@ export default {
   }
   .custom-jiaojie-zhong {
     background-color: #E6A23C !important;
+  }
+  .custom-forbiden {
+    background-color: #909399 !important;
   }
 }
 

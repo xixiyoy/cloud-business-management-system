@@ -17,10 +17,10 @@ const mutations = {
         account.royaltyStatusName = '未申请'
       }
       if (account.customerId === 20) {
-        account.collectStatusName = '待确认'
-        account.collectStatusValue = '1'
-        account.royaltyStatusValue = '0'
-        account.royaltyStatusName = '未申请'
+        account.collectStatusName = '已确认'
+        account.collectStatusValue = '3'
+        account.royaltyStatusValue = '1'
+        account.royaltyStatusName = '待确认'
       }
       return account
     })
@@ -88,19 +88,28 @@ const actions = {
     await updateRoyalty(updateRoyaltyForm)
   },
   async rejectRoyalty ({ commit }, rejectRoyaltyForm) {
-    await rejectRoyalty(rejectRoyaltyForm)
+    const { data: { code, msg } } = await rejectRoyalty(rejectRoyaltyForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async businessApproval ({ commit }, businessApprovalForm) {
-    const response = await businessApproval(businessApprovalForm)
-    console.log(response)
+    const { data: { code, msg } } = await businessApproval(businessApprovalForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async financialApproval ({ commit }, financialApprovalForm) {
-    const response = await financialApproval(financialApprovalForm)
-    console.log(response)
+    const { data: { code, msg } } = await financialApproval(financialApprovalForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async cashierApproval ({ commit }, cashierApprovalForm) {
-    const response = await cashierApproval(cashierApprovalForm)
-    console.log(response)
+    const { data: { code, msg } } = await cashierApproval(cashierApprovalForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   }
 }
 export default {

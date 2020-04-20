@@ -437,50 +437,57 @@
         <el-row>
           <el-col :spam="12">
             <el-form-item label="审核状态:">
-              <span>已驳回</span>
+              <span>{{collectDetail.collectStatusName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
-            <el-form-item label="收款账户:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
           <el-col :spam="12">
             <el-form-item label="提交人:" required>
-              <span></span>
+              <span>{{collectDetail.createUserName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="付款账户:" required>
+              <span>{{collectDetail.payAccount}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
-            <el-form-item label="付款账户:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
             <el-form-item label="收据编号:" required>
-              <span></span>
+              <span>{{collectDetail.collectNo}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="到账日期:" required>
-              <span></span>
+              <span>{{collectDetail.collectDate}}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="收款月数:" required>
-              <span></span>
+              <span>{{ getReceiveMonth(collectDetail) }}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
+            <el-form-item label="审批人:" required>
+              <span>{{collectDetail.approvalUserName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
             <el-form-item label="备注：">
-              <span></span>
+              <span>{{collectDetail.remark}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="创建日期:" required>
+              <span>{{collectDetail.createTime}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -570,18 +577,18 @@
         <el-button @click="threeZeroEditVisible = false">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- 提交收款确认后提交提成审批操作1 -->
+    <!-- 提交提成后的查看可以修改 -->
     <el-dialog title="提交提成" :visible="treeOneEditVisible">
       <el-form>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="审核状态:">
-              <span>待业务审批</span>
+              <span>{{royaltyDetail.royaltyStatusName}}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="提成金额:">
-              <span></span>
+              <span>{{royaltyDetail.royaltyMoney}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -593,23 +600,24 @@
           </el-col>
           <el-col :spam="12">
             <el-form-item label="创建日期:" required>
-              <span></span>
+              <span>{{royaltyDetail.royaltyAppliDate}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <span>审批流程:
-            <div style="width:80%;float:right;">
+            <div style="width:580px;float:right;">
               <!-- 动态获取 -->
               <div class="approval-process">
                     <div class="approval-one">
                       <div class="approval-content">
                         <p>申请提交</p>
                         <div class="approval">
-                        <i class="el-icon-success" style="color:green;"></i><br>
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
-                        <p>提交人</p>
-                        <p>提交时间</p>
+                        <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyAppliDate) }}</p>
                       </div>
                       <div class="time-line-process"></div>
                     </div>
@@ -617,10 +625,11 @@
                       <div class="approval-content">
                         <p>业务审批</p>
                         <div class="approval">
-                          <img class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt=""><br>
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
-                        <p>提交人</p>
-                        <p>提交时间</p>
+                        <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyBusinessDate) }}</p>
                       </div>
                       <div class="time-line-process"></div>
                     </div>
@@ -628,21 +637,23 @@
                       <div class="approval-content">
                         <p>财务审批</p>
                         <div class="approval">
-                        <i class="el-icon-success" style="color:green;"></i><br>
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
-                        <p>提交人</p>
-                        <p>提交时间</p>
+                        <p>{{ royaltyDetail.royaltyFianceUserName }}1111</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyFianceDate) }}</p>
                       </div>
-                      <div class="time-line-process"></div>
+                      <div class="time-line-process" style="margin: 29px 0 0 -30px;"></div>
                     </div>
                     <div class="approval-four">
                       <div class="approval-content">
                         <p>出纳确认</p>
                         <div class="approval">
-                        <i class="el-icon-success" style="color:green;"></i><br>
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
-                        <p>提交人</p>
-                        <p>提交时间</p>
+                        <p>{{ royaltyDetail.royaltyCashUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyCashDate) }}</p>
                       </div>
                     </div>
                   </div>
@@ -656,124 +667,309 @@
       </div>
     </el-dialog>
     <!-- 3 4 驳回后查看 -->
-    <el-dialog title="收款详情" :visible="treeFourViewVisible">
-      <el-form>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="审核状态:">
-              <span>已驳回</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="收款账户:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="提交人:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="付款账户:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="收据编号:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="到账日期:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="收款月数:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="收款月数:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="treeFourViewVisible = false">取 消</el-button>
-      </div>
-    </el-dialog>
-    <!-- 提交收款确认后提交提成审批操作3 -->
     <el-dialog title="提成记录">
       <el-form>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="审核状态:">
-              <span></span>
+              <span>{{royaltyDetail.royaltyStatusName}}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="提成金额:">
-              <span></span>
+              <span>{{royaltyDetail.royaltyMoney}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="提成月数:" required>
-              <span></span>
+              <span>{{ formatRoyaltyMonths(royaltyDetail) }}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="创建日期:" required>
-              <span></span>
+              <span>{{royaltyDetail.royaltyAppliDate}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <span>审批流程</span>
+          <span>审批流程
+            <div style="width:580px;float:right;">
+              <!-- 动态获取 -->
+              <div class="approval-process">
+                    <div class="approval-one">
+                      <div class="approval-content">
+                        <p>申请提交</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyAppliDate) }}</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-two">
+                      <div class="approval-content">
+                        <p>业务审批</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyBusinessDate) }}</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-three">
+                      <div class="approval-content">
+                        <p>财务审批</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyFianceUserName }}1111</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyFianceDate) }}</p>
+                      </div>
+                      <div class="time-line-process" style="margin: 29px 0 0 -30px;"></div>
+                    </div>
+                    <div class="approval-four">
+                      <div class="approval-content">
+                        <p>出纳确认</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyCashUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyCashDate) }}</p>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </span>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogFormVisible = false">驳 回</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确认审批</el-button>
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+      </div>
+    </el-dialog>
+    <!-- 提交收款确认后提交提成审批操作2 -->
+    <el-dialog title="提成记录" :visible="threeOneBusinessVisible">
+      <el-form>
+        业务审批
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="审核状态:">
+              <span>{{royaltyDetail.royaltyStatusName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="提成金额:">
+              <span>{{royaltyDetail.royaltyMoney}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="提成月数:" required>
+              <span>{{ getRoyaltyMonth(royaltyDetail) }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="创建日期:" required>
+              <span>{{royaltyDetail.royaltyAppliDate}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <span>审批流程
+            <div style="width:580px;float:right;">
+              <!-- 动态获取 -->
+              <div class="approval-process">
+                    <div class="approval-one">
+                      <div class="approval-content">
+                        <p>申请提交</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyAppliDate) }}</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-two">
+                      <div class="approval-content">
+                        <p>业务审批</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyBusinessDate) }}</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-three">
+                      <div class="approval-content">
+                        <p>财务审批</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyFianceUserName }}1111</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyFianceDate) }}</p>
+                      </div>
+                      <div class="time-line-process" style="margin: 29px 0 0 -30px;"></div>
+                    </div>
+                    <div class="approval-four">
+                      <div class="approval-content">
+                        <p>出纳确认</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyCashUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyCashDate) }}</p>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </span>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-popover
+  placement="top"
+  width="160"
+  v-model="visible">
+  <p>这是一段内容这是一段内容确定删除吗？</p>
+  <div style="text-align: right; margin: 0">
+    <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+    <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
+  </div>
+  <el-button slot="reference">删除</el-button>
+</el-popover>
+        <el-button type="primary" @click="handleConfirenBusiness">确认审批</el-button>
+        <el-button @click="threeOneBusinessVisible = false">取 消</el-button>
+      </div>
+    </el-dialog>
+    <!-- 提交收款确认后提交提成审批操作3 -->
+    <el-dialog title="提成记录" :visible="threeTwoFianceVisible">
+      <el-form>
+        财务审批
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="审核状态:">
+              <span>{{royaltyDetail.royaltyStatusName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="提成金额:">
+              <span>{{royaltyDetail.royaltyMoney}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="提成月数:" required>
+              <span>{{ formatRoyaltyMonths(royaltyDetail) }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="创建日期:" required>
+              <span>{{royaltyDetail.royaltyAppliDate}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <span>审批流程
+            <div style="width:580px;float:right;">
+              <!-- 动态获取 -->
+              <div class="approval-process">
+                    <div class="approval-one">
+                      <div class="approval-content">
+                        <p>申请提交</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyAppliDate) }}</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-two">
+                      <div class="approval-content">
+                        <p>业务审批</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyBusinessDate) }}</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-three">
+                      <div class="approval-content">
+                        <p>财务审批</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyFianceUserName }}1111</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyFianceDate) }}</p>
+                      </div>
+                      <div class="time-line-process" style="margin: 29px 0 0 -30px;"></div>
+                    </div>
+                    <div class="approval-four">
+                      <div class="approval-content">
+                        <p>出纳确认</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyCashUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyCashDate) }}</p>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </span>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false" type="danger">驳 回</el-button>
+        <el-button type="primary" @click="handleConfirenFinancial">确认审批</el-button>
         <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 提交收款确认后提交提成审批操作4 -->
-    <el-dialog title="提成记录">
+    <el-dialog title="提成记录" :visible="threeThreeCashVisible">
       <el-form>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="审核状态:">
-              <span></span>
+              <span>{{royaltyDetail.royaltyStatusName}}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="提成金额:">
-              <span></span>
+              <span>{{royaltyDetail.royaltyMoney}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :spam="12">
             <el-form-item label="提成月数:" required>
-              <span></span>
+              <span>{{ formatRoyaltyMonths(royaltyDetail) }}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
             <el-form-item label="创建日期:" required>
-              <span></span>
+              <span>{{royaltyDetail.royaltyAppliDate}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -782,8 +978,32 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogFormVisible = false">驳 回</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确认审批</el-button>
+      <!-- <template>
+        <el-popconfirm
+          confirmButtonText='确定'
+          cancelButtonText='取消'
+          icon="el-icon-info"
+          iconColor="red"
+          title="确定驳回吗？"
+        >
+        <el-form-item label="驳回备注:">
+          <el-input v-model="rejectRoyaltyForm.rejectRemark"></el-input>
+        </el-form-item>
+        <el-button type="primary" @click="handleRejectRoyalty = false" slot="reference">驳 回</el-button>
+        </el-popconfirm>
+      </template> -->
+      <el-popover
+  placement="top"
+  width="160"
+  v-model="visible">
+            <el-input v-model="rejectRoyaltyForm.rejectRemark"></el-input>
+  <div style="text-align: right; margin: 0">
+    <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+    <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
+  </div>
+  <el-button slot="reference" type="danger">驳回</el-button>
+</el-popover>
+        <el-button type="primary" @click="handleCashier">确认审批</el-button>
         <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -816,14 +1036,14 @@
         </el-row>
         <el-row>
           <span>审批流程:
-            <div style="width:80%;float:right;">
+            <div style="width:580px;float:right;">
               <!-- 动态获取 -->
               <div class="approval-process">
                     <div class="approval-one">
                       <div class="approval-content">
                         <p>申请提交</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt=""><br>
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
@@ -835,7 +1055,7 @@
                       <div class="approval-content">
                         <p>业务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt=""><br>
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
@@ -847,19 +1067,19 @@
                       <div class="approval-content">
                         <p>财务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt=""><br>
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
-                        <p>{{ royaltyDetail.royaltyFianceUserName }}</p>
+                        <p>{{ royaltyDetail.royaltyFianceUserName }}1111</p>
                         <p>{{ formatDate(royaltyDetail.royaltyFianceDate) }}</p>
                       </div>
-                      <div class="time-line-process"></div>
+                      <div class="time-line-process" style="margin: 29px 0 0 -30px;"></div>
                     </div>
                     <div class="approval-four">
                       <div class="approval-content">
                         <p>出纳确认</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt=""><br>
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyCashUserName }}</p>
@@ -888,6 +1108,7 @@ export default {
   },
   data () {
     return {
+      visible: false,
       submitCollectionDate: [],
       submitCollectionReceiveDate: '',
       customerId: '',
@@ -929,6 +1150,11 @@ export default {
         royaltyEndMonth: '',
         royaltyMoney: ''
       },
+      // 驳回提成
+      rejectRoyaltyForm: {
+        royaltyId: '',
+        rejectRemark: ''
+      },
       innerVisible: false,
       // 以上是今天的代码
       zeroZeroEditVisible: false,
@@ -940,6 +1166,9 @@ export default {
       treeFourViewVisible: false,
       treeOneEditVisible: false,
       dialogFormVisible: false,
+      threeOneBusinessVisible: false,
+      threeTwoFianceVisible: false,
+      threeThreeCashVisible: false,
       radio: 3,
       activeTabName: 'all',
       getAccountsForm: {
@@ -957,7 +1186,10 @@ export default {
       oneZeroVisible: false,
       firstYiqueren: false,
       collectId: '',
-      royaltyId: ''
+      royaltyId: '',
+      businessApprovalForm: {
+        royaltyId: ''
+      }
     }
   },
   methods: {
@@ -1080,7 +1312,12 @@ export default {
         this.threeZeroEditVisible = true
       }
       if (collectStatusValue === '3' && royaltyStatusValue === '1') {
-        this.treeOneEditVisible = true
+        this.getRoyaltyDetail()
+        if (this.isSelf()) {
+          this.treeOneEditVisible = true
+        } else {
+          this.threeOneBusinessVisible = true
+        }
       }
     },
     handleViewCommandClick (customer) {
@@ -1120,6 +1357,10 @@ export default {
           type: 'error'
         })
       })
+    },
+    formatRoyaltyMonths (royalty) {
+      const { royaltyStartMonth, royaltyEndMonth } = royalty
+      return `${royaltyStartMonth} - ${royaltyEndMonth}`
     },
     submitReceiveMonth () {
       const startDate = this.submitReceiveMonths[0]
@@ -1205,6 +1446,84 @@ export default {
       const startMonth = startDate.getMonth() + 1
       const endMonth = endDate.getMonth() + 1
       return `${year} 年 ${startMonth} 月 - ${endMonth} 月`
+    },
+    // 驳回提成审批
+    handleRejectRoyalty () {
+      this.rejectRoyaltyForm.royaltyId = this.royaltyId
+      this.rejectRoyaltyForm.rejectRemark = '驳回审批信息'
+      this.rejectRoyalty()
+      this.dialogFormVisible = false
+      this.threeOneBusinessVisible = false
+    },
+    rejectRoyalty () {
+      this.$store.dispatch('rejectRoyalty', this.rejectRoyaltyForm).then(() => {
+        Message({
+          message: '驳回提成成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
+    // 业务审批
+    handleConfirenBusiness () {
+      this.businessApprovalForm.royaltyId = this.royaltyId
+      this.businessApproval()
+      this.threeOneBusinessVisible = false
+    },
+    businessApproval () {
+      this.$store.dispatch('businessApproval', this.businessApprovalForm).then(() => {
+        Message({
+          message: '确认成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
+    // 财务审批
+    handleConfirenFinancial () {
+      this.financialApprovalForm.royaltyId = this.royaltyId
+      this.financialApproval()
+      this.threeTwoFianceVisible = false
+    },
+    financialApproval () {
+      this.$store.dispatch('financialApproval', this.financialApprovalForm).then(() => {
+        Message({
+          message: '确认成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
+    // 出纳审批
+    handleCashier () {
+      this.cashierApprovalForm.royaltyId = this.royaltyId
+      this.cashierApproval()
+      this.threeThreeCashVisible = false
+    },
+    cashierApproval () {
+      this.$store.dispatch('cashierApproval', this.cashierApprovalForm).then(() => {
+        Message({
+          message: '确认成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
     }
   },
   mounted () {
@@ -1216,7 +1535,6 @@ export default {
       accounts: state => state.account.accounts,
       // 收款信息展示
       collectDetail: state => state.account.collectDetail,
-      // 驳回收款
       // 提成信息展示
       royaltyDetail: state => state.account.royaltyDetail
     })
@@ -1286,34 +1604,34 @@ export default {
 }
 // 提成流程展示部分
 .approval-one{
-  width: 15%;
+  width: 157px;
   text-align: center;
   display: inline-block;
   }
 .approval-two{
-  width: 15%;
+  width:157px;
   text-align: center;
   display: inline-block;
-  margin-left: -25px;
+  margin-left: -40px;
   }
 .approval-three{
-  width: 15%;
+  width: 157px;
   text-align: center;
   display: inline-block;
-  margin-left: -26px;
+  margin-left: -28px;
   }
 .approval-four{
-  width: 15%;
+  width: 157px;
   text-align: center;
   display: inline-block;
-  margin-left: -26px;
+  margin-left: -44px;
   }
 .time-line-process{
     width: 100px;
     height: 1px;
     background-color: #606266;
     float: left;
-    margin: 31px 0 0 -18px;
+    margin: 29px 0 0 -41px;
 }
 .approval-content{
     float: left;

@@ -366,7 +366,8 @@ export default {
       },
       completeTaskForm: {
         taskId: 1,
-        remark: ''
+        remark: '',
+        taxDate: ''
       },
       stopTaskForm: {
         taskId: 1,
@@ -441,17 +442,27 @@ export default {
         case '交接中': {
           return 'custom-jiaojie-zhong'
         }
+        default: {
+          return 'custom-forbiden'
+        }
       }
     },
-    getTaskFlows (taskFlows) {
+    getTaskFlows (startDate, taskFlows) {
+      const startMonth = getMonth(startDate)
       const availableTaskFlows = taskFlows.map(({ taxDate }) => ({
         month: getMonth(taxDate),
         monthLabel: `${getMonth(taxDate)} 月`,
         status: '已完成'
       })).sort((x, y) => x.month - y.month)
-      return this.year.map(month => {
+      let firstAvailableMonth = null
+      let availableTaskCount = 0
+      const temp = this.year.map(month => {
         const awailableTaskFlow = availableTaskFlows.filter(availableTaskFlow => availableTaskFlow.month === month)[0]
         if (awailableTaskFlow !== undefined) {
+          availableTaskCount++
+          if (firstAvailableMonth === null) {
+            firstAvailableMonth = month
+          }
           return awailableTaskFlow
         }
         return {
@@ -460,6 +471,25 @@ export default {
           status: '未开始'
         }
       })
+      if (availableTaskCount === 0 && firstAvailableMonth === null) {
+        temp[startMonth - 1].status = '服务中'
+        temp.forEach(a => {
+          if (a.month < startMonth) {
+            temp[a.month - 1].status = '禁止'
+          }
+        })
+      }
+      if (availableTaskCount !== 0) {
+        temp.forEach(a => {
+          if (a.month > startMonth && a.month < firstAvailableMonth) {
+            temp[a.month - 1].status = '服务中'
+          }
+          if (a.month < startMonth) {
+            temp[a.month - 1].status = '禁止'
+          }
+        })
+      }
+      return temp
     },
     // 获取所有用户列表
     getAllUser () {
@@ -518,6 +548,11 @@ export default {
     },
     // 完成记账
     completeTask () {
+      const { taxDate } = this.agentOrder.baseInformation.task
+      const date = new Date(taxDate)
+
+      this.completeTaskForm.taxDate = `${date.getFullYear()}-${date.getMonth() + 1}`
+      console.log(this.completeTaskForm)
       this.$store.dispatch('completeTask', this.completeTaskForm).then(() => {
         Message({
           message: '退回成功',
@@ -626,6 +661,9 @@ export default {
   }
   .custom-jiaojie-zhong {
     background-color: #E6A23C !important;
+  }
+  .custom-forbiden {
+    background-color: #909399 !important;
   }
 }
 

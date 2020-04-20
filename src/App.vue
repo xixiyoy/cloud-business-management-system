@@ -136,7 +136,7 @@ export default {
   data () {
     return {
       companyInformation: {
-        companyLogo: '/img/u324.97e87f26.png',
+        companyLogo: './assets/images/home/WechatIMG.jpeg',
         companyDepartmentName: '',
         companyEmployeeName: ''
       }
