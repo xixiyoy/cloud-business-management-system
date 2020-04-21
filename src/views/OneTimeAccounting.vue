@@ -273,7 +273,8 @@ export default {
       },
       completeTaskForm: {
         taskId: 1,
-        remark: ''
+        remark: '',
+        taxDate: ''
       }
     }
   },
@@ -410,6 +411,9 @@ export default {
     },
     // 完成记账
     completeTask () {
+      const { taxDate } = this.agentOrder.baseInformation.task
+      const date = new Date(taxDate)
+      this.completeTaskForm.taxDate = `${date.getFullYear()}-${date.getMonth() + 1}`
       this.$store.dispatch('completeTask', this.completeTaskForm).then(() => {
         Message({
           message: '退回成功',
