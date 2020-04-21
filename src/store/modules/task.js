@@ -150,7 +150,8 @@ const actions = {
   },
   // 完成记账
   async completeTask ({ commit }, completeTaskForm) {
-    const { data: { code, msg } } = await completeTask(completeTaskForm)
+    const { data: { taskId, remark, taxDate } } = await completeTask(completeTaskForm)
+    const { data: { code, msg } } = await completeTask(taskId, remark, taxDate)
     if (code !== 0) {
       return Promise.reject(msg)
     }

@@ -259,10 +259,11 @@
         <el-row>
           <el-col :spam="12">
             <el-form-item label="收款账户：" required>
-              <el-input v-model="submitCollectionForm.collectAccountName"></el-input>
+              <span>{{getCollectAccount.accountName}}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
+            <el-form-item label="收款月数：" required>
             <div class="block">
               <el-date-picker
                 v-model="submitCollectionDate"
@@ -272,6 +273,7 @@
                 end-placeholder="结束日期">
               </el-date-picker>
             </div>
+            </el-form-item>
           </el-col>
         </el-row>
         <el-row>
@@ -1524,11 +1526,18 @@ export default {
           type: 'error'
         })
       })
+    },
+    // 获取收款列表里的收款账户
+    async getCollectAccount () {
+      this.getCollectAccount.tenantCollectAccountIds = this.submitCollectionForm.collectAccountId
+      await this.$store.dispatch('getTenantAccountById', this.tenantCollectAccountIds)
     }
   },
   mounted () {
     this.getAccountLabels()
     this.getAccounts()
+    // 获取收款账户
+    this.getCollectAccount()
   },
   computed: {
     ...mapState({
@@ -1536,7 +1545,9 @@ export default {
       // 收款信息展示
       collectDetail: state => state.account.collectDetail,
       // 提成信息展示
-      royaltyDetail: state => state.account.royaltyDetail
+      royaltyDetail: state => state.account.royaltyDetail,
+      // 获取收款列表里的收款账户
+      getCollectAccount: state => state.tenantCollectAccount.tenantAccount
     })
   }
 }

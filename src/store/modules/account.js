@@ -9,21 +9,6 @@ const state = {
 }
 const mutations = {
   'SET_ACCOUNTS' (state, accounts) {
-    accounts.list = accounts.list.map(account => {
-      if (account.customerId === 15) {
-        account.collectStatusName = '未申请'
-        account.collectStatusValue = '0'
-        account.royaltyStatusValue = '0'
-        account.royaltyStatusName = '未申请'
-      }
-      if (account.customerId === 20) {
-        account.collectStatusName = '已确认'
-        account.collectStatusValue = '3'
-        account.royaltyStatusValue = '1'
-        account.royaltyStatusName = '待确认'
-      }
-      return account
-    })
     state.accounts = accounts
   },
   'SET_COLLECT_DETAIL' (state, collectDetail) {
