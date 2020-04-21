@@ -1,6 +1,6 @@
 <template>
   <div class="modify-view-account">
-    <p class="modify-view-account-title">公司名称</p>
+    <p class="modify-view-account-title">{{updateCustomerForm.taskStatusName}}</p>
     <div class="dividing-line"></div>
     <el-collapse v-model="activeNames">
       <div>
@@ -9,7 +9,7 @@
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="20">
-                <el-button type="primary" round>{{updateCustomerForm.newestTask.taskStatusName}}</el-button>
+                <el-button type="primary" round>{{updateCustomerForms.taskStatusName}}</el-button>
               </el-col>
             </el-row>
             <el-row>
@@ -106,7 +106,227 @@
           </el-form>
         </el-collapse-item>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
-        <el-collapse-item title="财税信息" name="3">
+              <el-collapse-item
+        title="订单列表"
+        name="task-table">
+          <div class="tasks-table">
+            <el-table
+              :data="createCustomerForm.taskList">
+              <el-table-column label="序号"></el-table-column>
+              <el-table-column label="产品名称" prop="productName"></el-table-column>
+              <el-table-column label="服务单价" prop="price"></el-table-column>
+              <el-table-column label="服务周期（月）" prop="number"></el-table-column>
+              <el-table-column label="赠送（月）" prop="giftNumber"></el-table-column>
+              <el-table-column label="总额">
+                <template slot-scope="scope">
+                  {{ scope.row.price * scope.row.number }}
+                </template>
+              </el-table-column>
+              <el-table-column label="操作">
+                <template slot-scope="scope">
+                  <el-button size="mini" type="text" @click="handleEditTaskButtonClick(scope.$index)">编辑</el-button>
+                  <el-dialog
+                    :visible="editTaskDialogVisible"
+                    width="40%">
+                    <el-form>
+                      <el-row :gutter="20">
+                        <el-col :span="12">
+                          <el-form-item label="产品名称：">
+                            <el-input
+                              v-model="editTaskForm.productName"
+                              disabled>
+                            </el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item label="财税顾问：">
+                            <el-select
+                              v-model="editTaskForm.relUserId"
+                              @change="handleEditTaskFormFinancialAdviserSelectChange">
+                              <el-option
+                                v-for="user in users"
+                                :key="user.userId"
+                                :label="user.userName"
+                                :value="user.userId">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="20">
+                        <el-col :span="12">
+                          <el-form-item label="服务单价：">
+                            <el-input-number
+                              :min="0.01"
+                              :step="0.01"
+                              v-model="editTaskForm.price">
+                            </el-input-number>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item label="会计助理">
+                            <el-select
+                              v-model="editTaskForm.relHelpUserId"
+                              @change="handleEditTaskFormAccountingAssistantSelectChange">
+                              <el-option
+                                v-for="user in users"
+                                :key="user.userId"
+                                :label="user.userName"
+                                :value="user.userId">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="20">
+                        <el-col :span="12">
+                          <el-form-item label="服务周期：">
+                            <el-input-number
+                              :min="1"
+                              :step="1"
+                              v-model="editTaskForm.number">
+                            </el-input-number>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item label="赠送：">
+                            <el-input-number
+                              :min="0"
+                              :step="1"
+                              v-model="editTaskForm.giftNumber">
+                            </el-input-number>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                      <el-row>
+                        <el-col>
+                          <el-form-item label="付费方式：">
+                            <el-select
+                              v-model="editTaskForm.payCycle">
+                              <el-option
+                                v-for="(paymentMethod, index) in paymentMethods"
+                                :key="index"
+                                :label="paymentMethod"
+                                :value="paymentMethod">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                    </el-form>
+                    <span slot="footer" class="dialog-footer">
+                      <el-button @click="editTaskDialogVisible = false">取 消</el-button>
+                      <el-button type="primary" @click="editTaskDialogVisible = false">确 定</el-button>
+                    </span>
+                  </el-dialog>
+                  <el-button size="mini" type="text" @click="handleDeleteTaskButtonClick(scope.$index)">删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-button type="primary" style="width: 100%;" @click="handleAddTaskButtonClick">添加产品</el-button>
+            <el-dialog
+              :visible="addTaskDialogVisible"
+              width="50%">
+              <el-form>
+                <el-row :gutter="20">
+                  <el-col :span="12">
+                    <el-form-item label="产品名称：">
+                      <el-select
+                        v-model="addTaskForm.productId"
+                        @change="handleAddTaskFormProductSelectChange">
+                        <el-option
+                          v-for="product in products"
+                          :key="product.productId"
+                          :label="product.productName"
+                          :value="product.productId">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="财税顾问：">
+                      <el-select
+                        v-model="addTaskForm.relUserId"
+                        @change="handleAddTaskFormFinancialAdviserSelectChange">
+                        <el-option
+                          v-for="user in users"
+                          :key="user.userId"
+                          :label="user.userName"
+                          :value="user.userId">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                  <el-col :span="12">
+                    <el-form-item label="服务单价：">
+                      <el-input-number
+                        :min="0.01"
+                        :step="0.01"
+                        v-model="addTaskForm.price">
+                      </el-input-number>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="会计助理">
+                      <el-select
+                        v-model="addTaskForm.relHelpUserId"
+                        @change="handleAddTaskFormAccountingAssistantSelectChange">
+                        <el-option
+                          v-for="user in users"
+                          :key="user.userId"
+                          :label="user.userName"
+                          :value="user.userId">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                  <el-col :span="12">
+                    <el-form-item label="服务周期：">
+                      <el-input-number
+                        :min="1"
+                        :step="1"
+                        v-model="addTaskForm.number">
+                      </el-input-number>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="赠送：">
+                      <el-input-number
+                        :min="0"
+                        :step="1"
+                        v-model="addTaskForm.giftNumber">
+                      </el-input-number>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col>
+                    <el-form-item label="付费方式：">
+                      <el-select
+                        v-model="addTaskForm.payCycle">
+                        <el-option
+                          v-for="(paymentMethod, index) in paymentMethods"
+                          :key="index"
+                          :label="paymentMethod"
+                          :value="paymentMethod">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+              </el-form>
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="addTaskDialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="handleAddTaskDialogOkButtonClick">确 定</el-button>
+              </span>
+            </el-dialog>
+          </div>
+      </el-collapse-item>
+        <!-- <el-collapse-item title="财税信息" name="3">
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="24">
@@ -157,8 +377,8 @@
               </el-col>
             </el-row>
           </el-form>
-        </el-collapse-item>
-        <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
+        </el-collapse-item> -->
+        <!-- <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="流程列表: " name="4">
           <el-table
             :data="updateCustomerForm.taskList"
@@ -314,7 +534,7 @@
               </div>
             </el-dialog>
           </div>
-        </el-collapse-item>
+        </el-collapse-item> -->
       </div>
     </el-collapse>
     <div>
@@ -338,155 +558,25 @@ export default {
       idCardImages: [''],
       businessLicenseImages: [''],
       contractImages: [''],
-      updateCustomerForm: {
-        customerId: 15,
-        tenantId: 1,
-        customerName: '企享',
-        creditCode: '9184',
-        customerFromWay: '来源',
-        customerFromDetail: '详细来源',
-        customerLinkerName: '客户联系人',
-        customerLinkerPhone: '18913932254',
-        customerBusinessPhone: null,
-        customerBusinessEmail: null,
-        customerAddress: null,
-        customerStatusValue: '0',
-        customerStatusName: '服务中',
-        customerLevelValue: '0',
-        customerLevelName: '普通',
-        customerRelUserId: 3,
-        customerRelUserName: '孟星驰',
-        customerRelDeptId: 7,
-        remark: null,
-        createUserId: 2,
-        createUserName: '孟星驰',
-        createTime: '2020-03-18 10:42:58',
-        updateUserId: 2,
-        updateUserName: '孟星驰',
-        updateTime: '2020-04-03 09:37:47',
-        attribute1: null,
-        attribute2: null,
-        collectStatusValue: null,
-        collectStatusName: null,
-        royaltyStatusValue: null,
-        royaltyStatusName: null,
-        collectDate: null,
-        royaltyDate: null,
-        royaltyCoefficient: null,
-        accountList: null,
-        taskList: [
-          {
-            taskId: 10,
-            longTerm: '0',
-            tenant_id: null,
-            customerId: 15,
-            taskNo: 'DD20200318104257893',
-            productId: 1,
-            productName: '代理记账',
-            price: 300,
-            number: 2,
-            giftNumber: 1,
-            taxDate: '2020-06-01 00:00:00',
-            completeCount: 4,
-            taskStatusValue: '1',
-            taskStatusName: '服务中',
-            serviceStartMonth: '2020-03-01 00:00:00',
-            relUserId: 3,
-            relUserName: '胡歌',
-            relDeptId: 7,
-            relDeptName: null,
-            relHelpUserId: null,
-            relHelpUserName: null,
-            transferredUserId: null,
-            transferredUserName: null,
-            receiveUserId: null,
-            receiveUserName: null,
-            createUserId: 2,
-            createUserName: '孟星驰',
-            createTime: '2020-03-18 10:42:58',
-            updateUserId: null,
-            updateUserName: null,
-            updateTime: null,
-            payCycle: '月付',
-            completeProgress: '4+2/2+1',
-            taskFlowList: null
-          },
-          {
-            taskId: 11,
-            longTerm: '1',
-            tenant_id: null,
-            customerId: 15,
-            taskNo: 'DD20200318104257904',
-            productId: 2,
-            productName: '企业变更',
-            price: 400,
-            number: null,
-            giftNumber: null,
-            taxDate: '2020-03-01 00:00:00',
-            completeCount: 0,
-            taskStatusValue: '0',
-            taskStatusName: '未开始',
-            serviceStartMonth: null,
-            relUserId: 3,
-            relUserName: '胡歌',
-            relDeptId: 7,
-            relDeptName: null,
-            relHelpUserId: null,
-            relHelpUserName: null,
-            transferredUserId: null,
-            transferredUserName: null,
-            receiveUserId: null,
-            receiveUserName: null,
-            createUserId: 2,
-            createUserName: '孟星驰',
-            createTime: '2020-03-18 10:42:58',
-            updateUserId: null,
-            updateUserName: null,
-            updateTime: null,
-            payCycle: null,
-            completeProgress: null,
-            taskFlowList: null
-          }
-        ],
-        fileList: null,
-        newestTask: {
-          taskId: 10,
-          longTerm: '0',
-          tenant_id: null,
-          customerId: 15,
-          taskNo: 'DD20200318104257893',
-          productId: 1,
-          productName: '代理记账',
-          price: 300,
-          number: 2,
-          giftNumber: 1,
-          taxDate: '2020-06-01 00:00:00',
-          completeCount: 4,
-          taskStatusValue: '1',
-          taskStatusName: '服务中',
-          serviceStartMonth: '2020-03-01 00:00:00',
-          relUserId: 3,
-          relUserName: '胡歌',
-          relDeptId: 7,
-          relDeptName: null,
-          relHelpUserId: null,
-          relHelpUserName: null,
-          transferredUserId: null,
-          transferredUserName: null,
-          receiveUserId: null,
-          receiveUserName: null,
-          createUserId: 2,
-          createUserName: '孟星驰',
-          createTime: '2020-03-18 10:42:58',
-          updateUserId: null,
-          updateUserName: null,
-          updateTime: null,
-          payCycle: '月付',
-          completeProgress: null,
-          taskFlowList: null
-        }
+      createCustomerForm: {
+        customerName: '',
+        customerLinkerName: '',
+        creditCode: '',
+        customerLinkerPhone: '',
+        companyPhone: '',
+        customerLevelValue: '',
+        customerLevelName: '',
+        customerRelUserId: '',
+        customerRelUserName: '',
+        customerFromWay: '',
+        royaltyCoefficient: '',
+        remark: '',
+        customerAddress: '',
+        customerBusinessEmail: '',
+        taskList: []
       },
-      addProductDialogVisible: false
+      addProductDialogVisible: false,
+      editTaskDialogVisible: false
     }
   },
   computed: {
@@ -520,6 +610,18 @@ export default {
     },
     handleAddNewProduct () {
       this.addProductDialogVisible = true
+    },
+    // 4.21
+    handleEditTaskButtonClick (index) {
+      const task = this.createCustomerForm.taskList[index]
+      this.editTaskForm = task
+      this.editTaskDialogVisible = true
+    },
+    handleEditTaskFormFinancialAdviserSelectChange (id) {
+      this.editTaskForm.relUserName = this.getUserName(id)
+    },
+    handleEditTaskFormAccountingAssistantSelectChange (id) {
+      this.editTaskForm.relHelpUserName = this.getUserName(id)
     }
   },
   mounted () {

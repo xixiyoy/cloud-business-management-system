@@ -24,7 +24,7 @@
                       <template slot="progressDot" slot-scope="{ description }">
                         <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
                       </template>
-                      <a-step :title="taskFlow.monthLabel" :description="taskFlow.status" v-for="(taskFlow, index) in getTaskFlows(agentOrder.taskFlowList)" :key="index"/>
+                      <a-step :title="taskFlow.monthLabel" :description="taskFlow.status" v-for="(taskFlow, index) in getTaskFlows(agentOrder.baseInformation.task.serviceStartMonth, agentOrder.taskFlowList)" :key="index"/>
                     </a-steps>
                   </a-col>
                 </a-row>
@@ -423,6 +423,7 @@ export default {
     handleCompleteTaskButtonClick () {
       this.carryOutTaskDialogFormVisible = true
       this.completeTaskForm.taskId = this.taskId
+      // this.completeTaskForm.remark = this.
     },
     handleStopTaskButtonClick () {
       this.terminationTaskDialogFormVisible = true
