@@ -551,9 +551,7 @@ export default {
     completeTask () {
       const { taxDate } = this.agentOrder.baseInformation.task
       const date = new Date(taxDate)
-
       this.completeTaskForm.taxDate = `${date.getFullYear()}-${date.getMonth() + 1}`
-      console.log(this.completeTaskForm)
       this.$store.dispatch('completeTask', this.completeTaskForm).then(() => {
         Message({
           message: '退回成功',

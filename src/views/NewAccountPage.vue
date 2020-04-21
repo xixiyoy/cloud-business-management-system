@@ -599,6 +599,11 @@ export default {
       }
     },
     handleAddTaskDialogOkButtonClick () {
+      if (this.addTaskForm.productName === '代理记账') {
+        this.addTaskForm.longTerm = '0'
+      } else {
+        this.addTaskForm.longTerm = '1'
+      }
       this.createCustomerForm.taskList.push(Object.assign({}, this.addTaskForm))
       this.addTaskDialogVisible = false
     },

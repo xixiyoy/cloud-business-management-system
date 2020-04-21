@@ -43,7 +43,7 @@ const receiveTask = receiveTaskForm => request({
 const completeTask = completeTaskForm => request({
   url: '/task/completeTask',
   method: 'POST',
-  data: completeTaskForm
+  params: completeTaskForm
 })
 // 终止任务
 const stopTask = stopTaskForm => request({
