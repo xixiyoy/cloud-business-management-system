@@ -150,7 +150,7 @@
               label="客户状态">
             </el-table-column>
             <el-table-column
-              prop="customerLevelValue"
+              prop="customerLevelName"
               label="客户等级">
             </el-table-column>
             <el-table-column

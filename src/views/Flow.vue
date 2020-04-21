@@ -120,7 +120,7 @@
                 <el-col :span="6">DB 编号：{{ task.taskNo }}</el-col>
                 <el-col :span="9">客户代表：{{ task.relUserName }}</el-col>
                 <el-col :span="4">
-                  <div style="float: right; padding: 3px 0" v-if="!isAgentOrder(task)">
+                  <div style="float: right; padding: 3px 0" v-if="isAgentOrder(task)">
                     <el-date-picker
                       align="right"
                       type="year"
@@ -130,7 +130,7 @@
                 </el-col>
               </el-row>
             </div>
-            <el-row :gutter="20" v-if="!isAgentOrder(task)">
+            <el-row :gutter="20" v-if="isAgentOrder(task)">
               <el-col>
                 <a-row>
                   <a-col :span="12">
@@ -138,40 +138,46 @@
                       <template slot="progressDot" slot-scope="{ description }">
                         <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
                       </template>
-                      <a-step :title="taskFlow.monthLabel" :description="taskFlow.status" v-for="(taskFlow, index) in getTaskFlows(task.serviceStartMonth, task.taskFlowList)" :key="index"/>
+                      <a-step :title="taskFlow.monthLabel" :description="taskFlow.status" v-for="(taskFlow, index) in getTaskFlows(task)" :key="index"/>
                     </a-steps>
                   </a-col>
                 </a-row>
               </el-col>
             </el-row>
-            <el-row v-if="isAgentOrder(task)">
+            <el-row v-if="!isAgentOrder(task)">
               <el-col :span="3">
-                企业变更
+                <!-- 企业变更 -->
               </el-col>
               <el-col :span="21">
                 <a-steps :current="0" class="agent-order-steps">
                   <template slot="progressDot" slot-scope="{ description }">
                     <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
                   </template>
-                  <a-step title="老刘" description="2020-01-01" />
+                  <a-step :title="task.createUserName" :description="getNotAgentDate(task.createTime)"/>
                   <a-step title="服务中" description="服务中" />
                   <a-step title="未开始" description="未开始" />
                 </a-steps>
               </el-col>
             </el-row>
-            <el-row :gutter="10" style="margin-top:50px;">
+            <el-row :gutter="10" style="margin-top:50px;" v-if="isAgentOrder(task)">
               <el-col :span="4" :offset="2"><i style="width:15px;height:15px;border-radius:50%;background-color:#67C23A;margin: 2px 5px 0 0px;display: inline-block;"></i>服务中</el-col>
               <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:#409EFF;margin: 2px 5px 0 0px;display: inline-block;"></i>已完成</el-col>
               <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:red;margin: 2px 5px 0 0px;display: inline-block;"></i>已终止</el-col>
               <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:#E6A23C;margin: 2px 5px 0 0px;display: inline-block;"></i>交接中</el-col>
               <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:#fff;margin: 2px 5px 0 0px;display: inline-block;border:1px solid rgb(232, 232, 232)"></i>未开始</el-col>
             </el-row><br>
-            <el-row :gutter="10" v-if="!isAgentOrder(task)">
+            <el-row :gutter="10" style="margin-top:50px;" v-if="!isAgentOrder(task)">
+              <el-col :span="4" :offset="4"><i style="width:15px;height:15px;border-radius:50%;background-color:#67C23A;margin: 2px 5px 0 0px;display: inline-block;"></i>服务中</el-col>
+              <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:#409EFF;margin: 2px 5px 0 0px;display: inline-block;"></i>已完成</el-col>
+              <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:red;margin: 2px 5px 0 0px;display: inline-block;"></i>已终止</el-col>
+              <el-col :span="4"><i style="width:15px;height:15px;border-radius:50%;background-color:#E6A23C;margin: 2px 5px 0 0px;display: inline-block;"></i>交接中</el-col>
+            </el-row><br>
+            <el-row :gutter="10" v-if="isAgentOrder(task)">
               <el-col>
                 <el-button type="primary" round @click="handleVieAgentaOrder(task)">进入流程 ></el-button>
               </el-col>
             </el-row><br>
-            <el-row :gutter="10" v-if="isAgentOrder(task)">
+            <el-row :gutter="10" v-if="!isAgentOrder(task)">
               <el-col>
                 <el-button type="primary" round @click="handleViewOrder(task)">进入流程 ></el-button>
               </el-col>
@@ -198,7 +204,7 @@ import { mapState } from 'vuex'
 
 const getMonth = taxDate => new Date(taxDate).getMonth() + 1
 
-const isAgentOrder = longTerm => longTerm === null || longTerm === 0
+const isAgentOrder = longTerm => longTerm === null || longTerm === '0'
 
 export default {
   metaInfo: {
@@ -230,6 +236,10 @@ export default {
     }
   },
   methods: {
+    getNotAgentDate (createTime) {
+      const date = new Date(createTime)
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    },
     handleAdvancedSearch () {
       this.advancedSearchDialogVisible = true
     },
@@ -239,8 +249,6 @@ export default {
     },
     handleVieAgentaOrder (row) {
       this.$router.push({ path: '/agent-bookkeeping', query: { taskId: row.taskId } })
-      console.log(row)
-      console.log(111)
     },
     handleViewOrder (row) {
       this.$router.push({ path: '/one-time-accounting', query: { taskId: row.taskId } })
@@ -284,11 +292,14 @@ export default {
           return 'custom-jiaojie-zhong'
         }
         default: {
+          if (description.startsWith('2')) {
+            return 'custom-process'
+          }
           return 'custom-forbiden'
         }
       }
     },
-    getTaskFlows (startDate, taskFlows) {
+    getTaskFlows ({ serviceStartMonth: startDate, taskFlowList: taskFlows, giftNumber }) {
       const startMonth = getMonth(startDate)
       const availableTaskFlows = taskFlows.map(({ taxDate }) => ({
         month: getMonth(taxDate),
@@ -318,6 +329,9 @@ export default {
           if (a.month < startMonth) {
             temp[a.month - 1].status = '禁止'
           }
+          if (a.month === startMonth + giftNumber) {
+            temp[a.month - 1].monthLabel = `${a.month} 月（赠）`
+          }
         })
       }
       if (availableTaskCount !== 0) {
@@ -327,6 +341,9 @@ export default {
           }
           if (a.month < startMonth) {
             temp[a.month - 1].status = '禁止'
+          }
+          if (a.month === startMonth + giftNumber) {
+            temp[a.month - 1].monthLabel = `${a.month} 月（赠）`
           }
         })
       }
