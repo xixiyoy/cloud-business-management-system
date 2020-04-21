@@ -258,8 +258,17 @@
         </el-row>
         <el-row>
           <el-col :spam="12">
-            <el-form-item label="收款账户：" required>
-              <span>{{getCollectAccount.accountName}}</span>
+            <el-form-item label="收款账户：">
+              <el-select
+                v-model="submitCollectionForm.collectAccountId"
+                @change="handleEditTaskFormAccountingAssistantSelectChange">
+                <el-option
+                  v-for="getCollectAccount in getCollectAccounts"
+                  :key="getCollectAccount.collectAccountId"
+                  :label="getCollectAccount.collectAccountName"
+                  :value="getCollectAccount.collectAccountId">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
@@ -1116,6 +1125,7 @@ export default {
       customerId: '',
       // 提交收款信息
       submitCollectionForm: {
+        collectAccountId: 1,
         payAccount: '',
         collectNo: '',
         collectAccountName: '',
@@ -1191,6 +1201,10 @@ export default {
       royaltyId: '',
       businessApprovalForm: {
         royaltyId: ''
+      },
+      getTenantAccountListForm: {
+        collectAccountId: 1,
+        collectAccountName: ''
       }
     }
   },
@@ -1328,7 +1342,7 @@ export default {
         this.twoZeroViewVisible = true
       }
       if (collectStatusValue === '3' && royaltyStatusValue === '0') {
-        alert('3 0 查看')
+        this.twoZeroViewVisible = true
       }
       if (collectStatusValue === '3' && royaltyStatusValue === '4') {
         this.treeFourViewVisible = true
@@ -1428,7 +1442,19 @@ export default {
     },
     // 提交提成
     submitRoyalty () {
-      this.$store.dispatch('submitRoyalty', this.submitRoyaltyForm)
+      this.submitRoyaltyMonths()
+      this.$store.dispatch('submitRoyalty', this.submitRoyaltyForm).then(() => {
+        Message({
+          message: '提交收款成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+      this.threeZeroEditVisible = false
     },
     submitRoyaltyMonths () {
       const startDate = this.submitMonths[0]
@@ -1528,15 +1554,29 @@ export default {
       })
     },
     // 获取收款列表里的收款账户
-    async getCollectAccount () {
-      this.getCollectAccount.tenantCollectAccountIds = this.submitCollectionForm.collectAccountId
-      await this.$store.dispatch('getTenantAccountById', this.tenantCollectAccountIds)
+    getCollectAccount () {
+      this.$store.dispatch('getTenantAccountList', this.getTenantAccountListForm)
+    },
+    handleEditTaskFormAccountingAssistantSelectChange (id) {
+      this.getTenantAccountListForm.accountName = this.submitCollectionForm.collectAccountId
+      this.submitCollectionForm.collectAccountName = this.getCollectAccounts(id)
     }
+    // getUserName (id) {
+    //   return this
+    //     .getCollectAccount(id)
+    //     .userName
+    // },
+    // getCollectAccount (id) {
+    //   return this
+    //     .users
+    //     .filter(({ userId }) => userId === id)[0]
+    // }
   },
   mounted () {
     this.getAccountLabels()
     this.getAccounts()
     // 获取收款账户
+    this.getCollectAccounts()
     this.getCollectAccount()
   },
   computed: {
@@ -1547,6 +1587,7 @@ export default {
       // 提成信息展示
       royaltyDetail: state => state.account.royaltyDetail,
       // 获取收款列表里的收款账户
+      getCollectAccounts: state => state.tenantCollectAccount.tenantAccounts,
       getCollectAccount: state => state.tenantCollectAccount.tenantAccount
     })
   }

@@ -126,8 +126,8 @@
               <el-table-column label="序号"></el-table-column>
               <el-table-column label="产品名称" prop="productName"></el-table-column>
               <el-table-column label="服务单价" prop="price"></el-table-column>
-              <el-table-column label="服务周期（月）" prop="number"></el-table-column>
-              <el-table-column label="赠送（月）" prop="giftNumber"></el-table-column>
+              <el-table-column label="服务周期（月）" prop="number" v-if="isRoyaltyCoefficientShow"></el-table-column>
+              <el-table-column label="赠送（月）" prop="giftNumber" v-if="isRoyaltyCoefficientShow"></el-table-column>
               <el-table-column label="总额">
                 <template slot-scope="scope">
                   {{ scope.row.price * scope.row.number }}
@@ -138,7 +138,7 @@
                   <el-button size="mini" type="text" @click="handleEditTaskButtonClick(scope.$index)">编辑</el-button>
                   <el-dialog
                     :visible="editTaskDialogVisible"
-                    width="40%">
+                    width="50%">
                     <el-form>
                       <el-row :gutter="20">
                         <el-col :span="12">
@@ -255,7 +255,19 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="财税顾问：">
+                    <el-form-item label="财税顾问：" v-show="!isAngentDetail">
+                      <el-select
+                        v-model="addTaskForm.relUserId"
+                        @change="handleAddTaskFormFinancialAdviserSelectChange">
+                        <el-option
+                          v-for="user in users"
+                          :key="user.userId"
+                          :label="user.userName"
+                          :value="user.userId">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item label="负责人：" v-show="isAngentDetail">
                       <el-select
                         v-model="addTaskForm.relUserId"
                         @change="handleAddTaskFormFinancialAdviserSelectChange">
@@ -280,7 +292,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="会计助理">
+                    <el-form-item label="会计助理" v-show="!isAngentDetail">
                       <el-select
                         v-model="addTaskForm.relHelpUserId"
                         @change="handleAddTaskFormAccountingAssistantSelectChange">
@@ -296,7 +308,7 @@
                 </el-row>
                 <el-row :gutter="20">
                   <el-col :span="12">
-                    <el-form-item label="服务周期：">
+                    <el-form-item label="服务周期：" v-show="!isAngentDetail">
                       <el-input-number
                         :min="1"
                         :step="1"
@@ -305,7 +317,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="赠送：">
+                    <el-form-item label="赠送：" v-show="!isAngentDetail">
                       <el-input-number
                         :min="0"
                         :step="1"
@@ -316,7 +328,7 @@
                 </el-row>
                 <el-row>
                   <el-col>
-                    <el-form-item label="付费方式：">
+                    <el-form-item label="付费方式：" v-show="!isAngentDetail">
                       <el-select
                         v-model="addTaskForm.payCycle">
                         <el-option
@@ -507,7 +519,8 @@ export default {
         fileNameInfo: '用于测试',
         fileType: '电子合同'
       },
-      idCardCopyFiles: []
+      idCardCopyFiles: [],
+      isAngentDetail: false
     }
   },
   methods: {
@@ -535,6 +548,12 @@ export default {
     // 处理添加产品产品名称选择框改变事件
     handleAddTaskFormProductSelectChange (id) {
       // 根据产品 ID 获取产品名称并赋值给添加产品表单对应字段
+      const productName = this.getProductNameById(id)
+      if (productName === '代理记账') {
+        this.isAngentDetail = false
+      } else {
+        this.isAngentDetail = true
+      }
       this.addTaskForm.productName = this.getProductNameById(id)
     },
     handleEditTaskFormProductSelectChange (id) {
@@ -605,6 +624,9 @@ export default {
         this.addTaskForm.longTerm = '1'
       }
       this.createCustomerForm.taskList.push(Object.assign({}, this.addTaskForm))
+      Object.keys(this.addTaskForm).forEach(key => {
+        this.addTaskForm[key] = ''
+      })
       this.addTaskDialogVisible = false
     },
     handleDeleteTaskButtonClick (index) {
