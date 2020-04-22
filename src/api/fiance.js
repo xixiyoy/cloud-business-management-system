@@ -7,7 +7,7 @@ const getFianceDetail = fianceId => request({
 const updateFiance = fiance => request({
   url: '/fiance/update',
   method: 'POST',
-  data: fiance
+  params: fiance
 })
 
 // 1. 第一步

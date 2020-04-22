@@ -48,15 +48,15 @@
             </el-row>
             <el-row>
               <el-col :span="6">
-                <el-form-item label="是否需要其他人审核" v-model="radio" required>
-                  <el-radio-group>
-                    <el-radio value="1">是</el-radio>
-                    <el-radio value="2">否</el-radio>
+                <el-form-item label="是否需要其他人审核" required>
+                  <el-radio-group v-model="radio" >
+                    <el-radio :label="1">是</el-radio>
+                    <el-radio :label="2">否</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6" required>
-                <el-form-item label="审核人:" v-show="isShowCheckUser">
+                <el-form-item label="审核人:" v-show="radio === 1">
                   <el-select
                     v-model="createFianceForm.checkUserId"
                     @change="handleEditTaskFormFinancialAdviserSelectChange">
@@ -108,14 +108,16 @@ export default {
         comment: '',
         fianceTypeValue: '',
         fianceTypeName: ''
-      }
+      },
+      radio: 1
     }
   },
   methods: {
     getDepartmentName (id) {
-      return this.departments.filter(({ deptId }) => deptId === id).name
+      return this.departments.filter(({ deptId }) => deptId === id)[0].name
     },
     handleDepartmentSelectChange (id) {
+      console.log(this.getDepartmentName(id))
       this.createFianceForm.fianceDeptName = this.getDepartmentName(id)
     },
     // 3.3 在 methods 中定一个方法
@@ -128,6 +130,7 @@ export default {
     },
     // 3.5 在 methods 中定一个方法用来调用 vuex 中 actions 中的方法
     createFiance () {
+      console.log(this.createFianceForm)
       // 3.5.1              对应 actions 中的方法名  对应 actions 中第二个参数，实际是 data 中的 form 值来自于输入框
       this.$store.dispatch('createFiance', this.createFianceForm).then(() => {
         Message({

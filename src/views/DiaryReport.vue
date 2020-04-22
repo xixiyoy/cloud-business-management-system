@@ -58,8 +58,7 @@
         :data="fianceList.list"
         tooltip-effect="dark"
         style="width: 100%"
-        :header-cell-style="diaryReportTableHeaderCellStyle"
-        @selection-change="handleSelectionChange">
+        :header-cell-style="diaryReportTableHeaderCellStyle">
         <el-table-column
           type="selection"
           width="55">
