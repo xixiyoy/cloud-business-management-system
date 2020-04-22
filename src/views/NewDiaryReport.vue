@@ -42,22 +42,31 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="收支时间" prop="name" required>
-                  <el-input></el-input>
+                  <el-input v-model="createFianceForm.fianceTime"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="6">
-                <el-form-item label="是否需要其他人审核" prop="resource" required>
+                <el-form-item label="是否需要其他人审核" v-model="radio" required>
                   <el-radio-group>
-                    <el-radio label="是"></el-radio>
-                    <el-radio label="否"></el-radio>
+                    <el-radio value="1">是</el-radio>
+                    <el-radio value="2">否</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6" required>
-                <el-form-item label="审核人" prop="name">
-                  <el-input></el-input>
+                <el-form-item label="审核人:" v-show="isShowCheckUser">
+                  <el-select
+                    v-model="createFianceForm.checkUserId"
+                    @change="handleEditTaskFormFinancialAdviserSelectChange">
+                    <el-option
+                      v-for="user in allUsers"
+                      :key="user.userId"
+                      :label="user.userName"
+                      :value="user.userId">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -131,14 +140,31 @@ export default {
           type: 'error'
         })
       })
+    },
+    // 获取所有人员名称
+    getUsers () {
+      this.$store.dispatch('getUserList')
+    },
+    handleEditTaskFormFinancialAdviserSelectChange (id) {
+      this.createFianceForm.checkUserName = this.getUsers(id)
+    },
+    isShowCheckUser () {
+      if (this.createFianceForm.checkUserId === '1') {
+        return false
+      } else {
+        return true
+      }
     }
   },
   mounted () {
     this.getDepartments()
+    this.getUsers()
   },
   computed: {
     ...mapState({
-      departments: state => state.department.depts
+      departments: state => state.department.depts,
+      // 获取所有用户
+      allUsers: state => state.sysUser.users.list
     })
   }
 }

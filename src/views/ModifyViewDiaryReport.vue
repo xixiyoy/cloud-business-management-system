@@ -97,6 +97,7 @@ export default {
       this.$store.dispatch('getFianceById', this.fianceId)
     },
     handleUpdateFianceButtonClick () {
+      console.log(this.updateFianceForm)
       this.modifyFiance()
     },
     modifyFiance () {
@@ -117,6 +118,7 @@ export default {
   mounted () {
     this.fianceId = this.$route.query.fianceId
     this.getFiance()
+    this.updateFianceForm = this.report
   },
   computed: {
     ...mapState({
