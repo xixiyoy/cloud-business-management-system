@@ -22,7 +22,7 @@
         <el-row>
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
-              <el-form-item label="企业名称" prop="name" required="">
+              <el-form-item label="企业名称" required="">
                 <el-input v-model="updateTenantForm.fullName"></el-input>
               </el-form-item>
             </el-form>
@@ -31,7 +31,7 @@
         <el-row>
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
-              <el-form-item label="简称" prop="name">
+              <el-form-item label="简称">
                 <el-input v-model="updateTenantForm.shortName"></el-input>
               </el-form-item>
             </el-form>
@@ -40,7 +40,7 @@
         <el-row>
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
-              <el-form-item label="服务区域" prop="name" required>
+              <el-form-item label="服务区域" required>
                 <el-input v-model="updateTenantForm.serviceArea"></el-input>
               </el-form-item>
             </el-form>
@@ -49,7 +49,7 @@
         <el-row>
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
-              <el-form-item label="服务热线" prop="name">
+              <el-form-item label="服务热线">
                 <el-input v-model="updateTenantForm.serviceHotLine"></el-input>
               </el-form-item>
             </el-form>
@@ -58,7 +58,7 @@
         <el-row>
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
-              <el-form-item label="联系人" prop="name" required="">
+              <el-form-item label="联系人" required="">
                 <el-input v-model="updateTenantForm.contactName"></el-input>
               </el-form-item>
             </el-form>
@@ -67,7 +67,7 @@
         <el-row>
           <el-col :span="12">
             <el-form  label-width="100px" class="demo-ruleForm">
-              <el-form-item label="联系电话" prop="name" required="">
+              <el-form-item label="联系电话" required="">
                 <el-input v-model="updateTenantForm.contactMobile"></el-input>
               </el-form-item>
             </el-form>
@@ -85,7 +85,7 @@
         <el-row>
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
-              <el-form-item label="企业域名" prop="name" required="">
+              <el-form-item label="企业域名" required="">
                 <el-input v-model="updateTenantForm.domainName"></el-input>
               </el-form-item>
             </el-form>
@@ -100,7 +100,7 @@
             </el-form>
           </el-col>
         </el-row>
-        <el-button type="primary" @click="handleSaveCompanyButtonClick">保存</el-button><br><br><br><br>
+        <el-button type="primary" @click="handle">保存</el-button><br><br><br><br>
       </el-tab-pane>
       <el-tab-pane label="服务公司信息">
         <p class="service-provider-title">服务公司信息</p>
@@ -204,28 +204,28 @@
                   <el-radio :label="12">现金账号</el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item v-show="isBankAccount" label="账户名称：" prop="name" required="">
+              <el-form-item v-show="isBankAccount" label="账户名称：" required="">
                 <el-input v-model="createTenantAccountFrom.accountName"></el-input>
               </el-form-item>
-              <el-form-item v-show="isBankAccount" label="银行卡号：" prop="name" required="">
+              <el-form-item v-show="isBankAccount" label="银行卡号：" required="">
                 <el-input v-model="createTenantAccountFrom.account"></el-input>
               </el-form-item>
-              <el-form-item v-show="isBankAccount" label="开户银行：" prop="name" required>
+              <el-form-item v-show="isBankAccount" label="开户银行：" required>
                 <el-input v-model="createTenantAccountFrom.bank"></el-input>
               </el-form-item>
-              <el-form-item v-show="isAlipayAccount" label="收款方名称：" prop="name" required>
+              <el-form-item v-show="isAlipayAccount" label="收款方名称：" required>
                 <el-input v-model="createTenantAccountFrom.accountName"></el-input>
               </el-form-item>
-              <el-form-item v-show="isAlipayAccount" label="支付宝账号：" prop="name" required>
+              <el-form-item v-show="isAlipayAccount" label="支付宝账号：" required>
                 <el-input v-model="createTenantAccountFrom.account"></el-input>
               </el-form-item>
-              <el-form-item v-show="isWeChatAccount" label="收款人名称：" prop="name" required>
+              <el-form-item v-show="isWeChatAccount" label="收款人名称：" required>
                 <el-input v-model="createTenantAccountFrom.accountName"></el-input>
               </el-form-item>
-              <el-form-item v-show="isWeChatAccount" label="微信账号：" prop="name" required>
+              <el-form-item v-show="isWeChatAccount" label="微信账号：" required>
                 <el-input v-model="createTenantAccountFrom.account"></el-input>
               </el-form-item>
-              <el-form-item v-show="isCashAccount" label="账户名称：" prop="name" required>
+              <el-form-item v-show="isCashAccount" label="账户名称：" required>
                 <el-input v-model="createTenantAccountFrom.accountName"></el-input>
               </el-form-item>
             </el-form>
@@ -259,13 +259,13 @@
                   @click="viewAccountsReceivableDialogVisible = true">详情</el-button>
                   <el-dialog title="编辑收款账户" width="45%" :visible.sync="viewAccountsReceivableDialogVisible">
                     <el-form label-width="120px" class="demo-ruleForm">
-                      <el-form-item label="服务公司：" prop="name" required="">
+                      <el-form-item label="服务公司：" required="">
                         <el-input></el-input>
                       </el-form-item>
-                      <el-form-item label="账户名称：" prop="name" required="">
+                      <el-form-item label="账户名称：" required="">
                         <el-input></el-input>
                       </el-form-item>
-                      <el-form-item label="账号类型: " prop="name" required="">
+                      <el-form-item label="账号类型: " required="">
                         <el-radio-group v-model="radio" @change="handleAccountTypeRadioGroupChange">
                           <el-radio :label="3">银行账号</el-radio>
                           <el-radio :label="6">支付宝账号</el-radio>
@@ -273,28 +273,28 @@
                           <el-radio :label="12">现金账号</el-radio>
                         </el-radio-group>
                       </el-form-item>
-                      <el-form-item v-show="isBankAccount" label="账户名称：" prop="name" required="">
+                      <el-form-item v-show="isBankAccount" label="账户名称：" required="">
                         <el-input></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isBankAccount" label="银行卡号：" prop="name" required="">
+                      <el-form-item v-show="isBankAccount" label="银行卡号：" required="">
                         <el-input></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isBankAccount" label="开户银行：" prop="name" required>
+                      <el-form-item v-show="isBankAccount" label="开户银行：" required>
                         <el-input></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isAlipayAccount" label="收款方名称：" prop="name" required>
+                      <el-form-item v-show="isAlipayAccount" label="收款方名称：" required>
                         <el-input></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isAlipayAccount" label="支付宝账号：" prop="name" required>
+                      <el-form-item v-show="isAlipayAccount" label="支付宝账号：" required>
                         <el-input></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isWeChatAccount" label="收款人名称：" prop="name" required>
+                      <el-form-item v-show="isWeChatAccount" label="收款人名称：" required>
                         <el-input></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isWeChatAccount" label="微信账号：" prop="name" required>
+                      <el-form-item v-show="isWeChatAccount" label="微信账号：" required>
                         <el-input></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isCashAccount" label="账户名称：" prop="name" required>
+                      <el-form-item v-show="isCashAccount" label="账户名称：" required>
                         <el-input></el-input>
                       </el-form-item>
                     </el-form>
@@ -479,7 +479,16 @@ export default {
         row.tenantCollectAccountId
       ]
       this.$store.dispatch('deleteTenantAccount', tenantCollectAccountIds).then(() => {
+        Message({
+          type: 'success',
+          message: '删除成功'
+        })
         this.getProviderList()
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
       })
     },
     handleModifyFLowConfigButtonClick () {
@@ -627,22 +636,19 @@ export default {
         }
       })
     },
+    // 保存基本信息
     handleSaveCompanyButtonClick () {
-      createServiceCompany(this.updateTenantForm).then(({ data: response }) => {
-        const { code, msg } = response
-        if (code === 0) {
-          Message({
-            message: '保存成功',
-            type: 'success'
-          })
-        } else {
-          Message({
-            message: msg,
-            type: 'error'
-          })
-        }
+      this.$store.dispatch('updateTenant', this.updateTenantForm).then(() => {
+        Message({
+          message: '保存成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
       })
-      this.createServiceCompany()
     },
     // 删除服务公司
     handleCompanyDelete (index, row) {

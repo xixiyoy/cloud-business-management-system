@@ -211,22 +211,64 @@
               fixed="right"
               label="操作"
               width="100">
-                <template>
-                  <el-button type="text" size="small">查看</el-button>
+                <template slot-scope="scope">
+                  <el-button size="mini" type="text" @click="handleEditTaskButtonClick(scope.$index)">查看</el-button>
+                  <el-dialog
+                    :visible="editTaskDialogVisible"
+                    width="50%"
+                    append-to-body>
+                    <el-form>
+                      <el-row :gutter="20">
+                        <el-col :span="12">
+                          <el-form-item label="产品名称：">
+                            <span>{{account.taskList.productName}}</span>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item label="财税顾问: ">
+                            <span>{{account.taskList.relUserName}}</span>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="20">
+                        <el-col :span="12">
+                          <el-form-item label="服务单价: ">
+                            <span>{{account.taskList.price}}</span>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item label="会计助理: ">
+                            <span>{{account.taskList.relHelpUserName}}</span>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="20">
+                        <el-col :span="12">
+                          <el-form-item label="服务周期: ">
+                            <span>{{account.taskList.number}}</span>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item label="赠送: ">
+                            <span>{{account.taskList.giftNumber}}</span>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                      <el-row>
+                        <el-col>
+                          <el-form-item label="付费方式: ">
+                            <span>{{account.taskList.payCycle}}</span>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                    </el-form>
+                    <span slot="footer" class="dialog-footer">
+                      <el-button @click="editTaskDialogVisible = false">取 消</el-button>
+                    </span>
+                  </el-dialog>
                 </template>
-              <template>
-                <el-button type="text" size="small">查看</el-button>
-              </template>
             </el-table-column>
           </el-table>
-          <div class="add-products-model">
-            <el-dialog title="代帐报表" width="40%">
-              <div slot="footer" class="dialog-footer">
-                <el-button type="primary">确认</el-button>
-                <el-button>取消</el-button>
-              </div>
-            </el-dialog>
-          </div>
         </el-collapse-item>
         <img v-show="isAgentReport" class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="代帐收费: " name="5" v-show="isAgentReport">
@@ -296,19 +338,22 @@ export default {
       idCardImages: [''],
       businessLicenseImages: [''],
       contractImages: [''],
-      processList: []
+      processList: [],
+      editTaskDialogVisible: false
     }
   },
   mounted () {
     this.customerId = this.$route.query.customerId
     this.getCustomer()
+    this.getUsers()
   },
   computed: {
     isAgentReport () {
       return this.account.taskList.filter(process => process.productName === '代理记账').length > 0
     },
     ...mapState({
-      account: state => state.customer.customer
+      account: state => state.customer.customer,
+      users: state => state.sysUser.users.list
     })
   },
   methods: {
@@ -332,6 +377,19 @@ export default {
     getLeftMonths (newestTask) {
       const { number, completeCount } = newestTask
       return completeCount - number
+    },
+    handleEditTaskButtonClick (index) {
+      const task = this.account.taskList[index]
+      this.account.taskList = task
+      this.editTaskDialogVisible = true
+    },
+    getUsers () {
+      this
+        .$store
+        .dispatch(
+          'getUserList',
+          this.getUsersForm
+        )
     }
   }
 }

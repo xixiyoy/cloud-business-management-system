@@ -6,66 +6,66 @@
     <el-form label-width="150px" class="demo-ruleForm">
       <el-row>
         <el-col :span="8">
-          <el-form-item label="发票类型：" prop="name" required="">
+          <el-form-item label="发票类型：">
             <el-input v-model="updateInvoiceForm.invoiceTypeName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="服务公司：" prop="name" required="">
+          <el-form-item label="服务公司：">
             <el-input v-model="updateInvoiceForm.entityName"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="发票抬头：" prop="name" required="">
+          <el-form-item label="发票抬头：">
             <el-input v-model="updateInvoiceForm.invoiceHead"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="开票金额：" prop="name" required="">
+          <el-form-item label="开票金额：">
             <el-input v-model="updateInvoiceForm.invoiceMoney"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="社会信用代码：" prop="name" required="">
+          <el-form-item label="社会信用代码：">
             <el-input v-model="updateInvoiceForm.creditCode"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="16">
-          <el-form-item label="电话：" prop="name">
+          <el-form-item label="电话：">
             <el-input v-model="updateInvoiceForm.phone"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="16">
-          <el-form-item label="地址：" prop="name">
+          <el-form-item label="地址：">
             <el-input v-model="updateInvoiceForm.address"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="16">
-          <el-form-item label="开户银行：" prop="name">
+          <el-form-item label="开户银行：">
             <el-input v-model="updateInvoiceForm.bank"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="16">
-          <el-form-item label="银行账号：" prop="name">
+          <el-form-item label="银行账号：">
             <el-input v-model="updateInvoiceForm.account"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="16">
-          <el-form-item label="备注信息" prop="name">
+          <el-form-item label="备注信息">
             <el-input v-model="updateInvoiceForm.invoiceRemark"></el-input>
           </el-form-item>
         </el-col>
@@ -86,12 +86,15 @@ export default {
     return {
       updateInvoiceForm: {
         invoiceId: 1,
-        invoiceTypeValue: 1,
         invoiceTypeName: '',
-        entityId: 1,
         entityName: '',
         invoiceHead: '',
         invoiceMoney: 1,
+        invoiceRemark: '',
+        account: '',
+        phone: '',
+        address: '',
+        bank: '',
         creditCode: 1895648799
       },
       invoiceId: 1
@@ -106,7 +109,7 @@ export default {
       this.modifyInvoice()
     },
     modifyInvoice () {
-      this.$store.dispatch('updateInvoice', this.invoiceId).then(() => {
+      this.$store.dispatch('updateInvoice', this.updateInvoiceForm).then(() => {
         Message({
           message: '修改成功',
           type: 'success'
@@ -122,8 +125,18 @@ export default {
   },
   mounted () {
     this.invoiceId = this.$route.query.invoiceId
+    console.log(this.invoiceId)
     this.getInvoice()
-    this.updateInvoiceForm = this.invoice
+    this.updateInvoiceForm.invoiceId = this.invoiceId
+    this.updateInvoiceForm.invoiceTypeName = this.invoice.invoiceTypeName
+    this.updateInvoiceForm.entityName = this.invoice.entityName
+    this.updateInvoiceForm.invoiceHead = this.invoice.invoiceHead
+    this.updateInvoiceForm.creditCode = this.invoice.creditCode
+    this.updateInvoiceForm.phone = this.invoice.phone
+    this.updateInvoiceForm.address = this.invoice.address
+    this.updateInvoiceForm.bank = this.invoice.bank
+    this.updateInvoiceForm.invoiceRemark = this.invoice.invoiceRemark
+    this.updateInvoiceForm.account = this.invoice.account
   },
   computed: {
     ...mapState({

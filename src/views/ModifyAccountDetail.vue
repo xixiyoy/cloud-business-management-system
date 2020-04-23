@@ -107,42 +107,147 @@
         </el-collapse-item>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
               <el-collapse-item
-        title="订单列表"
-        name="task-table">
-          <div class="tasks-table">
-            <el-table
-              :data="createCustomerForm.taskList">
-              <el-table-column label="序号"></el-table-column>
-              <el-table-column label="产品名称" prop="productName"></el-table-column>
-              <el-table-column label="服务单价" prop="price"></el-table-column>
-              <el-table-column label="服务周期（月）" prop="number"></el-table-column>
-              <el-table-column label="赠送（月）" prop="giftNumber"></el-table-column>
-              <el-table-column label="总额">
-                <template slot-scope="scope">
-                  {{ scope.row.price * scope.row.number }}
-                </template>
-              </el-table-column>
-              <el-table-column label="操作">
-                <template slot-scope="scope">
-                  <el-button size="mini" type="text" @click="handleEditTaskButtonClick(scope.$index)">编辑</el-button>
+              title="订单列表"
+              name="task-table">
+                <div class="tasks-table">
+                  <el-table
+                    :data="createCustomerForm.taskList">
+                    <el-table-column label="序号"></el-table-column>
+                    <el-table-column label="产品名称" prop="productName"></el-table-column>
+                    <el-table-column label="服务单价" prop="price"></el-table-column>
+                    <el-table-column label="服务周期（月）" prop="number"></el-table-column>
+                    <el-table-column label="赠送（月）" prop="giftNumber"></el-table-column>
+                    <el-table-column label="总额">
+                      <template slot-scope="scope">
+                        {{ scope.row.price * scope.row.number }}
+                      </template>
+                    </el-table-column>
+                    <el-table-column label="操作">
+                      <template slot-scope="scope">
+                        <el-button size="mini" type="text" @click="handleEditTaskButtonClick(scope.$index)">编辑</el-button>
+                        <el-dialog
+                          :visible="editTaskDialogVisible"
+                          width="40%">
+                          <el-form>
+                            <el-row :gutter="20">
+                              <el-col :span="12">
+                                <el-form-item label="产品名称：">
+                                  <el-input
+                                    v-model="editTaskForm.productName"
+                                    disabled>
+                                  </el-input>
+                                </el-form-item>
+                              </el-col>
+                              <el-col :span="12">
+                                <el-form-item label="财税顾问：">
+                                  <el-select
+                                    v-model="editTaskForm.relUserId"
+                                    @change="handleEditTaskFormFinancialAdviserSelectChange">
+                                    <el-option
+                                      v-for="user in users"
+                                      :key="user.userId"
+                                      :label="user.userName"
+                                      :value="user.userId">
+                                    </el-option>
+                                  </el-select>
+                                </el-form-item>
+                              </el-col>
+                            </el-row>
+                            <el-row :gutter="20">
+                              <el-col :span="12">
+                                <el-form-item label="服务单价：">
+                                  <el-input-number
+                                    :min="0.01"
+                                    :step="0.01"
+                                    v-model="editTaskForm.price">
+                                  </el-input-number>
+                                </el-form-item>
+                              </el-col>
+                              <el-col :span="12">
+                                <el-form-item label="会计助理">
+                                  <el-select
+                                    v-model="editTaskForm.relHelpUserId"
+                                    @change="handleEditTaskFormAccountingAssistantSelectChange">
+                                    <el-option
+                                      v-for="user in users"
+                                      :key="user.userId"
+                                      :label="user.userName"
+                                      :value="user.userId">
+                                    </el-option>
+                                  </el-select>
+                                </el-form-item>
+                              </el-col>
+                            </el-row>
+                            <el-row :gutter="20">
+                              <el-col :span="12">
+                                <el-form-item label="服务周期：">
+                                  <el-input-number
+                                    :min="1"
+                                    :step="1"
+                                    v-model="editTaskForm.number">
+                                  </el-input-number>
+                                </el-form-item>
+                              </el-col>
+                              <el-col :span="12">
+                                <el-form-item label="赠送：">
+                                  <el-input-number
+                                    :min="0"
+                                    :step="1"
+                                    v-model="editTaskForm.giftNumber">
+                                  </el-input-number>
+                                </el-form-item>
+                              </el-col>
+                            </el-row>
+                            <el-row>
+                              <el-col>
+                                <el-form-item label="付费方式：">
+                                  <el-select
+                                    v-model="editTaskForm.payCycle">
+                                    <el-option
+                                      v-for="(paymentMethod, index) in paymentMethods"
+                                      :key="index"
+                                      :label="paymentMethod"
+                                      :value="paymentMethod">
+                                    </el-option>
+                                  </el-select>
+                                </el-form-item>
+                              </el-col>
+                            </el-row>
+                          </el-form>
+                          <span slot="footer" class="dialog-footer">
+                            <el-button @click="editTaskDialogVisible = false">取 消</el-button>
+                            <el-button type="primary" @click="editTaskDialogVisible = false">确 定</el-button>
+                          </span>
+                        </el-dialog>
+                        <el-button size="mini" type="text" @click="handleDeleteTaskButtonClick(scope.$index)">删除</el-button>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                  <el-button type="primary" style="width: 100%;" @click="handleAddTaskButtonClick">添加产品</el-button>
                   <el-dialog
-                    :visible="editTaskDialogVisible"
-                    width="40%">
+                    :visible="addTaskDialogVisible"
+                    width="50%">
                     <el-form>
                       <el-row :gutter="20">
                         <el-col :span="12">
                           <el-form-item label="产品名称：">
-                            <el-input
-                              v-model="editTaskForm.productName"
-                              disabled>
-                            </el-input>
+                            <el-select
+                              v-model="addTaskForm.productId"
+                              @change="handleAddTaskFormProductSelectChange">
+                              <el-option
+                                v-for="product in products"
+                                :key="product.productId"
+                                :label="product.productName"
+                                :value="product.productId">
+                              </el-option>
+                            </el-select>
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
                           <el-form-item label="财税顾问：">
                             <el-select
-                              v-model="editTaskForm.relUserId"
-                              @change="handleEditTaskFormFinancialAdviserSelectChange">
+                              v-model="addTaskForm.relUserId"
+                              @change="handleAddTaskFormFinancialAdviserSelectChange">
                               <el-option
                                 v-for="user in users"
                                 :key="user.userId"
@@ -159,15 +264,15 @@
                             <el-input-number
                               :min="0.01"
                               :step="0.01"
-                              v-model="editTaskForm.price">
+                              v-model="addTaskForm.price">
                             </el-input-number>
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
                           <el-form-item label="会计助理">
                             <el-select
-                              v-model="editTaskForm.relHelpUserId"
-                              @change="handleEditTaskFormAccountingAssistantSelectChange">
+                              v-model="addTaskForm.relHelpUserId"
+                              @change="handleAddTaskFormAccountingAssistantSelectChange">
                               <el-option
                                 v-for="user in users"
                                 :key="user.userId"
@@ -184,7 +289,7 @@
                             <el-input-number
                               :min="1"
                               :step="1"
-                              v-model="editTaskForm.number">
+                              v-model="addTaskForm.number">
                             </el-input-number>
                           </el-form-item>
                         </el-col>
@@ -193,7 +298,7 @@
                             <el-input-number
                               :min="0"
                               :step="1"
-                              v-model="editTaskForm.giftNumber">
+                              v-model="addTaskForm.giftNumber">
                             </el-input-number>
                           </el-form-item>
                         </el-col>
@@ -202,7 +307,7 @@
                         <el-col>
                           <el-form-item label="付费方式：">
                             <el-select
-                              v-model="editTaskForm.payCycle">
+                              v-model="addTaskForm.payCycle">
                               <el-option
                                 v-for="(paymentMethod, index) in paymentMethods"
                                 :key="index"
@@ -215,116 +320,11 @@
                       </el-row>
                     </el-form>
                     <span slot="footer" class="dialog-footer">
-                      <el-button @click="editTaskDialogVisible = false">取 消</el-button>
-                      <el-button type="primary" @click="editTaskDialogVisible = false">确 定</el-button>
+                      <el-button @click="addTaskDialogVisible = false">取 消</el-button>
+                      <el-button type="primary" @click="handleAddTaskDialogOkButtonClick">确 定</el-button>
                     </span>
                   </el-dialog>
-                  <el-button size="mini" type="text" @click="handleDeleteTaskButtonClick(scope.$index)">删除</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-            <el-button type="primary" style="width: 100%;" @click="handleAddTaskButtonClick">添加产品</el-button>
-            <el-dialog
-              :visible="addTaskDialogVisible"
-              width="50%">
-              <el-form>
-                <el-row :gutter="20">
-                  <el-col :span="12">
-                    <el-form-item label="产品名称：">
-                      <el-select
-                        v-model="addTaskForm.productId"
-                        @change="handleAddTaskFormProductSelectChange">
-                        <el-option
-                          v-for="product in products"
-                          :key="product.productId"
-                          :label="product.productName"
-                          :value="product.productId">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="财税顾问：">
-                      <el-select
-                        v-model="addTaskForm.relUserId"
-                        @change="handleAddTaskFormFinancialAdviserSelectChange">
-                        <el-option
-                          v-for="user in users"
-                          :key="user.userId"
-                          :label="user.userName"
-                          :value="user.userId">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row :gutter="20">
-                  <el-col :span="12">
-                    <el-form-item label="服务单价：">
-                      <el-input-number
-                        :min="0.01"
-                        :step="0.01"
-                        v-model="addTaskForm.price">
-                      </el-input-number>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="会计助理">
-                      <el-select
-                        v-model="addTaskForm.relHelpUserId"
-                        @change="handleAddTaskFormAccountingAssistantSelectChange">
-                        <el-option
-                          v-for="user in users"
-                          :key="user.userId"
-                          :label="user.userName"
-                          :value="user.userId">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row :gutter="20">
-                  <el-col :span="12">
-                    <el-form-item label="服务周期：">
-                      <el-input-number
-                        :min="1"
-                        :step="1"
-                        v-model="addTaskForm.number">
-                      </el-input-number>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="赠送：">
-                      <el-input-number
-                        :min="0"
-                        :step="1"
-                        v-model="addTaskForm.giftNumber">
-                      </el-input-number>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col>
-                    <el-form-item label="付费方式：">
-                      <el-select
-                        v-model="addTaskForm.payCycle">
-                        <el-option
-                          v-for="(paymentMethod, index) in paymentMethods"
-                          :key="index"
-                          :label="paymentMethod"
-                          :value="paymentMethod">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-              </el-form>
-              <span slot="footer" class="dialog-footer">
-                <el-button @click="addTaskDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="handleAddTaskDialogOkButtonClick">确 定</el-button>
-              </span>
-            </el-dialog>
-          </div>
+                </div>
       </el-collapse-item>
         <!-- <el-collapse-item title="财税信息" name="3">
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -574,6 +574,9 @@ export default {
         customerAddress: '',
         customerBusinessEmail: '',
         taskList: []
+      },
+      updateCustomerForm: {
+        taskStatusName: ''
       },
       addProductDialogVisible: false,
       editTaskDialogVisible: false

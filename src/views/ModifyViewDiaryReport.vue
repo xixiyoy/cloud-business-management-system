@@ -7,19 +7,19 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="审核状态: " prop="name">
-            <span >{{report.statusName}}</span>
+            <span >{{updateFianceForm.statusName}}</span>
           </el-form-item>
         </el-col>
       </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="客户名称: " prop="name">
-                  <el-input v-model="report.customerName"></el-input>
+                  <el-input v-model="updateFianceForm.customerName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="客户代表: " prop="name">
-                  <el-input v-model="report.customerRelName"></el-input>
+                  <el-input v-model="updateFianceForm.customerRelName"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -39,7 +39,7 @@
               <el-col :span="10">
                 <el-form-item label="收支人员: " prop="name">
                     <el-select
-                    v-model="report.fianceUserId"
+                    v-model="updateFianceForm.fianceUserId"
                     @change="handleEditTaskFormFinancialAdviserSelectChange">
                     <el-option
                       v-for="user in allUsers"
@@ -53,39 +53,39 @@
             </el-row>
             <el-row>
               <el-col :span="10">
-                <el-form-item label="收支金额: " prop="name">
-                  <el-input v-model="report.money"></el-input>
+                <el-form-item label="收支金额: ">
+                  <el-input v-model="updateFianceForm.money"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
-                <el-form-item label="结余: " prop="name">
-                  <el-input v-model="report.balance"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="10">
-                <el-form-item label="创建人: " prop="name">
-                  <el-input v-model="report.createUserName"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="创建时间: " prop="name">
-                  <el-input v-model="report.createTime"></el-input>
+                <el-form-item label="结余: ">
+                  <el-input v-model="updateFianceForm.balance"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
-                <el-form-item label="收支时间: " prop="region">
-                  <el-input v-model="report.fianceTime"></el-input>
+                <el-form-item label="创建人: ">
+                  <el-input v-model="updateFianceForm.createUserName"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10">
+                <el-form-item label="创建时间: ">
+                  <el-input v-model="report.createTime" disabled></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="10">
+                <el-form-item label="收支时间: ">
+                  <el-input v-model="updateFianceForm.fianceTime"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="20">
                 <el-form-item label="摘要: " prop="pass">
-                  <el-input type="textarea" v-model="report.comment"></el-input>
+                  <el-input type="textarea" v-model="updateFianceForm.comment"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -106,16 +106,18 @@ export default {
     return {
       fianceId: 1,
       updateFianceForm: {
+        fianceId: 0,
         customerName: '',
         customerRelName: '',
-        fianceUserId: '',
-        fianceUserName: '',
-        fianceDeptId: '',
+        fianceDeptId: 1,
         fianceDeptName: '',
+        fianceUserId: 2,
+        fianceUserName: '',
         money: '',
+        balance: '',
+        createUserName: '',
         comment: '',
-        fianceTypeValue: '',
-        fianceTypeName: ''
+        fianceTime: ''
       }
     }
   },
@@ -140,7 +142,7 @@ export default {
       this.$store.dispatch('getDeptList')
     },
     modifyFiance () {
-      this.$store.dispatch('updateFiance').then(() => {
+      this.$store.dispatch('updateFiance', this.updateFianceForm).then(() => {
         Message({
           message: '修改成功',
           type: 'success'
@@ -159,7 +161,19 @@ export default {
     this.getUsers()
     this.fianceId = this.$route.query.fianceId
     this.getFiance()
-    this.updateFianceForm = this.report
+    this.updateFianceForm.fianceId = this.report.fianceId
+    this.updateFianceForm.customerName = this.report.customerName
+    this.updateFianceForm.customerRelName = this.report.customerRelName
+    this.updateFianceForm.fianceDeptName = this.report.fianceDeptName
+    this.updateFianceForm.fianceDeptId = this.report.fianceDeptId
+    this.updateFianceForm.fianceUserName = this.report.fianceUserName
+    this.updateFianceForm.fianceUserId = this.report.fianceUserId
+    this.updateFianceForm.money = this.report.money
+    this.updateFianceForm.balance = this.report.balance
+    this.updateFianceForm.createUserName = this.report.createUserName
+    // this.updateFianceForm.createTime = this.report.createTime
+    this.updateFianceForm.fianceTime = this.report.fianceTime
+    this.updateFianceForm.comment = this.report.comment
   },
   computed: {
     ...mapState({

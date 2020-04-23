@@ -3,9 +3,7 @@ import request from './request'
 const deleteChannel = channelIds => request({
   url: '/channel/delete ',
   method: 'POST',
-  data: {
-    channelIds
-  }
+  data: channelIds
 })
 
 const updateChannel = channel => request({

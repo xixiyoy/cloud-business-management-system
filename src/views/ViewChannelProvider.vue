@@ -6,7 +6,7 @@
       <el-row>
         <el-col :span="20">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="渠道商名称: " prop="name" required="">
+            <el-form-item label="渠道商名称: ">
               <span>{{channel.name}}</span>
             </el-form-item>
           </el-form>
@@ -18,7 +18,7 @@
       <el-row>
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="联系人: " prop="name" required="">
+            <el-form-item label="联系人: ">
               <span>{{channel.linkerName}}</span>
             </el-form-item>
           </el-form>
@@ -27,7 +27,7 @@
       <el-row>
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="手机号: " prop="name" required="">
+            <el-form-item label="手机号: ">
               <span>{{channel.linkerMobile}}</span>
             </el-form-item>
           </el-form>
@@ -36,7 +36,7 @@
       <el-row>
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="资源归属: " prop="region" required="">
+            <el-form-item label="资源归属: " prop="region" >
               <span>{{channel.channelBelongName}}</span>
             </el-form-item>
           </el-form>
@@ -45,7 +45,7 @@
       <el-row>
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="渠道负责人: " prop="region" required="">
+            <el-form-item label="渠道负责人: " prop="region" >
               <span>{{channel.dutyUserName}}</span>
             </el-form-item>
           </el-form>

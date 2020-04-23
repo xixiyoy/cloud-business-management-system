@@ -3,7 +3,7 @@ import request from './request'
 const updateInvoice = invoice => request({
   url: '/invoice/update',
   method: 'POST',
-  data: invoice
+  params: invoice
 })
 
 const getBillingDetail = invoiceId => request({

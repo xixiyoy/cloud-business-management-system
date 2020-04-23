@@ -12,10 +12,8 @@ const updateProduct = product => request({
 
 const deleteProduct = productIds => request({
   url: '/product/delete',
-  method: 'POST ',
-  data: {
-    productIds
-  }
+  method: 'POST',
+  data: productIds
 })
 
 const createProduct = createProductForm => request({

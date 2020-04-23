@@ -18,7 +18,10 @@ const actions = {
     commit('SET_TENANT', tenant)
   },
   async updateTenant ({ commit }, updateTenantForm) {
-    await updateTenant(updateTenantForm)
+    const { data: { code, msg } } = await updateTenant(updateTenantForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   }
 }
 

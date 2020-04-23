@@ -25,14 +25,20 @@ const actions = {
     console.log(response)
   },
   async updateChannel ({ commit }, updateChannelForm) {
-    await updateChannel(updateChannelForm)
+    const { data: { code, msg } } = await updateChannel(updateChannelForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async getChannelInformation ({ commit }, channelId) {
     const { data: channel } = await getChannelInformation(channelId)
     commit('SET_CHANNEL', channel.channel)
   },
   async deleteChannel ({ commit }, channelIds) {
-    await deleteChannel(channelIds)
+    const { data: { code, msg } } = await deleteChannel(channelIds)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   }
 }
 

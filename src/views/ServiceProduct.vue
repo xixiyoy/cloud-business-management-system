@@ -69,6 +69,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { Message } from 'element-ui'
 
 export default {
   metaInfo: {
@@ -88,7 +89,16 @@ export default {
         row.productId
       ]
       this.$store.dispatch('deleteProduct', productIds).then(() => {
+        Message({
+          type: 'success',
+          message: '删除产品成功'
+        })
         this.getProductList()
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
       })
     },
     serviceProductTableHeaderCellStyle ({ row, column, rowIndex, columnIndex }) {

@@ -6,8 +6,8 @@
       <el-row>
         <el-col :span="20">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="渠道商名称: " prop="name" required="">
-              <el-input v-model="channel.name"></el-input>
+            <el-form-item label="渠道商名称: " >
+              <el-input v-model="updateChannelForm.name"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -15,8 +15,8 @@
       <el-row>
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="联系人: " prop="name" required="">
-              <el-input v-model="channel.linkerName"></el-input>
+            <el-form-item label="联系人: " >
+              <el-input v-model="updateChannelForm.linkerName"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -24,8 +24,8 @@
       <el-row>
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="手机号: " prop="name" required="">
-              <el-input v-model="channel.linkerMobile"></el-input>
+            <el-form-item label="手机号: " >
+              <el-input v-model="updateChannelForm.linkerMobile"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -33,8 +33,8 @@
       <el-row>
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="资源归属: " prop="region" required="">
-              <el-input v-model="channel.channelBelongName"></el-input>
+            <el-form-item label="资源归属: " prop="region" >
+              <el-input v-model="updateChannelForm.channelBelongName"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -42,8 +42,8 @@
       <el-row>
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="渠道负责人: " prop="region" required="">
-              <el-input v-model="channel.dutyUserName"></el-input>
+            <el-form-item label="渠道负责人: " >
+              <el-input v-model="updateChannelForm.dutyUserName"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -52,7 +52,7 @@
         <el-col :span="12">
           <el-form ref="form" label-width="100px">
             <el-form-item label="备注: ">
-              <el-input channel.remark></el-input>
+              <el-input v-model="updateChannelForm.remark"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -96,7 +96,7 @@ export default {
           message: '保存成功',
           type: 'success'
         })
-        this.$route.push({ path: '/channel-dealer-management' })
+        this.$router.push({ path: '/channel-dealer-management' })
       }).catch(message => {
         Message({
           message,
@@ -108,7 +108,13 @@ export default {
   mounted () {
     this.channelId = this.$route.query.channelId
     this.getChannel()
-    this.updateChannelForm = this.channel
+    this.updateChannelForm.channelId = this.channel.channelId
+    this.updateChannelForm.name = this.channel.name
+    this.updateChannelForm.linkerName = this.channel.linkerName
+    this.updateChannelForm.channelBelongName = this.channel.channelBelongName
+    this.updateChannelForm.dutyUserName = this.channel.dutyUserName
+    this.updateChannelForm.remark = this.channel.remark
+    this.updateChannelForm.linkerMobile = this.channel.linkerMobile
   },
   computed: {
     ...mapState({

@@ -50,9 +50,10 @@ const stopTask = stopTaskForm => request({
   url: '/task/stopTask',
   params: stopTaskForm
 })
-
+// 退回任务
 const backTask = backTaskForm => request({
   url: '/task/backTask',
+  method: 'POST',
   params: backTaskForm
 })
 

@@ -83,7 +83,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-
+import { Message } from 'element-ui'
 export default {
   metaInfo: {
     title: '渠道商管理'
@@ -102,7 +102,16 @@ export default {
         row.channelId
       ]
       this.$store.dispatch('deleteChannel', channelIds).then(() => {
+        Message({
+          type: 'success',
+          message: '删除成功'
+        })
         this.getChannels()
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
       })
     },
     serviceProductTableHeaderCellStyle ({ row, column, rowIndex, columnIndex }) {

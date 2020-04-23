@@ -1082,7 +1082,7 @@
         </el-dialog>
         <!-- 提交收款后的驳回操作end -->
         <el-button type="primary" @click="handleCashier" style="margin-left: 10px;">确认审批</el-button>
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="threeThreeCashVisible = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 已确认 3 已确认 5 所操作完成后查看的 -->
@@ -1303,6 +1303,9 @@ export default {
       if (collectStatusValue === '3' && royaltyStatusValue === '1') {
         return true
       }
+      if (collectStatusValue === '3' && royaltyStatusValue === '3') {
+        return true
+      }
     },
     formatDate (date) {
       const theDate = new Date(date)
@@ -1386,6 +1389,7 @@ export default {
     getCustomer (id) {
       return this.accounts.list.filter(({ customerId }) => customerId === id)[0]
     },
+    // 所有编辑
     handleEditCommandClick (customer) {
       const { collectStatusValue, royaltyStatusValue } = customer
       if (collectStatusValue === '0' && royaltyStatusValue === '0') {
@@ -1408,6 +1412,14 @@ export default {
           this.treeOneEditVisible = true
         } else {
           this.threeOneBusinessVisible = true
+        }
+      }
+      if (collectStatusValue === '3' && royaltyStatusValue === '3') {
+        this.getRoyaltyDetail()
+        if (this.isSelf()) {
+          this.treeOneEditVisible = true
+        } else {
+          this.threeThreeCashVisible = true
         }
       }
     },

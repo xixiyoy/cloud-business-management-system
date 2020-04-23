@@ -17,16 +17,15 @@
                 </template>
                 <a-step title="老刘" description="2020-01-01" />
                 <a-step title="服务中" description="服务中" />
-                <a-step title="未开始" description="未开始" />
+                <a-step title="已完成" description="未开始" />
               </a-steps>
             </el-col>
           </el-row>
           <el-row :gutter="10" style="margin-top:50px;">
-              <el-col :span="4" :offset="2"><i class="green"></i>服务中</el-col>
+              <el-col :span="4" :offset="4"><i class="green"></i>服务中</el-col>
               <el-col :span="4"><i class="blue"></i>已完成</el-col>
               <el-col :span="4"><i class="red"></i>已终止</el-col>
               <el-col :span="4"><i class="warn"></i>交接中</el-col>
-              <el-col :span="4"><i class="info"></i>未开始</el-col>
           </el-row>
         </el-card>
       </div>

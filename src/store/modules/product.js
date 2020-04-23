@@ -38,7 +38,10 @@ const actions = {
     await updateProduct(updateProductForm)
   },
   async deleteProduct ({ commit }, productIds) {
-    await deleteProduct(productIds)
+    const { data: { code, msg } } = await deleteProduct(productIds)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   }
 }
 

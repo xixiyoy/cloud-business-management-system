@@ -225,6 +225,7 @@
                   :label="item.userName"
                   :value="item.userName"
                 ></el-option>
+                <!-- 这地方需要添加交接人的id -->
               </el-select>
             </el-form-item>
             <el-form-item label="交接备注: ">

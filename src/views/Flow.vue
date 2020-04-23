@@ -136,7 +136,7 @@
                   <a-col :span="12">
                     <a-steps :current="0" class="four-steps">
                       <template slot="progressDot" slot-scope="{ description }">
-                        <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
+                        <span class="ant-steps-icon-dot" :class="getStepsIconClass(description, true, null)"></span>
                       </template>
                       <a-step :title="taskFlow.monthLabel" :description="taskFlow.status" v-for="(taskFlow, index) in getTaskFlows(task)" :key="index"/>
                     </a-steps>
@@ -151,11 +151,11 @@
               <el-col :span="21">
                 <a-steps :current="0" class="agent-order-steps">
                   <template slot="progressDot" slot-scope="{ description }">
-                    <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
+                    <span class="ant-steps-icon-dot" :class="getStepsIconClass(description, false, task.taskStatusName)"></span>
                   </template>
                   <a-step :title="task.createUserName" :description="getNotAgentDate(task.createTime)"/>
                   <a-step title="服务中" description="服务中" />
-                  <a-step title="未开始" description="未开始" />
+                  <a-step title="已完成" description="已完成" />
                 </a-steps>
               </el-col>
             </el-row>
@@ -277,12 +277,19 @@ export default {
     isAgentOrder (task) {
       return isAgentOrder(task.longTerm)
     },
-    getStepsIconClass (description) {
+    getStepsIconClass (description, isAgent, status) {
       switch (description) {
         case '未开始': {
           return 'custom-wait'
         }
         case '已完成': {
+          if (!isAgent) {
+            if (status === '已完成') {
+              return 'custom-finish'
+            } else {
+              return 'custom-wait'
+            }
+          }
           return 'custom-finish'
         }
         case '服务中': {
@@ -329,9 +336,9 @@ export default {
           if (a.month < startMonth) {
             temp[a.month - 1].status = '禁止'
           }
-          if (a.month === startMonth + giftNumber) {
-            temp[a.month - 1].monthLabel = `${a.month} 月（赠）`
-          }
+          // if (a.month === startMonth + giftNumber) {
+          //   temp[a.month - 1].monthLabel = `${a.month} 月（赠）`
+          // }
         })
       }
       if (availableTaskCount !== 0) {
@@ -342,9 +349,9 @@ export default {
           if (a.month < startMonth) {
             temp[a.month - 1].status = '禁止'
           }
-          if (a.month === startMonth + giftNumber) {
-            temp[a.month - 1].monthLabel = `${a.month} 月（赠）`
-          }
+          // if (a.month === startMonth + giftNumber) {
+          //   temp[a.month - 1].monthLabel = `${a.month} 月（赠）`
+          // }
         })
       }
       return temp
