@@ -72,7 +72,14 @@ export default {
   },
   data () {
     return {
-      updateChannelForm: {},
+      updateChannelForm: {
+        name: '',
+        linkerName: '',
+        linkerMobile: 1,
+        channelBelongName: '',
+        dutyUserName: '',
+        remark: ''
+      },
       channelId: 1
     }
   },
@@ -81,20 +88,20 @@ export default {
       this.$store.dispatch('getChannelById', this.channelId)
     },
     handleUpdateChannelButtonClick () {
-      this.$store.dispatch('updateChannel', this.channel).then(({ data: response }) => {
-        const { code, msg } = response
-        if (code === 0) {
-          Message({
-            message: '保存成功',
-            type: 'success'
-          })
-          this.$route.push({ path: '/channel-dealer-management' })
-        } else {
-          Message({
-            message: msg,
-            type: 'error'
-          })
-        }
+      this.updateChannel()
+    },
+    updateChannel () {
+      this.$store.dispatch('updateChannel', this.updateChannelForm).then(() => {
+        Message({
+          message: '保存成功',
+          type: 'success'
+        })
+        this.$route.push({ path: '/channel-dealer-management' })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
       })
     }
   },

@@ -102,7 +102,7 @@ export default {
         row.channelId
       ]
       this.$store.dispatch('deleteChannel', channelIds).then(() => {
-        this.getChannelList()
+        this.getChannels()
       })
     },
     serviceProductTableHeaderCellStyle ({ row, column, rowIndex, columnIndex }) {

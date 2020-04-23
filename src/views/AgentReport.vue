@@ -209,25 +209,13 @@
         </el-tab-pane>
         <el-row :gutter="10" style="margin-top:20px;">
           <el-col :span="3">
-            <template>
-              <el-radio-group v-model="radio">
-                <el-radio label="未收款"></el-radio>
-              </el-radio-group>
-            </template>
+            <i class="info"></i>未收款
           </el-col>
           <el-col :span="3">
-            <template>
-              <el-radio-group v-model="radio">
-                <el-radio label="已收款"></el-radio>
-              </el-radio-group>
-            </template>
+            <i class="green"></i>已收款
           </el-col>
           <el-col :span="3">
-            <template>
-              <el-radio-group v-model="radio">
-                <el-radio label="已发提成"></el-radio>
-              </el-radio-group>
-            </template>
+            <i class="red"></i>已发提成
           </el-col>
         </el-row>
       </el-tabs>
@@ -372,7 +360,76 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="oneZeroSelfEditVisible = false">修 改</el-button>
-        <el-button type="primary" @click="innerVisible = true">打开内层 Dialog</el-button>
+        <el-button type="primary" @click="modifyOneZreoDialogFormVisible = true">打开内层 Dialog</el-button>
+        <!-- 1 0 提交者的修改的弹框start -->
+        <el-dialog title="收货地址" :visible.sync="modifyOneZreoDialogFormVisible">
+          <el-form>
+            <el-row>
+              <el-col :spam="12">
+                <el-form-item label="付款账户：">
+                  <el-input v-model="updateCollectForm.payAccount"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :spam="12">
+                <el-form-item label="收据编号：">
+                  <el-input v-model="updateCollectForm.collectNo"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :spam="12">
+                <el-form-item label="收款账户：">
+                  <el-select
+                    v-model="submitCollectionForm.collectAccountId"
+                    @change="handleEditTaskFormAccountingAssistantSelectChange">
+                    <el-option
+                      v-for="getCollectAccount in getCollectAccounts"
+                      :key="getCollectAccount.collectAccountId"
+                      :label="getCollectAccount.collectAccountName"
+                      :value="getCollectAccount.collectAccountId">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :spam="12">
+                <el-form-item label="收款月数：" required>
+                <div class="block">
+                  <el-date-picker
+                    v-model="submitCollectionDate"
+                    type="daterange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期">
+                  </el-date-picker>
+                </div>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :spam="12">
+                <el-form-item label="到账日期：" required>
+                  <div class="block">
+                    <el-date-picker
+                      v-model="submitCollectionReceiveDate"
+                      type="date"
+                      placeholder="选择日期">
+                    </el-date-picker>
+                  </div>
+                </el-form-item>
+              </el-col>
+              <el-col :spam="12">
+                <el-form-item label="备注：">
+                  <el-input v-model="updateCollectForm.remark"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="handleZeroZeroEdit">确 定</el-button>
+            <el-button @click="modifyOneZreoDialogFormVisible = false">取 消</el-button>
+          </div>
+        </el-dialog>
+        <!-- 1 0 提交者的修改的弹框end -->
       </div>
     </el-dialog>
     <!-- 提交收款待审核后驳回 -->
@@ -437,8 +494,19 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="handleRejectCollect" type="danger">驳 回</el-button>
-        <el-button @click="handleConfirenCollect" type="primary">确认收款</el-button>
+        <el-button @click="handleRejectCollect" type="danger" :visible="oneZeroOtherEditVisible">驳 回</el-button>
+        <!-- 提交收款后的驳回操作start -->
+        <el-dialog title="驳回收款" :visible.sync="rejectOneZeroVisible">
+           <el-form>
+            <el-form-item label="驳回备注">
+              <el-input v-model="rejectCollectForm.rejectRemark"></el-input>
+            </el-form-item>
+           </el-form>
+           <el-button @click="handleRejectCollect" type="primary">确认</el-button>
+           <el-button @click="rejectOneZeroVisible = false">取 消</el-button>
+        </el-dialog>
+        <!-- 提交收款后的驳回操作end -->
+        <el-button @click="handleConfirenCollect" type="primary" style="margin-left: 10px;">确认收款</el-button>
         <el-button @click="oneZeroOtherEditVisible = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -584,7 +652,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="threeZeroEditVisible = false">确 定</el-button>
+        <el-button type="primary" @click="handleSubmitRoyalty">确 定</el-button>
         <el-button @click="threeZeroEditVisible = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -851,18 +919,19 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-popover
-  placement="top"
-  width="160"
-  v-model="visible">
-  <p>这是一段内容这是一段内容确定删除吗？</p>
-  <div style="text-align: right; margin: 0">
-    <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-    <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
-  </div>
-  <el-button slot="reference">删除</el-button>
-</el-popover>
-        <el-button type="primary" @click="handleConfirenBusiness">确认审批</el-button>
+        <el-button type="primary" @click="handleConfirenBusiness">驳回</el-button>
+        <!-- 提交收款后的驳回操作start -->
+        <el-dialog title="驳回申请" :visible.sync="rejectThreeOneBusinessVisible">
+           <el-form>
+            <el-form-item label="驳回备注">
+              <el-input v-model="businessApprovalForm"></el-input>
+            </el-form-item>
+           </el-form>
+           <el-button @click="handleConfirenBusiness" type="primary">确认</el-button>
+           <el-button @click="rejectThreeOneBusinessVisible = false">取 消</el-button>
+        </el-dialog>
+        <!-- 提交收款后的驳回操作end -->
+        <el-button type="primary" @click="handleConfirenBusiness" style="margin-left: 10px;">确认审批</el-button>
         <el-button @click="threeOneBusinessVisible = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -953,7 +1022,18 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false" type="danger">驳 回</el-button>
-        <el-button type="primary" @click="handleConfirenFinancial">确认审批</el-button>
+        <!-- 提交收款后的驳回操作start -->
+        <el-dialog title="驳回申请" :visible.sync="threeOneBusinessVisible">
+           <el-form>
+            <el-form-item label="驳回备注">
+              <el-input v-model="financialApprovalForm"></el-input>
+            </el-form-item>
+           </el-form>
+           <el-button @click="handleRejectCollect" type="primary">确认</el-button>
+           <el-button @click="rejectOneZeroVisible = false">取 消</el-button>
+        </el-dialog>
+        <!-- 提交收款后的驳回操作end -->
+        <el-button type="primary" @click="handleConfirenFinancial" style="margin-left: 10px;">确认审批</el-button>
         <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -989,32 +1069,19 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-      <!-- <template>
-        <el-popconfirm
-          confirmButtonText='确定'
-          cancelButtonText='取消'
-          icon="el-icon-info"
-          iconColor="red"
-          title="确定驳回吗？"
-        >
-        <el-form-item label="驳回备注:">
-          <el-input v-model="rejectRoyaltyForm.rejectRemark"></el-input>
-        </el-form-item>
-        <el-button type="primary" @click="handleRejectRoyalty = false" slot="reference">驳 回</el-button>
-        </el-popconfirm>
-      </template> -->
-      <el-popover
-  placement="top"
-  width="160"
-  v-model="visible">
-            <el-input v-model="rejectRoyaltyForm.rejectRemark"></el-input>
-  <div style="text-align: right; margin: 0">
-    <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-    <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
-  </div>
-  <el-button slot="reference" type="danger">驳回</el-button>
-</el-popover>
-        <el-button type="primary" @click="handleCashier">确认审批</el-button>
+        <el-button type="primary" @click="handleCashier">驳回</el-button>
+        <!-- 提交收款后的驳回操作start -->
+        <el-dialog title="驳回申请" :visible.sync="threeOneBusinessVisible">
+           <el-form>
+            <el-form-item label="驳回备注">
+              <el-input v-model="cashierApprovalForm"></el-input>
+            </el-form-item>
+           </el-form>
+           <el-button @click="handleRejectCollect" type="primary">确认</el-button>
+           <el-button @click="rejectOneZeroVisible = false">取 消</el-button>
+        </el-dialog>
+        <!-- 提交收款后的驳回操作end -->
+        <el-button type="primary" @click="handleCashier" style="margin-left: 10px;">确认审批</el-button>
         <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -1146,11 +1213,13 @@ export default {
         collectEndMonth: '',
         remark: ''
       },
+      modifyOneZreoDialogFormVisible: false,
       // 驳回收款表单
       rejectCollectForm: {
         collectId: '',
         rejectRemark: ''
       },
+      rejectOneZeroVisible: false,
       // 缺人收款表单
       confirmReceiptForm: {
         collectId: ''
@@ -1162,12 +1231,18 @@ export default {
         royaltyEndMonth: '',
         royaltyMoney: ''
       },
+      rejectThreeOneBusinessVisible: false,
+      // 修改提成信息
+      // updateCollectForm: {
+      //   royaltyStartMonth: '',
+      //   royaltyEndMonth: '',
+      //   royaltyMoney: ''
+      // },
       // 驳回提成
       rejectRoyaltyForm: {
         royaltyId: '',
         rejectRemark: ''
       },
-      innerVisible: false,
       // 以上是今天的代码
       zeroZeroEditVisible: false,
       oneZeroSelfEditVisible: false,
@@ -1210,7 +1285,7 @@ export default {
   },
   methods: {
     isSelf () {
-      return false
+      return true
     },
     // 判断是否可以编辑
     isCanEdit (customer) {
@@ -1405,7 +1480,7 @@ export default {
       this.rejectCollectForm.collectId = this.collectId
       this.rejectCollectForm.rejectRemark = '这是博会信息'
       this.rejectCollect()
-      this.oneZeroOtherEditVisible = false
+      this.rejectOneZeroVisible = true
     },
     // 驳回收款
     rejectCollect () {
@@ -1441,6 +1516,9 @@ export default {
       })
     },
     // 提交提成
+    handleSubmitRoyalty () {
+      this.submitRoyalty()
+    },
     submitRoyalty () {
       this.submitRoyaltyMonths()
       this.$store.dispatch('submitRoyalty', this.submitRoyaltyForm).then(() => {
@@ -1498,6 +1576,7 @@ export default {
     },
     // 业务审批
     handleConfirenBusiness () {
+      // rejectThreeOneBusinessVisible = true
       this.businessApprovalForm.royaltyId = this.royaltyId
       this.businessApproval()
       this.threeOneBusinessVisible = false

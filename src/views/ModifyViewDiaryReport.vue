@@ -26,12 +26,28 @@
             <el-row>
               <el-col :span="10">
                 <el-form-item label="收支部门: " prop="name">
-                  <el-input v-model="updateFianceForm.fianceDeptName"></el-input>
+                  <el-select class="account-source-left-custom" v-model="updateFianceForm.fianceDeptId" @change="handleDepartmentSelectChange">
+                    <el-option
+                      v-for="(department, index) in departments"
+                      :key="index"
+                      :label="department.name"
+                      :value="department.deptId">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="收支人员: " prop="name">
-                  <el-input v-model="report.fianceUserName"></el-input>
+                    <el-select
+                    v-model="report.fianceUserId"
+                    @change="handleEditTaskFormFinancialAdviserSelectChange">
+                    <el-option
+                      v-for="user in allUsers"
+                      :key="user.userId"
+                      :label="user.userName"
+                      :value="user.userId">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -89,7 +105,18 @@ export default {
   data () {
     return {
       fianceId: 1,
-      updateFianceForm: {}
+      updateFianceForm: {
+        customerName: '',
+        customerRelName: '',
+        fianceUserId: '',
+        fianceUserName: '',
+        fianceDeptId: '',
+        fianceDeptName: '',
+        money: '',
+        comment: '',
+        fianceTypeValue: '',
+        fianceTypeName: ''
+      }
     }
   },
   methods: {
@@ -99,6 +126,18 @@ export default {
     handleUpdateFianceButtonClick () {
       console.log(this.updateFianceForm)
       this.modifyFiance()
+    },
+    handleDepartmentSelectChange (id) {
+      this.updateFianceForm.fianceDeptName = this.getDepartmentName(id)
+    },
+    handleEditTaskFormFinancialAdviserSelectChange (id) {
+      this.updateFianceForm.checkUserName = this.getUsers(id)
+    },
+    getUsers () {
+      this.$store.dispatch('getUserList')
+    },
+    getDepartments () {
+      this.$store.dispatch('getDeptList')
     },
     modifyFiance () {
       this.$store.dispatch('updateFiance').then(() => {
@@ -116,13 +155,18 @@ export default {
     }
   },
   mounted () {
+    this.getDepartments()
+    this.getUsers()
     this.fianceId = this.$route.query.fianceId
     this.getFiance()
     this.updateFianceForm = this.report
   },
   computed: {
     ...mapState({
-      report: state => state.fiance.fiance
+      report: state => state.fiance.fiance,
+      departments: state => state.department.depts,
+      // 获取所有用户
+      allUsers: state => state.sysUser.users.list
     })
   }
 }

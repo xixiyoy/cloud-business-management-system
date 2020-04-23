@@ -46,9 +46,15 @@
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="渠道负责人" prop="region" required="">
-              <el-select placeholder="请选择" v-model="createChannelForm.dutyUserName">
-                <el-option label="一" value="shanghai"></el-option>
-                <el-option label="二" value="beijing"></el-option>
+              <el-select
+                v-model="createChannelForm.dutyUserId"
+                @change="handleEditTaskFormFinancialAdviserSelectChange">
+                <el-option
+                  v-for="user in allUsers"
+                  :key="user.userId"
+                  :label="user.userName"
+                  :value="user.userId">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-form>
@@ -65,12 +71,12 @@
       </el-row>
     </div>
     <el-button>取消</el-button>
-    <el-button type="primary">保存</el-button><br><br><br><br>
+    <el-button type="primary" @click="handelCreteChannelButtonClick">保存</el-button><br><br><br><br>
   </div>
 </template>
 <script>
 import { Message } from 'element-ui'
-import { createChannel } from '../api/channel'
+import { mapState } from 'vuex'
 
 export default {
   metaInfo: {
@@ -89,25 +95,39 @@ export default {
   },
   methods: {
     handelCreteChannelButtonClick () {
-      createChannel(this.getChannelForm).then(({ data: response }) => {
-        const { code, msg } = response
-        if (code === 0) {
-          Message({
-            message: '保存成功',
-            type: 'success'
-          })
-        } else {
-          Message({
-            message: msg,
-            type: 'error'
-          })
-        }
-      })
-      this.createChannel()
+      console.log()
+      this.createChannel(this.createChannelForm)
     },
     createChannel () {
-      this.$store.dispatch('createChannel', this.createChannelForm)
+      this.$store.dispatch('createChannel', this.createChannelForm).then(() => {
+        Message({
+          message: '保存成功',
+          type: 'success'
+        })
+        this.$router.push({ path: '/channel-dealer-management' })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
+    handleEditTaskFormFinancialAdviserSelectChange (id) {
+      this.createChannelForm.dutyUserName = this.getUsers(id)
+    },
+    // 获取所有人员名称
+    getUsers () {
+      this.$store.dispatch('getUserList')
     }
+  },
+  mounted () {
+    this.getUsers()
+  },
+  computed: {
+    ...mapState({
+      // 获取所有用户
+      allUsers: state => state.sysUser.users.list
+    })
   }
 }
 </script>

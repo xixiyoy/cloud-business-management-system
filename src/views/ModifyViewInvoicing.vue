@@ -84,26 +84,31 @@ export default {
   },
   data () {
     return {
-      updateInvoiceForm: {},
+      updateInvoiceForm: {
+        invoiceId: 1,
+        invoiceTypeValue: 1,
+        invoiceTypeName: '',
+        entityId: 1,
+        entityName: '',
+        invoiceHead: '',
+        invoiceMoney: 1,
+        creditCode: 1895648799
+      },
       invoiceId: 1
     }
-  },
-  computed: {
-    ...mapState({
-      invoice: state => state.invoice.invoice
-    })
   },
   methods: {
     getInvoice () {
       this.$store.dispatch('getBillingById', this.invoiceId)
     },
     handleUpdateInvoiceButtonClick () {
+      console.log(this.updateInvoiceForm)
       this.modifyInvoice()
     },
     modifyInvoice () {
-      this.$store.dispatch('updateInvoice', this.invoice).then(() => {
+      this.$store.dispatch('updateInvoice', this.invoiceId).then(() => {
         Message({
-          message: '保存成功',
+          message: '修改成功',
           type: 'success'
         })
         this.$router.push({ path: '/billing-list' })
@@ -119,6 +124,11 @@ export default {
     this.invoiceId = this.$route.query.invoiceId
     this.getInvoice()
     this.updateInvoiceForm = this.invoice
+  },
+  computed: {
+    ...mapState({
+      invoice: state => state.invoice.invoice
+    })
   }
 }
 </script>

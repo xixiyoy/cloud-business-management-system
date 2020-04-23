@@ -68,7 +68,6 @@
 </template>
 <script>
 import { Message } from 'element-ui'
-import { createInvoice } from '../api/invoice'
 
 export default {
   metaInfo: {
@@ -77,7 +76,9 @@ export default {
   data () {
     return {
       createInvoiceFrom: {
+        invoiceTypeValue: 0,
         invoiceTypeName: '',
+        entityId: 1,
         entityName: '',
         invoiceHead: '',
         invoiceMoney: '',
@@ -91,24 +92,21 @@ export default {
   },
   methods: {
     handleCreateInvoiceButtonClick () {
-      createInvoice(this.getBillingListForm).then(({ data: response }) => {
-        const { code, msg } = response
-        if (code === 0) {
-          Message({
-            message: '保存成功',
-            type: 'success'
-          })
-        } else {
-          Message({
-            message: msg,
-            type: 'error'
-          })
-        }
-        // this.createInvoice()
-      })
+      this.createInvoice()
     },
     createInvoice () {
-      this.$store.dispatch('createInvoice', this.createInvoiceFrom)
+      this.$store.dispatch('createInvoice', this.createInvoiceFrom).then(() => {
+        Message({
+          message: '保存成功',
+          type: 'success'
+        })
+        this.$router.push({ path: '/billing-list' })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
     }
   }
 }

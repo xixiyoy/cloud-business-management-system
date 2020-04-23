@@ -88,7 +88,7 @@ export default {
         row.productId
       ]
       this.$store.dispatch('deleteProduct', productIds).then(() => {
-        this.getProducts()
+        this.getProductList()
       })
     },
     serviceProductTableHeaderCellStyle ({ row, column, rowIndex, columnIndex }) {

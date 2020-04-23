@@ -30,7 +30,16 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="收支人员" prop="name" required>
-                  <el-input v-model="createFianceForm.fianceUserName"></el-input>
+                    <el-select
+                    v-model="createFianceForm.fianceUserId"
+                    @change="handleEditTaskFormFinancialAdviserSelectChange">
+                    <el-option
+                      v-for="user in allUsers"
+                      :key="user.userId"
+                      :label="user.userName"
+                      :value="user.userId">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -137,6 +146,7 @@ export default {
           message: '保存成功',
           type: 'success'
         })
+        this.$router.push({ path: '/diary-report' })
       }).catch(message => {
         Message({
           message,

@@ -7,22 +7,18 @@
         <el-row>
           <el-col :span="6">
              <el-form-item label="产品板块: " prop="region" required>
-              <el-select style="width:290px;">
-                <el-option label="工商服务"></el-option>
-                <el-option label="财税服务"></el-option>
-                <el-option label="银行服务"></el-option>
-                <el-option label="人事服务"></el-option>
-                <el-option label="知识产权"></el-option>
-                <el-option label="法律服务"></el-option>
-                <el-option label="其他服务"></el-option>
-                <el-option label="行业资质许可证"></el-option>
-                <el-option label="培训"></el-option>
-              </el-select>
+              <div class="block">
+                <el-cascader
+                  v-model="productMoudleName"
+                  @change="handleProductModuleChange"
+                  :options="options">
+                </el-cascader>
+              </div>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="产品名称: " prop="name" required>
-              <el-input placeholder="请输入"></el-input>
+              <el-input v-model="updateProductForm"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -82,7 +78,162 @@ export default {
   data () {
     return {
       productId: 1,
-      updateProductForm: {},
+      updateProductForm: {
+
+      },
+      productMoudleName: '',
+      value: [],
+      options: [{
+        value: '工商服务',
+        label: '工商服务',
+        children: [{
+          value: '注册',
+          label: '注册'
+        }, {
+          value: '变更',
+          label: '变更'
+        }, {
+          value: '注销',
+          label: '注销'
+        }, {
+          value: '其他',
+          label: '其他'
+        }]
+      }, {
+        value: '财税服务',
+        label: '财税服务',
+        children: [{
+          value: '代理记账',
+          label: '代理记账'
+        }, {
+          value: '财务服务',
+          label: '财务服务'
+        }, {
+          value: '税务服务',
+          label: '税务服务'
+        }, {
+          value: '发票相关服务',
+          label: '发票相关服务'
+        }, {
+          value: 'qita',
+          label: '其他'
+        }]
+      }, {
+        value: '银行服务',
+        label: '银行服务',
+        children: [{
+          value: '银行服务',
+          label: '银行服务'
+        }, {
+          value: '其他',
+          label: '其他'
+        }]
+      }, {
+        value: '人事服务',
+        label: '人事服务',
+        children: [{
+          value: '社保公积金',
+          label: '社保公积金'
+        }, {
+          value: '居住证户口',
+          label: '居住证户口'
+        }, {
+          value: '劳务招聘',
+          label: '劳务招聘'
+        }, {
+          value: '其他',
+          label: '其他'
+        }]
+      }, {
+        value: '知识产权',
+        label: '知识产权',
+        children: [{
+          value: '商标',
+          label: '商标'
+        }, {
+          value: '著作权',
+          label: '著作权'
+        }, {
+          value: '专利',
+          label: '专利'
+        }, {
+          value: '管理体系认证',
+          label: '管理体系认证'
+        }, {
+          value: '其他',
+          label: '其他'
+        }]
+      }, {
+        value: '法律服务',
+        label: '法律服务',
+        children: [{
+          value: '法律服务',
+          label: '法律服务'
+        }, {
+          value: '其他',
+          label: '其他'
+        }]
+      }, {
+        value: '其他服务',
+        label: '其他服务',
+        children: [{
+          value: '加急',
+          label: '加急'
+        }, {
+          value: '刻章',
+          label: '刻章'
+        }, {
+          value: '遗失补办',
+          label: '遗失补办'
+        }, {
+          value: '异常处理',
+          label: '异常处理'
+        }, {
+          value: '其他',
+          label: '其他'
+        }]
+      }, {
+        value: '行业资质许可证',
+        label: '行业资质许可证',
+        children: [{
+          value: '电商类资质',
+          label: '电商类资质'
+        }, {
+          value: '建筑类资质',
+          label: '建筑类资质'
+        }, {
+          value: '人力资源来资质',
+          label: '人力资源来资质'
+        }, {
+          value: '食品餐饮类资质',
+          label: '食品餐饮类资质'
+        }, {
+          value: '网络游戏类资质',
+          label: '网络游戏类资质'
+        }, {
+          value: '文化出版运营资质',
+          label: '文化出版运营资质'
+        }, {
+          value: '医疗类资质',
+          label: '医疗类资质'
+        }, {
+          value: '其他',
+          label: '其他'
+        }]
+      }, {
+        value: '培训',
+        label: '培训',
+        children: [{
+          value: '职业技能培训',
+          label: '职业技能培训'
+        }, {
+          value: '业务培训',
+          label: '业务培训'
+        }, {
+          value: '其他',
+          label: '其他'
+        }]
+      }],
       config: {
         events: {
           initialized: function () {
@@ -96,6 +247,12 @@ export default {
   methods: {
     getProduct () {
       this.$store.dispatch('getProductById', this.productId)
+    },
+    handleProductModuleChange (productModule) {
+      this.createProductForm.productMoudleName = `${productModule[0]} / ${productModule[1]}`
+      if (productModule[1] === '代理记账') {
+        this.createProductForm.isLongTerm = '0'
+      }
     },
     handleUpdateProductButtonClick () {
       this.$store.dispatch('updateProduct', this.product).then(({ data: response }) => {

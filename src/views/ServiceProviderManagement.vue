@@ -40,7 +40,7 @@
         <el-row>
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
-              <el-form-item label="服务区域" prop="name" required="">
+              <el-form-item label="服务区域" prop="name" required>
                 <el-input v-model="updateTenantForm.serviceArea"></el-input>
               </el-form-item>
             </el-form>
@@ -77,11 +77,7 @@
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="经营地址" prop="region" required="">
-                  <!-- <el-select placeholder="行政区域" style="width: 100%;">
-                    <el-option label="区域一"></el-option>
-                    <el-option label="区域二"></el-option>
-                  </el-select> -->
-                  <el-input></el-input>
+                  <el-input v-model="updateTenantForm.businessAddress"></el-input>
                 </el-form-item>
             </el-form>
           </el-col>
@@ -195,10 +191,10 @@
             <el-form label-width="120px" class="demo-ruleForm"
             :data="collectAccounts.list">
               <el-form-item label="服务公司：" prop="tenantCompanyName" required="">
-                <el-input></el-input>
+                <el-input v-model="createTenantAccountFrom.tenantCompanyName"></el-input>
               </el-form-item>
               <el-form-item label="账户名称：" prop="accountName" required="">
-                <el-input></el-input>
+                <el-input v-model="createTenantAccountFrom.accountName"></el-input>
               </el-form-item>
               <el-form-item label="账号类型: " prop="accountType" required="">
                 <el-radio-group v-model="radio" @change="handleAccountTypeRadioGroupChange">
@@ -209,28 +205,28 @@
                 </el-radio-group>
               </el-form-item>
               <el-form-item v-show="isBankAccount" label="账户名称：" prop="name" required="">
-                <el-input></el-input>
+                <el-input v-model="createTenantAccountFrom.accountName"></el-input>
               </el-form-item>
               <el-form-item v-show="isBankAccount" label="银行卡号：" prop="name" required="">
-                <el-input></el-input>
+                <el-input v-model="createTenantAccountFrom.account"></el-input>
               </el-form-item>
               <el-form-item v-show="isBankAccount" label="开户银行：" prop="name" required>
-                <el-input></el-input>
+                <el-input v-model="createTenantAccountFrom.bank"></el-input>
               </el-form-item>
               <el-form-item v-show="isAlipayAccount" label="收款方名称：" prop="name" required>
-                <el-input></el-input>
+                <el-input v-model="createTenantAccountFrom.accountName"></el-input>
               </el-form-item>
               <el-form-item v-show="isAlipayAccount" label="支付宝账号：" prop="name" required>
-                <el-input></el-input>
+                <el-input v-model="createTenantAccountFrom.account"></el-input>
               </el-form-item>
               <el-form-item v-show="isWeChatAccount" label="收款人名称：" prop="name" required>
-                <el-input></el-input>
+                <el-input v-model="createTenantAccountFrom.accountName"></el-input>
               </el-form-item>
               <el-form-item v-show="isWeChatAccount" label="微信账号：" prop="name" required>
-                <el-input></el-input>
+                <el-input v-model="createTenantAccountFrom.account"></el-input>
               </el-form-item>
               <el-form-item v-show="isCashAccount" label="账户名称：" prop="name" required>
-                <el-input></el-input>
+                <el-input v-model="createTenantAccountFrom.accountName"></el-input>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -592,6 +588,24 @@ export default {
             type: 'error'
           })
         }
+      })
+    },
+    // 添加收款账户
+    handleCreateTenantAccount () {
+      this.createTenantAccountFrom()
+    },
+    createTenantAccountFrom () {
+      this.$store.dispatch('createTenantAccount', this.createTenantAccountFrom).then(() => {
+        Message({
+          message: '保存成功',
+          type: 'success'
+        })
+        // this.$router.push({ path: '/channel-dealer-management' })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
       })
     },
     // 更新服务公司
