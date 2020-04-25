@@ -289,7 +289,7 @@ export default {
   border-width:0px;
   position:absolute;
   left:-10px;
-  top:-8px;
+  top:7px;
   width:100px;
   height:100px;
 }

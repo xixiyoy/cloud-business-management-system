@@ -94,14 +94,26 @@
                   <input id="u71_input" placeholder="密码" type="password" v-model="accountLoginForm.accountPassword"/>
                 </div>
 
-                <img src="http://39.100.120.137:8080/captcha.jpg?t=1585229310369"/>
-                <input placeholder="验证码" v-model="accountLoginForm.captcha"/>
-
                 <!-- Unnamed (SVG) -->
                 <div id="u72" class="ax_default _图片_">
                   <img id="u72_img" class="img " src="../assets/images/login/u72.svg"/>
                 </div>
               </div>
+              <!-- 验证码 -->
+              <div class="captcha">
+                <el-row>
+                  <el-col :span="12">
+                    <img style="border-radius: 95px 0px 0px 95px;" src="http://39.100.120.137:8080/captcha.jpg?t=1585229310369"/>
+                  </el-col>
+                  <el-col :span="12">
+                    <div>
+                    <div  class="captcha-input">
+                      <input class="input-captch" type="text" v-model="accountLoginForm.captcha" />
+                    </div>
+                    </div>
+                  </el-col>
+                </el-row>
+            </div>
             </div>
 
             <!-- Unnamed (组 合) -->
@@ -315,7 +327,7 @@ export default {
       //   alert('密码错误请重新输入')
       // }
       this.$store.dispatch('loginByAccountNameAndPassword', { accountName, accountPassword, captcha }).then(() => {
-        this.$router.push({ path: '/home' })
+        this.$router.push({ path: '/' })
       }).catch(message => {
         Message({
           message,
@@ -659,7 +671,7 @@ export default {
   border-width:0px;
   position:absolute;
   left:60px;
-  top:309px;
+  top:376px;
   width:400px;
   height:51px;
   font-family:'微软雅黑 Bold', '微软雅黑';
@@ -875,7 +887,7 @@ export default {
 #u74 {
   position:absolute;
   left:71px;
-  top:370px;
+  top:436px;
 }
 #u74_state0 {
   position:relative;
@@ -982,7 +994,7 @@ export default {
   border-width:0px;
   position:absolute;
   left:92px;
-  top:370px;
+  top:436px;
   width:53px;
   height:24px;
   font-size:14px;
@@ -1059,7 +1071,7 @@ export default {
   border-width:0px;
   position:absolute;
   left:370px;
-  top:370px;
+  top:436px;
   width:81px;
   height:24px;
   font-size:14px;
@@ -1626,5 +1638,47 @@ export default {
   top:0px;
   width:225px;
   white-space:nowrap;
+}
+.captcha{
+  border-width: 0px;
+  position: absolute;
+  left: 60px;
+  top: 297px;
+  width: 400px;
+  height: 48px;
+  background: inherit;
+  border: none;
+  border-radius: 95px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.captcha-input{
+  background-color: rgba(245, 247, 250, 1);
+  border-width: 0px;
+  position: absolute;
+  left: 200px;
+  top: 0px;
+  width: 200px;
+  height: 48px;
+  border: none;
+  border-radius: 0px 95px 95px 0px;;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.input-captch{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 167px;
+  height: 48px;
+  background-color: transparent;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  text-decoration: none;
+  color: #000000;
+  text-align: left;
+  border-color: transparent;
+  outline-style: none;
 }
 </style>

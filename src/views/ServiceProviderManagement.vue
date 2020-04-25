@@ -16,10 +16,11 @@
               list-type="picture">
               <!-- <el-button size="small" type="primary">上传企业logo</el-button>
               <div slot="tip" class="el-upload__tip">图片仅为png格式，建议尺寸为200*200(必须为1:1)</div> -->
-              <img id="u324_img" class="img " src="../assets/images/home/WechatIMG25.jpeg"/>
+              <img id="u324_img" class="img " style="margin-left: 200px;" src="../assets/images/home/WechatIMG25.jpeg"/>
             </el-upload>
           </el-col>
         </el-row>
+        <br><br><br>
         <el-row>
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
