@@ -118,7 +118,7 @@
               <el-row :gutter="20">
                 <el-col :span="4">公司名称: {{ task.customerName }}</el-col>
                 <el-col :span="6">DB 编号：{{ task.taskNo }}</el-col>
-                <el-col :span="9">客户代表：{{ task.relUserName }}</el-col>
+                <el-col :span="9">客户代表：{{ task.customerRelUserName }}</el-col>
                 <el-col :span="4">
                   <div style="float: right; padding: 3px 0" v-if="isAgentOrder(task)">
                     <el-date-picker

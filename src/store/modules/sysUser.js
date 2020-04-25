@@ -21,7 +21,10 @@ const actions = {
     commit('SET_USER', user)
   },
   async updateSysInfo ({ commit }, updateUserInfo) {
-    await updateSysInfo(updateUserInfo)
+    const { data: { code, msg } } = await updateSysInfo(updateUserInfo)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async updatePassWord ({ commit }, modifyPassWord) {
     await updatePassWord(modifyPassWord)

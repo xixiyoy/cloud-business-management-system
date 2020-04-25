@@ -23,7 +23,7 @@ const getCollectDetail = collectId => request({
 const updateCollect = collect => request({
   url: '/account/updateCollect',
   method: 'POST',
-  data: collect
+  params: collect
 })
 // 驳回收款
 const rejectCollection = rejectCollectionForm => request({
@@ -49,7 +49,7 @@ const getRoyaltyDetail = royaltyId => request({
 const updateRoyalty = royalty => request({
   url: '/account/updateRoyalty',
   method: 'POST',
-  data: royalty
+  params: royalty
 })
 // 驳回审批
 const rejectRoyalty = rejectRoyaltyForm => request({

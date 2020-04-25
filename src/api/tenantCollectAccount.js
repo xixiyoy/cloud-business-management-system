@@ -1,11 +1,7 @@
 import request from './request'
 
-const getTenantAccountList = (limit, page) => request({
-  url: '/tenantCollectAccount/list',
-  params: {
-    limit,
-    page
-  }
+const getTenantAccountList = () => request({
+  url: '/tenantCollectAccount/list'
 })
 
 const createTenantAccount = createTenantAccountFrom => request({

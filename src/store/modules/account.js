@@ -44,7 +44,10 @@ const actions = {
     commit('SET_COLLECT_DETAIL', collect)
   },
   async updateCollect ({ commit }, updateCollectForm) {
-    await updateCollect(updateCollectForm)
+    const { data: { code, msg } } = await updateCollect(updateCollectForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async rejectCollection ({ commit }, rejectCollectionForm) {
     const { data: { code, msg } } = await rejectCollection(rejectCollectionForm)
@@ -59,8 +62,10 @@ const actions = {
     }
   },
   async submitRoyalty ({ commit }, submitRoyaltyForm) {
-    const response = await submitRoyalty(submitRoyaltyForm)
-    console.log(response)
+    const { data: { code, msg } } = await submitRoyalty(submitRoyaltyForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async getRoyaltyDetail ({ commit }, royaltyId) {
     const { data: { code, msg, royalty } } = await getRoyaltyDetail(royaltyId)
@@ -70,7 +75,10 @@ const actions = {
     commit('SET_ROYALTY_DETAIL', royalty)
   },
   async updateRoyalty ({ commit }, updateRoyaltyForm) {
-    await updateRoyalty(updateRoyaltyForm)
+    const { data: { code, msg } } = await updateRoyalty(updateRoyaltyForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   async rejectRoyalty ({ commit }, rejectRoyaltyForm) {
     const { data: { code, msg } } = await rejectRoyalty(rejectRoyaltyForm)

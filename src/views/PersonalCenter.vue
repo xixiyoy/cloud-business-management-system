@@ -7,7 +7,7 @@
           <el-row>
             <el-col :span="8" style="padding-right:25px;">
               <el-form-item label="姓名: " prop="name">
-                <el-input v-model="updateUserForm.user.userName"></el-input>
+                <el-input v-model="updateUserForm.userName"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -22,36 +22,37 @@
           <el-row>
             <el-col :span="8" style="padding-right:25px;">
               <el-form-item label="手机号码: " prop="name">
-                <el-input v-model="updateUserForm.user.mobile"></el-input>
+                <el-input v-model="updateUserForm.mobile"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="邮箱地址: " prop="name">
-                <el-input v-model="updateUserForm.user.email"></el-input>
+                <el-input v-model="updateUserForm.email"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8" style="padding-right:25px;">
               <el-form-item label="用户名: " prop="name">
-                <span>{{updateUserForm.user.account}}</span>
+                <span>{{userInfo.user.account}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="登录密码: " prop="name">
-                <span>{{updateUserForm.user.salt}}</span>
+                <!-- <span type="password">{{userInfo.user.salt}}</span> -->
+                <span>***</span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8" style="padding-right:25px;">
               <el-form-item label="部门: " prop="name">
-                <span>{{updateUserForm.user.deptName}}</span>
+                <span>{{updateUserForm.deptName}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="身份: " prop="name">
-                <span>{{updateUserForm.roleNameList[0]}}</span>
+                <span>{{userInfo.roleNameList[0]}}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -63,27 +64,27 @@
             <el-row>
               <el-col :span="24">
                 <el-form-item label="旧密码: " required="">
-                  <el-input></el-input>
+                  <el-input v-model="modifyPassWord.password"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="24">
                 <el-form-item label="新密码: " required="">
-                  <el-input></el-input>
+                  <el-input v-model="modifyPassWord.newPassword"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="24">
                 <el-form-item label="确认新密码: " required="">
-                  <el-input></el-input>
+                  <el-input v-model="modifyPassWord.newPassword"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
           <el-button>取消</el-button>
-          <el-button type="primary">保存</el-button>
+          <el-button type="primary" @click="handleUpdatePosswordButtonClick">保存</el-button>
         </el-dialog>
         <el-button>取消</el-button><br><br><br><br>
       </div>
@@ -106,25 +107,21 @@ export default {
       changePasswordDialogVisible: false,
       userId: 1,
       updateUserForm: {
-        msg: 'success',
-        code: 0,
-        roleNameList: [
-          '开发工程师'
-        ],
-        user: {
-          userId: 2,
-          userName: '孟星驰',
-          account: 'mxc',
-          salt: 'LQ9IhLYJymjaVXwZtHdh',
-          email: '2321@qq.com',
-          mobile: '18913932276',
-          status: 1,
-          roleIdList: null,
-          createTime: '2020-03-10 10:05:09',
-          deptId: 7,
-          deptName: null,
-          tenantId: 1
-        }
+        roleNameList: [],
+        userId: 2,
+        userName: '孟星驰',
+        salt: 'LQ9IhLYJymjaVXwZtHdh',
+        email: '2321@qq.com',
+        mobile: '18913932276',
+        status: 1,
+        createTime: '2020-03-10 10:05:09',
+        tenantId: 1,
+        deptName: '',
+        deptId: ''
+      },
+      modifyPassWord: {
+        password: '',
+        newPassword: ''
       }
     }
   },
@@ -137,24 +134,49 @@ export default {
     },
     getUserInfo () {
       this.$store.dispatch('getSysInfo').then(() => {
-        this.updateUserForm = this.userInfo
+        this.updateUserForm.userId = this.userInfo.user.userId
+        this.updateUserForm.userName = this.userInfo.user.userName
+        this.updateUserForm.status = this.userInfo.user.status
+        this.updateUserForm.mobile = this.userInfo.user.mobile
+        this.updateUserForm.email = this.userInfo.user.email
+        this.updateUserForm.deptName = this.userInfo.user.deptName
+        this.updateUserForm.deptId = this.userInfo.user.deptId
+        this.updateUserForm.roleNameList = this.userInfo.roleNameList
       })
     },
     handleUpdateUserButtnClick () {
-      this.$store.dispatch('updateSysInfo', this.updateUserForm).then(({ data: response }) => {
-        const { code, msg } = response
-        if (code === 0) {
-          Message({
-            message: '保存成功',
-            type: 'success'
-          })
-          this.$route.push({ path: '/personal-center' })
-        } else {
-          Message({
-            message: msg,
-            type: 'error'
-          })
-        }
+      this.updateUserInfo()
+    },
+    updateUserInfo () {
+      this.$store.dispatch('updateSysInfo', this.updateUserForm).then(() => {
+        Message({
+          message: '修改成功',
+          type: 'success'
+        })
+        // this.$router.push({ path: '/personal-center' })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
+    // 修改密码
+    handleUpdatePosswordButtonClick () {
+      this.updatePossword()
+    },
+    updatePossword () {
+      this.$store.dispatch('updatePassWord', this.modifyPassWord).then(() => {
+        Message({
+          message: '修改成功',
+          type: 'success'
+        })
+        this.$router.push({ path: '/personal-center' })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
       })
     }
   },

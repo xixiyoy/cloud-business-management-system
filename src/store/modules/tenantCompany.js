@@ -32,7 +32,10 @@ const actions = {
     await updateServiceCompany(updateServiceCompanyForm)
   },
   async deleteServiceCompany ({ commit }, tenantCompanyIds) {
-    await deleteServiceCompany(tenantCompanyIds)
+    const { data: { code, msg } } = await deleteServiceCompany(tenantCompanyIds)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   }
 }
 

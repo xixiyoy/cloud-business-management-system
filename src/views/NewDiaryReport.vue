@@ -29,19 +29,35 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="收支人员" prop="name" required>
+                <el-form-item label="收支人员">
                     <el-select
                     v-model="createFianceForm.fianceUserId"
                     @change="handleEditTaskFormFinancialAdviserSelectChange">
                     <el-option
-                      v-for="user in allUsers"
-                      :key="user.userId"
+                      v-for="(user, index) in allUsers"
+                      :key="index"
                       :label="user.userName"
                       :value="user.userId">
                     </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="收支类型" required>
+                    <el-select
+                    v-model="createFianceForm.fianceTypeValue"
+                    @change="handleiFanceTypeSelectChange">
+                    <el-option
+                    v-for="(fianceType, index)  in fianceTypes"
+                    :key="index"
+                    :label="fianceType.name"
+                    :value="fianceType.value"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
             </el-row>
             <el-row>
               <el-col :span="6">
@@ -118,6 +134,16 @@ export default {
         fianceTypeValue: '',
         fianceTypeName: ''
       },
+      fianceTypes: [
+        {
+          name: '支出',
+          value: '1'
+        },
+        {
+          name: '收款',
+          value: '0'
+        }
+      ],
       radio: 1
     }
   },
@@ -125,9 +151,20 @@ export default {
     getDepartmentName (id) {
       return this.departments.filter(({ deptId }) => deptId === id)[0].name
     },
+    getUserName (id) {
+      return this.allUsers.filter(({ userId }) => userId === id)[0].userName
+    },
     handleDepartmentSelectChange (id) {
-      console.log(this.getDepartmentName(id))
       this.createFianceForm.fianceDeptName = this.getDepartmentName(id)
+    },
+    getFianceTypeName (value) {
+      if (value === '0') {
+        return '收款'
+      }
+      return '支出'
+    },
+    handleiFanceTypeSelectChange (value) {
+      this.createFianceForm.fianceTypeName = this.getFianceTypeName(value)
     },
     // 3.3 在 methods 中定一个方法
     handleCreateFianceButtonClick () {
@@ -159,7 +196,7 @@ export default {
       this.$store.dispatch('getUserList')
     },
     handleEditTaskFormFinancialAdviserSelectChange (id) {
-      this.createFianceForm.checkUserName = this.getUsers(id)
+      this.createFianceForm.fianceUserName = this.getUserName(id)
     },
     isShowCheckUser () {
       if (this.createFianceForm.checkUserId === '1') {

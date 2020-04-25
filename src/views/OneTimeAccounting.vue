@@ -1,6 +1,6 @@
 <template>
-  <div class="one-time-accounting">一次性记账的进入流程后的页面
-    <p class="one-time-accounting-title">企业变更-普通<span>订单编号: cs-2020010101</span></p>
+  <div class="one-time-accounting">
+    <p class="one-time-accounting-title"><span>订单编号: cs-2020010101</span></p>
     <div class="dividing-line"></div>
     <div class="one-time-accounting-main">
       <!-- <div class="agent-flow"></div> -->
@@ -415,7 +415,7 @@ export default {
       this.completeTaskForm.taxDate = `${date.getFullYear()}-${date.getMonth() + 1}`
       this.$store.dispatch('completeTask', this.completeTaskForm).then(() => {
         Message({
-          message: '退回成功',
+          message: '完成记账提交成功',
           type: 'success'
         })
         this.carryOutTaskDialogFormVisible = false

@@ -249,12 +249,12 @@
             <el-form-item label="收款账户：">
               <el-select
                 v-model="submitCollectionForm.collectAccountId"
-                @change="handleEditTaskFormAccountingAssistantSelectChange">
+                @change="handleSubmitCollectCollectAccountSelectChange">
                 <el-option
-                  v-for="getCollectAccount in getCollectAccounts"
-                  :key="getCollectAccount.collectAccountId"
-                  :label="getCollectAccount.collectAccountName"
-                  :value="getCollectAccount.collectAccountId">
+                  v-for="(collectAccount, index) in collectAccounts"
+                  :key="index"
+                  :label="collectAccount.accountName"
+                  :value="collectAccount.tenantCollectAccountId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -359,10 +359,10 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="oneZeroSelfEditVisible = false">修 改</el-button>
-        <el-button type="primary" @click="modifyOneZreoDialogFormVisible = true">打开内层 Dialog</el-button>
+        <el-button type="primary" @click="handleOneZeroEditClick">修 改</el-button>
+        <el-button type="primary" @click="oneZeroSelfEditVisible = false">取消</el-button>
         <!-- 1 0 提交者的修改的弹框start -->
-        <el-dialog title="收货地址" :visible.sync="modifyOneZreoDialogFormVisible">
+        <el-dialog title="修改收款" :visible.sync="modifyOneZreoDialogFormVisible" append-to-body>
           <el-form>
             <el-row>
               <el-col :spam="12">
@@ -380,13 +380,13 @@
               <el-col :spam="12">
                 <el-form-item label="收款账户：">
                   <el-select
-                    v-model="submitCollectionForm.collectAccountId"
+                    v-model="updateCollectForm.collectAccountId"
                     @change="handleEditTaskFormAccountingAssistantSelectChange">
                     <el-option
-                      v-for="getCollectAccount in getCollectAccounts"
-                      :key="getCollectAccount.collectAccountId"
-                      :label="getCollectAccount.collectAccountName"
-                      :value="getCollectAccount.collectAccountId">
+                      v-for="(collectAccount, index) in collectAccounts"
+                      :key="index"
+                      :label="collectAccount.accountName"
+                      :value="collectAccount.tenantCollectAccountId">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -395,7 +395,7 @@
                 <el-form-item label="收款月数：" required>
                 <div class="block">
                   <el-date-picker
-                    v-model="submitCollectionDate"
+                    v-model="updateCollectFormCollectMonth"
                     type="daterange"
                     range-separator="至"
                     start-placeholder="开始日期"
@@ -410,7 +410,7 @@
                 <el-form-item label="到账日期：" required>
                   <div class="block">
                     <el-date-picker
-                      v-model="submitCollectionReceiveDate"
+                      v-model="updateCollectionReceiveDate"
                       type="date"
                       placeholder="选择日期">
                     </el-date-picker>
@@ -425,7 +425,7 @@
             </el-row>
           </el-form>
           <div slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="handleZeroZeroEdit">确 定</el-button>
+            <el-button type="primary" @click="modifyCollect">确 定</el-button>
             <el-button @click="modifyOneZreoDialogFormVisible = false">取 消</el-button>
           </div>
         </el-dialog>
@@ -494,15 +494,15 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="handleRejectCollect" type="danger" :visible="oneZeroOtherEditVisible">驳 回</el-button>
+        <el-button @click="handleRejectCollect" type="danger">驳 回</el-button>
         <!-- 提交收款后的驳回操作start -->
-        <el-dialog title="驳回收款" :visible.sync="rejectOneZeroVisible">
+        <el-dialog title="驳回收款" :visible.sync="rejectOneZeroVisible" append-to-body>
            <el-form>
             <el-form-item label="驳回备注">
               <el-input v-model="rejectCollectForm.rejectRemark"></el-input>
             </el-form-item>
            </el-form>
-           <el-button @click="handleRejectCollect" type="primary">确认</el-button>
+           <el-button @click="handleRejectCollectConfirm" type="primary">确认</el-button>
            <el-button @click="rejectOneZeroVisible = false">取 消</el-button>
         </el-dialog>
         <!-- 提交收款后的驳回操作end -->
@@ -522,17 +522,87 @@
         </el-row>
         <el-row>
           <el-col :spam="12">
-            <el-form-item label="提交人:" required>
+            <el-form-item label="提交人:">
               <span>{{collectDetail.createUserName}}</span>
             </el-form-item>
           </el-col>
           <el-col :spam="12">
-            <el-form-item label="付款账户:" required>
+            <el-form-item label="付款账户:">
               <span>{{collectDetail.payAccount}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
+          <el-col :spam="12">
+            <el-form-item label="收据编号:">
+              <span>{{collectDetail.collectNo}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="到账日期:">
+              <span>{{collectDetail.collectDate}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="收款月数:">
+              <span>{{ getReceiveMonth(collectDetail) }}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="审批人:">
+              <span>{{collectDetail.approvalUserName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="备注：">
+              <span>{{collectDetail.remark}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="创建日期:">
+              <span>{{collectDetail.createTime}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="twoZeroViewVisible = false">取 消</el-button>
+      </div>
+    </el-dialog>
+    <!-- 待确认 1 未申请 0 提交收款待审核查看-->
+    <el-dialog title="收款记录" :visible.sync="oneZeroViewVisible">
+      <el-form>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="审核状态:">
+              <span>{{collectDetail.collectStatusName}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="收款账户:" required>
+              <span>{{collectDetail.collectAccountName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :spam="12">
+            <el-form-item label="提交人:" required>
+              <span>{{collectDetail.createUserName}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :spam="12">
+            <el-form-item label="付款账户:" required>
+              <span>{{collectDetail.payAccount}}</span>
+            </el-form-item>
+          </el-col>
           <el-col :spam="12">
             <el-form-item label="收据编号:" required>
               <span>{{collectDetail.collectNo}}</span>
@@ -553,78 +623,8 @@
         </el-row>
         <el-row>
           <el-col :spam="12">
-            <el-form-item label="审批人:" required>
-              <span>{{collectDetail.approvalUserName}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
             <el-form-item label="备注：">
               <span>{{collectDetail.remark}}</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="创建日期:" required>
-              <span>{{collectDetail.createTime}}</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="twoZeroViewVisible = false">取 消</el-button>
-      </div>
-    </el-dialog>
-    <!-- 待确认 1 未申请 0 提交收款待审核查看-->
-    <el-dialog title="收款记录" :visible.sync="oneZeroViewVisible">
-      <el-form>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="审核状态:">
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="收款账户:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="提交人:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="付款账户:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="收据编号:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="到账日期:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="收款月数:" required>
-              <span></span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="备注：">
-              <span></span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -639,7 +639,7 @@
         <el-form-item label="提成月数：" required>
               <div class="block">
               <el-date-picker
-                v-model="submitMonths"
+                v-model="submitRoyaltyFormMonths"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -719,10 +719,10 @@
                           <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
-                        <p>{{ royaltyDetail.royaltyFianceUserName }}1111</p>
+                        <p>{{ royaltyDetail.royaltyFianceUserName }}</p>
                         <p>{{ formatDate(royaltyDetail.royaltyFianceDate) }}</p>
                       </div>
-                      <div class="time-line-process" style="margin: 29px 0 0 -30px;"></div>
+                      <div class="time-line-process"></div>
                     </div>
                     <div class="approval-four">
                       <div class="approval-content">
@@ -741,8 +741,32 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogFormVisible = false">修 改</el-button>
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleSelfRoyaltyClick">修 改</el-button>
+        <!-- 修改提成 start -->
+        <el-dialog title="修改提成" :visible.sync="modifyRoyaltyDialogFormVisible" append-to-body>
+          <el-form>
+            <el-form-item label="提成月数：" required>
+                  <div class="block">
+                  <el-date-picker
+                    v-model="modifyRoyaltyMonths"
+                    type="daterange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期">
+                  </el-date-picker>
+                </div>
+            </el-form-item>
+        <el-form-item label="提成金额：">
+          <el-input v-model="updateRoyaltyForm.royaltyMoney"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleModifyRoyaltyClick">确 定</el-button>
+        <el-button @click="modifyRoyaltyDialogFormVisible = false">取 消</el-button>
+      </div>
+        </el-dialog>
+        <!-- 修改提成 end -->
+        <el-button @click="treeOneEditVisible = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 3 4 驳回后查看 -->
@@ -808,10 +832,10 @@
                           <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
-                        <p>{{ royaltyDetail.royaltyFianceUserName }}1111</p>
+                        <p>{{ royaltyDetail.royaltyFianceUserName }}</p>
                         <p>{{ formatDate(royaltyDetail.royaltyFianceDate) }}</p>
                       </div>
-                      <div class="time-line-process" style="margin: 29px 0 0 -30px;"></div>
+                      <div class="time-line-process"></div>
                     </div>
                     <div class="approval-four">
                       <div class="approval-content">
@@ -897,10 +921,10 @@
                           <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
-                        <p>{{ royaltyDetail.royaltyFianceUserName }}1111</p>
+                        <p>{{ royaltyDetail.royaltyFianceUserName }}</p>
                         <p>{{ formatDate(royaltyDetail.royaltyFianceDate) }}</p>
                       </div>
-                      <div class="time-line-process" style="margin: 29px 0 0 -30px;"></div>
+                      <div class="time-line-process"></div>
                     </div>
                     <div class="approval-four">
                       <div class="approval-content">
@@ -919,15 +943,15 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleConfirenBusiness">驳回</el-button>
+        <el-button type="primary" @click="handleRejectRoyaltyClick">驳回</el-button>
         <!-- 提交收款后的驳回操作start -->
-        <el-dialog title="驳回申请" :visible.sync="rejectThreeOneBusinessVisible">
+        <el-dialog title="驳回申请" :visible.sync="rejectThreeOneBusinessVisible" append-to-body>
            <el-form>
             <el-form-item label="驳回备注">
-              <el-input v-model="businessApprovalForm"></el-input>
+              <el-input v-model="rejectRoyaltyForm.rejectRemark"></el-input>
             </el-form-item>
            </el-form>
-           <el-button @click="handleConfirenBusiness" type="primary">确认</el-button>
+           <el-button @click="handleRejectRoyaltyConfirm" type="primary">确认</el-button>
            <el-button @click="rejectThreeOneBusinessVisible = false">取 消</el-button>
         </el-dialog>
         <!-- 提交收款后的驳回操作end -->
@@ -1021,20 +1045,20 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false" type="danger">驳 回</el-button>
+        <el-button @click="handleRejectRoyaltyClick" type="danger">驳 回</el-button>
         <!-- 提交收款后的驳回操作start -->
-        <el-dialog title="驳回申请" :visible.sync="threeOneBusinessVisible">
+        <!-- <el-dialog title="驳回申请" :visible.sync="threeOneFianceVisible">
            <el-form>
             <el-form-item label="驳回备注">
-              <el-input v-model="financialApprovalForm"></el-input>
+              <el-input v-model="rejectRoyaltyForm.rejectRemark"></el-input>
             </el-form-item>
            </el-form>
            <el-button @click="handleRejectCollect" type="primary">确认</el-button>
            <el-button @click="rejectOneZeroVisible = false">取 消</el-button>
-        </el-dialog>
+        </el-dialog> -->
         <!-- 提交收款后的驳回操作end -->
         <el-button type="primary" @click="handleConfirenFinancial" style="margin-left: 10px;">确认审批</el-button>
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="threeTwoFianceVisible = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 提交收款确认后提交提成审批操作4 -->
@@ -1065,22 +1089,64 @@
           </el-col>
         </el-row>
         <el-row>
-          <span>审批流程</span>
+          <span>审批流程
+            <div style="width:580px;float:right;">
+              <!-- 动态获取 -->
+              <div class="approval-process">
+                    <div class="approval-one">
+                      <div class="approval-content">
+                        <p>申请提交</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyAppliDate) }}</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-two">
+                      <div class="approval-content">
+                        <p>业务审批</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyBusinessDate) }}</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-three">
+                      <div class="approval-content">
+                        <p>财务审批</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyFianceUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyFianceDate) }}</p>
+                      </div>
+                      <div class="time-line-process"></div>
+                    </div>
+                    <div class="approval-four">
+                      <div class="approval-content">
+                        <p>出纳确认</p>
+                        <div class="approval">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
+                        </div>
+                        <p>{{ royaltyDetail.royaltyCashUserName }}</p>
+                        <p>{{ formatDate(royaltyDetail.royaltyCashDate) }}</p>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </span>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleCashier">驳回</el-button>
-        <!-- 提交收款后的驳回操作start -->
-        <el-dialog title="驳回申请" :visible.sync="threeOneBusinessVisible">
-           <el-form>
-            <el-form-item label="驳回备注">
-              <el-input v-model="cashierApprovalForm"></el-input>
-            </el-form-item>
-           </el-form>
-           <el-button @click="handleRejectCollect" type="primary">确认</el-button>
-           <el-button @click="rejectOneZeroVisible = false">取 消</el-button>
-        </el-dialog>
-        <!-- 提交收款后的驳回操作end -->
+        <el-button type="danger" @click="handleRejectRoyaltyClick">驳回</el-button>
         <el-button type="primary" @click="handleCashier" style="margin-left: 10px;">确认审批</el-button>
         <el-button @click="threeThreeCashVisible = false">取 消</el-button>
       </div>
@@ -1148,10 +1214,10 @@
                           <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
-                        <p>{{ royaltyDetail.royaltyFianceUserName }}1111</p>
+                        <p>{{ royaltyDetail.royaltyFianceUserName }}</p>
                         <p>{{ formatDate(royaltyDetail.royaltyFianceDate) }}</p>
                       </div>
-                      <div class="time-line-process" style="margin: 29px 0 0 -30px;"></div>
+                      <div class="time-line-process"></div>
                     </div>
                     <div class="approval-four">
                       <div class="approval-content">
@@ -1192,7 +1258,7 @@ export default {
       customerId: '',
       // 提交收款信息
       submitCollectionForm: {
-        collectAccountId: 1,
+        collectAccountId: '',
         payAccount: '',
         collectNo: '',
         collectAccountName: '',
@@ -1204,9 +1270,13 @@ export default {
       },
       submitReceiveMonths: [],
       // 修改收款信息
+      updateCollectFormCollectMonth: [],
+      updateCollectionReceiveDate: '',
       updateCollectForm: {
+        collectId: 1,
         payAccount: '',
         collectNo: '',
+        collectAccountId: 1,
         collectAccountName: '',
         collectDate: '',
         collectStartMonth: '',
@@ -1226,6 +1296,7 @@ export default {
       },
       submitMonths: [],
       // 提交提成信息
+      submitRoyaltyFormMonths: [],
       submitRoyaltyForm: {
         royaltyStartMonth: '',
         royaltyEndMonth: '',
@@ -1233,11 +1304,13 @@ export default {
       },
       rejectThreeOneBusinessVisible: false,
       // 修改提成信息
-      // updateCollectForm: {
-      //   royaltyStartMonth: '',
-      //   royaltyEndMonth: '',
-      //   royaltyMoney: ''
-      // },
+      modifyRoyaltyMonths: [],
+      updateRoyaltyForm: {
+        royaltyStartMonth: '',
+        royaltyEndMonth: '',
+        royaltyMoney: ''
+      },
+      modifyRoyaltyDialogFormVisible: false,
       // 驳回提成
       rejectRoyaltyForm: {
         royaltyId: '',
@@ -1277,15 +1350,19 @@ export default {
       businessApprovalForm: {
         royaltyId: ''
       },
-      getTenantAccountListForm: {
-        collectAccountId: 1,
-        collectAccountName: ''
+      // 财务审批
+      financialApprovalForm: {
+        royaltyId: ''
+      },
+      // 出纳审批
+      cashierApprovalForm: {
+        royaltyId: ''
       }
     }
   },
   methods: {
     isSelf () {
-      return true
+      return false
     },
     // 判断是否可以编辑
     isCanEdit (customer) {
@@ -1303,17 +1380,49 @@ export default {
       if (collectStatusValue === '3' && royaltyStatusValue === '1') {
         return true
       }
+      if (collectStatusValue === '3' && royaltyStatusValue === '2') {
+        return true
+      }
       if (collectStatusValue === '3' && royaltyStatusValue === '3') {
         return true
       }
+    },
+    getCollectAccountName (id) {
+      return this.collectAccounts.filter(({ tenantCollectAccountId }) => id === tenantCollectAccountId)[0].accountName
+    },
+    handleSubmitCollectCollectAccountSelectChange (id) {
+      this.submitCollectionForm.collectAccountName = this.getCollectAccountName(id)
+    },
+    handleOneZeroEditClick () {
+      this.updateCollectForm.collectId = this.collectDetail.collectId
+      this.updateCollectForm.payAccount = this.collectDetail.payAccount
+      this.updateCollectForm.collectNo = this.collectDetail.collectNo
+      this.updateCollectForm.collectAccountId = this.collectDetail.collectAccountId
+      this.updateCollectForm.collectAccountName = this.collectDetail.collectAccountName
+      this.updateCollectForm.remark = this.collectDetail.remark
+      this.updateCollectionReceiveDate = new Date(this.collectDetail.collectDate)
+      this.updateCollectFormCollectMonth.push(new Date(this.collectDetail.collectStartMonth), new Date(this.collectDetail.collectEndMonth))
+      if (this.isSelf()) {
+        this.oneZeroSelfEditVisible = false
+        this.modifyOneZreoDialogFormVisible = true
+      }
+    },
+    modifyCollect () {
+      const startDate = this.updateCollectFormCollectMonth[0]
+      const endDate = this.updateCollectFormCollectMonth[1]
+      this.updateCollectForm.collectStartMonth = `${startDate.getFullYear()}-${startDate.getMonth() + 1}`
+      this.updateCollectForm.collectEndMonth = `${endDate.getFullYear()}-${endDate.getMonth() + 1}`
+      const collectDate = this.updateCollectionReceiveDate
+      this.updateCollectForm.collectDate = `${collectDate.getFullYear()}-${collectDate.getMonth() + 1}-${collectDate.getDay()}`
+      this.zeroZeroEditVisible = false
+      this.updateCollectForm.customerId = this.customerId
+      this.updateCollect()
     },
     formatDate (date) {
       const theDate = new Date(date)
       const month = theDate.getMonth() + 1
       const day = theDate.getDay()
-      const hour = theDate.getHours()
-      const minute = theDate.getMinutes()
-      return `${month} 月 ${day} 日 ${hour}:${minute}`
+      return `${month} 月 ${day} 日`
     },
     // 判断是否可以查看
     isCanView (customer) {
@@ -1391,6 +1500,7 @@ export default {
     },
     // 所有编辑
     handleEditCommandClick (customer) {
+      console.log(customer)
       const { collectStatusValue, royaltyStatusValue } = customer
       if (collectStatusValue === '0' && royaltyStatusValue === '0') {
         this.zeroZeroEditVisible = true
@@ -1414,6 +1524,14 @@ export default {
           this.threeOneBusinessVisible = true
         }
       }
+      if (collectStatusValue === '3' && royaltyStatusValue === '2') {
+        this.getRoyaltyDetail()
+        if (this.isSelf()) {
+          this.treeOneEditVisible = true
+        } else {
+          this.threeTwoFianceVisible = true
+        }
+      }
       if (collectStatusValue === '3' && royaltyStatusValue === '3') {
         this.getRoyaltyDetail()
         if (this.isSelf()) {
@@ -1424,17 +1542,20 @@ export default {
       }
     },
     handleViewCommandClick (customer) {
+      console.log(customer)
       const { collectStatusValue, royaltyStatusValue } = customer
       if (collectStatusValue === '2') {
+        this.getCollectDetail()
         this.twoZeroViewVisible = true
       }
       if (collectStatusValue === '3' && royaltyStatusValue === '0') {
+        this.getCollectDetail()
         this.twoZeroViewVisible = true
       }
       if (collectStatusValue === '3' && royaltyStatusValue === '4') {
         this.treeFourViewVisible = true
       }
-      if (collectStatusValue === '3' && royaltyStatusValue === '5') {
+      if ((collectStatusValue === '3' && royaltyStatusValue === '5') || (collectStatusValue === '3' && royaltyStatusValue === '4')) {
         this.getRoyaltyDetail()
         this.treeFiveViewVisible = true
       }
@@ -1454,6 +1575,7 @@ export default {
           message: '提交收款成功',
           type: 'success'
         })
+        this.getAccounts()
       }).catch(message => {
         Message({
           message,
@@ -1473,7 +1595,19 @@ export default {
     },
     // 修改收款信息
     updateCollect () {
-      this.$store.dispatch('updateCollect', this.updateCollectForm)
+      this.$store.dispatch('updateCollect', this.updateCollectForm).then(() => {
+        Message({
+          message: '修改收款信息成功',
+          type: 'success'
+        })
+        this.getAccounts()
+        this.modifyOneZreoDialogFormVisible = false
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
     },
     // 获取收款详情
     getCollectDetail () {
@@ -1490,9 +1624,12 @@ export default {
     },
     handleRejectCollect () {
       this.rejectCollectForm.collectId = this.collectId
-      this.rejectCollectForm.rejectRemark = '这是博会信息'
-      this.rejectCollect()
+      this.rejectCollectForm.rejectRemark = ''
       this.rejectOneZeroVisible = true
+      this.oneZeroOtherEditVisible = false
+    },
+    handleRejectCollectConfirm () {
+      this.rejectCollect()
     },
     // 驳回收款
     rejectCollect () {
@@ -1501,6 +1638,8 @@ export default {
           message: '驳回收款成功',
           type: 'success'
         })
+        this.getAccounts()
+        this.rejectOneZeroVisible = false
       }).catch(message => {
         Message({
           message,
@@ -1520,6 +1659,7 @@ export default {
           message: '确认收款成功',
           type: 'success'
         })
+        this.getAccounts()
       }).catch(message => {
         Message({
           message,
@@ -1529,22 +1669,27 @@ export default {
     },
     // 提交提成
     handleSubmitRoyalty () {
+      const startDate = this.submitRoyaltyFormMonths[0]
+      const endDate = this.submitRoyaltyFormMonths[1]
+      this.submitRoyaltyForm.royaltyStartMonth = `${startDate.getFullYear()}-${startDate.getMonth() + 1}`
+      this.submitRoyaltyForm.royaltyEndMonth = `${endDate.getFullYear()}-${endDate.getMonth() + 1}`
+      this.submitRoyaltyForm.customerId = this.customerId
       this.submitRoyalty()
     },
     submitRoyalty () {
-      this.submitRoyaltyMonths()
       this.$store.dispatch('submitRoyalty', this.submitRoyaltyForm).then(() => {
         Message({
           message: '提交收款成功',
           type: 'success'
         })
+        this.getAccounts()
+        this.threeZeroEditVisible = false
       }).catch(message => {
         Message({
           message,
           type: 'error'
         })
       })
-      this.threeZeroEditVisible = false
     },
     submitRoyaltyMonths () {
       const startDate = this.submitMonths[0]
@@ -1565,13 +1710,43 @@ export default {
       const endMonth = endDate.getMonth() + 1
       return `${year} 年 ${startMonth} 月 - ${endMonth} 月`
     },
+    // 修改提成信息
+    handleSelfRoyaltyClick () {
+      this.modifyRoyaltyDialogFormVisible = true
+      this.treeOneEditVisible = false
+    },
+    handleModifyRoyaltyClick () {
+      const startDate = this.modifyRoyaltyMonths[0]
+      const endDate = this.modifyRoyaltyMonths[1]
+      this.updateRoyaltyForm.royaltyStartMonth = `${startDate.getFullYear()}-${startDate.getMonth() + 1}`
+      this.updateRoyaltyForm.royaltyEndMonth = `${endDate.getFullYear()}-${endDate.getMonth() + 1}`
+      this.updateRoyaltyForm.customerId = this.customerId
+      this.updateRoyalty()
+    },
+    updateRoyalty () {
+      this.$store.dispatch('updateRoyalty', this.updateRoyaltyForm).then(() => {
+        Message({
+          type: 'success',
+          message: '修改提成信息成功'
+        })
+        this.getAccounts()
+        this.modifyRoyaltyDialogFormVisible = false
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
     // 驳回提成审批
-    handleRejectRoyalty () {
+    handleRejectRoyaltyClick () {
       this.rejectRoyaltyForm.royaltyId = this.royaltyId
-      this.rejectRoyaltyForm.rejectRemark = '驳回审批信息'
-      this.rejectRoyalty()
-      this.dialogFormVisible = false
       this.threeOneBusinessVisible = false
+      this.threeTwoFianceVisible = false
+      this.rejectThreeOneBusinessVisible = true
+    },
+    handleRejectRoyaltyConfirm () {
+      this.rejectRoyalty()
     },
     rejectRoyalty () {
       this.$store.dispatch('rejectRoyalty', this.rejectRoyaltyForm).then(() => {
@@ -1579,6 +1754,8 @@ export default {
           message: '驳回提成成功',
           type: 'success'
         })
+        this.getAccounts()
+        this.rejectThreeOneBusinessVisible = false
       }).catch(message => {
         Message({
           message,
@@ -1588,10 +1765,8 @@ export default {
     },
     // 业务审批
     handleConfirenBusiness () {
-      // rejectThreeOneBusinessVisible = true
       this.businessApprovalForm.royaltyId = this.royaltyId
       this.businessApproval()
-      this.threeOneBusinessVisible = false
     },
     businessApproval () {
       this.$store.dispatch('businessApproval', this.businessApprovalForm).then(() => {
@@ -1599,6 +1774,8 @@ export default {
           message: '确认成功',
           type: 'success'
         })
+        this.getAccounts()
+        this.threeOneBusinessVisible = false
       }).catch(message => {
         Message({
           message,
@@ -1610,7 +1787,6 @@ export default {
     handleConfirenFinancial () {
       this.financialApprovalForm.royaltyId = this.royaltyId
       this.financialApproval()
-      this.threeTwoFianceVisible = false
     },
     financialApproval () {
       this.$store.dispatch('financialApproval', this.financialApprovalForm).then(() => {
@@ -1618,6 +1794,8 @@ export default {
           message: '确认成功',
           type: 'success'
         })
+        this.getAccounts()
+        this.threeTwoFianceVisible = false
       }).catch(message => {
         Message({
           message,
@@ -1629,7 +1807,6 @@ export default {
     handleCashier () {
       this.cashierApprovalForm.royaltyId = this.royaltyId
       this.cashierApproval()
-      this.threeThreeCashVisible = false
     },
     cashierApproval () {
       this.$store.dispatch('cashierApproval', this.cashierApprovalForm).then(() => {
@@ -1637,6 +1814,8 @@ export default {
           message: '确认成功',
           type: 'success'
         })
+        this.getAccounts()
+        this.threeThreeCashVisible = false
       }).catch(message => {
         Message({
           message,
@@ -1645,8 +1824,15 @@ export default {
       })
     },
     // 获取收款列表里的收款账户
-    getCollectAccount () {
-      this.$store.dispatch('getTenantAccountList', this.getTenantAccountListForm)
+    getCollectAccounts () {
+      this.$store.dispatch('getTenantAccountList').then(() => {
+        console.log(this.collectAccounts)
+      }).catch(message => {
+        Message({
+          type: 'error',
+          message
+        })
+      })
     },
     handleEditTaskFormAccountingAssistantSelectChange (id) {
       this.getTenantAccountListForm.accountName = this.submitCollectionForm.collectAccountId
@@ -1678,7 +1864,7 @@ export default {
       // 提成信息展示
       royaltyDetail: state => state.account.royaltyDetail,
       // 获取收款列表里的收款账户
-      getCollectAccounts: state => state.tenantCollectAccount.tenantAccounts,
+      collectAccounts: state => state.tenantCollectAccount.tenantAccounts,
       getCollectAccount: state => state.tenantCollectAccount.tenantAccount
     })
   }
@@ -1761,7 +1947,7 @@ export default {
   width: 157px;
   text-align: center;
   display: inline-block;
-  margin-left: -28px;
+  margin-left: -39px;
   }
 .approval-four{
   width: 157px;

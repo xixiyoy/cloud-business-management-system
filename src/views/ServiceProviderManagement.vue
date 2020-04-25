@@ -100,7 +100,7 @@
             </el-form>
           </el-col>
         </el-row>
-        <el-button type="primary" @click="handle">保存</el-button><br><br><br><br>
+        <el-button type="primary" @click="handleSaveCompanyButtonClick">保存</el-button><br><br><br><br>
       </el-tab-pane>
       <el-tab-pane label="服务公司信息">
         <p class="service-provider-title">服务公司信息</p>
@@ -117,7 +117,7 @@
                     {{ list.servicePlate }}
                 </div><br><br>
                 <el-button type="text" style="float: left; padding: 3px 13px"  @click="handleEditServiceCompanyButtonClick(list)">编 辑</el-button>
-                  <el-dialog title="编辑服务公司" :visible.sync="editServiceCompanyDialogFormVisible"         width="35%">
+                  <el-dialog title="编辑服务公司" :visible.sync="editServiceCompanyDialogFormVisible" width="35%">
                   <el-form>
                     <el-form-item label="公司名称" required>
                       <el-input v-model="updateCompanyFrom.fullName"></el-input>
@@ -129,15 +129,15 @@
                       <el-input v-model="updateCompanyFrom.creditCode"></el-input>
                     </el-form-item>
                     <el-form-item label="服务板块" required>
-                      <el-select v-model="updateCompanyFrom.shortName.servicePlate">
+                      <el-select placeholder="请选择" v-model="updateCompanyFrom.servicePlate">
                         <el-option
                           v-for="item in options"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
+                          :key="item"
+                          :label="item"
+                          :value="item">
                         </el-option>
                       </el-select>
-                    </el-form-item>
+                </el-form-item>
                   </el-form>
                   <div slot="footer" class="dialog-footer">
                     <el-button @click="editServiceCompanyDialogFormVisible = false">取 消</el-button>
@@ -656,7 +656,16 @@ export default {
         row.tenantCompanyId
       ]
       this.$store.dispatch('deleteServiceCompany', tenantCompanyIds).then(() => {
+        Message({
+          type: 'success',
+          message: '删除成功'
+        })
         this.getCompanies()
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
       })
     },
     createTenantAccount () {

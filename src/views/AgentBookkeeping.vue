@@ -1,5 +1,5 @@
 <template>
-  <div class="agent-bookkeeping">进入流程后的页面
+  <div class="agent-bookkeeping">
     <p class="new-account-page-title">代理记账<span>订单编号: {{agentOrder.baseInformation.task.taskNo}}</span></p>
     <div class="dividing-line"></div>
     <div class="agent-bookkeeping-main">
@@ -217,13 +217,13 @@
         <el-button @click="handleTransferTaskButtonClick">交接任务</el-button>
         <el-dialog title="交接任务: " :visible.sync="HandoverTaskDialogFormVisible" width="40%">
           <el-form>
-            <el-form-item label="新负责人" required="">
-              <el-select placeholder="请选择" v-model="transferTaskForm.receiveUserName">
+            <el-form-item label="新负责人" required>
+              <el-select placeholder="请选择" v-model="transferTaskForm.receiveUserId" @change="handleReceiveUserSelectChange">
                 <el-option
-                  v-for="item in allUser.list"
-                  :key="item.userName"
-                  :label="item.userName"
-                  :value="item.userName"
+                  v-for="(sysUser, index) in allUser.list"
+                  :key="index"
+                  :label="sysUser.userName"
+                  :value="sysUser.userId"
                 ></el-option>
                 <!-- 这地方需要添加交接人的id -->
               </el-select>
@@ -555,7 +555,7 @@ export default {
       this.completeTaskForm.taxDate = `${date.getFullYear()}-${date.getMonth() + 1}`
       this.$store.dispatch('completeTask', this.completeTaskForm).then(() => {
         Message({
-          message: '退回成功',
+          message: '完成记账提交成功',
           type: 'success'
         })
         this.carryOutTaskDialogFormVisible = false
@@ -587,6 +587,13 @@ export default {
         this.stopTaskForm.remark = ''
         this.terminationTaskDialogFormVisible = false
       })
+    },
+    // 交接人传值
+    getAllUserName (id) {
+      return this.allUser.list.filter(({ userId }) => userId === id)[0].userName
+    },
+    handleReceiveUserSelectChange (id) {
+      this.transferTaskForm.receiveUserName = this.getAllUserName(id)
     }
   },
   mounted () {

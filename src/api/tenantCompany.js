@@ -23,9 +23,7 @@ const updateServiceCompany = serviceCompany => request({
 const deleteServiceCompany = tenantCompanyIds => request({
   url: '/tenantCompany/delete',
   method: 'POST',
-  data: {
-    tenantCompanyIds
-  }
+  data: tenantCompanyIds
 })
 export {
   getServiceCompanyDetail,

@@ -75,11 +75,11 @@
               label="发票抬头">
             </el-table-column>
             <el-table-column
-              prop="updateUserName"
+              prop="appliUserName"
               label="申请人">
             </el-table-column>
             <el-table-column
-              prop="appliUserName"
+              prop="confirmUserName"
               label="开票人">
             </el-table-column>
             <el-table-column

@@ -1,6 +1,6 @@
 <template>
   <div class="modify-view-account">
-    <p class="modify-view-account-title">{{updateCustomerForm.taskStatusName}}</p>
+    <p class="modify-view-account-title">修改信息</p>
     <div class="dividing-line"></div>
     <el-collapse v-model="activeNames">
       <div>
@@ -9,7 +9,7 @@
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="20">
-                <el-button type="primary" round>{{updateCustomerForms.taskStatusName}}</el-button>
+                <el-button type="primary" round>{{updateCustomerForm.customerStatusName}}</el-button>
               </el-col>
             </el-row>
             <el-row>
@@ -111,7 +111,7 @@
               name="task-table">
                 <div class="tasks-table">
                   <el-table
-                    :data="createCustomerForm.taskList">
+                    :data="updateCustomerForm.taskList">
                     <el-table-column label="序号"></el-table-column>
                     <el-table-column label="产品名称" prop="productName"></el-table-column>
                     <el-table-column label="服务单价" prop="price"></el-table-column>
@@ -326,215 +326,6 @@
                   </el-dialog>
                 </div>
       </el-collapse-item>
-        <!-- <el-collapse-item title="财税信息" name="3">
-          <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-row>
-              <el-col :span="24">
-                <el-button type="primary">{{updateCustomerForm.newestTask.productName}}</el-button>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="8">
-                <el-form-item label="月服务费: " prop="name">
-                  <el-input v-model="updateCustomerForm.newestTask.price"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="8">
-                <el-form-item label="服务周期: " prop="name">
-                  <el-input v-model="updateCustomerForm.newestTask.number"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="8">
-                <el-form-item label="服务开始月: " prop="name">
-                  <el-input v-model="updateCustomerForm.newestTask.serviceStartMonth"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="8">
-                <el-form-item label="剩余赠送月: " prop="name">
-                  <el-input></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="8">
-                <el-form-item label="剩余服务月: " prop="name">
-                  <el-input></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="8">
-                <el-form-item label="当前报税期: " prop="name">
-                  <el-input></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="8">
-                <el-form-item label="付费周期: " prop="name">
-                  <el-input></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
-        </el-collapse-item> -->
-        <!-- <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
-        <el-collapse-item title="流程列表: " name="4">
-          <el-table
-            :data="updateCustomerForm.taskList"
-            style="width: 100%">
-            <el-table-column
-              prop="productName"
-              label="产品名称">
-            </el-table-column>
-            <el-table-column
-              prop="taskNo"
-              label="订单编号">
-            </el-table-column>
-            <el-table-column
-              prop="taskStatusName"
-              label="服务状态">
-            </el-table-column>
-            <el-table-column
-              prop="completeProgress"
-              label="流程进度">
-            </el-table-column>
-            <el-table-column
-              prop="price"
-              label="服务金额">
-            </el-table-column>
-            <el-table-column
-              prop="relUserName"
-              label="负责人">
-            </el-table-column>
-            <el-table-column
-              fixed="right"
-              label="操作"
-              width="100">
-                <template slot-scope="scope">
-                  <el-button @click="handlemodify-viewAgentClick(scope.row)" type="text" size="small">查看</el-button>
-                </template>
-              <template>
-                <el-button type="text" size="small">查看</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <div class="add-products-model">
-            <el-button class="add-account-products" @click="handleAddNewProduct"> + 添加产品</el-button>
-            <el-dialog title="添加产品" width="40%" :visible.sync="addProductDialogVisible">
-              <el-form label-position="left">
-                <el-row>
-                  <el-col :span="12">
-                  <el-form-item
-                    label="产品名称: "
-                    label-width="85px !important"
-                    class="add-product-item" required="">
-                    <el-input class="add-product-input"></el-input>
-                  </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="财税顾问: " label-width="85px !important" style="margin-left:0px;" required="">
-                      <el-input class="add-product-input"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="12">
-                  <el-form-item
-                    label="服务单价: "
-                    label-width="85px !important"
-                    class="add-product-item"
-                    required="">
-                    <el-input class="add-product-input"></el-input>
-                  </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="会计助理: " label-width="85px !important" style="margin-left:0px;">
-                      <el-input class="add-product-input"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="12">
-                  <el-form-item
-                    label="赠送: "
-                    label-width="85px !important"
-                    class="add-product-item">
-                    <el-input class="add-product-input"></el-input>
-                  </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="付费周期: " label-width="85px !important" style="margin-left:0px;" required="">
-                      <el-input class="add-product-input"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="12">
-                    <el-form-item
-                      label="服务周期: "
-                      label-width="85px !important"
-                      class="add-product-item"
-                      required="">
-                      <el-input class="add-product-input"></el-input>
-                    </el-form-item>
-                    </el-col>
-                  <el-col :span="12"></el-col>
-                </el-row>
-              </el-form>
-              <div slot="footer" class="dialog-footer">
-                <el-button type="primary">确认</el-button>
-                <el-button>取消</el-button>
-              </div>
-            </el-dialog>
-          </div>
-        </el-collapse-item>
-        <img v-show="isAgentReport" class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
-        <el-collapse-item title="代帐报表: " name="5" v-show="isAgentReport">
-          <el-table
-            style="width: 100%">
-            <el-table-column
-              prop="date"
-              label="产品名称">
-            </el-table-column>
-            <el-table-column
-              prop="name"
-              label="订单编号">
-            </el-table-column>
-            <el-table-column
-              prop="address"
-              label="服务状态">
-            </el-table-column>
-            <el-table-column
-              prop="address"
-              label="流程进度">
-            </el-table-column>
-            <el-table-column
-              prop="address"
-              label="服务金额">
-            </el-table-column>
-            <el-table-column
-              prop="address"
-              label="负责人">
-            </el-table-column>
-            <el-table-column
-              fixed="right"
-              label="操作"
-              width="100">
-              <template>
-                <el-button type="text" size="small">查看</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <div class="add-products-model">
-            <el-dialog title="代帐报表" width="40%" :visible.sync="addProductDialogVisible">
-              <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="handleUpdateCustomerButtonClick">确认</el-button>
-                <el-button>取消</el-button>
-              </div>
-            </el-dialog>
-          </div>
-        </el-collapse-item> -->
       </div>
     </el-collapse>
     <div>
@@ -558,7 +349,7 @@ export default {
       idCardImages: [''],
       businessLicenseImages: [''],
       contractImages: [''],
-      createCustomerForm: {
+      updateCustomerForm: {
         customerName: '',
         customerLinkerName: '',
         creditCode: '',
@@ -573,10 +364,116 @@ export default {
         remark: '',
         customerAddress: '',
         customerBusinessEmail: '',
-        taskList: []
-      },
-      updateCustomerForm: {
-        taskStatusName: ''
+        taskList: [
+          {
+            taskId: 10,
+            longTerm: '0',
+            tenant_id: null,
+            customerId: 15,
+            taskNo: 'DD20200318104257893',
+            productId: 1,
+            productName: '代理记账',
+            price: 300,
+            number: 2,
+            giftNumber: 1,
+            taxDate: '2020-06-01 00:00:00',
+            completeCount: 4,
+            taskStatusValue: '1',
+            taskStatusName: '服务中',
+            serviceStartMonth: '2020-03-01 00:00:00',
+            relUserId: 2,
+            relUserName: '孟星驰',
+            relDeptId: 7,
+            relDeptName: null,
+            relHelpUserId: null,
+            relHelpUserName: null,
+            transferredUserId: null,
+            transferredUserName: null,
+            receiveUserId: null,
+            receiveUserName: null,
+            createUserId: 2,
+            createUserName: '孟星驰',
+            createTime: '2020-03-18 10:42:58',
+            updateUserId: null,
+            updateUserName: null,
+            updateTime: null,
+            payCycle: '月付',
+            completeProgress: '4+2/2+1',
+            taskFlowList: null
+          },
+          {
+            taskId: 11,
+            longTerm: '1',
+            tenant_id: null,
+            customerId: 15,
+            taskNo: 'DD20200318104257904',
+            productId: 2,
+            productName: '企业变更',
+            price: 400,
+            number: null,
+            giftNumber: null,
+            taxDate: '2020-03-01 00:00:00',
+            completeCount: 0,
+            taskStatusValue: '1',
+            taskStatusName: '服务中',
+            serviceStartMonth: null,
+            relUserId: 3,
+            relUserName: '胡歌',
+            relDeptId: 7,
+            relDeptName: null,
+            relHelpUserId: null,
+            relHelpUserName: null,
+            transferredUserId: null,
+            transferredUserName: null,
+            receiveUserId: null,
+            receiveUserName: null,
+            createUserId: 2,
+            createUserName: '孟星驰',
+            createTime: '2020-03-18 10:42:58',
+            updateUserId: null,
+            updateUserName: null,
+            updateTime: null,
+            payCycle: null,
+            completeProgress: null,
+            taskFlowList: null
+          }
+        ],
+        newestTask: {
+          taskId: 10,
+          longTerm: '0',
+          tenant_id: null,
+          customerId: 15,
+          taskNo: 'DD20200318104257893',
+          productId: 1,
+          productName: '代理记账',
+          price: 300,
+          number: 2,
+          giftNumber: 1,
+          taxDate: '2020-06-01 00:00:00',
+          completeCount: 4,
+          taskStatusValue: '1',
+          taskStatusName: '服务中',
+          serviceStartMonth: '2020-03-01 00:00:00',
+          relUserId: 2,
+          relUserName: '孟星驰',
+          relDeptId: 7,
+          relDeptName: null,
+          relHelpUserId: null,
+          relHelpUserName: null,
+          transferredUserId: null,
+          transferredUserName: null,
+          receiveUserId: null,
+          receiveUserName: null,
+          createUserId: 2,
+          createUserName: '孟星驰',
+          createTime: '2020-03-18 10:42:58',
+          updateUserId: null,
+          updateUserName: null,
+          updateTime: null,
+          payCycle: '月付',
+          completeProgress: null,
+          taskFlowList: null
+        }
       },
       addProductDialogVisible: false,
       editTaskDialogVisible: false
@@ -587,6 +484,7 @@ export default {
       return this.account.taskList.filter(process => process.productName === '代理记账').length > 0
     },
     ...mapState({
+      products: state => state.product.products.page.list,
       account: state => state.customer.customer
     })
   },
@@ -594,22 +492,23 @@ export default {
     async getCustomer () {
       await this.$store.dispatch('getCustomerById', this.customerId)
     },
-    handleUpdateCustomerButtonClick () {
-      this.$store.dispatch('updateCustomer', this.customer).then(({ data: response }) => {
-        const { code, msg } = response
-        if (code === 0) {
-          Message({
-            message: '保存成功',
-            type: 'success'
-          })
-          this.$$route.push({ path: '/account' })
-        } else {
-          Message({
-            message: msg,
-            type: 'error'
-          })
-        }
+    // 修改客户信息
+    updateCustomer () {
+      this.$store.dispatch('updateCustomer', this.updateCustomerForm).then(() => {
+        Message({
+          message: '修改成功',
+          type: 'success'
+        })
+        this.$$route.push({ path: '/account' })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
       })
+    },
+    handleUpdateCustomerButtonClick () {
+      this.updateCustomer()
     },
     handleAddNewProduct () {
       this.addProductDialogVisible = true
@@ -625,6 +524,60 @@ export default {
     },
     handleEditTaskFormAccountingAssistantSelectChange (id) {
       this.editTaskForm.relHelpUserName = this.getUserName(id)
+    },
+    // 今天
+    handleAddTaskDialogOkButtonClick () {
+      if (this.addTaskForm.productName === '代理记账') {
+        this.addTaskForm.longTerm = '0'
+      } else {
+        this.addTaskForm.longTerm = '1'
+      }
+      this.createCustomerForm.taskList.push(Object.assign({}, this.addTaskForm))
+      this.addTaskDialogVisible = false
+    },
+    handleDeleteTaskButtonClick (index) {
+      this.createCustomerForm.taskList.splice(index, 1)
+    },
+    async addTask () {
+      try {
+        await this
+          .$store
+          .dispatch(
+            'createTask',
+            this.addTaskForm
+          )
+        console.log('success')
+      } catch (message) {
+        console.log(message)
+      }
+    },
+    handleAddTaskFormFinancialAdviserSelectChange (id) {
+      this.addTaskForm.relUserName = this.getUserName(id)
+    },
+    handleAddTaskFormAccountingAssistantSelectChange (id) {
+      this.addTaskForm.relHelpUserName = this.getUserName(id)
+    },
+    handleAddTaskFormProductSelectChange (id) {
+      // 根据产品 ID 获取产品名称并赋值给添加产品表单对应字段
+      this.addTaskForm.productName = this.getProductNameById(id)
+    },
+    getProducts () {
+      // 这里还需要增加获取失败时的提示
+      this
+        .$store
+        .dispatch(
+          'getProducts',
+          this.getProductsForm
+        )
+    },
+    getProductNameById (id) {
+      return this
+        .getProductById(id)
+        .productName
+    },
+    handleEditTaskFormProductSelectChange (id) {
+      // 根据产品 ID 获取产品名称并赋值给添加产品表单对应字段
+      this.edit.productName = this.getProductNameById(id)
     }
   },
   mounted () {
@@ -632,6 +585,7 @@ export default {
     this.getCustomer().then(() => {
       this.updateCustomerForm = this.account
     })
+    this.getProducts()
   }
 }
 </script>

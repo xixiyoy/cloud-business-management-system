@@ -23,7 +23,7 @@
               </el-date-picker>
             </div>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="4">
             <div class="grid-content bg-purple">
               <el-dropdown>
                 <el-button>

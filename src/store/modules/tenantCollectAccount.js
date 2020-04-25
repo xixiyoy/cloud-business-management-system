@@ -15,10 +15,12 @@ const mutations = {
 }
 
 const actions = {
-  async getTenantAccountList ({ commit }, getTenantAccountListForm) {
-    const { limit, page } = getTenantAccountListForm
-    const { data: tenantAccounts } = await getTenantAccountList(limit, page)
-    commit('SET_TENANTACCOUNTS', tenantAccounts)
+  async getTenantAccountList ({ commit }) {
+    const { data: { msg, code, page } } = await getTenantAccountList()
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
+    commit('SET_TENANTACCOUNTS', page.list)
   },
   async createTenantAccount ({ commit }, createTenantAccountFrom) {
     const response = await createTenantAccount(createTenantAccountFrom)
