@@ -1362,7 +1362,10 @@ export default {
   },
   methods: {
     isSelf () {
-      return false
+      return this.user.user.userId === this.createUserId
+    },
+    getUser () {
+      this.$store.dispatch('getSysInfo')
     },
     // 判断是否可以编辑
     isCanEdit (customer) {
@@ -1485,6 +1488,7 @@ export default {
         this.collectId = customer.latestCollectId
         this.customerId = customer.customerId
         this.royaltyId = customer.latestRoyaltyId
+        this.createUserId = customer.createUserId
         this.handleEditCommandClick(customer)
       } else {
         const customerId = Number.parseInt(commandWithCustomerId.replace('view', ''))
@@ -1492,6 +1496,7 @@ export default {
         this.collectId = customer.latestCollectId
         this.customerId = customer.customerId
         this.royaltyId = customer.latestRoyaltyId
+        this.createUserId = customer.createUserId
         this.handleViewCommandClick(customer)
       }
     },
@@ -1854,6 +1859,7 @@ export default {
     this.getAccounts()
     // 获取收款账户
     this.getCollectAccounts()
+    this.getUser()
     this.getCollectAccount()
   },
   computed: {
@@ -1865,7 +1871,8 @@ export default {
       royaltyDetail: state => state.account.royaltyDetail,
       // 获取收款列表里的收款账户
       collectAccounts: state => state.tenantCollectAccount.tenantAccounts,
-      getCollectAccount: state => state.tenantCollectAccount.tenantAccount
+      getCollectAccount: state => state.tenantCollectAccount.tenantAccount,
+      user: state => state.sysUser.user
     })
   }
 }
@@ -1960,7 +1967,7 @@ export default {
     height: 1px;
     background-color: #606266;
     float: left;
-    margin: 29px 0 0 -41px;
+    margin: 30px 0 0 -20px;
 }
 .approval-content{
     float: left;

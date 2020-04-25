@@ -14,8 +14,9 @@
               class="upload-demo upload-logo-custom"
               action="https://jsonplaceholder.typicode.com/posts/"
               list-type="picture">
-              <el-button size="small" type="primary">上传企业logo</el-button>
-              <div slot="tip" class="el-upload__tip">图片仅为png格式，建议尺寸为200*200(必须为1:1)</div>
+              <!-- <el-button size="small" type="primary">上传企业logo</el-button>
+              <div slot="tip" class="el-upload__tip">图片仅为png格式，建议尺寸为200*200(必须为1:1)</div> -->
+              <img id="u324_img" class="img " src="../assets/images/home/WechatIMG25.jpeg"/>
             </el-upload>
           </el-col>
         </el-row>
@@ -189,7 +190,7 @@
           <el-button type="primary" @click="addAccountsReceivableDialogVisible = true" class="upload-logo-custom">+新增收款账户</el-button>
           <el-dialog title="编辑收款账户" width="45%" :visible.sync="addAccountsReceivableDialogVisible">
             <el-form label-width="120px" class="demo-ruleForm"
-            :data="collectAccounts.list">
+            :data="collectAccounts">
               <el-form-item label="服务公司：" prop="tenantCompanyName" required="">
                 <el-input v-model="createTenantAccountFrom.tenantCompanyName"></el-input>
               </el-form-item>
@@ -237,7 +238,7 @@
         </el-row>
         <el-row>
           <el-table style="width: 100%"
-          :data="collectAccounts.page.list">
+          :data="collectAccounts">
             <el-table-column
               label="服务公司"
               prop="tenantCompanyName">

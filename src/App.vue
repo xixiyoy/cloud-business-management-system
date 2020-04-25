@@ -57,7 +57,7 @@
 
                     <!-- Unnamed (图片) -->
                     <div id="u324" class="ax_default _图片_">
-                      <img id="u324_img" class="img " :src="companyInformation.companyLogo"/>
+                      <img id="u324_img" class="img " src="./assets/images/home/WechatIMG25.jpeg"/>
                     </div>
 
                     <!-- Unnamed (矩形) -->
@@ -136,7 +136,7 @@ export default {
   data () {
     return {
       companyInformation: {
-        companyLogo: './assets/images/home/WechatIMG.jpeg',
+        companyLogo: '../assets/images/home/WechatIMG25.jpeg',
         companyDepartmentName: '',
         companyEmployeeName: ''
       }

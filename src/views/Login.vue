@@ -94,6 +94,9 @@
                   <input id="u71_input" placeholder="密码" type="password" v-model="accountLoginForm.accountPassword"/>
                 </div>
 
+                <img src="http://39.100.120.137:8080/captcha.jpg?t=1585229310369"/>
+                <input placeholder="验证码" v-model="accountLoginForm.captcha"/>
+
                 <!-- Unnamed (SVG) -->
                 <div id="u72" class="ax_default _图片_">
                   <img id="u72_img" class="img " src="../assets/images/login/u72.svg"/>
@@ -271,6 +274,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { Message } from 'element-ui'
 
 export default {
   metaInfo: {
@@ -281,7 +285,8 @@ export default {
       accountLoginForm: {
         accountName: '',
         accountPassword: '',
-        accountPhoneNumber: ''
+        accountPhoneNumber: '',
+        captcha: ''
       },
       isAccountLoginTabShow: true
     }
@@ -294,44 +299,39 @@ export default {
         return false
       }
     },
-    isAccountExist (accountName) {
-      const existAccountNames = this.existAccounts.map(account => account.accountName)
-      if (existAccountNames.includes(accountName)) {
-        return true
-      } else {
-        return false
-      }
-    },
     isPasswordCorrect (accountPassword) {
       return /^[0-9A-Za-z]{6,18}$/.test(accountPassword)
     },
-    loginByAccountNameAndPassword (accountName, accountPassword) {
-      let correctAccountPassword = ''
-      this.existAccounts.forEach(account => {
-        if (account.accountName === accountName) {
-          correctAccountPassword = account.accountPassword
-        }
+    loginByAccountNameAndPassword (accountName, accountPassword, captcha) {
+      // let correctAccountPassword = ''
+      // this.existAccounts.forEach(account => {
+      //   if (account.accountName === accountName) {
+      //     correctAccountPassword = account.accountPassword
+      //   }
+      // })
+      // if (correctAccountPassword === accountPassword) {
+      //   alert('登录成功')
+      // } else {
+      //   alert('密码错误请重新输入')
+      // }
+      this.$store.dispatch('loginByAccountNameAndPassword', { accountName, accountPassword, captcha }).then(() => {
+        this.$router.push({ path: '/home' })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
       })
-      if (correctAccountPassword === accountPassword) {
-        alert('登录成功')
-      } else {
-        alert('密码错误请重新输入')
-      }
     },
     handleLoginButtonClick () {
       if (this.isAccountLoginTabShow) {
         const accountName = this.accountLoginForm.accountName
         if (this.isAccountNull(accountName)) {
           alert('账号或密码不能为空，请输入正确的用户名或密码')
-        } else if (this.isAccountExist(accountName)) {
-          const accountPassword = this.accountLoginForm.accountPassword
-          if (this.isPasswordCorrect(accountPassword)) {
-            this.loginByAccountNameAndPassword(accountName, accountPassword)
-          } else {
-            alert('密码错误请重新输入')
-          }
         } else {
-          alert('请输入正确的账号')
+          const accountPassword = this.accountLoginForm.accountPassword
+          const captcha = this.accountLoginForm.catch
+          this.loginByAccountNameAndPassword(accountName, accountPassword, captcha)
         }
       } else {
         this.handleLoginByAccountPhoneNumber()

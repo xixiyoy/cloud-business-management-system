@@ -1,4 +1,5 @@
 import { updateSysInfo, getSysInfo, updatePassWord, getUserList } from '../../api/sysUser'
+import { loginByUserNameAndPassword } from '../../api/sys.login'
 
 const state = {
   user: {},
@@ -32,6 +33,12 @@ const actions = {
   async getUserList ({ commit }, getUserListForm) {
     const { data: users } = await getUserList(getUserListForm)
     commit('SET_USERS', users)
+  },
+  async loginByAccountNameAndPassword ({ commit }, { accountName, accountPassword, captcha }) {
+    const { data: { code, msg } } = await loginByUserNameAndPassword(accountName, accountPassword, captcha)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   }
 }
 
