@@ -4,7 +4,7 @@
     <div class="dividing-line"></div>
     <div class="view-invoicing-main">
       <p><strong class="view-invoicing-title-custom">基本信息</strong></p>
-      <el-form label-width="150px" class="demo-ruleForm">
+      <el-form>
         <el-row>
           <el-col :span="12">
             <el-form-item label="发票类型: " prop="name">
@@ -117,7 +117,7 @@
           <el-button @click="rejectInvoiceVisible = true">驳回申请</el-button>
           <el-dialog title="驳回申请" :visible.sync="rejectInvoiceVisible" width="30%">
             <el-form>
-              <el-form-item label="驳回原因" :label-width="120" required="">
+              <el-form-item label="驳回原因" required="">
                 <el-input v-model="rejectInvoiceForm.content"></el-input>
               </el-form-item>
             </el-form>
@@ -133,7 +133,7 @@
           <el-button @click="cancelInvoiceVisible = true">发票作废</el-button>
           <el-dialog title="发票作废" :visible.sync="cancelInvoiceVisible" width="30%">
             <el-form>
-              <el-form-item label="作废备注" :label-width="120" required="">
+              <el-form-item label="作废备注" required="">
                 <el-input v-model="cancelInvoiceForm.remark"></el-input>
               </el-form-item>
             </el-form>
@@ -157,30 +157,30 @@ export default {
   metaInfo: {
     title: '开票详情'
   },
-  methods: {
-    data () {
-      return {
-        invoiceId: 1,
-        deleteInvoiceVisible: false,
-        rejectInvoiceVisible: false,
-        cancelInvoiceVisible: false,
-        cancelInvoiceForm: {
-          invoiceId: '',
-          remark: '',
-          type: ''
-        },
-        confrimInvoiceForm: {
-          invoiceId: ''
-        },
-        rejectInvoiceForm: {
-          invoiceId: '',
-          content: ''
-        },
-        deleteInvoiceForm: {
-          invoiceId: ''
-        }
+  data () {
+    return {
+      invoiceId: 1,
+      deleteInvoiceVisible: false,
+      rejectInvoiceVisible: false,
+      cancelInvoiceVisible: false,
+      cancelInvoiceForm: {
+        invoiceId: '',
+        remark: '',
+        type: ''
+      },
+      confrimInvoiceForm: {
+        invoiceId: ''
+      },
+      rejectInvoiceForm: {
+        invoiceId: '',
+        content: ''
+      },
+      deleteInvoiceForm: {
+        invoiceId: ''
       }
-    },
+    }
+  },
+  methods: {
     handleModifyViewInvoicing () {
       this.$router.push({ path: 'modify-view-invoicing', query: { invoiceId: this.invoiceId } })
     },
@@ -189,7 +189,7 @@ export default {
     },
     // 作废开票
     handleCancelInvoice () {
-      this.cancelInvoiceForm.invoiceId = this.invoice.invoiceId
+      this.cancelInvoiceForm.invoiceId = this.invoiceId
       this.cancelInvoice()
     },
     cancelInvoice () {
@@ -198,6 +198,8 @@ export default {
           message: '确认成功',
           type: 'success'
         })
+        this.cancelInvoiceVisible = false
+        this.$router.push({ path: '/billing-list' })
       }).catch(message => {
         Message({
           message,
@@ -207,7 +209,7 @@ export default {
     },
     // 确认开票
     handleConfrimInvoice () {
-      this.confrimInvoiceForm.invoiceId = this.invoic.invoiceId
+      this.confrimInvoiceForm.invoiceId = this.invoiceId
       this.confrimInvoice()
     },
     confrimInvoice () {
@@ -216,6 +218,7 @@ export default {
           message: '确认成功',
           type: 'success'
         })
+        this.$router.push({ path: '/billing-list' })
       }).catch(message => {
         Message({
           message,
@@ -225,17 +228,18 @@ export default {
     },
     // 撤回申请
     handleDeleteInvoice () {
-      this.deleteInvoiceForm.invoiceId = this.invoice.invoiceId
-      console.log(111)
-      console.log(this.deleteInvoiceForm.invoiceId)
+      this.deleteInvoiceForm.invoiceId = this.invoiceId
+      this.deleteInvoiceForm.content = ''
       this.deleteInvoice()
     },
     deleteInvoice () {
       this.$store.dispatch('deleteInvoice', this.deleteInvoiceForm).then(() => {
         Message({
-          message: '确认成功',
+          message: '撤回成功',
           type: 'success'
         })
+        this.deleteInvoiceVisible = false
+        this.$router.push({ path: '/billing-list' })
       }).catch(message => {
         Message({
           message,
@@ -245,7 +249,7 @@ export default {
     },
     // 驳回申请
     handleRejectInvoice () {
-      this.rejectInvoiceForm.invoiceId = this.invoice.invoiceId
+      this.rejectInvoiceForm.invoiceId = this.invoiceId
       this.rejectInvoice()
     },
     rejectInvoice () {
@@ -254,6 +258,8 @@ export default {
           message: '确认成功',
           type: 'success'
         })
+        this.rejectInvoiceVisible = false
+        this.$router.push({ path: '/billing-list' })
       }).catch(message => {
         Message({
           message,

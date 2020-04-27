@@ -1,12 +1,16 @@
 import { getServiceCompanyDetail, getCompanyList, createServiceCompany, updateServiceCompany, deleteServiceCompany } from '../../api/tenantCompany'
 
 const state = {
-  serviceCompanys: {},
+  serviceCompanys: {
+    page: {
+      list: []
+    }
+  },
   serviceCompany: {}
 }
 const mutations = {
   'SET_SERVICECOMPANYS' (state, serviceCompanys) {
-    state.serviceCompanys = serviceCompanys
+    state.serviceCompanys.page.list = serviceCompanys.page.list
   },
   'SET_SERVICECOMPANY' (state, serviceCompany) {
     state.serviceCompany = serviceCompany
@@ -16,12 +20,10 @@ const actions = {
   async getCompanyList ({ commit }, getServiceCompanyFrom) {
     const { limit, page } = getServiceCompanyFrom
     const { data: serviceCompanys } = await getCompanyList(limit, page)
-    console.log(serviceCompanys)
     commit('SET_SERVICECOMPANYS', serviceCompanys)
   },
   async createServiceCompany ({ commit }, createServiceCompanyForm) {
-    const response = await createServiceCompany(createServiceCompanyForm)
-    console.log(response)
+    await createServiceCompany(createServiceCompanyForm)
   },
   async getServiceCompanyById ({ commit }, tenantCompanyId) {
     const response = await getServiceCompanyDetail(tenantCompanyId)

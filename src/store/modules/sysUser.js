@@ -2,7 +2,11 @@ import { updateSysInfo, getSysInfo, updatePassWord, getUserList } from '../../ap
 import { loginByUserNameAndPassword } from '../../api/sys.login'
 
 const state = {
-  user: {},
+  user: {
+    user: {
+      deptName: ''
+    }
+  },
   users: {}
 }
 

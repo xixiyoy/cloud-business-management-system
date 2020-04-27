@@ -64,8 +64,8 @@
                     <div id="u325" class="ax_default box_2">
                       <div id="u325_div" class=""></div>
                       <div id="u325_text" class="text " style="position: relative;top: 22px;">
-                        <p><span>11{{userInfo.deptName}}</span></p>
-                        <p><span>222{{userInfo.userName}}</span></p>
+                        <p><span>{{ userInfo.deptName }}</span></p>
+                        <p><span>{{ userInfo.userName }}</span></p>
                       </div>
                     </div>
 
@@ -164,7 +164,6 @@ export default {
     },
     // 获取用户信息
     getUserInfo () {
-      console.log(this.userInfo())
       this.$store.dispatch('getSysInfo')
     }
   },
@@ -177,7 +176,7 @@ export default {
     },
     ...mapState({
       // 获取用户信息
-      userInfo: state => state.sysUser.user
+      userInfo: state => state.sysUser.user.user
     })
   }
 }

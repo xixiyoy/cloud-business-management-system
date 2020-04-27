@@ -5,7 +5,7 @@
     <div class="agent-bookkeeping-main">
       <!-- <div class="agent-flow"></div> -->
       <el-collapse style="margin-top:40px;">
-      <div class="">
+        <div>
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <div style="float: right; padding: 3px 0">

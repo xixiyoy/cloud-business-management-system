@@ -120,34 +120,34 @@
                 </div><br><br>
                 <el-button type="text" style="float: left; padding: 3px 13px"  @click="handleEditServiceCompanyButtonClick(list)">编 辑</el-button>
                   <el-dialog title="编辑服务公司" :visible.sync="editServiceCompanyDialogFormVisible" width="35%">
-                  <el-form>
-                    <el-form-item label="公司名称" required>
-                      <el-input v-model="updateCompanyFrom.fullName"></el-input>
-                    </el-form-item>
-                    <el-form-item label="简称">
-                      <el-input v-model="updateCompanyFrom.shortName"></el-input>
-                    </el-form-item>
-                    <el-form-item label="社会信用代码" required>
-                      <el-input v-model="updateCompanyFrom.creditCode"></el-input>
-                    </el-form-item>
-                    <el-form-item label="服务板块" required>
-                      <el-select placeholder="请选择" v-model="updateCompanyFrom.servicePlate">
-                        <el-option
-                          v-for="item in options"
-                          :key="item"
-                          :label="item"
-                          :value="item">
-                        </el-option>
-                      </el-select>
-                </el-form-item>
-                  </el-form>
-                  <div slot="footer" class="dialog-footer">
-                    <el-button @click="editServiceCompanyDialogFormVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="handleUpdateCompanyButtonClick">确 定</el-button>
-                  </div>
-                </el-dialog>
+                    <el-form>
+                      <el-form-item label="公司名称" required>
+                        <el-input v-model="updateCompanyFrom.fullName"></el-input>
+                      </el-form-item>
+                      <el-form-item label="简称">
+                        <el-input v-model="updateCompanyFrom.shortName"></el-input>
+                      </el-form-item>
+                      <el-form-item label="社会信用代码" required>
+                        <el-input v-model="updateCompanyFrom.creditCode"></el-input>
+                      </el-form-item>
+                      <el-form-item label="服务板块" required>
+                        <el-select placeholder="请选择" v-model="updateCompanyFrom.servicePlate">
+                          <el-option
+                            v-for="item in options"
+                            :key="item"
+                            :label="item"
+                            :value="item">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                      <el-button @click="editServiceCompanyDialogFormVisible = false">取 消</el-button>
+                      <el-button type="primary" @click="handleUpdateCompanyButtonClick">确 定</el-button>
+                    </div>
+                  </el-dialog>
                 <el-button type="text"
-                @click="handleCompanyDelete($index, row)"
+                @click="handleCompanyDelete(list)"
                 style="float: lefy; padding: 3px 0">删 除</el-button>
               </div>
             </el-card>
@@ -653,9 +653,9 @@ export default {
       })
     },
     // 删除服务公司
-    handleCompanyDelete (index, row) {
+    handleCompanyDelete (list) {
       const tenantCompanyIds = [
-        row.tenantCompanyId
+        list.tenantCompanyId
       ]
       this.$store.dispatch('deleteServiceCompany', tenantCompanyIds).then(() => {
         Message({
