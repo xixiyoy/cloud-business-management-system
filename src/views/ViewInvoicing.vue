@@ -97,11 +97,11 @@
           <el-popover
             placement="top"
             width="160"
-            v-model="visible">
+            v-model="deleteInvoiceVisible">
             <p>确定要撤回申请？</p>
             <div style="text-align: right; margin: 0">
-              <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
-              <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+              <el-button type="primary" size="mini" @click="handleDeleteInvoice">确定</el-button>
+              <el-button size="mini" type="text" @click="deleteInvoiceVisible = false">取消</el-button>
             </div>
             <el-button slot="reference">撤回申请</el-button>
           </el-popover>
@@ -109,37 +109,37 @@
       </el-row><br>
       <el-row>
         <el-col :span="24">
-          <el-button :plain="true" @click="open2">确认开票</el-button>
+          <el-button :plain="true" @click="handleConfrimInvoice">确认开票</el-button>
         </el-col>
       </el-row><br>
       <el-row>
         <el-col :span="24">
-          <el-button @click="turnDownDialogFormVisible = true">驳回申请</el-button>
-          <el-dialog title="驳回申请" :visible.sync="turnDownDialogFormVisible" width="30%">
+          <el-button @click="rejectInvoiceVisible = true">驳回申请</el-button>
+          <el-dialog title="驳回申请" :visible.sync="rejectInvoiceVisible" width="30%">
             <el-form>
               <el-form-item label="驳回原因" :label-width="120" required="">
-                <el-input autocomplete="off"></el-input>
+                <el-input v-model="rejectInvoiceForm.content"></el-input>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button  type="primary" @click="turnDownDialogFormVisible = false">确 定</el-button>
-              <el-button @click="turnDownDialogFormVisible = false">取 消</el-button>
+              <el-button  type="primary" @click="handleRejectInvoice">确 定</el-button>
+              <el-button @click="rejectInvoiceVisible = false">取 消</el-button>
             </div>
           </el-dialog>
         </el-col>
       </el-row><br>
       <el-row>
         <el-col :span="24">
-          <el-button @click="voidDialogFormVisible = true">发票作废</el-button>
-          <el-dialog title="发票作废" :visible.sync="voidDialogFormVisible" width="30%">
+          <el-button @click="cancelInvoiceVisible = true">发票作废</el-button>
+          <el-dialog title="发票作废" :visible.sync="cancelInvoiceVisible" width="30%">
             <el-form>
               <el-form-item label="作废备注" :label-width="120" required="">
-                <el-input autocomplete="off"></el-input>
+                <el-input v-model="cancelInvoiceForm.remark"></el-input>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button  type="primary" @click="voidDialogFormVisible = false">确 定</el-button>
-              <el-button @click="voidDialogFormVisible = false">取 消</el-button>
+              <el-button  type="primary" @click="handleCancelInvoice">确 定</el-button>
+              <el-button @click="cancelInvoiceVisible = false">取 消</el-button>
             </div>
           </el-dialog>
         </el-col>
@@ -151,30 +151,115 @@
 
 <script>
 import { mapState } from 'vuex'
+import { Message } from 'element-ui'
+
 export default {
   metaInfo: {
     title: '开票详情'
   },
   methods: {
-    open2 () {
-      this.$message({
-        message: '开票成功',
-        type: 'success'
-      })
+    data () {
+      return {
+        invoiceId: 1,
+        deleteInvoiceVisible: false,
+        rejectInvoiceVisible: false,
+        cancelInvoiceVisible: false,
+        cancelInvoiceForm: {
+          invoiceId: '',
+          remark: '',
+          type: ''
+        },
+        confrimInvoiceForm: {
+          invoiceId: ''
+        },
+        rejectInvoiceForm: {
+          invoiceId: '',
+          content: ''
+        },
+        deleteInvoiceForm: {
+          invoiceId: ''
+        }
+      }
     },
     handleModifyViewInvoicing () {
       this.$router.push({ path: 'modify-view-invoicing', query: { invoiceId: this.invoiceId } })
     },
     getInvoice () {
       this.$store.dispatch('getBillingById', this.invoiceId)
-    }
-  },
-  data () {
-    return {
-      invoiceId: 1,
-      visible: false,
-      turnDownDialogFormVisible: false,
-      voidDialogFormVisible: false
+    },
+    // 作废开票
+    handleCancelInvoice () {
+      this.cancelInvoiceForm.invoiceId = this.invoice.invoiceId
+      this.cancelInvoice()
+    },
+    cancelInvoice () {
+      this.$store.dispatch('cancelInvoice', this.cancelInvoiceForm).then(() => {
+        Message({
+          message: '确认成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
+    // 确认开票
+    handleConfrimInvoice () {
+      this.confrimInvoiceForm.invoiceId = this.invoic.invoiceId
+      this.confrimInvoice()
+    },
+    confrimInvoice () {
+      this.$store.dispatch('confrimInvoice', this.confrimInvoiceForm).then(() => {
+        Message({
+          message: '确认成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
+    // 撤回申请
+    handleDeleteInvoice () {
+      this.deleteInvoiceForm.invoiceId = this.invoice.invoiceId
+      console.log(111)
+      console.log(this.deleteInvoiceForm.invoiceId)
+      this.deleteInvoice()
+    },
+    deleteInvoice () {
+      this.$store.dispatch('deleteInvoice', this.deleteInvoiceForm).then(() => {
+        Message({
+          message: '确认成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
+    // 驳回申请
+    handleRejectInvoice () {
+      this.rejectInvoiceForm.invoiceId = this.invoice.invoiceId
+      this.rejectInvoice()
+    },
+    rejectInvoice () {
+      this.$store.dispatch('rejectInvoice', this.rejectInvoiceForm).then(() => {
+        Message({
+          message: '确认成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
     }
   },
   computed: {

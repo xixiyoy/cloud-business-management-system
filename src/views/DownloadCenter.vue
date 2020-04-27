@@ -184,7 +184,7 @@ export default {
   text-align: center;
 }
 .el-main{
-  line-height: 10px;
+  line-height: 20px;
 }
 #u829_img{
   position: relative;

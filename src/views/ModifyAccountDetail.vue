@@ -473,20 +473,52 @@ export default {
           payCycle: '月付',
           completeProgress: null,
           taskFlowList: null
-        }
+        },
+        editTaskForm: {
+          // 产品名称
+          productId: '',
+          productName: '',
+          // 财税顾问
+          relUserId: '',
+          relUserName: '',
+          // 服务单价
+          price: '',
+          // 会计助理
+          relHelpUserId: '',
+          relHelpUserName: '',
+          // 服务周期
+          number: '',
+          // 赠送
+          giftNumber: '',
+          // 付费方式
+          payCycle: '',
+          longTerm: '0'
+        },
+        addTaskForm: {
+          // 产品名称
+          productId: '',
+          productName: '',
+          // 财税顾问
+          relUserId: '',
+          relUserName: '',
+          // 服务单价
+          price: '',
+          // 会计助理
+          relHelpUserId: '',
+          relHelpUserName: '',
+          // 服务周期
+          number: '',
+          // 赠送
+          giftNumber: '',
+          // 付费方式
+          payCycle: '',
+          longTerm: '0'
+        },
+        addTaskDialogVisible: false
       },
       addProductDialogVisible: false,
       editTaskDialogVisible: false
     }
-  },
-  computed: {
-    isAgentReport () {
-      return this.account.taskList.filter(process => process.productName === '代理记账').length > 0
-    },
-    ...mapState({
-      products: state => state.product.products.page.list,
-      account: state => state.customer.customer
-    })
   },
   methods: {
     async getCustomer () {
@@ -557,8 +589,15 @@ export default {
     handleAddTaskFormAccountingAssistantSelectChange (id) {
       this.addTaskForm.relHelpUserName = this.getUserName(id)
     },
+    // 处理添加产品产品名称选择框改变事件
     handleAddTaskFormProductSelectChange (id) {
       // 根据产品 ID 获取产品名称并赋值给添加产品表单对应字段
+      const productName = this.getProductNameById(id)
+      if (productName === '代理记账') {
+        this.isAngentDetail = false
+      } else {
+        this.isAngentDetail = true
+      }
       this.addTaskForm.productName = this.getProductNameById(id)
     },
     getProducts () {
@@ -578,14 +617,42 @@ export default {
     handleEditTaskFormProductSelectChange (id) {
       // 根据产品 ID 获取产品名称并赋值给添加产品表单对应字段
       this.edit.productName = this.getProductNameById(id)
+    },
+    handleAddTaskButtonClick () {
+      this.addTaskDialogVisible = true
     }
   },
   mounted () {
     this.customerId = this.$route.query.customerId
-    this.getCustomer().then(() => {
-      this.updateCustomerForm = this.account
-    })
+    // this.getCustomer().then(() => {
+    //   this.updateCustomerForm = this.account
+    // })
     this.getProducts()
+    // 4月27日 修改添加的今天
+    // 基本信息
+    this.updateCustomerForm.customerId = this.account.customerId
+    this.updateCustomerForm.customerStatusName = this.account.customerStatusName
+    this.updateCustomerForm.customerName = this.account.customerName
+    this.updateCustomerForm.customerLinkerName = this.account.customerLinkerName
+    this.updateCustomerForm.customerLinkerPhone = this.account.customerLinkerPhone
+    this.updateCustomerForm.customerBusinessPhone = this.account.customerBusinessPhone
+    this.updateCustomerForm.customerLevelName = this.account.customerLevelName
+    this.updateCustomerForm.customerAddress = this.account.customerAddress
+    this.updateCustomerForm.customerBusinessEmail = this.account.customerBusinessEmail
+    this.updateCustomerForm.customerFromWay = this.account.customerFromWay
+    this.updateCustomerForm.customerRelUserName = this.account.customerRelUserName
+    this.updateCustomerForm.remark = this.account.remark
+    this.updateCustomerForm.creditCode = this.account.creditCode
+    // 订单列表里的修改
+  },
+  computed: {
+    isAgentReport () {
+      return this.account.taskList.filter(process => process.productName === '代理记账').length > 0
+    },
+    ...mapState({
+      products: state => state.product.products.page.list,
+      account: state => state.customer.customer
+    })
   }
 }
 </script>

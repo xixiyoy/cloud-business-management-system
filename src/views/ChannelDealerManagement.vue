@@ -187,7 +187,7 @@ export default {
     background-color: #f9fafc;
   }
 .el-main{
-  line-height: 10px;
+  line-height: 20px;
 }
 #u829_img{
   position: relative;

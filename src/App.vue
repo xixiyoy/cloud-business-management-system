@@ -63,8 +63,9 @@
                     <!-- Unnamed (矩形) -->
                     <div id="u325" class="ax_default box_2">
                       <div id="u325_div" class=""></div>
-                      <div id="u325_text" class="text ">
-                        <p><span>{{companyInformation.companyDepartmentName}}</span></p><p><span><br></span></p><p><span>{{companyInformation.companyEmployeeName}}</span></p>
+                      <div id="u325_text" class="text " style="position: relative;top: 22px;">
+                        <p><span>11{{userInfo.deptName}}</span></p>
+                        <p><span>222{{userInfo.userName}}</span></p>
                       </div>
                     </div>
 
@@ -129,6 +130,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   metaInfo: {
     title: '首页'
@@ -159,12 +161,24 @@ export default {
       if (command === 'service-provider-management') {
         this.$router.push({ path: '/service-provider-management' })
       }
+    },
+    // 获取用户信息
+    getUserInfo () {
+      console.log(this.userInfo())
+      this.$store.dispatch('getSysInfo')
     }
+  },
+  mounted () {
+    this.getUserInfo()
   },
   computed: {
     isLoginPage () {
       return this.$route.path === '/login'
-    }
+    },
+    ...mapState({
+      // 获取用户信息
+      userInfo: state => state.sysUser.user
+    })
   }
 }
 </script>

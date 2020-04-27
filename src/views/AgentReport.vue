@@ -1843,16 +1843,6 @@ export default {
       this.getTenantAccountListForm.accountName = this.submitCollectionForm.collectAccountId
       this.submitCollectionForm.collectAccountName = this.getCollectAccounts(id)
     }
-    // getUserName (id) {
-    //   return this
-    //     .getCollectAccount(id)
-    //     .userName
-    // },
-    // getCollectAccount (id) {
-    //   return this
-    //     .users
-    //     .filter(({ userId }) => userId === id)[0]
-    // }
   },
   mounted () {
     this.getAccountLabels()

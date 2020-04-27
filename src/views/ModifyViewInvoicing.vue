@@ -125,7 +125,6 @@ export default {
   },
   mounted () {
     this.invoiceId = this.$route.query.invoiceId
-    console.log(this.invoiceId)
     this.getInvoice()
     this.updateInvoiceForm.invoiceId = this.invoiceId
     this.updateInvoiceForm.invoiceTypeName = this.invoice.invoiceTypeName

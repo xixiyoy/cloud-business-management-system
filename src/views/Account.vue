@@ -297,7 +297,7 @@ export default {
     min-height: 36px;
   }
 .el-main{
-  line-height: 10px;
+  line-height: 20px;
 }
 #u829_img{
   position: relative;
