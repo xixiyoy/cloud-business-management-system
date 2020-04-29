@@ -190,6 +190,8 @@ export default {
     // 作废开票
     handleCancelInvoice () {
       this.cancelInvoiceForm.invoiceId = this.invoiceId
+      this.cancelInvoiceForm.type = 1
+      this.cancelInvoiceForm.invoiceTypeValue = 3
       this.cancelInvoice()
     },
     cancelInvoice () {
@@ -210,6 +212,7 @@ export default {
     // 确认开票
     handleConfrimInvoice () {
       this.confrimInvoiceForm.invoiceId = this.invoiceId
+      this.cancelInvoiceForm.invoiceTypeValue = 1
       this.confrimInvoice()
     },
     confrimInvoice () {
@@ -250,6 +253,7 @@ export default {
     // 驳回申请
     handleRejectInvoice () {
       this.rejectInvoiceForm.invoiceId = this.invoiceId
+      this.cancelInvoiceForm.invoiceTypeValue = 2
       this.rejectInvoice()
     },
     rejectInvoice () {

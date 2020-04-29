@@ -192,7 +192,7 @@
           <el-dialog title="编辑收款账户" width="45%" :visible.sync="addAccountsReceivableDialogVisible">
             <el-form label-width="120px" class="demo-ruleForm"
             :data="collectAccounts">
-              <el-form-item label="服务公司：" prop="tenantCompanyName" required="">
+              <el-form-item label="服务公司：" prop="tenantCompanyName" required>
                 <el-input v-model="createTenantAccountFrom.tenantCompanyName"></el-input>
               </el-form-item>
               <el-form-item label="账户名称：" prop="accountName" required="">
@@ -233,22 +233,26 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button>取消</el-button>
-              <el-button type="primary">保存</el-button>
+              <el-button type="primary" @click="handleCreateTenantAccount">保存</el-button>
             </div>
           </el-dialog>
         </el-row>
         <el-row>
-          <el-table style="width: 100%"
+          <el-table
+          style="width: 100%"
           :data="collectAccounts">
             <el-table-column
+              width="180"
               label="服务公司"
               prop="tenantCompanyName">
             </el-table-column>
             <el-table-column
+              width="180"
               label="类型"
               prop="accountType">
             </el-table-column>
             <el-table-column
+              width="180"
               label="卡号/账号"
               prop="account">
             </el-table-column>
