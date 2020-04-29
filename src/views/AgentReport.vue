@@ -67,7 +67,8 @@
               <el-table-column
                 prop="province"
                 label="1月"
-                class-name="none-border">
+                class-name="none-border"
+                width="50">
                 <template slot-scope="scope">
                   <i :class="getCompleteCircleClass(1, scope.row)"></i>
                 </template>
@@ -75,7 +76,8 @@
               <el-table-column
                 prop="city"
                 label="2月"
-                class-name="none-border">
+                class-name="none-border"
+                width="50">
                 <template slot-scope="scope">
                   <i :class="getCompleteCircleClass(2, scope.row)"></i>
                 </template>
@@ -83,6 +85,7 @@
               <el-table-column
                 prop="address"
                 label="3月"
+                width="50"
                 class-name="none-border">
                 <template slot-scope="scope">
                   <i :class="getCompleteCircleClass(3, scope.row)"></i>
@@ -91,6 +94,7 @@
               <el-table-column
                 prop="address"
                 label="4月"
+                width="50"
                 class-name="none-border">
                 <template slot-scope="scope">
                   <i :class="getCompleteCircleClass(4, scope.row)"></i>
@@ -99,6 +103,7 @@
               <el-table-column
                 prop="address"
                 label="5月"
+                width="50"
                 class-name="none-border">
                 <template slot-scope="scope">
                   <i :class="getCompleteCircleClass(5, scope.row)"></i>
@@ -107,6 +112,7 @@
               <el-table-column
                 prop="address"
                 label="6月"
+                width="50"
                 class-name="none-border">
                 <template slot-scope="scope">
                   <i :class="getCompleteCircleClass(6, scope.row)"></i>
@@ -115,6 +121,7 @@
               <el-table-column
                 prop="address"
                 label="7月"
+                width="50"
                 class-name="none-border">
                 <template slot-scope="scope">
                   <i :class="getCompleteCircleClass(7, scope.row)"></i>
@@ -123,6 +130,7 @@
               <el-table-column
                 prop="address"
                 label="8月"
+                width="50"
                 class-name="none-border">
                 <template slot-scope="scope">
                   <i :class="getCompleteCircleClass(8, scope.row)"></i>
@@ -131,6 +139,7 @@
               <el-table-column
                 prop="address"
                 label="9月"
+                width="50"
                 class-name="none-border">
                 <template slot-scope="scope">
                   <i :class="getCompleteCircleClass(9, scope.row)"></i>
@@ -139,6 +148,7 @@
               <el-table-column
                 prop="address"
                 label="10月"
+                width="50"
                 class-name="none-border">
                 <template slot-scope="scope">
                   <i :class="getCompleteCircleClass(10, scope.row)"></i>
@@ -147,6 +157,7 @@
               <el-table-column
                 prop="address"
                 label="11月"
+                width="50"
                 class-name="none-border">
                 <template slot-scope="scope">
                   <i :class="getCompleteCircleClass(11, scope.row)"></i>
@@ -154,7 +165,8 @@
               </el-table-column>
               <el-table-column
                 prop="address"
-                label="12月">
+                label="12月"
+                width="50">
                 <template slot-scope="scope">
                   <i :class="getCompleteCircleClass(12, scope.row)"></i>
                 </template>
