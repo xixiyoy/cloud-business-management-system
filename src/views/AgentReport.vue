@@ -2,13 +2,21 @@
   <div class="agent-report">
     <div class="agent-header-custom">
         <el-row :gutter="20" class="header-custom">
-          <el-col :span="3"><div class="grid-content bg-purple">
-            <el-button>
-              <img id="u829_img" class="img " src="../assets/images/account/u829.png">
-              <span style="padding-left:10px;">导出</span>
-            </el-button></div>
+          <el-col :span="3">
+            <div class="grid-content bg-purple">
+              <el-dropdown>
+                <el-button>
+                  <img id="u829_img" class="img " src="../assets/images/account/u829.png">
+                  <span style="padding-left:10px;">导出</span>
+                </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>导出提成</el-dropdown-item>
+                <el-dropdown-item>导出列表</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            </div>
           </el-col>
-          <el-col :span="13">
+          <el-col :span="11">
             <div class="block">
               <el-date-picker
                 type="date"
@@ -16,7 +24,7 @@
               </el-date-picker>
             </div>
           </el-col>
-          <el-col :span="3">
+          <!-- <el-col :span="3">
             <div class="grid-content bg-purple">
               <el-dropdown style="float:right;">
                 <el-button>
@@ -31,14 +39,22 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
-          </el-col>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">
-              <div>
-                <el-input placeholder="请输入内容" class="input-with-select">
-                  <el-button slot="append" icon="el-icon-search"></el-button>
-                </el-input>
-              </div>
+          </el-col> -->
+          <el-col :span="10">
+            <div class="input-with-select">
+              <el-input>
+                <el-select v-model="select" slot="prepend" placeholder="请选择">
+                  <el-option label="餐厅名" value="1"></el-option>
+                  <el-option label="订单号" value="2"></el-option>
+                  <el-option label="用户电话" value="3"></el-option>
+                </el-select>
+                <el-select v-model="select" slot="prepend" placeholder="请选择">
+                  <el-option label="餐厅名" value="1"></el-option>
+                  <el-option label="订单号" value="2"></el-option>
+                  <el-option label="用户电话" value="3"></el-option>
+                </el-select>
+                <el-button slot="append" icon="el-icon-search"></el-button>
+              </el-input>
             </div>
           </el-col>
         </el-row>
@@ -1983,4 +1999,10 @@ export default {
 .approval{
   display: block;
 }
+.el-select .el-input {
+    width: 130px;
+  }
+  .input-with-select .el-input-group__prepend {
+    background-color: #fff;
+  }
 </style>

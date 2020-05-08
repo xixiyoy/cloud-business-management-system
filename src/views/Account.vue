@@ -233,7 +233,6 @@ export default {
       this.$router.push({ path: '/view-account', query: { customerId: row.customerId } })
     },
     getAccountLabels () {
-      // 这个里面的customer 什么意思
       getLabels('customer').then(({ data: accountLabels }) => {
         this.accountLabels = accountLabels.map(accountLabel => {
           const name = Object.keys(accountLabel)[0]
@@ -244,6 +243,7 @@ export default {
           }
         })
         this.getCustomersForm.type = this.accountLabels[0].name
+        this.getCustomers()
       })
     },
     // 用vuex 获取表单
@@ -261,7 +261,6 @@ export default {
   },
   mounted () {
     this.getAccountLabels()
-    this.getCustomers()
   },
   computed: {
     ...mapState({

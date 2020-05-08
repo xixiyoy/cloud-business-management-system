@@ -8,6 +8,21 @@
         <el-col :span="4" style="float:right">
           <el-button @click="handleClickModifyViewDiaryReport">修改内容</el-button>
         </el-col>
+      </el-row><br>
+      <el-row>
+        <el-col :span="4" style="float:right">
+          <el-popover
+            placement="top"
+            width="160"
+            v-model="visible">
+            <p>这是一段内容这是一段内容确定删除吗？</p>
+            <div style="text-align: right; margin: 0">
+              <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+              <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
+            </div>
+            <el-button slot="reference">确认审批</el-button>
+          </el-popover>
+        </el-col>
       </el-row>
       <el-row>
         <el-col :span="24">
@@ -90,7 +105,8 @@ export default {
   },
   data () {
     return {
-      fianceId: 0
+      fianceId: 0,
+      visible: false
     }
   },
   methods: {

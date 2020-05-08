@@ -19,8 +19,10 @@ const mutations = {
 
 const actions = {
   async getCustomers ({ commit }, getCustomersForm) {
-    const { type, limit, page } = getCustomersForm
-    const { data: customers } = await getCustomers(type, limit, page)
+    // console.log(getCustomersForm)
+    // const { type, limit, page } = getCustomersForm
+    const { data: customers } = await getCustomers(getCustomersForm)
+    // const { data: customers } = await getCustomers(type, limit, page)
     commit('SET_CUSTOMERS', customers)
   },
   async getCustomerById ({ commit }, customerId) {
