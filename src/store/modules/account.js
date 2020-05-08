@@ -26,8 +26,7 @@ const mutations = {
 }
 const actions = {
   async getAccounts ({ commit }, getAccountsForm) {
-    const { type, limit, page, year } = getAccountsForm
-    const { data: accounts } = await getAccounts(type, limit, page, year)
+    const { data: accounts } = await getAccounts(getAccountsForm)
     commit('SET_ACCOUNTS', accounts)
   },
   async submitCollection ({ commit }, submitCollectionForm) {

@@ -74,6 +74,7 @@
         </el-table-column>
         <el-table-column
           prop="fianceDeptName"
+          :show-overflow-tooltip="true"
           label="收支部门">
         </el-table-column>
         <el-table-column

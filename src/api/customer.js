@@ -11,15 +11,6 @@ const createCustomer = customer => request({
   method: 'POST',
   data: customer
 })
-
-// const getCustomers = (type, limit, page) => request({
-//   url: '/customer/list',
-//   params: {
-//     type,
-//     limit,
-//     page
-//   }
-// })
 const getCustomers = data => request({
   url: `/customer/list?limit=${data.limit}&page=${data.page}`,
   method: 'POST',

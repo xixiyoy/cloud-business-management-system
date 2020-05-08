@@ -10,13 +10,10 @@ const getBillingDetail = invoiceId => request({
   url: `/invoice/detail/${invoiceId}`
 })
 // 获取开票列表
-const getBillings = (type, limit, page) => request({
-  url: '/invoice/list',
-  params: {
-    type,
-    limit,
-    page
-  }
+const getBillings = data => request({
+  url: `/invoice/list?limit=${data.limit}&page=${data.page}`,
+  method: 'POST',
+  data: { type: data.type }
 })
 // 申请开票
 const createInvoice = createInvoiceForm => request({

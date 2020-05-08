@@ -17,8 +17,7 @@ const mutations = {
 const actions = {
   // 获取开票列表
   async getBillings ({ commit }, getBillingListForm) {
-    const { type, limit, page } = getBillingListForm
-    const { data: billings } = await getBillings(type, limit, page)
+    const { data: billings } = await getBillings(getBillingListForm)
     commit('SET_BILLINGS', billings)
   },
   // 创建开票

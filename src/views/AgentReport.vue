@@ -1486,6 +1486,7 @@ export default {
           }
         })
         this.getAccountsForm.type = this.accountLabels[0].name
+        this.getAccounts()
       })
     },
     getAccountForTable (month, row) {

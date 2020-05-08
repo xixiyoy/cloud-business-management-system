@@ -168,6 +168,7 @@ export default {
           }
         })
         this.getBillingListForm.type = this.billingLabels[0].name
+        this.getBillings()
       })
     },
     getBillings () {

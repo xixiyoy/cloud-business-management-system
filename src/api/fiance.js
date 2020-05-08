@@ -23,12 +23,10 @@ const createFiance = createFianceForm => request({
   params: createFianceForm
 })
 
-const getDiaryReportList = (page, limit) => request({
-  url: '/fiance/list',
-  params: {
-    page,
-    limit
-  }
+const getDiaryReportList = data => request({
+  url: `/fiance/list?limit=${data.limit}&page=${data.page}`,
+  method: 'POST',
+  data: data
 })
 
 export {

@@ -1,13 +1,9 @@
 import request from './request'
 
-const getAccounts = (type, limit, page, year) => request({
-  url: '/account/list',
-  params: {
-    type,
-    limit,
-    page,
-    year
-  }
+const getAccounts = data => request({
+  url: `/account/list?limit=${data.limit}&page=${data.page}`,
+  method: 'POST',
+  data: { type: data.type, year: data.year }
 })
 // 提交收款
 const submitCollection = submitCollectionForm => request({
