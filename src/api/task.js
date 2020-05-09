@@ -1,12 +1,15 @@
 import request from './request'
-
-const getTaskList = (type, limit, page) => request({
-  url: '/task/list',
-  params: {
-    type,
-    limit,
-    page
-  }
+// 代理记账
+const getTaskList = data => request({
+  url: `/task/longTask?limit=${data.limit}&page=${data.page}`,
+  method: 'POST',
+  data: { type: data.type }
+})
+// 一次性订单
+const getOnceTaskList = data => request({
+  url: `/task/shortTask?limit=${data.limit}&page=${data.page}`,
+  method: 'POST',
+  data: { type: data.type }
 })
 const createtask = createtaskForm => request({
   url: '/task/add',
@@ -67,5 +70,6 @@ export {
   receiveTask,
   completeTask,
   stopTask,
-  backTask
+  backTask,
+  getOnceTaskList
 }

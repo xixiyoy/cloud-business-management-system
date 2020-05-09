@@ -4,12 +4,14 @@ import {
   // 2.1 导入之前 api 中导出的方法
   createFiance,
   updateFiance,
-  getFianceDetail
+  getFianceDetail,
+  getTotalCash
 } from '../../api/fiance'
 
 const state = {
   fiances: [],
-  fiance: {}
+  fiance: {},
+  totalCash: {}
 }
 
 const mutations = {
@@ -18,6 +20,9 @@ const mutations = {
   },
   'SET_FIANCE' (state, fiance) {
     state.fiance = fiance
+  },
+  'SET_TOTALCASH' (state, totalCash) {
+    state.totalCash = totalCash
   }
 }
 
@@ -26,7 +31,12 @@ const actions = {
     const { data: fiances } = await getDiaryReportList(getDiaryReportForm)
     commit('SET_FIANCES', fiances)
   },
-
+  async getTotalCash  ({ commit }, getTotalCashForm) {
+    const { data: totalCash } = await getTotalCash(getTotalCashForm)
+    console.log(111111)
+    console.log(getTotalCashForm)
+    commit('SET_TOTALCASH', totalCash)
+  },
   // 2.2 在 actions 中写方法
   async createFiance ({ commit }, createFianceForm) {
     // 调用上面导入的方法

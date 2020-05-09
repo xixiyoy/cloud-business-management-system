@@ -26,6 +26,11 @@ const routes = [
     component: () => import('../views/Flow')
   },
   {
+    path: '/once-flow',
+    name: 'OnceFlow',
+    component: () => import('../views/OnceFlow')
+  },
+  {
     path: '/download-center',
     name: 'DownloadCenter',
     component: () => import('../views/DownloadCenter')

@@ -94,9 +94,18 @@
                 <el-menu-item index="/account">
                   <span slot="title">客户</span>
                 </el-menu-item>
-              <el-menu-item index="/flow">
+              <!-- <el-menu-item index="/flow">
                 <span slot="title">流程</span>
-              </el-menu-item>
+              </el-menu-item> -->
+              <el-submenu index="3">
+                <template slot="title">
+                  <span>流程</span>
+                </template>
+                <el-menu-item-group>
+                  <el-menu-item index="/flow">代理记账</el-menu-item>
+                  <el-menu-item index="/once-flow">单次业务</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
               <el-submenu index="1">
                 <template slot="title">
                   <span>报表</span>

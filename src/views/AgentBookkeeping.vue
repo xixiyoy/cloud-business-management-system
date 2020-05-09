@@ -111,7 +111,7 @@
           </el-form>
         </el-collapse-item>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
-        <el-collapse-item title="代帐信息" name="2">
+        <el-collapse-item title="代账信息" name="2">
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="12">

@@ -111,14 +111,14 @@
         </el-row>
     </div>
     <div class="flow-table-show">
-      <el-tabs type="border-card" v-model="getFlowForm.type" @tab-click="handleTabClick">
+      <el-tabs type="border-card" v-model="getOnceTaskFrom.type" @tab-click="handleTabClick">
         <el-tab-pane v-for="(tab, index) in flowLabels" :key="index" :label="tab.label" :name="tab.name">
           <el-card class="box-card" v-for="(task, index) in tasks.rows" :key="index" style="margin: 10px 0;">
             <div slot="header" class="clearfix">
               <el-row :gutter="20">
-                <el-col :span="5">公司名称: {{ task.customerName }}</el-col>
+                <el-col :span="4">公司名称: {{ task.customerName }}</el-col>
                 <el-col :span="6">DB 编号：{{ task.taskNo }}</el-col>
-                <el-col :span="8">客户代表：{{ task.customerRelUserName }}</el-col>
+                <el-col :span="9">客户代表：{{ task.customerRelUserName }}</el-col>
                 <el-col :span="4">
                   <div style="float: right; padding: 3px 0" v-if="isAgentOrder(task)">
                     <el-date-picker
@@ -146,7 +146,7 @@
             </el-row>
             <el-row v-if="!isAgentOrder(task)">
               <el-col :span="3">
-                <!-- 企业变更 -->
+                <span>{{ task.productName }}</span>
               </el-col>
               <el-col :span="21">
                 <a-steps :current="0" class="agent-order-steps">
@@ -191,7 +191,7 @@
           :page-size="2"
           layout="total,prev, pager, next"
           @current-change="handleCurrentChangeClick"
-          :current-page="getFlowForm.page"
+          :current-page="getOnceTaskFrom.page"
           :total="tasks.total">
         </el-pagination>
       </div>
@@ -213,7 +213,7 @@ export default {
   data () {
     return {
       advancedSearchDialogVisible: false,
-      getFlowForm: {
+      getOnceTaskFrom: {
         type: '',
         limit: 2,
         page: 1
@@ -244,7 +244,7 @@ export default {
       this.advancedSearchDialogVisible = true
     },
     handleCurrentChangeClick (currentPage) {
-      this.getFlowForm.page = currentPage
+      this.getOnceTaskFrom.page = currentPage
       this.getFlows()
     },
     handleVieAgentaOrder (row) {
@@ -254,7 +254,7 @@ export default {
       this.$router.push({ path: '/one-time-accounting', query: { taskId: row.taskId } })
     },
     handleTabClick () {
-      this.getFlowForm.page = 1
+      this.getOnceTaskFrom.page = 1
       this.getFlows()
     },
     getFlowLabels () {
@@ -267,12 +267,12 @@ export default {
             name
           }
         })
-        this.getFlowForm.type = this.flowLabels[0].name
+        this.getOnceTaskFrom.type = this.flowLabels[0].name
         this.getFlows()
       })
     },
     getFlows () {
-      this.$store.dispatch('getTaskList', this.getFlowForm)
+      this.$store.dispatch('getOnceTaskList', this.getOnceTaskFrom)
     },
     isAgentOrder (task) {
       return isAgentOrder(task.longTerm)
@@ -362,7 +362,7 @@ export default {
   },
   computed: {
     ...mapState({
-      tasks: state => state.task.tasks
+      tasks: state => state.task.onceTasks
     })
   }
 }

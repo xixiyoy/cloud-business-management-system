@@ -1,4 +1,4 @@
-import { getTaskList, createtask, getTaskDetail, updateTask, transferTask, cancelTask, receiveTask, completeTask, stopTask, backTask } from '../../api/task'
+import { getTaskList, getOnceTaskList, createtask, getTaskDetail, updateTask, transferTask, cancelTask, receiveTask, completeTask, stopTask, backTask } from '../../api/task'
 
 const state = {
   tasks: {},
@@ -94,6 +94,9 @@ const mutations = {
   'SET_TASKS' (state, tasks) {
     state.tasks = tasks
   },
+  'SET_ONCETASKS' (state, onceTasks) {
+    state.onceTasks = onceTasks
+  },
   'SET_TASK' (state, task) {
     state.task = task
   },
@@ -103,9 +106,12 @@ const mutations = {
 }
 const actions = {
   async getTaskList ({ commit }, getTaskFrom) {
-    const { type, limit, page } = getTaskFrom
-    const { data: tasks } = await getTaskList(type, limit, page)
+    const { data: tasks } = await getTaskList(getTaskFrom)
     commit('SET_TASKS', tasks)
+  },
+  async getOnceTaskList ({ commit }, getOnceTaskFrom) {
+    const { data: onceTasks } = await getOnceTaskList(getOnceTaskFrom)
+    commit('SET_ONCETASKS', onceTasks)
   },
   async createTask ({ commit }, createtaskForm) {
     const { data: { code, msg } } = await createtask(createtaskForm)

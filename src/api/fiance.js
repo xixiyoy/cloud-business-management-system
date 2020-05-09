@@ -28,6 +28,12 @@ const getDiaryReportList = data => request({
   method: 'POST',
   data: data
 })
+// 合计接口获取
+const getTotalCash = data => request({
+  url: '/fiance/total',
+  method: 'POST',
+  data: { type: data.type }
+})
 
 export {
   getDiaryReportList,
@@ -35,5 +41,6 @@ export {
   // 1.1 导出 对应上面写的函数名
   createFiance,
   updateFiance,
-  getFianceDetail
+  getFianceDetail,
+  getTotalCash
 }

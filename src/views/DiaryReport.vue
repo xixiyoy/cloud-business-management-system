@@ -15,7 +15,7 @@
             </el-button></div></el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="14">
+          <el-col :span="12">
             <div class="block">
               <el-date-picker
                 type="date"
@@ -48,6 +48,11 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
+          </el-col>
+          <el-col :span="4">
+            <el-input placeholder="请输入内容" class="input-with-select">
+              <el-button slot="append" icon="el-icon-search"></el-button>
+            </el-input>
           </el-col>
         </el-row>
     </div>
@@ -124,9 +129,9 @@
           <tr>
             <td class="total-model">合计</td>
             <td>
-              <span class="total-tips">收款：<span class="amount-received-show">{{fianceList.incomeMoney}}</span></span>
-              <span class="total-tips">支出：<span class="expenditure-show">{{fianceList.costMoney}}</span></span>
-              <span class="total-tips">结余：<span class="calculating-balance-show">{{fianceList.incomeMoney-fianceList.costMoney}}</span></span>
+              <span class="total-tips">收款：<span class="amount-received-show">{{totalCash.incomeMoney}}</span></span>
+              <span class="total-tips">支出：<span class="expenditure-show">{{totalCash.costMoney}}</span></span>
+              <span class="total-tips">结余：<span class="calculating-balance-show">{{totalCash.incomeMoney-totalCash.costMoney}}</span></span>
             </td>
           </tr>
         </div>
@@ -144,6 +149,7 @@
 </template>
 
 <script>
+import { getLabels } from '../api/label'
 import { mapState } from 'vuex'
 
 export default {
@@ -156,6 +162,9 @@ export default {
       getFiancesForm: {
         page: 1,
         limit: 10
+      },
+      getTotalCashForm: {
+        type: ''
       }
     }
   },
@@ -186,17 +195,38 @@ export default {
     handleCurrentChangeClick (currentPage) {
       this.getFiancesForm.page = currentPage
       this.getFianceList()
+    },
+    getTotalCash () {
+      this.$store.dispatch('getTotalCash', this.getTotalCashForm)
+    },
+    // a
+    getAccountLabels () {
+      getLabels('customer').then(({ data: accountLabels }) => {
+        this.accountLabels = accountLabels.map(accountLabel => {
+          const name = Object.keys(accountLabel)[0]
+          const label = accountLabel[name]
+          return {
+            label,
+            name
+          }
+        })
+        this.getCustomersForm.type = this.accountLabels[0].name
+        this.getTotalCash()
+      })
     }
   },
   mounted () {
     this.getFianceList()
     this.getDeptsList()
+    this.getTotalCash()
+    this.getAccountLabels()
   },
   computed: {
     ...mapState({
       // 定义的变量名            文件名  state中定义的名字
       fianceList: state => state.fiance.fiances,
-      deptList: state => state.department.depts
+      deptList: state => state.department.depts,
+      totalCash: state => state.fiance.totalCash
     })
   }
 }
