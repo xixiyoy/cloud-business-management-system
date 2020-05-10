@@ -3,7 +3,7 @@ import request from './request'
 const updateCustomer = customer => request({
   url: '/customer/update',
   method: 'POST',
-  data: customer
+  params: customer
 })
 
 const createCustomer = customer => request({

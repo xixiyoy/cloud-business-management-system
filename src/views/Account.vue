@@ -41,22 +41,10 @@
               <el-button class="new-seetings" style="float:right;" @click="handleAdvancedSearch">高级检索</el-button>
               <el-dialog title="高级检索" width="40%" :visible.sync="advancedSearchDialogVisible">
                 <el-form label-position="top" label-width="120px">
-                  <el-row gutter="20">
+                  <el-row :gutter="20">
                     <el-col :span="12">
                       <el-form-item label="客户名称:">
-                        <el-select style="width: 100%;"></el-select>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                      <el-form-item label="客户名称:">
-                        <el-input></el-input>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
-                  <el-row gutter="20">
-                    <el-col :span="12">
-                      <el-form-item label="客户名称:">
-                        <el-select style="width: 100%;"></el-select>
+                        <el-select style="width: 100%;" v-model="advancedSearchForm.customerName"></el-select>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -65,19 +53,19 @@
                       </el-form-item>
                     </el-col>
                   </el-row>
-                  <el-row gutter="20">
+                  <el-row :gutter="20">
                     <el-col :span="12">
                       <el-form-item label="客户状态:">
-                        <el-select style="width: 100%;"></el-select>
+                        <el-select style="width: 100%;" v-model="advancedSearchForm.customerStatus"></el-select>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="联系电话:">
-                        <el-select style="width: 100%;"></el-select>
+                        <el-input></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
-                  <el-row gutter="20">
+                  <el-row :gutter="20">
                     <el-col :span="12">
                       <el-form-item label="销售代表:">
                         <el-input></el-input>
@@ -85,11 +73,18 @@
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="客户等级:">
-                        <el-select style="width: 100%;"></el-select>
+                        <el-select style="width: 100%;" v-model="advancedSearchForm.customerLevel" @change="handleCustomerLevelSelectChange">
+                          <el-option
+                            v-for="(customerLevel, index)  in customerLevels"
+                            :key="index"
+                            :label="customerLevel.name"
+                            :value="customerLevel.value">
+                          </el-option>
+                        </el-select>
                       </el-form-item>
                     </el-col>
                   </el-row>
-                  <el-row gutter="20">
+                  <el-row :gutter="20">
                     <el-col :span="12">
                       <el-form-item label="社会信用代码:">
                         <el-input></el-input>
@@ -107,7 +102,7 @@
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                   <el-button>重  置</el-button>
-                  <el-button type="primary">开始检索</el-button>
+                  <el-button type="primary" @click="handleAdvancedSearchButtonClcik">开始检索</el-button>
                 </div>
               </el-dialog>
             </div>
@@ -197,6 +192,16 @@ export default {
   },
   data () {
     return {
+      customerLevels: [
+        {
+          name: '普通',
+          value: '0'
+        },
+        {
+          name: 'VIP',
+          value: '1'
+        }
+      ],
       multipleSelection: [],
       advancedSearchDialogVisible: false,
       accountLabels: [],
@@ -204,10 +209,26 @@ export default {
         type: '',
         limit: 10,
         page: 1
+      },
+      advancedSearchForm: {
+        customerName: ''
       }
     }
   },
   methods: {
+    getCustomerLevelName (value) {
+      if (value === '0') {
+        return '普通'
+      }
+      return 'VIP'
+    },
+    handleCustomerLevelSelectChange (value) {
+      this.advancedSearchForm.customerLevelName = this.getCustomerLevelName(value)
+    },
+    handleAdvancedSearchButtonClcik () {
+      console.log(this.advancedSearchForm)
+      this.advancedSearchDialogVisible = false
+    },
     getTotalAmount (row) {
       return row.taskList.map(task => task.price * task.number).reduce((x, y) => x + y)
     },

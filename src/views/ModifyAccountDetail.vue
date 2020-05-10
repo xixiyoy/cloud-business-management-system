@@ -111,12 +111,12 @@
               name="task-table">
                 <div class="tasks-table">
                   <el-table
-                    :data="updateCustomerForm.taskList">
+                    :data="taskList">
                     <el-table-column label="序号"></el-table-column>
                     <el-table-column label="产品名称" prop="productName"></el-table-column>
                     <el-table-column label="服务单价" prop="price"></el-table-column>
-                    <el-table-column label="服务周期（月）" prop="number"></el-table-column>
-                    <el-table-column label="赠送（月）" prop="giftNumber"></el-table-column>
+                    <el-table-column label="服务周期（月）" prop="number" v-if="isRoyaltyCoefficientShow"></el-table-column>
+                    <el-table-column label="赠送（月）" prop="giftNumber" v-if="isRoyaltyCoefficientShow"></el-table-column>
                     <el-table-column label="总额">
                       <template slot-scope="scope">
                         {{ scope.row.price * scope.row.number }}
@@ -127,7 +127,7 @@
                         <el-button size="mini" type="text" @click="handleEditTaskButtonClick(scope.$index)">编辑</el-button>
                         <el-dialog
                           :visible="editTaskDialogVisible"
-                          width="40%">
+                          width="50%">
                           <el-form>
                             <el-row :gutter="20">
                               <el-col :span="12">
@@ -244,7 +244,19 @@
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                          <el-form-item label="财税顾问：">
+                          <el-form-item label="财税顾问：" v-show="!isAngentDetail">
+                            <el-select
+                              v-model="addTaskForm.relUserId"
+                              @change="handleAddTaskFormFinancialAdviserSelectChange">
+                              <el-option
+                                v-for="user in users"
+                                :key="user.userId"
+                                :label="user.userName"
+                                :value="user.userId">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                          <el-form-item label="负责人：" v-show="isAngentDetail">
                             <el-select
                               v-model="addTaskForm.relUserId"
                               @change="handleAddTaskFormFinancialAdviserSelectChange">
@@ -269,7 +281,7 @@
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                          <el-form-item label="会计助理">
+                          <el-form-item label="会计助理" v-show="!isAngentDetail">
                             <el-select
                               v-model="addTaskForm.relHelpUserId"
                               @change="handleAddTaskFormAccountingAssistantSelectChange">
@@ -285,7 +297,7 @@
                       </el-row>
                       <el-row :gutter="20">
                         <el-col :span="12">
-                          <el-form-item label="服务周期：">
+                          <el-form-item label="服务周期：" v-show="!isAngentDetail">
                             <el-input-number
                               :min="1"
                               :step="1"
@@ -294,7 +306,7 @@
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                          <el-form-item label="赠送：">
+                          <el-form-item label="赠送：" v-show="!isAngentDetail">
                             <el-input-number
                               :min="0"
                               :step="1"
@@ -305,7 +317,7 @@
                       </el-row>
                       <el-row>
                         <el-col>
-                          <el-form-item label="付费方式：">
+                          <el-form-item label="付费方式：" v-show="!isAngentDetail">
                             <el-select
                               v-model="addTaskForm.payCycle">
                               <el-option
@@ -329,7 +341,7 @@
       </div>
     </el-collapse>
     <div>
-      <el-button type="primary">保 存</el-button>
+      <el-button type="primary" @click="handleUpdateCustomerButtonClick">保 存</el-button>
       <el-button>取 消</el-button>
     </div>
   </div>
@@ -349,6 +361,48 @@ export default {
       idCardImages: [''],
       businessLicenseImages: [''],
       contractImages: [''],
+      addTaskDialogVisible: false,
+      addTaskForm: {
+        // 产品名称
+        productId: '',
+        productName: '',
+        // 财税顾问
+        relUserId: '',
+        relUserName: '',
+        // 服务单价
+        price: '',
+        // 会计助理
+        relHelpUserId: '',
+        relHelpUserName: '',
+        // 服务周期
+        number: '',
+        // 赠送
+        giftNumber: '',
+        // 付费方式
+        payCycle: '',
+        longTerm: '0'
+      },
+      isAngentDetail: false,
+      editTaskForm: {
+        // 产品名称
+        productId: '',
+        productName: '',
+        // 财税顾问
+        relUserId: '',
+        relUserName: '',
+        // 服务单价
+        price: '',
+        // 会计助理
+        relHelpUserId: '',
+        relHelpUserName: '',
+        // 服务周期
+        number: '',
+        // 赠送
+        giftNumber: '',
+        // 付费方式
+        payCycle: '',
+        longTerm: '0'
+      },
       updateCustomerForm: {
         customerName: '',
         customerLinkerName: '',
@@ -363,175 +417,53 @@ export default {
         royaltyCoefficient: '',
         remark: '',
         customerAddress: '',
-        customerBusinessEmail: '',
-        taskList: [
-          {
-            taskId: 10,
-            longTerm: '0',
-            tenant_id: null,
-            customerId: 15,
-            taskNo: 'DD20200318104257893',
-            productId: 1,
-            productName: '代理记账',
-            price: 300,
-            number: 2,
-            giftNumber: 1,
-            taxDate: '2020-06-01 00:00:00',
-            completeCount: 4,
-            taskStatusValue: '1',
-            taskStatusName: '服务中',
-            serviceStartMonth: '2020-03-01 00:00:00',
-            relUserId: 2,
-            relUserName: '孟星驰',
-            relDeptId: 7,
-            relDeptName: null,
-            relHelpUserId: null,
-            relHelpUserName: null,
-            transferredUserId: null,
-            transferredUserName: null,
-            receiveUserId: null,
-            receiveUserName: null,
-            createUserId: 2,
-            createUserName: '孟星驰',
-            createTime: '2020-03-18 10:42:58',
-            updateUserId: null,
-            updateUserName: null,
-            updateTime: null,
-            payCycle: '月付',
-            completeProgress: '4+2/2+1',
-            taskFlowList: null
-          },
-          {
-            taskId: 11,
-            longTerm: '1',
-            tenant_id: null,
-            customerId: 15,
-            taskNo: 'DD20200318104257904',
-            productId: 2,
-            productName: '企业变更',
-            price: 400,
-            number: null,
-            giftNumber: null,
-            taxDate: '2020-03-01 00:00:00',
-            completeCount: 0,
-            taskStatusValue: '1',
-            taskStatusName: '服务中',
-            serviceStartMonth: null,
-            relUserId: 3,
-            relUserName: '胡歌',
-            relDeptId: 7,
-            relDeptName: null,
-            relHelpUserId: null,
-            relHelpUserName: null,
-            transferredUserId: null,
-            transferredUserName: null,
-            receiveUserId: null,
-            receiveUserName: null,
-            createUserId: 2,
-            createUserName: '孟星驰',
-            createTime: '2020-03-18 10:42:58',
-            updateUserId: null,
-            updateUserName: null,
-            updateTime: null,
-            payCycle: null,
-            completeProgress: null,
-            taskFlowList: null
-          }
-        ],
-        newestTask: {
-          taskId: 10,
-          longTerm: '0',
-          tenant_id: null,
-          customerId: 15,
-          taskNo: 'DD20200318104257893',
-          productId: 1,
-          productName: '代理记账',
-          price: 300,
-          number: 2,
-          giftNumber: 1,
-          taxDate: '2020-06-01 00:00:00',
-          completeCount: 4,
-          taskStatusValue: '1',
-          taskStatusName: '服务中',
-          serviceStartMonth: '2020-03-01 00:00:00',
-          relUserId: 2,
-          relUserName: '孟星驰',
-          relDeptId: 7,
-          relDeptName: null,
-          relHelpUserId: null,
-          relHelpUserName: null,
-          transferredUserId: null,
-          transferredUserName: null,
-          receiveUserId: null,
-          receiveUserName: null,
-          createUserId: 2,
-          createUserName: '孟星驰',
-          createTime: '2020-03-18 10:42:58',
-          updateUserId: null,
-          updateUserName: null,
-          updateTime: null,
-          payCycle: '月付',
-          completeProgress: null,
-          taskFlowList: null
-        },
-        editTaskForm: {
-          // 产品名称
-          productId: '',
-          productName: '',
-          // 财税顾问
-          relUserId: '',
-          relUserName: '',
-          // 服务单价
-          price: '',
-          // 会计助理
-          relHelpUserId: '',
-          relHelpUserName: '',
-          // 服务周期
-          number: '',
-          // 赠送
-          giftNumber: '',
-          // 付费方式
-          payCycle: '',
-          longTerm: '0'
-        },
-        addTaskForm: {
-          // 产品名称
-          productId: '',
-          productName: '',
-          // 财税顾问
-          relUserId: '',
-          relUserName: '',
-          // 服务单价
-          price: '',
-          // 会计助理
-          relHelpUserId: '',
-          relHelpUserName: '',
-          // 服务周期
-          number: '',
-          // 赠送
-          giftNumber: '',
-          // 付费方式
-          payCycle: '',
-          longTerm: '0'
-        },
-        addTaskDialogVisible: false
+        customerBusinessEmail: ''
       },
+      taskList: [],
       addProductDialogVisible: false,
-      editTaskDialogVisible: false
+      editTaskDialogVisible: false,
+      paymentMethods: [
+        '月付',
+        '季付',
+        '年付'
+      ],
+      getUsersForm: {
+        limit: 10,
+        page: 1
+      }
     }
   },
   methods: {
-    async getCustomer () {
-      await this.$store.dispatch('getCustomerById', this.customerId)
+    // 根据 ID 获取客户
+    getCustomer () {
+      this
+        .$store
+        .dispatch(
+          'getCustomerById',
+          this.customerId
+        )
+    },
+    handleAddTaskDialogOkButtonClick () {
+      if (this.addTaskForm.productName === '代理记账') {
+        this.addTaskForm.longTerm = '0'
+      } else {
+        this.addTaskForm.longTerm = '1'
+      }
+      this.taskList.push(Object.assign({}, this.addTaskForm))
+      Object.keys(this.addTaskForm).forEach(key => {
+        this.addTaskForm[key] = ''
+      })
+      this.addTaskDialogVisible = false
     },
     // 修改客户信息
     updateCustomer () {
+      console.log(this.updateCustomerForm)
       this.$store.dispatch('updateCustomer', this.updateCustomerForm).then(() => {
         Message({
           message: '修改成功',
           type: 'success'
         })
-        this.$$route.push({ path: '/account' })
+        this.$router.push({ path: '/account' })
       }).catch(message => {
         Message({
           message,
@@ -547,28 +479,18 @@ export default {
     },
     // 4.21
     handleEditTaskButtonClick (index) {
-      const task = this.createCustomerForm.taskList[index]
+      const task = this.updateCustomerForm.taskList[index]
       this.editTaskForm = task
       this.editTaskDialogVisible = true
     },
     handleEditTaskFormFinancialAdviserSelectChange (id) {
-      this.editTaskForm.relUserName = this.getUserName(id)
+      this.updateCustomerForm.editTaskForm.relUserName = this.getUserName(id)
     },
     handleEditTaskFormAccountingAssistantSelectChange (id) {
-      this.editTaskForm.relHelpUserName = this.getUserName(id)
-    },
-    // 今天
-    handleAddTaskDialogOkButtonClick () {
-      if (this.addTaskForm.productName === '代理记账') {
-        this.addTaskForm.longTerm = '0'
-      } else {
-        this.addTaskForm.longTerm = '1'
-      }
-      this.createCustomerForm.taskList.push(Object.assign({}, this.addTaskForm))
-      this.addTaskDialogVisible = false
+      this.updateCustomerForm.editTaskForm.relHelpUserName = this.getUserName(id)
     },
     handleDeleteTaskButtonClick (index) {
-      this.createCustomerForm.taskList.splice(index, 1)
+      this.taskList.splice(index, 1)
     },
     async addTask () {
       try {
@@ -609,6 +531,12 @@ export default {
           this.getProductsForm
         )
     },
+    // 根据 ID 获取产品
+    getProductById (id) {
+      return this
+        .products
+        .filter(({ productId }) => productId === id)[0]
+    },
     getProductNameById (id) {
       return this
         .getProductById(id)
@@ -620,13 +548,32 @@ export default {
     },
     handleAddTaskButtonClick () {
       this.addTaskDialogVisible = true
+    },
+    getUsers () {
+      this
+        .$store
+        .dispatch(
+          'getUserList',
+          this.getUsersForm
+        )
+    },
+    getUser (id) {
+      return this
+        .users
+        .filter(({ userId }) => userId === id)[0]
+    },
+    getUserName (id) {
+      return this
+        .getUser(id)
+        .userName
+    },
+    isTasksContainAgentReport () {
+      return this.taskList.filter(({ productName }) => productName === '代理记账').length > 0
     }
   },
   mounted () {
     this.customerId = this.$route.query.customerId
-    // this.getCustomer().then(() => {
-    //   this.updateCustomerForm = this.account
-    // })
+    this.getCustomer()
     this.getProducts()
     // 4月27日 修改添加的今天
     // 基本信息
@@ -643,6 +590,7 @@ export default {
     this.updateCustomerForm.customerRelUserName = this.account.customerRelUserName
     this.updateCustomerForm.remark = this.account.remark
     this.updateCustomerForm.creditCode = this.account.creditCode
+    this.taskList = this.account.taskList
     // 订单列表里的修改
   },
   computed: {
@@ -651,8 +599,12 @@ export default {
     },
     ...mapState({
       products: state => state.product.products.page.list,
-      account: state => state.customer.customer
-    })
+      account: state => state.customer.customer,
+      users: state => state.sysUser.users.list
+    }),
+    isRoyaltyCoefficientShow () {
+      return this.isTasksContainAgentReport()
+    }
   }
 }
 </script>
