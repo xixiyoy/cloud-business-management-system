@@ -62,7 +62,7 @@
           </el-card>
         </el-row>
         <el-button>取 消</el-button>
-        <el-button type="primary" @click="handleCreateProductButtonClick">确 定</el-button>
+        <el-button type="primary" :loading="isCreating" @click="handleCreateProductButtonClick">确 定</el-button>
       </el-form>
     </div>
     </div>
@@ -243,7 +243,8 @@ export default {
         productPrice: '',
         productSummy: '',
         productUnitType: ''
-      }
+      },
+      isCreating: false
     }
   },
   methods: {
@@ -258,16 +259,20 @@ export default {
       }
     },
     createProduct () {
+      this.isCreating = true
       this.$store.dispatch('createProduct', this.createProductForm).then(() => {
         Message({
           message: '保存成功',
           type: 'success'
         })
+        this.isCreating = false
+        this.$router.push({ path: '/service-product' })
       }).catch(message => {
         Message({
           message: message,
           type: 'error'
         })
+        this.isCreating = false
       })
     }
   }
