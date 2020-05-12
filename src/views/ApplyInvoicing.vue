@@ -62,7 +62,7 @@
         </el-col>
       </el-row>
     </el-form>
-    <el-button type="primary" @click="handleCreateInvoiceButtonClick">提交</el-button>
+    <el-button type="primary" :loading="isInvoice" @click="handleCreateInvoiceButtonClick">提交</el-button>
     <el-button>取消</el-button><br><br><br>
   </div>
 </template>
@@ -87,7 +87,8 @@ export default {
         phone: '',
         account: '',
         invoiceRemark: ''
-      }
+      },
+      isInvoice: false
     }
   },
   methods: {
@@ -95,17 +96,20 @@ export default {
       this.createInvoice()
     },
     createInvoice () {
+      this.isInvoice = true
       this.$store.dispatch('createInvoice', this.createInvoiceFrom).then(() => {
         Message({
           message: '保存成功',
           type: 'success'
         })
+        this.isInvoice = false
         this.$router.push({ path: '/billing-list' })
       }).catch(message => {
         Message({
           message,
           type: 'error'
         })
+        this.isInvoice = false
       })
     }
   }

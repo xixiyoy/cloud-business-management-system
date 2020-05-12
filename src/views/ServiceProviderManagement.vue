@@ -178,7 +178,7 @@
               </el-form>
               <div slot="footer" class="dialog-footer">
                 <el-button @click="addServiceCompanyDialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="handleCreateCompanyButtonClick">确 定</el-button>
+                <el-button type="primary" :loading="isCompany" @click="handleCreateCompanyButtonClick">确 定</el-button>
               </div>
             </el-dialog>
           </el-col>
@@ -233,7 +233,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button>取消</el-button>
-              <el-button type="primary" @click="handleCreateTenantAccount">保存</el-button>
+              <el-button type="primary" :loading="isTenantAccount" @click="handleCreateTenantAccount">保存</el-button>
             </div>
           </el-dialog>
         </el-row>
@@ -476,7 +476,9 @@ export default {
         updateTime: null
       },
       checkedFlowConfigNames: [],
-      updateFlowConfigForm: []
+      updateFlowConfigForm: [],
+      isCompany: false,
+      isTenantAccount: false
     }
   },
   methods: {
@@ -559,7 +561,20 @@ export default {
       this.editServiceCompanyDialogFormVisible = true
     },
     handleDelete (index, row) {
-      console.log(index, row)
+      const tenantCollectAccountIds = [
+        row.tenantCollectAccountId
+      ]
+      this.$store.dispatch('deleteTenantAccount', tenantCollectAccountIds).then(() => {
+        Message({
+          type: 'success',
+          message: '删除账户成功'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
     },
     handleAccountTypeRadioGroupChange (label) {
       this.checkedAccountType = label
@@ -588,6 +603,7 @@ export default {
     },
     // 添加服务公司
     handleCreateCompanyButtonClick () {
+      this.isCompany = true
       createServiceCompany(this.createServiceCompanyForm).then(({ data: response }) => {
         const { code, msg } = response
         if (code === 0) {
@@ -595,6 +611,7 @@ export default {
             message: '保存成功',
             type: 'success'
           })
+          this.isCompany = false
           this.getCompanies()
           this.addServiceCompanyDialogFormVisible = false
         } else {
@@ -602,6 +619,7 @@ export default {
             message: msg,
             type: 'error'
           })
+          this.isCompany = false
         }
       })
     },
@@ -610,17 +628,20 @@ export default {
       this.createTenantAccountFrom()
     },
     createTenantAccountFrom () {
+      this.isTenantAccount = true
       this.$store.dispatch('createTenantAccount', this.createTenantAccountFrom).then(() => {
         Message({
           message: '保存成功',
           type: 'success'
         })
+        this.isTenantAccount = false
         // this.$router.push({ path: '/channel-dealer-management' })
       }).catch(message => {
         Message({
           message,
           type: 'error'
         })
+        this.isTenantAccount = false
       })
     },
     // 更新服务公司

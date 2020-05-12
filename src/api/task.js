@@ -11,6 +11,11 @@ const getOnceTaskList = data => request({
   method: 'POST',
   data: { type: data.type }
 })
+// 删除订单
+const deleteTask = taskId => request({
+  url: `/task/delete${taskId}`,
+  method: 'delete'
+})
 const createtask = createtaskForm => request({
   url: '/task/add',
   method: 'POST',
@@ -71,5 +76,6 @@ export {
   completeTask,
   stopTask,
   backTask,
-  getOnceTaskList
+  getOnceTaskList,
+  deleteTask
 }

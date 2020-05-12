@@ -103,7 +103,7 @@
               </el-col>
             </el-row>
             <!-- 3.4 将 3.3 定义的方法绑定到 click 事件上 -->
-            <el-button type="primary" @click="handleCreateFianceButtonClick">保 存</el-button>
+            <el-button type="primary" :loading="isDiaryReport" @click="handleCreateFianceButtonClick">保 存</el-button>
             <el-button >取 消</el-button>
           </el-form>
       </div>
@@ -144,7 +144,8 @@ export default {
           value: '0'
         }
       ],
-      radio: 1
+      radio: 1,
+      isDiaryReport: false
     }
   },
   methods: {
@@ -176,19 +177,21 @@ export default {
     },
     // 3.5 在 methods 中定一个方法用来调用 vuex 中 actions 中的方法
     createFiance () {
-      console.log(this.createFianceForm)
+      this.isDiaryReport = true
       // 3.5.1              对应 actions 中的方法名  对应 actions 中第二个参数，实际是 data 中的 form 值来自于输入框
       this.$store.dispatch('createFiance', this.createFianceForm).then(() => {
         Message({
           message: '保存成功',
           type: 'success'
         })
+        this.isDiaryReport = false
         this.$router.push({ path: '/diary-report' })
       }).catch(message => {
         Message({
           message,
           type: 'error'
         })
+        this.isDiaryReport = false
       })
     },
     // 获取所有人员名称

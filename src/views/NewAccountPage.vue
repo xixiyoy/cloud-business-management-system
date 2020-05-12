@@ -395,7 +395,7 @@
       </el-collapse-item>
     </el-collapse>
     <div style="width: 50%; margin: 20px auto 0 auto;">
-      <el-button type="primary" @click="handleCreateCustomerButtonClick">保 存</el-button>
+      <el-button type="primary" :loading="isAccount" @click="handleCreateCustomerButtonClick">保 存</el-button>
     </div>
   </div>
 </template>
@@ -519,7 +519,8 @@ export default {
         fileType: '电子合同'
       },
       idCardCopyFiles: [],
-      isAngentDetail: false
+      isAngentDetail: false,
+      isAccount: false
     }
   },
   methods: {
@@ -660,6 +661,7 @@ export default {
       return 'VIP'
     },
     handleCustomerLevelSelectChange (value) {
+      this.isAccount = true
       this.createCustomerForm.customerLevelName = this.getCustomerLevelName(value)
     },
     createCustomer () {
@@ -668,11 +670,13 @@ export default {
           message: '创建用户成功',
           type: 'success'
         })
+        this.isAccount = false
       }).catch(message => {
         Message({
           message,
           type: 'error'
         })
+        this.isAccount = false
       })
     },
     handleCreateCustomerButtonClick () {

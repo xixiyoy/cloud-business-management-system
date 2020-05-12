@@ -1,4 +1,4 @@
-import { getTaskList, getOnceTaskList, createtask, getTaskDetail, updateTask, transferTask, cancelTask, receiveTask, completeTask, stopTask, backTask } from '../../api/task'
+import { getTaskList, getOnceTaskList, createtask, getTaskDetail, deleteTask, updateTask, transferTask, cancelTask, receiveTask, completeTask, stopTask, backTask } from '../../api/task'
 
 const state = {
   tasks: {},
@@ -126,6 +126,13 @@ const actions = {
   },
   async updateTask ({ commit }, updateTaskForm) {
     await updateTask(updateTaskForm)
+  },
+  // 删除订单
+  async deleteTask ({ commit }, taskId) {
+    const { data: { code, msg } } = await deleteTask(taskId)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   },
   // 交接任务
   async transferTask ({ commit }, transferTaskForm) {

@@ -35,7 +35,10 @@ const actions = {
     await updateTenantAccount(updateTenantAccountForm)
   },
   async deleteTenantAccount ({ commit }, tenantCollectAccountIds) {
-    await deleteTenantAccount(tenantCollectAccountIds)
+    const { data: { msg, code } } = await deleteTenantAccount(tenantCollectAccountIds)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   }
 }
 export default {

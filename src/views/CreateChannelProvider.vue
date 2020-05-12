@@ -71,7 +71,7 @@
       </el-row>
     </div>
     <el-button>取消</el-button>
-    <el-button type="primary" @click="handelCreteChannelButtonClick">保存</el-button><br><br><br><br>
+    <el-button type="primary" :loading="isChannelProvider" @click="handelCreteChannelButtonClick">保存</el-button><br><br><br><br>
   </div>
 </template>
 <script>
@@ -90,26 +90,29 @@ export default {
         remark: '',
         channelBelongName: '',
         dutyUserName: ''
-      }
+      },
+      isChannelProvider: false
     }
   },
   methods: {
     handelCreteChannelButtonClick () {
-      console.log()
       this.createChannel(this.createChannelForm)
     },
     createChannel () {
+      this.isChannelProvider = true
       this.$store.dispatch('createChannel', this.createChannelForm).then(() => {
         Message({
           message: '保存成功',
           type: 'success'
         })
+        this.isChannelProvider = false
         this.$router.push({ path: '/channel-dealer-management' })
       }).catch(message => {
         Message({
           message,
           type: 'error'
         })
+        this.isChannelProvider = false
       })
     },
     handleEditTaskFormFinancialAdviserSelectChange (id) {
