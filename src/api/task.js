@@ -19,7 +19,7 @@ const deleteTask = taskId => request({
 const createtask = createtaskForm => request({
   url: '/task/add',
   method: 'POST',
-  data: createtaskForm
+  params: createtaskForm
 })
 const getTaskDetail = taskId => request({
   url: `/task/detail/${taskId} `

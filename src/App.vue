@@ -456,4 +456,8 @@ html, body, #app {
   border: none !important;
   padding: 0px 0px !important;
 }
+.el-select-dropdown__item.selected {
+    color: #606266 !important;
+    font-weight: 400 !important;
+}
 </style>

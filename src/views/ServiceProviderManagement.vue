@@ -190,8 +190,7 @@
         <el-row>
           <el-button type="primary" @click="addAccountsReceivableDialogVisible = true" class="upload-logo-custom">+新增收款账户</el-button>
           <el-dialog title="编辑收款账户" width="45%" :visible.sync="addAccountsReceivableDialogVisible">
-            <el-form label-width="120px" class="demo-ruleForm"
-            :data="collectAccounts">
+            <el-form label-width="120px">
               <el-form-item label="服务公司：" prop="tenantCompanyName" required>
                 <el-input v-model="createTenantAccountFrom.tenantCompanyName"></el-input>
               </el-form-item>
@@ -475,6 +474,9 @@ export default {
         updateUserName: null,
         updateTime: null
       },
+      createTenantAccountFrom: {
+        accountName: ''
+      },
       checkedFlowConfigNames: [],
       updateFlowConfigForm: [],
       isCompany: false,
@@ -625,9 +627,9 @@ export default {
     },
     // 添加收款账户
     handleCreateTenantAccount () {
-      this.createTenantAccountFrom()
+      this.createTenantAccount()
     },
-    createTenantAccountFrom () {
+    createTenantAccount () {
       this.isTenantAccount = true
       this.$store.dispatch('createTenantAccount', this.createTenantAccountFrom).then(() => {
         Message({
@@ -694,9 +696,6 @@ export default {
           type: 'error'
         })
       })
-    },
-    createTenantAccount () {
-      this.$store.dispatch('createTenantAccount', this.createTenantAccountFrom)
     },
     createServiceCompany () {
       this.$store.dispatch('createServiceCompany', this.createServiceCompanyForm)

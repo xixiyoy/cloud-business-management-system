@@ -133,7 +133,7 @@
                               <el-col :span="12">
                                 <el-form-item label="产品名称：">
                                   <el-input
-                                    v-model="editTaskForm.productName"
+                                    v-model="updateTaskForm.productName"
                                     disabled>
                                   </el-input>
                                 </el-form-item>
@@ -142,7 +142,7 @@
                                 <el-form-item label="财税顾问：">
                                   <el-select
                                     v-model="updateTaskForm.relUserId"
-                                    @change="handleEditTaskFormFinancialAdviserSelectChange">
+                                    @change="handleupdateTaskFormFinancialAdviserSelectChange">
                                     <el-option
                                       v-for="user in users"
                                       :key="user.userId"
@@ -167,7 +167,7 @@
                                 <el-form-item label="会计助理">
                                   <el-select
                                     v-model="updateTaskForm.relHelpUserId"
-                                    @change="handleEditTaskFormAccountingAssistantSelectChange">
+                                    @change="handleupdateTaskFormAccountingAssistantSelectChange">
                                     <el-option
                                       v-for="user in users"
                                       :key="user.userId"
@@ -232,7 +232,7 @@
                         <el-col :span="12">
                           <el-form-item label="产品名称：">
                             <el-select
-                              v-model="createtaskForm.productId"
+                              v-model="addTaskForm.productId"
                               @change="handleAddTaskFormProductSelectChange">
                               <el-option
                                 v-for="product in products"
@@ -246,7 +246,7 @@
                         <el-col :span="12">
                           <el-form-item label="财税顾问：" v-show="!isAngentDetail">
                             <el-select
-                              v-model="createtaskForm.relUserId"
+                              v-model="addTaskForm.relUserId"
                               @change="handleAddTaskFormFinancialAdviserSelectChange">
                               <el-option
                                 v-for="user in users"
@@ -258,7 +258,7 @@
                           </el-form-item>
                           <el-form-item label="负责人：" v-show="isAngentDetail">
                             <el-select
-                              v-model="createtaskForm.relUserId"
+                              v-model="addTaskForm.relUserId"
                               @change="handleAddTaskFormFinancialAdviserSelectChange">
                               <el-option
                                 v-for="user in users"
@@ -276,14 +276,14 @@
                             <el-input-number
                               :min="0.01"
                               :step="0.01"
-                              v-model="createtaskForm.price">
+                              v-model="addTaskForm.price">
                             </el-input-number>
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
                           <el-form-item label="会计助理" v-show="!isAngentDetail">
                             <el-select
-                              v-model="createtaskForm.relHelpUserId"
+                              v-model="addTaskForm.relHelpUserId"
                               @change="handleAddTaskFormAccountingAssistantSelectChange">
                               <el-option
                                 v-for="user in users"
@@ -301,7 +301,7 @@
                             <el-input-number
                               :min="1"
                               :step="1"
-                              v-model="createtaskForm.number">
+                              v-model="addTaskForm.number">
                             </el-input-number>
                           </el-form-item>
                         </el-col>
@@ -310,7 +310,7 @@
                             <el-input-number
                               :min="0"
                               :step="1"
-                              v-model="createtaskForm.giftNumber">
+                              v-model="addTaskForm.giftNumber">
                             </el-input-number>
                           </el-form-item>
                         </el-col>
@@ -319,7 +319,7 @@
                         <el-col>
                           <el-form-item label="付费方式：" v-show="!isAngentDetail">
                             <el-select
-                              v-model="createtaskForm.payCycle">
+                              v-model="addTaskForm.payCycle">
                               <el-option
                                 v-for="(paymentMethod, index) in paymentMethods"
                                 :key="index"
@@ -383,7 +383,7 @@ export default {
         longTerm: '0'
       },
       isAngentDetail: false,
-      editTaskForm: {
+      updateTaskForm: {
         // 产品名称
         productId: '',
         productName: '',
@@ -430,8 +430,7 @@ export default {
       getUsersForm: {
         limit: 10,
         page: 1
-      },
-      createtaskForm: {}
+      }
     }
   },
   methods: {
@@ -450,11 +449,6 @@ export default {
       } else {
         this.addTaskForm.longTerm = '1'
       }
-      this.taskList.push(Object.assign({}, this.addTaskForm))
-      Object.keys(this.addTaskForm).forEach(key => {
-        this.addTaskForm[key] = ''
-      })
-      this.addTaskDialogVisible = false
       this.createTask()
     },
     // 修改客户信息
@@ -488,11 +482,18 @@ export default {
     },
     // 添加新订单
     createTask () {
-      this.$store.dispatch('createTask', this.createtaskForm).then(() => {
+      this.addTaskForm.customerId = this.customerId
+      this.$store.dispatch('createTask', this.addTaskForm).then(() => {
         Message({
           message: '添加成功',
           type: 'success'
         })
+        Object.keys(this.addTaskForm).forEach(key => {
+          this.addTaskForm[key] = ''
+        })
+        this.taskList.push(Object.assign({}, this.addTaskForm))
+        this.getCustomer()
+        this.addTaskDialogVisible = false
       }).catch(message => {
         Message({
           message,
@@ -509,14 +510,14 @@ export default {
     // 4.21
     handleEditTaskButtonClick (index) {
       const task = this.updateCustomerForm.taskList[index]
-      this.editTaskForm = task
+      this.updateTaskForm = task
       this.editTaskDialogVisible = true
     },
-    handleEditTaskFormFinancialAdviserSelectChange (id) {
-      this.updateCustomerForm.editTaskForm.relUserName = this.getUserName(id)
+    handleupdateTaskFormFinancialAdviserSelectChange (id) {
+      this.updateCustomerForm.updateTaskForm.relUserName = this.getUserName(id)
     },
-    handleEditTaskFormAccountingAssistantSelectChange (id) {
-      this.updateCustomerForm.editTaskForm.relHelpUserName = this.getUserName(id)
+    handleupdateTaskFormAccountingAssistantSelectChange (id) {
+      this.updateCustomerForm.updateTaskForm.relHelpUserName = this.getUserName(id)
     },
     handleDeleteTaskButtonClick (index, row) {
       const taskIds = [
@@ -536,13 +537,13 @@ export default {
     },
     async addTask () {
       try {
+        this.addTaskForm.customerId = this.customerId
         await this
           .$store
           .dispatch(
             'createTask',
             this.addTaskForm
           )
-        console.log('success')
       } catch (message) {
         console.log(message)
       }
@@ -584,7 +585,7 @@ export default {
         .getProductById(id)
         .productName
     },
-    handleEditTaskFormProductSelectChange (id) {
+    handleupdateTaskFormProductSelectChange (id) {
       // 根据产品 ID 获取产品名称并赋值给添加产品表单对应字段
       this.edit.productName = this.getProductNameById(id)
     },

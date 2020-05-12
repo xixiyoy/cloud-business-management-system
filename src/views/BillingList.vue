@@ -59,6 +59,7 @@
               label="开票编号">
             </el-table-column>
             <el-table-column
+            :show-overflow-tooltip="true"
               prop="invoiceTypeName"
               label="发票类型">
             </el-table-column>

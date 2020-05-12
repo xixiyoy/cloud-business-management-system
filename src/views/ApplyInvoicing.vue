@@ -6,8 +6,12 @@
     <el-form label-width="150px" class="demo-ruleForm">
       <el-row>
         <el-col :span="8">
-          <el-form-item label="发票类型: " prop="name" required>
-            <el-input v-model="createInvoiceFrom.invoiceTypeName"></el-input>
+          <el-form-item label="发票类型: " required>
+            <el-select v-model="createInvoiceFrom.invoiceTypeName" @change="handleTypeSelectChange">
+              <el-option value="0">增值税专用发票</el-option>
+              <el-option value="1">增值税普通发票</el-option>
+              <el-option value="2">增值税电子普通发票</el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -111,6 +115,18 @@ export default {
         })
         this.isInvoice = false
       })
+    },
+    getTypeName (value) {
+      if (value === '0') {
+        return '增值税专用发票'
+      } else if (value === '1') {
+        return '增值税普通发票'
+      } else if (value === '2') {
+        return '增值税电子普通发票'
+      }
+    },
+    handleTypeSelectChange (value) {
+      this.createInvoiceFrom.invoiceTypeName = this.getTypeName(value)
     }
   }
 }
