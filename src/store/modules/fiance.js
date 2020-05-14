@@ -33,8 +33,6 @@ const actions = {
   },
   async getTotalCash  ({ commit }, getTotalCashForm) {
     const { data: totalCash } = await getTotalCash(getTotalCashForm)
-    console.log(111111)
-    console.log(getTotalCashForm)
     commit('SET_TOTALCASH', totalCash)
   },
   // 2.2 在 actions 中写方法

@@ -126,7 +126,6 @@ export default {
       this.$store.dispatch('getFianceById', this.fianceId)
     },
     handleUpdateFianceButtonClick () {
-      console.log(this.updateFianceForm)
       this.modifyFiance()
     },
     handleDepartmentSelectChange (id) {
