@@ -110,7 +110,7 @@
           label="客户名称">
         </el-table-column>
         <el-table-column
-          prop="fianceUserName"
+          prop="customerRelName"
           label="客户代表">
           </el-table-column>
         <el-table-column

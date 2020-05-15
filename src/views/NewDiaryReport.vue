@@ -4,21 +4,30 @@
       <div class="new-diary-report-main">
           <el-form label-width="100px" class="demo-ruleForm">
             <el-row>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item label="客户名称">
                   <el-input v-model="createFianceForm.customerName"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item label="客户代表">
-                  <el-input v-model="createFianceForm.customerRelName"></el-input>
+                    <el-select
+                    v-model="createFianceForm.customerRelName"
+                    @change="handleCustomerRelNameAdviserSelectChange" style="width: 100%">
+                    <el-option
+                      v-for="(user, index) in allUsers"
+                      :key="index"
+                      :label="user.userName"
+                      :value="user.value">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item label="收支部门">
-                  <el-select class="account-source-left-custom" v-model="createFianceForm.fianceDeptId" @change="handleDepartmentSelectChange">
+                  <el-select class="account-source-left-custom" v-model="createFianceForm.fianceDeptId" @change="handleDepartmentSelectChange" style="width: 100%" >
                     <el-option
                       v-for="(department, index) in departments"
                       :key="index"
@@ -28,11 +37,11 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item label="收支人员">
                     <el-select
                     v-model="createFianceForm.fianceUserId"
-                    @change="handleEditTaskFormFinancialAdviserSelectChange">
+                    @change="handleEditTaskFormFinancialAdviserSelectChange" style="width: 100%">
                     <el-option
                       v-for="(user, index) in allUsers"
                       :key="index"
@@ -44,11 +53,11 @@
               </el-col>
             </el-row>
             <el-row>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item label="收支类型" required>
                     <el-select
                     v-model="createFianceForm.fianceTypeValue"
-                    @change="handleiFanceTypeSelectChange">
+                    @change="handleiFanceTypeSelectChange" style="width: 100%">
                     <el-option
                     v-for="(fianceType, index)  in fianceTypes"
                     :key="index"
@@ -57,22 +66,27 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-
+              <el-col :span="12">
+                <el-form-item label="收支时间" required>
+                  <span class="block">
+                    <el-date-picker
+                      v-model="submitDate"
+                      type="date"
+                      placeholder="选择日期">
+                    </el-date-picker>
+                  </span>
+                </el-form-item>
+              </el-col>
             </el-row>
             <el-row>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item label="收支金额" required>
                   <el-input v-model="createFianceForm.money"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item label="收支时间" required>
-                  <el-input v-model="createFianceForm.fianceTime"></el-input>
-                </el-form-item>
-              </el-col>
             </el-row>
             <el-row>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item label="是否需要其他人审核" required>
                   <el-radio-group v-model="radio" >
                     <el-radio :label="1">是</el-radio>
@@ -80,11 +94,11 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" required>
+              <el-col :span="12" required>
                 <el-form-item label="审核人:" v-show="radio === 1">
                   <el-select
                     v-model="createFianceForm.checkUserId"
-                    @change="handleEditTaskFormFinancialAdviserSelectChange">
+                    @change="handleEditTaskFormFinancialAdviserSelectChange" style="width: 100%">
                     <el-option
                       v-for="user in allUsers"
                       :key="user.userId"
@@ -96,7 +110,7 @@
               </el-col>
             </el-row>
             <el-row>
-              <el-col :span="12">
+              <el-col :span="24">
                 <el-form-item label="摘要">
                   <el-input type="textarea" v-model="createFianceForm.comment"></el-input>
                 </el-form-item>
@@ -122,6 +136,7 @@ export default {
     return {
       // 3.1 先写创建日记账单所需要的 form
       // 3.2 将这个 form 和上面 html 的输入框了绑定
+      submitDate: [],
       createFianceForm: {
         customerName: '',
         customerRelName: '',
@@ -167,6 +182,9 @@ export default {
     handleiFanceTypeSelectChange (value) {
       this.createFianceForm.fianceTypeName = this.getFianceTypeName(value)
     },
+    handleCustomerRelNameAdviserSelectChange (value) {
+      this.createFianceForm.customerRelName = this.getUserName(value)
+    },
     // 3.3 在 methods 中定一个方法
     handleCreateFianceButtonClick () {
       // 调用 3.5 的创建方法
@@ -178,7 +196,9 @@ export default {
     // 3.5 在 methods 中定一个方法用来调用 vuex 中 actions 中的方法
     createFiance () {
       this.isDiaryReport = true
-      // 3.5.1              对应 actions 中的方法名  对应 actions 中第二个参数，实际是 data 中的 form 值来自于输入框
+      const date = this.submitDate[0]
+      this.createFianceForm.fianceTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`
+      console.log(date)
       this.$store.dispatch('createFiance', this.createFianceForm).then(() => {
         Message({
           message: '保存成功',
