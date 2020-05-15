@@ -145,10 +145,10 @@
               </el-col>
             </el-row>
             <el-row v-if="!isAgentOrder(task)">
-              <el-col :span="3">
+              <el-col :span="4">
                 <span>{{ task.productName }}</span>
               </el-col>
-              <el-col :span="21">
+              <el-col :span="20">
                 <a-steps :current="0" class="agent-order-steps">
                   <template slot="progressDot" slot-scope="{ description }">
                     <span class="ant-steps-icon-dot" :class="getStepsIconClass(description, false, task.taskStatusName)"></span>

@@ -37,7 +37,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="开票状态: " prop="name">
-              <span>{{invoice.accountStatusName}}</span>
+              <span>{{invoice.invoiceStateName}}</span>
             </el-form-item>
           </el-col>
         </el-row>

@@ -9,24 +9,24 @@
         <el-form label-width="150px" label-position="right">
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item label="客户名称：">
+              <el-form-item label="客户名称：" required>
                 <el-input v-model="createCustomerForm.customerName"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="联系人：">
+              <el-form-item label="联系人：" required>
                 <el-input v-model="createCustomerForm.customerLinkerName"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item label="社会信用代码：">
+              <el-form-item label="社会信用代码：" required>
                 <el-input v-model="createCustomerForm.creditCode"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="联系电话：">
+              <el-form-item label="联系电话：" required>
                 <el-input v-model="createCustomerForm.customerLinkerPhone"></el-input>
               </el-form-item>
             </el-col>
@@ -64,7 +64,7 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item label="客户来源：">
+              <el-form-item label="客户来源：" required>
                 <el-select
                   style="width: 50%;"
                   v-model="createCustomerForm.customerFromWay"
@@ -89,7 +89,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="客户代表：">
+              <el-form-item label="客户代表：" required>
                 <el-select
                   v-model="createCustomerForm.customerRelUserId"
                   @change="handleCreateCustomerFormCustomerRepresentativeSelectChange" style="width: 100%;">

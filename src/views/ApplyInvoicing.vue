@@ -16,7 +16,14 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="服务公司: " required>
-            <el-input v-model="createInvoiceFrom.entityName"></el-input>
+              <el-select class="account-source-left-custom" v-model="createInvoiceFrom.entityId" @change="handleComSelectChange" style="width: 100%" >
+                <el-option
+                  v-for="(company, index) in companies"
+                  :key="index"
+                  :label="company.fullName"
+                  :value="company.tenantCompanyId">
+                </el-option>
+              </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -72,6 +79,7 @@
 </template>
 <script>
 import { Message } from 'element-ui'
+import { mapState } from 'vuex'
 
 export default {
   metaInfo: {
@@ -82,7 +90,7 @@ export default {
       createInvoiceFrom: {
         invoiceTypeValue: 0,
         invoiceTypeName: '',
-        entityId: 1,
+        entityId: '',
         entityName: '',
         invoiceHead: '',
         invoiceMoney: '',
@@ -90,13 +98,19 @@ export default {
         address: '',
         phone: '',
         account: '',
-        invoiceRemark: ''
+        invoiceRemark: '',
+        confirmUserName: ''
       },
-      isInvoice: false
+      isInvoice: false,
+      getServiceCompanyFrom: {
+        page: 1,
+        limit: 10
+      }
     }
   },
   methods: {
     handleCreateInvoiceButtonClick () {
+      this.createInvoiceFrom.confirmUserName = this.userInfo.userName
       this.createInvoice()
     },
     createInvoice () {
@@ -127,7 +141,33 @@ export default {
     },
     handleTypeSelectChange (value) {
       this.createInvoiceFrom.invoiceTypeName = this.getTypeName(value)
+    },
+    // 所有服务公司获取
+    getCompanies () {
+      this.$store.dispatch('getCompanyList', this.getServiceCompanyFrom)
+    },
+    getCompanicesName (id) {
+      return this.companies.filter(({ tenantCompanyId }) => tenantCompanyId === id)[0].fullName
+    },
+    handleComSelectChange (id) {
+      this.createInvoiceFrom.entityName = this.getCompanicesName(id)
+    },
+    // 获取用户信息
+    getUserInfo () {
+      this.$store.dispatch('getSysInfo')
     }
+  },
+  mounted () {
+    this.getCompanies()
+    this.getUserInfo()
+  },
+  computed: {
+    ...mapState({
+      // 服务公司获取
+      companies: state => state.tenantCompany.serviceCompanys.page.list,
+      // 获取用户信息
+      userInfo: state => state.sysUser.user.user
+    })
   }
 }
 </script>

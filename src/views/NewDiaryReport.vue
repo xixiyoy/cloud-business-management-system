@@ -198,7 +198,6 @@ export default {
       this.isDiaryReport = true
       const date = this.submitDate[0]
       this.createFianceForm.fianceTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`
-      console.log(date)
       this.$store.dispatch('createFiance', this.createFianceForm).then(() => {
         Message({
           message: '保存成功',

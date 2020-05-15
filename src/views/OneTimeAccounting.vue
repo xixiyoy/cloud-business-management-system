@@ -91,13 +91,13 @@
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="创建人: " prop="pass">
+                <el-form-item label="创建人: ">
                   <span>{{agentOrder.baseInformation.customer.createUserName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="创建时间: " prop="pass">
-                  <span>{agentOrder.baseInformation.customer.createUTime}}</span>
+                <el-form-item label="创建时间: ">
+                  <span>{{agentOrder.baseInformation.customer.createTime}}</span>
                 </el-form-item>
               </el-col>
             </el-row>

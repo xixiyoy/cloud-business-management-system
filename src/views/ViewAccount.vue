@@ -17,79 +17,79 @@
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="客户名称: " prop="name">
+                <el-form-item label="客户名称: ">
                   <span>{{account.customerName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="联系人: " prop="name">
+                <el-form-item label="联系人: ">
                   <span>{{account.customerLinkerName}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="社会信用代码: " prop="name">
+                <el-form-item label="社会信用代码: ">
                   <span>{{account.creditCode}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="联系电话: " prop="name">
+                <el-form-item label="联系电话: ">
                   <span>{{account.customerLinkerPhone}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="企业电话: " prop="name">
+                <el-form-item label="企业电话: ">
                   <span>{{account.customerBusinessPhone}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="客户等级: " prop="name">
+                <el-form-item label="客户等级: ">
                   <span>{{account.customerLevelName}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="联系地址: " prop="name">
+                <el-form-item label="联系地址: ">
                   <span>{{account.customerAddress}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="企业邮箱: " prop="name">
+                <el-form-item label="企业邮箱: ">
                   <span>{{account.customerBusinessEmail}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="客户来源: " prop="region">
+                <el-form-item label="客户来源: ">
                   <span>{{account.customerFromWay}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="客户代表: " prop="name">
+                <el-form-item label="客户代表: ">
                   <span>{{account.customerRelUserName}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="创建人: " prop="region">
+                <el-form-item label="创建人: ">
                   <span>{{account.createUserName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="创建日期: " prop="name">
+                <el-form-item label="创建日期: ">
                   <span>{{account.createTime}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="备注: " prop="pass">
+                <el-form-item label="备注: ">
                   <span>{{account.remark}}</span>
                 </el-form-item>
               </el-col>
@@ -101,19 +101,19 @@
           <el-form label-width="120px" class="demo-ruleForm">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="身份证复印件: " prop="name">
+                <el-form-item label="身份证复印件: ">
                   <img v-for="(image,index) in idCardImages" :key="index" :src="image" alt="">
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="营业执照复印件: " prop="name">
+                <el-form-item label="营业执照复印件: ">
                   <img v-for="(image,index) in businessLicenseImages" :key="index" :src="image" alt="">
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="合同原件: " prop="name">
+                <el-form-item label="合同原件: ">
                   <img v-for="(image,index) in contractImages" :key="index" :src="image" alt="">
                 </el-form-item>
               </el-col>
@@ -130,43 +130,43 @@
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="月服务费: " prop="name">
+                <el-form-item label="月服务费: ">
                   <span>{{ account.newestTask.price }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="服务周期: " prop="name">
+                <el-form-item label="服务周期: ">
                   <span>{{account.newestTask.number}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="服务开始月: " prop="name">
+                <el-form-item label="服务开始月: ">
                   <span>{{account.newestTask.serviceStartMonth}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="剩余赠送月: " prop="name">
+                <el-form-item label="剩余赠送月: ">
                   <span>{{ getLeftGifts(account.newestTask) }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="剩余服务月: " prop="name">
+                <el-form-item label="剩余服务月: ">
                   <span>{{ getLeftMonths(account.newestTask) }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="当前报税期: " prop="name">
+                <el-form-item label="当前报税期: ">
                   <span>{{account.newestTask.taxDate}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="付费周期: " prop="name">
+                <el-form-item label="付费周期: ">
                   <span>{{account.newestTask.payCycle}}</span>
                 </el-form-item>
               </el-col>
@@ -282,7 +282,6 @@
               label="产品名称">
             </el-table-column>
             <el-table-column
-              prop="name"
               :show-overflow-tooltip="true"
               label="订单编号">
             </el-table-column>

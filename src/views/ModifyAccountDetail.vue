@@ -14,67 +14,74 @@
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="客户名称: " prop="name">
-                  <el-input v-model="updateCustomerForm.customerName"></el-input>
+                <el-form-item label="客户名称: ">
+                  <el-input v-model="updateCustomerForm.customerName" disabled></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="联系人: " prop="name">
+                <el-form-item label="联系人: ">
                   <el-input v-model="updateCustomerForm.customerLinkerName" disabled></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="社会信用代码: " prop="name">
+                <el-form-item label="社会信用代码: ">
                   <el-input v-model="updateCustomerForm.creditCode" disabled></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="联系电话: " prop="name">
+                <el-form-item label="联系电话: ">
                   <el-input v-model="updateCustomerForm.customerLinkerPhone" disabled></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="企业电话: " prop="name">
+                <el-form-item label="企业电话: ">
                   <el-input v-model="updateCustomerForm.customerBusinessPhone"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="客户等级: " prop="name">
+                <el-form-item label="客户等级: ">
                   <el-input v-model="updateCustomerForm.customerLevelName"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="联系地址: " prop="name">
+                <el-form-item label="联系地址: ">
                   <el-input v-model="updateCustomerForm.customerAddress"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="企业邮箱: " prop="name">
+                <el-form-item label="企业邮箱: ">
                   <el-input v-model="updateCustomerForm.customerBusinessEmail"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="客户来源: " prop="region">
+                <el-form-item label="客户来源: ">
                   <el-input v-model="updateCustomerForm.customerFromWay"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="客户代表: " prop="name">
+                <el-form-item label="客户代表: ">
                   <el-input v-model="updateCustomerForm.customerRelUserName"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
+            <!-- <el-row :gutter="20">
+              <el-col :span="12" v-show="isRoyaltyCoefficientShow">
+                <el-form-item label="提成系数：">
+                  <el-input v-model="createCustomerForm.royaltyCoefficient"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row> -->
             <el-row>
               <el-col :span="12">
-                <el-form-item label="备注: " prop="pass">
+                <el-form-item label="备注: ">
                   <el-input v-model="updateCustomerForm.remark"></el-input>
                 </el-form-item>
               </el-col>

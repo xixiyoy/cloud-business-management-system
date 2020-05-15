@@ -1,6 +1,6 @@
 <template>
   <div class="agent-bookkeeping">
-    <p class="new-account-page-title">代理记账<span>订单编号: {{agentOrder.baseInformation.task.taskNo}}</span></p>
+    <p class="new-account-page-title">代理记账<span> 订单编号: {{agentOrder.baseInformation.task.taskNo}}</span></p>
     <div class="dividing-line"></div>
     <div class="agent-bookkeeping-main">
       <!-- <div class="agent-flow"></div> -->
@@ -98,13 +98,13 @@
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="创建人: " prop="pass">
+                <el-form-item label="创建人: ">
                   <span>{{agentOrder.baseInformation.customer.createUserName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="创建时间: " prop="pass">
-                  <span>{{agentOrder.baseInformation.customer.createUTime}}</span>
+                <el-form-item label="创建时间: ">
+                  <span>{{agentOrder.baseInformation.customer.createTime}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
