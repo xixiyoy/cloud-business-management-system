@@ -261,19 +261,7 @@
     <el-dialog title="提交收款" :visible.sync="zeroZeroEditVisible">
       <el-form>
         <el-row>
-          <el-col :spam="12">
-            <el-form-item label="付款账户：">
-              <el-input v-model="submitCollectionForm.payAccount"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="收据编号：">
-              <el-input v-model="submitCollectionForm.collectNo"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
+          <el-col :span="24">
             <el-form-item label="收款账户：">
               <el-select
                 v-model="submitCollectionForm.collectAccountId"
@@ -287,7 +275,9 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+        </el-row>
+        <el-row>
+          <el-col :span="24">
             <el-form-item label="收款月数：" required>
             <div class="block">
               <el-date-picker
@@ -302,18 +292,20 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="24">
             <el-form-item label="到账日期：" required>
-              <div class="block">
+              <span class="block">
                 <el-date-picker
                   v-model="submitCollectionReceiveDate"
                   type="date"
                   placeholder="选择日期">
                 </el-date-picker>
-              </div>
+              </span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+        </el-row>
+        <el-row>
+          <el-col :span="24">
             <el-form-item label="备注：">
               <el-input v-model="submitCollectionForm.remark"></el-input>
             </el-form-item>
@@ -329,59 +321,49 @@
     <el-dialog title="收款记录" :visible.sync="oneZeroSelfEditVisible">
       <el-form>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="审核状态:">
               <span>{{collectDetail.collectStatusName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提交人:" required>
               <span>{{collectDetail.createUserName}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
-            <el-form-item label="付款账户:" required>
-              <span>{{collectDetail.payAccount}}</span>
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
-            <el-form-item label="收据编号:" required>
-              <span>{{collectDetail.collectNo}}</span>
+          <el-col :span="12">
+            <el-form-item label="收款账户:" required>
+              <span>{{collectDetail.collectAccountName}}</span>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="到账日期:" required>
-              <span>{{collectDetail.collectDate}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="收款月数:" required>
               <span>{{ getReceiveMonth(collectDetail) }}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
-            <el-form-item label="审批人:" required>
-              <span>{{collectDetail.approvalUserName}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="备注：">
-              <span>{{collectDetail.remark}}</span>
+          <el-col :span="12">
+            <el-form-item label="到账日期:" required>
+              <span>{{collectDetail.collectDate}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="创建日期:" required>
               <span>{{collectDetail.createTime}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="备注：">
+              <span>{{collectDetail.remark}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -393,19 +375,7 @@
         <el-dialog title="修改收款" :visible.sync="modifyOneZreoDialogFormVisible" append-to-body>
           <el-form>
             <el-row>
-              <el-col :spam="12">
-                <el-form-item label="付款账户：">
-                  <el-input v-model="updateCollectForm.payAccount"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :spam="12">
-                <el-form-item label="收据编号：">
-                  <el-input v-model="updateCollectForm.collectNo"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :spam="12">
+              <el-col :span="12">
                 <el-form-item label="收款账户：">
                   <el-select
                     v-model="updateCollectForm.collectAccountId"
@@ -419,7 +389,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :spam="12">
+              <el-col :span="12">
                 <el-form-item label="收款月数：" required>
                 <div class="block">
                   <el-date-picker
@@ -434,7 +404,7 @@
               </el-col>
             </el-row>
             <el-row>
-              <el-col :spam="12">
+              <el-col :span="12">
                 <el-form-item label="到账日期：" required>
                   <div class="block">
                     <el-date-picker
@@ -445,7 +415,7 @@
                   </div>
                 </el-form-item>
               </el-col>
-              <el-col :spam="12">
+              <el-col :span="12">
                 <el-form-item label="备注：">
                   <el-input v-model="updateCollectForm.remark"></el-input>
                 </el-form-item>
@@ -464,59 +434,54 @@
     <el-dialog title="收款详情" :visible="oneZeroOtherEditVisible">
       <el-form>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="审核状态:">
               <span>{{collectDetail.collectStatusName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
+            <el-form-item label="收款账户:" required>
+              <span>{{collectDetail.collectAccountName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
             <el-form-item label="提交人:" required>
               <span>{{collectDetail.createUserName}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
-            <el-form-item label="付款账户:" required>
-              <span>{{collectDetail.payAccount}}</span>
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
-            <el-form-item label="收据编号:" required>
-              <span>{{collectDetail.collectNo}}</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="到账日期:" required>
               <span>{{collectDetail.collectDate}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="收款月数:" required>
               <span>{{ getReceiveMonth(collectDetail) }}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
-            <el-form-item label="审批人:" required>
-              <span>{{collectDetail.approvalUserName}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="备注：">
               <span>{{collectDetail.remark}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
-            <el-form-item label="创建日期:" required>
+          <el-col :span="12">
+            <el-form-item label="提交时间:" required>
               <span>{{collectDetail.createTime}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="收据编号:" required>
+              <el-input v-model="confirmReceiptForm.collectNo"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -542,59 +507,49 @@
     <el-dialog title="收款记录" :visible.sync="twoZeroViewVisible">
       <el-form>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="审核状态:">
               <span>{{collectDetail.collectStatusName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提交人:">
               <span>{{collectDetail.createUserName}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
-            <el-form-item label="付款账户:">
-              <span>{{collectDetail.payAccount}}</span>
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
-            <el-form-item label="收据编号:">
-              <span>{{collectDetail.collectNo}}</span>
+          <el-col :span="12">
+            <el-form-item label="收款账户:">
+              <span>{{ collectDetail.collectAccountName }}</span>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :spam="12">
-            <el-form-item label="到账日期:">
-              <span>{{collectDetail.collectDate}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="收款月数:">
               <span>{{ getReceiveMonth(collectDetail) }}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
-            <el-form-item label="审批人:">
-              <span>{{collectDetail.approvalUserName}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :spam="12">
-            <el-form-item label="备注：">
-              <span>{{collectDetail.remark}}</span>
+          <el-col :span="12">
+            <el-form-item label="到账日期:">
+              <span>{{collectDetail.collectDate}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="创建日期:">
               <span>{{collectDetail.createTime}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="备注：">
+              <span>{{collectDetail.remark}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -607,50 +562,50 @@
     <el-dialog title="收款记录" :visible.sync="oneZeroViewVisible">
       <el-form>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="审核状态:">
               <span>{{collectDetail.collectStatusName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="收款账户:" required>
               <span>{{collectDetail.collectAccountName}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提交人:" required>
               <span>{{collectDetail.createUserName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="付款账户:" required>
               <span>{{collectDetail.payAccount}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="收据编号:" required>
               <span>{{collectDetail.collectNo}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="到账日期:" required>
               <span>{{collectDetail.collectDate}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="收款月数:" required>
               <span>{{ getReceiveMonth(collectDetail) }}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="备注：">
               <span>{{collectDetail.remark}}</span>
             </el-form-item>
@@ -688,24 +643,24 @@
     <el-dialog title="提交提成" :visible="treeOneEditVisible">
       <el-form>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="审核状态:">
               <span>{{royaltyDetail.royaltyStatusName}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提成金额:">
               <span>{{royaltyDetail.royaltyMoney}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提成月数:" required>
               <span></span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="创建日期:" required>
               <span>{{royaltyDetail.royaltyAppliDate}}</span>
             </el-form-item>
@@ -801,24 +756,24 @@
     <el-dialog title="提成记录">
       <el-form>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="审核状态:">
               <span>{{royaltyDetail.royaltyStatusName}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提成金额:">
               <span>{{royaltyDetail.royaltyMoney}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提成月数:" required>
               <span>{{ formatRoyaltyMonths(royaltyDetail) }}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="创建日期:" required>
               <span>{{royaltyDetail.royaltyAppliDate}}</span>
             </el-form-item>
@@ -890,24 +845,24 @@
       <el-form>
         业务审批
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="审核状态:">
               <span>{{royaltyDetail.royaltyStatusName}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提成金额:">
               <span>{{royaltyDetail.royaltyMoney}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提成月数:" required>
               <span>{{ getRoyaltyMonth(royaltyDetail) }}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="创建日期:" required>
               <span>{{royaltyDetail.royaltyAppliDate}}</span>
             </el-form-item>
@@ -992,24 +947,24 @@
       <el-form>
         财务审批
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="审核状态:">
               <span>{{royaltyDetail.royaltyStatusName}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提成金额:">
               <span>{{royaltyDetail.royaltyMoney}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提成月数:" required>
               <span>{{ formatRoyaltyMonths(royaltyDetail) }}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="创建日期:" required>
               <span>{{royaltyDetail.royaltyAppliDate}}</span>
             </el-form-item>
@@ -1093,24 +1048,24 @@
     <el-dialog title="提成记录" :visible="threeThreeCashVisible">
       <el-form>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="审核状态:">
               <span>{{royaltyDetail.royaltyStatusName}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提成金额:">
               <span>{{royaltyDetail.royaltyMoney}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提成月数:" required>
               <span>{{ formatRoyaltyMonths(royaltyDetail) }}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="创建日期:" required>
               <span>{{royaltyDetail.royaltyAppliDate}}</span>
             </el-form-item>
@@ -1183,24 +1138,24 @@
     <el-dialog title="提成记录" :visible="treeFiveViewVisible">
       <el-form>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="审核状态:">
               <span>{{royaltyDetail.royaltyStatusName}}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提成金额:">
               <span>{{royaltyDetail.royaltyMoney}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="提成月数:" required>
               <span>{{ getRoyaltyMonth(royaltyDetail) }}</span>
             </el-form-item>
           </el-col>
-          <el-col :spam="12">
+          <el-col :span="12">
             <el-form-item label="创建日期:" required>
               <span>{{royaltyDetail.royaltyAppliDate}}</span>
             </el-form-item>
@@ -1320,7 +1275,8 @@ export default {
       rejectOneZeroVisible: false,
       // 缺人收款表单
       confirmReceiptForm: {
-        collectId: ''
+        collectId: '',
+        collectNo: ''
       },
       submitMonths: [],
       // 提交提成信息
@@ -1344,7 +1300,6 @@ export default {
         royaltyId: '',
         rejectRemark: ''
       },
-      // 以上是今天的代码
       zeroZeroEditVisible: false,
       oneZeroSelfEditVisible: false,
       oneZeroOtherEditVisible: false,
@@ -1576,7 +1531,6 @@ export default {
       }
     },
     handleViewCommandClick (customer) {
-      console.log(customer)
       const { collectStatusValue, royaltyStatusValue } = customer
       if (collectStatusValue === '2') {
         this.getCollectDetail()

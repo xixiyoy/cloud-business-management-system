@@ -661,10 +661,10 @@ export default {
       return 'VIP'
     },
     handleCustomerLevelSelectChange (value) {
-      this.isAccount = true
       this.createCustomerForm.customerLevelName = this.getCustomerLevelName(value)
     },
     createCustomer () {
+      this.isAccount = true
       this.$store.dispatch('createCustomer', this.createCustomerForm).then(() => {
         Message({
           message: '创建用户成功',

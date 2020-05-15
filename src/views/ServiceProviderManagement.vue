@@ -196,10 +196,10 @@
               </el-form-item>
               <el-form-item label="账号类型: ">
                 <el-radio-group v-model="createTenantAccountFrom.accountType" @change="handleAccountTypeRadioGroupChange">
-                  <el-radio :label="3" value="0">银行账号</el-radio>
-                  <el-radio :label="6" value="1">支付宝账号</el-radio>
-                  <el-radio :label="9" value="2">微信账号</el-radio>
-                  <el-radio :label="12" value="3">现金账号</el-radio>
+                  <el-radio :label="0">银行账号</el-radio>
+                  <el-radio :label="1">支付宝账号</el-radio>
+                  <el-radio :label="2">微信账号</el-radio>
+                  <el-radio :label="3">现金账号</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item v-show="isBankAccount" label="账户名称：" required>
@@ -258,7 +258,7 @@
                   class="detail-button"
                   size="mini"
                   type="text"
-                  @click="viewAccountsReceivableDialogVisible = true">详情</el-button>
+                  @click="handleEditCollectAccountButtonClick(scope.row)">详情</el-button>
                   <el-dialog title="编辑收款账户" width="45%" :visible.sync="viewAccountsReceivableDialogVisible">
                     <el-form label-width="120px" class="demo-ruleForm">
                       <el-form-item label="服务公司：">
@@ -266,34 +266,34 @@
                       </el-form-item>
                       <el-form-item label="账号类型: " required="">
                         <el-radio-group v-model="updateTenantAccountForm.accountType" @change="handleAccountTypeRadioGroupChange">
-                          <el-radio :label="3">银行账号</el-radio>
-                          <el-radio :label="6">支付宝账号</el-radio>
-                          <el-radio :label="9">微信账号</el-radio>
-                          <el-radio :label="12">现金账号</el-radio>
+                          <el-radio :label="0">银行账号</el-radio>
+                          <el-radio :label="1">支付宝账号</el-radio>
+                          <el-radio :label="2">微信账号</el-radio>
+                          <el-radio :label="3">现金账号</el-radio>
                         </el-radio-group>
                       </el-form-item>
-                      <el-form-item v-show="isBankAccount" label="账户名称：">
+                      <el-form-item v-show="updateTenantAccountForm.accountType === 0" label="账户名称：">
                         <el-input v-model="updateTenantAccountForm.accountName"></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isBankAccount" label="银行卡号：">
+                      <el-form-item v-show="updateTenantAccountForm.accountType === 0" label="银行卡号：">
                         <el-input v-model="updateTenantAccountForm.account"></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isBankAccount" label="开户银行：">
+                      <el-form-item v-show="updateTenantAccountForm.accountType === 0" label="开户银行：">
                         <el-input v-model="updateTenantAccountForm.bank"></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isAlipayAccount" label="收款方名称：">
+                      <el-form-item v-show="updateTenantAccountForm.accountType === 1" label="收款方名称：">
                         <el-input v-model="updateTenantAccountForm.accountName"></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isAlipayAccount" label="支付宝账号：">
+                      <el-form-item v-show="updateTenantAccountForm.accountType === 1" label="支付宝账号：">
                         <el-input v-model="updateTenantAccountForm.account"></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isWeChatAccount" label="收款人名称：">
+                      <el-form-item v-show="updateTenantAccountForm.accountType === 2" label="收款人名称：">
                         <el-input v-model="updateTenantAccountForm.accountName"></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isWeChatAccount" label="微信账号：">
+                      <el-form-item v-show="updateTenantAccountForm.accountType === 2" label="微信账号：">
                         <el-input v-model="updateTenantAccountForm.account"></el-input>
                       </el-form-item>
-                      <el-form-item v-show="isCashkAccount" label="账户名称：">
+                      <el-form-item v-show="updateTenantAccountForm.accountType === 3" label="账户名称：">
                         <el-input disabled placeholder="现金收款"></el-input>
                       </el-form-item>
                     </el-form>
@@ -471,7 +471,7 @@ export default {
       createTenantAccountFrom: {
         tenantCompanyId: 2,
         accountName: '',
-        accountType: '',
+        accountType: 0,
         account: '',
         bank: ''
       },
@@ -490,6 +490,12 @@ export default {
     }
   },
   methods: {
+    handleEditCollectAccountButtonClick (row) {
+      // 更新收款账户信息
+      this.updateTenantAccountForm = row
+      this.updateTenantAccountForm.accountType = Number.parseInt(row.accountType)
+      this.viewAccountsReceivableDialogVisible = true
+    },
     handleRemove (index, row) {
       const tenantCollectAccountIds = [
         row.tenantCollectAccountId
@@ -499,7 +505,6 @@ export default {
           type: 'success',
           message: '删除成功'
         })
-        this.getProviderList()
       }).catch(message => {
         Message({
           message,
@@ -577,6 +582,7 @@ export default {
           type: 'success',
           message: '删除账户成功'
         })
+        this.getCollectAccounts()
       }).catch(message => {
         Message({
           message,
@@ -585,7 +591,24 @@ export default {
       })
     },
     handleAccountTypeRadioGroupChange (label) {
-      this.checkedAccountType = label
+      // switch (label) {
+      //   case 0: {
+      //     this.createTenantAccountFrom.accountName = '银行账号'
+      //     break
+      //   }
+      //   case 1: {
+      //     this.createTenantAccountFrom.accountName = '支付宝账号'
+      //     break
+      //   }
+      //   case 2: {
+      //     this.createTenantAccountFrom.accountName = '微信账号'
+      //     break
+      //   }
+      //   case 3: {
+      //     this.createTenantAccountFrom.accountName = '现金账户'
+      //     break
+      //   }
+      // }
     },
     getProviderList () {
       this.$store.dispatch('getTenantAccountList', this.getTenantAccountListForm)
@@ -666,7 +689,7 @@ export default {
           type: 'success'
         })
         this.isTenantAccount = false
-        this.$router.push({ path: '/service-provider-management' })
+        this.viewAccountsReceivableDialogVisible = false
         this.getCollectAccounts()
       }).catch(message => {
         Message({
@@ -775,12 +798,6 @@ export default {
     this.getCollectAccounts()
     // 获取审核配置
     this.getFlowConfigs()
-    // 更新收款账户信息
-    this.updateTenantAccountForm.tenantCompanyId = this.tenantAccount.tenantCompanyId
-    this.updateTenantAccountForm.accountName = this.tenantAccount.accountName
-    this.updateTenantAccountForm.accountType = this.tenantAccount.accountType
-    this.updateTenantAccountForm.account = this.tenantAccount.account
-    this.updateTenantAccountForm.bank = this.tenantAccount.bank
   },
   computed: {
     ...mapState({
@@ -796,16 +813,16 @@ export default {
       flowConfigs: state => state.flowConfig.flowConfigs
     }),
     isBankAccount () {
-      return this.checkedAccountType === 3
+      return this.createTenantAccountFrom.accountType === 0
     },
     isAlipayAccount () {
-      return this.checkedAccountType === 6
+      return this.createTenantAccountFrom.accountType === 1
     },
     isWeChatAccount () {
-      return this.checkedAccountType === 9
+      return this.createTenantAccountFrom.accountType === 2
     },
     isCashkAccount () {
-      return this.checkedAccountType === 12
+      return this.createTenantAccountFrom.accountType === 3
     }
   }
 }

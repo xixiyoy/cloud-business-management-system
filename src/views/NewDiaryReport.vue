@@ -5,12 +5,12 @@
           <el-form label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="6">
-                <el-form-item label="客户名称" prop="pass">
+                <el-form-item label="客户名称">
                   <el-input v-model="createFianceForm.customerName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="客户代表" prop="pass">
+                <el-form-item label="客户代表">
                   <el-input v-model="createFianceForm.customerRelName"></el-input>
                 </el-form-item>
               </el-col>
@@ -61,12 +61,12 @@
             </el-row>
             <el-row>
               <el-col :span="6">
-                <el-form-item label="收支金额" prop="name" required>
+                <el-form-item label="收支金额" required>
                   <el-input v-model="createFianceForm.money"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="收支时间" prop="name" required>
+                <el-form-item label="收支时间" required>
                   <el-input v-model="createFianceForm.fianceTime"></el-input>
                 </el-form-item>
               </el-col>
@@ -97,7 +97,7 @@
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="摘要" prop="pass">
+                <el-form-item label="摘要">
                   <el-input type="textarea" v-model="createFianceForm.comment"></el-input>
                 </el-form-item>
               </el-col>

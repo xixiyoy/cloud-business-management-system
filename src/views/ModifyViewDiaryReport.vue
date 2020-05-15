@@ -7,7 +7,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="审核状态: " prop="name">
-            <span >{{updateFianceForm.statusName}}</span>
+            <span >{{report.statusName}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -104,6 +104,7 @@ export default {
   },
   data () {
     return {
+      // fianceId: this.$route.query.fianceId,
       fianceId: 1,
       updateFianceForm: {
         fianceId: 0,

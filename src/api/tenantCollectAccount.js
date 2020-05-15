@@ -7,7 +7,7 @@ const getTenantAccountList = () => request({
 const createTenantAccount = createTenantAccountFrom => request({
   url: '/tenantCollectAccount/save',
   method: 'POST',
-  params: createTenantAccountFrom
+  data: createTenantAccountFrom
 })
 
 const getTenantAccountDetail = tenantCollectAccountId => request({
@@ -23,9 +23,7 @@ const updateTenantAccount = tenantAccount => request({
 const deleteTenantAccount = tenantCollectAccountIds => request({
   url: '/tenantCollectAccount/delete',
   method: 'POST',
-  data: {
-    tenantCollectAccountIds
-  }
+  data: tenantCollectAccountIds
 })
 
 export {
