@@ -13,12 +13,12 @@
                 <el-form-item label="客户代表">
                     <el-select
                     v-model="createFianceForm.customerRelName"
-                    @change="handleCustomerRelNameAdviserSelectChange" style="width: 100%">
+                    style="width: 100%">
                     <el-option
                       v-for="(user, index) in allUsers"
                       :key="index"
                       :label="user.userName"
-                      :value="user.value">
+                      :value="user.userName">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -136,7 +136,7 @@ export default {
     return {
       // 3.1 先写创建日记账单所需要的 form
       // 3.2 将这个 form 和上面 html 的输入框了绑定
-      submitDate: [],
+      submitDate: '',
       createFianceForm: {
         customerName: '',
         customerRelName: '',
@@ -147,7 +147,8 @@ export default {
         money: '',
         comment: '',
         fianceTypeValue: '',
-        fianceTypeName: ''
+        fianceTypeName: '',
+        fianceTime: ''
       },
       fianceTypes: [
         {
@@ -182,9 +183,6 @@ export default {
     handleiFanceTypeSelectChange (value) {
       this.createFianceForm.fianceTypeName = this.getFianceTypeName(value)
     },
-    handleCustomerRelNameAdviserSelectChange (value) {
-      this.createFianceForm.customerRelName = this.getUserName(value)
-    },
     // 3.3 在 methods 中定一个方法
     handleCreateFianceButtonClick () {
       // 调用 3.5 的创建方法
@@ -196,7 +194,7 @@ export default {
     // 3.5 在 methods 中定一个方法用来调用 vuex 中 actions 中的方法
     createFiance () {
       this.isDiaryReport = true
-      const date = this.submitDate[0]
+      const date = this.submitDate
       this.createFianceForm.fianceTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`
       this.$store.dispatch('createFiance', this.createFianceForm).then(() => {
         Message({

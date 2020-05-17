@@ -148,13 +148,13 @@
         <el-button @click="handleTransferTaskButtonClick">交接任务</el-button>
         <el-dialog title="交接任务: " :visible.sync="HandoverTaskDialogFormVisible" width="40%">
           <el-form>
-            <el-form-item label="新负责人" required="">
-              <el-select placeholder="请选择" v-model="transferTaskForm.receiveUserName">
+            <el-form-item label="新负责人" required>
+              <el-select placeholder="请选择" v-model="transferTaskForm.receiveUserName" @change="handleReceiveUserSelectChange">
                 <el-option
-                  v-for="item in allUser.list"
-                  :key="item.userName"
-                  :label="item.userName"
-                  :value="item.userName"
+                  v-for="(sysUser, index) in allUser.list"
+                  :key="index"
+                  :label="sysUser.userName"
+                  :value="sysUser.userId"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -407,6 +407,13 @@ export default {
         })
         this.receiveOuterVisible = false
       })
+    },
+    // 交接人传值
+    getAllUserName (id) {
+      return this.allUser.list.filter(({ userId }) => userId === id)[0].userName
+    },
+    handleReceiveUserSelectChange (id) {
+      this.transferTaskForm.receiveUserName = this.getAllUserName(id)
     },
     // 完成记账
     completeTask () {
