@@ -358,6 +358,7 @@
                   action
                   :http-request="handleIdCardCopyUploadHttpRequest"
                   :file-list="idCardCopyFiles"
+                  list-type="picture"
                   >
                   <el-button size="small" type="primary">选择上传文件</el-button>
                   <div slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -685,7 +686,6 @@ export default {
     handleIdCardCopyUploadHttpRequest ({ file }) {
       const formData = new FormData()
       formData.append('file', file)
-      console.log(file)
       this.idCardCopyUpload(formData)
     },
     idCardCopyUpload (formData) {
@@ -698,7 +698,6 @@ export default {
         this.idCardCopyFiles.push({
           url
         })
-        console.log(this.idCardCopyFiles)
       }).catch(message => {
         Message({
           message,
