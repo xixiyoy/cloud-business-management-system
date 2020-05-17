@@ -35,6 +35,11 @@ const getTotalCash = data => request({
   data: { type: data.type }
 })
 
+const check = checkForm => request({
+  url: '/fiance/check',
+  params: checkForm
+})
+
 export {
   getDiaryReportList,
 
@@ -42,5 +47,6 @@ export {
   createFiance,
   updateFiance,
   getFianceDetail,
-  getTotalCash
+  getTotalCash,
+  check
 }

@@ -10,16 +10,16 @@
             <el-button @click="handleClickModifyViewDiaryReport">修改内容</el-button>
           </el-col>
         </el-row><br>
-        <el-row>
+        <el-row v-show="isCheckShow">
           <el-col :span="4" style="float:right">
             <el-popover
               placement="top"
               width="160"
               v-model="visible">
-              <p>这是一段内容这是一段内容确定删除吗？</p>
+              <p>是否确认审批？</p>
               <div style="text-align: right; margin: 0">
                 <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-                <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
+                <el-button type="primary" size="mini" @click="handleCheckClick">确定</el-button>
               </div>
               <el-button slot="reference">确认审批</el-button>
             </el-popover>
@@ -97,6 +97,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { Message } from 'element-ui'
 
 export default {
   metaInfo: {
@@ -105,7 +106,10 @@ export default {
   data () {
     return {
       fianceId: 0,
-      visible: false
+      visible: false,
+      checkForm: {
+        checkUserId: ''
+      }
     }
   },
   methods: {
@@ -114,16 +118,41 @@ export default {
     },
     getFiance () {
       this.$store.dispatch('getFianceById', this.fianceId)
+    },
+    handleCheckClick () {
+      this.checkForm.fianceId = this.fianceId
+      this.checkForm.checkUserId = this.user.userId
+      this.$store.dispatch('check', this.checkForm).then(() => {
+        Message({
+          type: 'success',
+          message: '审批成功'
+        })
+        this.visible = false
+        this.getFiance()
+      }).catch(message => {
+        Message({
+          type: 'error',
+          message
+        })
+      })
+    },
+    getCurrentUser () {
+      this.$store.dispatch('getSysInfo')
     }
   },
   mounted () {
     this.fianceId = this.$route.query.fianceId
     this.getFiance()
+    this.getCurrentUser()
   },
   computed: {
     ...mapState({
-      report: state => state.fiance.fiance
-    })
+      report: state => state.fiance.fiance,
+      user: state => state.sysUser.user.user
+    }),
+    isCheckShow () {
+      return this.report.statusName !== '已核算'
+    }
   }
 }
 </script>

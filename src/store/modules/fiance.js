@@ -5,7 +5,8 @@ import {
   createFiance,
   updateFiance,
   getFianceDetail,
-  getTotalCash
+  getTotalCash,
+  check
 } from '../../api/fiance'
 
 const state = {
@@ -52,6 +53,12 @@ const actions = {
   async getFianceById ({ commit }, fianceId) {
     const { data: fiance } = await getFianceDetail(fianceId)
     commit('SET_FIANCE', fiance)
+  },
+  async check ({ commit }, checkForm) {
+    const { data: { code, msg } } = await check(checkForm)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
   }
 }
 
