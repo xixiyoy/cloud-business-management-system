@@ -5,16 +5,16 @@
     <p><strong class="apply-invoicing-title-custom">基本信息</strong></p>
     <el-form label-width="150px" class="demo-ruleForm">
       <el-row>
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item label="发票类型: " required>
-            <el-select v-model="createInvoiceFrom.invoiceTypeName" @change="handleTypeSelectChange">
+            <el-select v-model="createInvoiceFrom.invoiceTypeName" @change="handleTypeSelectChange" style="width:100%">
               <el-option value="0">增值税专用发票</el-option>
               <el-option value="1">增值税普通发票</el-option>
               <el-option value="2">增值税电子普通发票</el-option>
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item label="服务公司: " required>
               <el-select class="account-source-left-custom" v-model="createInvoiceFrom.entityId" @change="handleComSelectChange" style="width: 100%" >
                 <el-option
@@ -28,45 +28,45 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item label="发票抬头: " required>
             <el-input v-model="createInvoiceFrom.invoiceHead"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item label="开票金额: " required>
             <el-input v-model="createInvoiceFrom.invoiceMoney"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item label="社会信用代码: " required>
             <el-input v-model="createInvoiceFrom.creditCode"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item label="地址: ">
             <el-input v-model="createInvoiceFrom.address"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item label="电话: ">
             <el-input v-model="createInvoiceFrom.phone"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="16">
+        <el-col :span="20">
           <el-form-item label="开户行及账号: ">
             <el-input v-model="createInvoiceFrom.account"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="16">
+        <el-col :span="20">
           <el-form-item label="备注信息: ">
             <el-input v-model="createInvoiceFrom.invoiceRemark"></el-input>
           </el-form-item>

@@ -145,15 +145,28 @@
                           <el-form-item label="产品名称：">
                             <el-input
                               v-model="editTaskForm.productName"
+                              @change="handleAddTaskFormProductSelectChange"
                               disabled>
                             </el-input>
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                          <el-form-item label="财税顾问：">
+                          <el-form-item label="财税顾问：" v-show="!isAngentDetail">
                             <el-select
                               v-model="editTaskForm.relUserId"
                               @change="handleEditTaskFormFinancialAdviserSelectChange">
+                              <el-option
+                                v-for="user in users"
+                                :key="user.userId"
+                                :label="user.userName"
+                                :value="user.userId">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                          <el-form-item label="负责人：" v-show="isAngentDetail">
+                            <el-select
+                              v-model="editTaskForm.relUserId"
+                              @change="handleAddTaskFormFinancialAdviserSelectChange">
                               <el-option
                                 v-for="user in users"
                                 :key="user.userId"
@@ -175,7 +188,7 @@
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                          <el-form-item label="会计助理">
+                          <el-form-item label="会计助理" v-show="!isAngentDetail">
                             <el-select
                               v-model="editTaskForm.relHelpUserId"
                               @change="handleEditTaskFormAccountingAssistantSelectChange">
@@ -191,7 +204,7 @@
                       </el-row>
                       <el-row :gutter="20">
                         <el-col :span="12">
-                          <el-form-item label="服务周期：">
+                          <el-form-item label="服务周期：" v-show="!isAngentDetail">
                             <el-input-number
                               :min="1"
                               :step="1"
@@ -200,7 +213,7 @@
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                          <el-form-item label="赠送：">
+                          <el-form-item label="赠送：" v-show="!isAngentDetail">
                             <el-input-number
                               :min="0"
                               :step="1"
@@ -211,7 +224,7 @@
                       </el-row>
                       <el-row>
                         <el-col>
-                          <el-form-item label="付费方式：">
+                          <el-form-item label="付费方式：" v-show="!isAngentDetail">
                             <el-select
                               v-model="editTaskForm.payCycle">
                               <el-option

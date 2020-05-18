@@ -6,27 +6,36 @@
     <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-row>
         <el-col :span="24">
-          <el-form-item label="审核状态: " prop="name">
+          <el-form-item label="审核状态: ">
             <span >{{report.statusName}}</span>
           </el-form-item>
         </el-col>
       </el-row>
             <el-row>
               <el-col :span="10">
-                <el-form-item label="客户名称: " prop="name">
+                <el-form-item label="客户名称: ">
                   <el-input v-model="updateFianceForm.customerName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
-                <el-form-item label="客户代表: " prop="name">
-                  <el-input v-model="updateFianceForm.customerRelName"></el-input>
+                <el-form-item label="客户代表">
+                    <el-select
+                    v-model="updateFianceForm.customerRelName"
+                    style="width: 100%">
+                    <el-option
+                      v-for="(user, index) in allUsers"
+                      :key="index"
+                      :label="user.userName"
+                      :value="user.userName">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
-                <el-form-item label="收支部门: " prop="name">
-                  <el-select class="account-source-left-custom" v-model="updateFianceForm.fianceDeptId" @change="handleDepartmentSelectChange">
+                <el-form-item label="收支部门: ">
+                  <el-select class="account-source-left-custom" v-model="updateFianceForm.fianceDeptId" @change="handleDepartmentSelectChange" style="width: 100%">
                     <el-option
                       v-for="(department, index) in departments"
                       :key="index"
@@ -37,8 +46,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="10">
-                <el-form-item label="收支人员: " prop="name">
+                <el-form-item label="收支人员: ">
                     <el-select
+                    style="width: 100%"
                     v-model="updateFianceForm.fianceUserId"
                     @change="handleEditTaskFormFinancialAdviserSelectChange">
                     <el-option
@@ -53,32 +63,46 @@
             </el-row>
             <el-row>
               <el-col :span="10">
-                <el-form-item label="收支金额: ">
-                  <el-input v-model="updateFianceForm.money"></el-input>
+                <el-form-item label="收支类型" required>
+                    <el-select
+                    v-model="updateFianceForm.fianceTypeValue"
+                    @change="handleiFanceTypeSelectChange" style="width: 100%">
+                    <el-option
+                    v-for="(fianceType, index)  in fianceTypes"
+                    :key="index"
+                    :label="fianceType.name"
+                    :value="fianceType.value"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
-                <el-form-item label="结余: ">
-                  <el-input v-model="updateFianceForm.balance"></el-input>
+                <el-form-item label="收支时间" required>
+                  <span class="block">
+                    <el-date-picker
+                      v-model="submitDate"
+                      type="date"
+                      placeholder="选择日期">
+                    </el-date-picker>
+                  </span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="10">
+                <el-form-item label="收支金额: ">
+                  <el-input v-model="updateFianceForm.money"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="创建人: ">
-                  <el-input v-model="updateFianceForm.createUserName"></el-input>
+                  <el-input v-model="updateFianceForm.createUserName" disabled></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="创建时间: ">
                   <el-input v-model="report.createTime" disabled></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="10">
-                <el-form-item label="收支时间: ">
-                  <el-input v-model="updateFianceForm.fianceTime"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -119,7 +143,18 @@ export default {
         createUserName: '',
         comment: '',
         fianceTime: ''
-      }
+      },
+      fianceTypes: [
+        {
+          name: '支出',
+          value: '1'
+        },
+        {
+          name: '收款',
+          value: '0'
+        }
+      ],
+      submitDate: ''
     }
   },
   methods: {
@@ -135,6 +170,15 @@ export default {
     handleEditTaskFormFinancialAdviserSelectChange (id) {
       this.updateFianceForm.checkUserName = this.getUsers(id)
     },
+    getFianceTypeName (value) {
+      if (value === '0') {
+        return '收款'
+      }
+      return '支出'
+    },
+    handleiFanceTypeSelectChange (value) {
+      this.updateFianceForm.fianceTypeName = this.getFianceTypeName(value)
+    },
     getUsers () {
       this.$store.dispatch('getUserList')
     },
@@ -142,6 +186,8 @@ export default {
       this.$store.dispatch('getDeptList')
     },
     modifyFiance () {
+      const date = this.submitDate
+      this.updateFianceForm.fianceTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`
       this.$store.dispatch('updateFiance', this.updateFianceForm).then(() => {
         Message({
           message: '修改成功',

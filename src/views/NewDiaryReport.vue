@@ -26,8 +26,8 @@
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="收支部门">
-                  <el-select class="account-source-left-custom" v-model="createFianceForm.fianceDeptId" @change="handleDepartmentSelectChange" style="width: 100%" >
+                <el-form-item label="收支部门" required>
+                  <el-select class="account-source-left-custom" v-model="createFianceForm.fianceDeptId" @change="handleDepartmentSelectChange" style="width: 100%">
                     <el-option
                       v-for="(department, index) in departments"
                       :key="index"

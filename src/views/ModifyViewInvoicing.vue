@@ -5,66 +5,77 @@
     <p><strong class="modify-view-invoicing-title-custom">基本信息</strong></p>
     <el-form label-width="150px" class="demo-ruleForm">
       <el-row>
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item label="发票类型：">
-            <el-input v-model="updateInvoiceForm.invoiceTypeName"></el-input>
+            <el-select v-model="updateInvoiceForm.invoiceTypeName" @change="handleTypeSelectChange" style="width:100%">
+              <el-option value="0">增值税专用发票</el-option>
+              <el-option value="1">增值税普通发票</el-option>
+              <el-option value="2">增值税电子普通发票</el-option>
+            </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="服务公司：">
-            <el-input v-model="updateInvoiceForm.entityName"></el-input>
+        <el-col :span="10">
+          <el-form-item label="服务公司: " required>
+              <el-select class="account-source-left-custom" v-model="updateInvoiceForm.entityId" @change="handleComSelectChange" style="width: 100%" >
+                <el-option
+                  v-for="(company, index) in companies"
+                  :key="index"
+                  :label="company.fullName"
+                  :value="company.tenantCompanyId">
+                </el-option>
+              </el-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item label="发票抬头：">
             <el-input v-model="updateInvoiceForm.invoiceHead"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item label="开票金额：">
             <el-input v-model="updateInvoiceForm.invoiceMoney"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item label="社会信用代码：">
             <el-input v-model="updateInvoiceForm.creditCode"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="16">
+        <el-col :span="20">
           <el-form-item label="电话：">
             <el-input v-model="updateInvoiceForm.phone"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="16">
+        <el-col :span="20">
           <el-form-item label="地址：">
             <el-input v-model="updateInvoiceForm.address"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="16">
+        <el-col :span="20">
           <el-form-item label="开户银行：">
             <el-input v-model="updateInvoiceForm.bank"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="16">
+        <el-col :span="20">
           <el-form-item label="银行账号：">
             <el-input v-model="updateInvoiceForm.account"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="16">
+        <el-col :span="20">
           <el-form-item label="备注信息">
             <el-input v-model="updateInvoiceForm.invoiceRemark"></el-input>
           </el-form-item>
@@ -89,7 +100,7 @@ export default {
         invoiceTypeName: '',
         entityName: '',
         invoiceHead: '',
-        invoiceMoney: 1,
+        invoiceMoney: '',
         invoiceRemark: '',
         account: '',
         phone: '',
@@ -97,7 +108,11 @@ export default {
         bank: '',
         creditCode: 1895648799
       },
-      invoiceId: 1
+      invoiceId: 1,
+      getServiceCompanyFrom: {
+        page: 1,
+        limit: 10
+      }
     }
   },
   methods: {
@@ -105,8 +120,29 @@ export default {
       this.$store.dispatch('getBillingById', this.invoiceId)
     },
     handleUpdateInvoiceButtonClick () {
-      console.log(this.updateInvoiceForm)
       this.modifyInvoice()
+    },
+    getTypeName (value) {
+      if (value === '0') {
+        return '增值税专用发票'
+      } else if (value === '1') {
+        return '增值税普通发票'
+      } else if (value === '2') {
+        return '增值税电子普通发票'
+      }
+    },
+    handleTypeSelectChange (value) {
+      this.updateInvoiceForm.invoiceTypeName = this.getTypeName(value)
+    },
+    // 所有服务公司获取
+    getCompanies () {
+      this.$store.dispatch('getCompanyList', this.getServiceCompanyFrom)
+    },
+    getCompanicesName (id) {
+      return this.companies.filter(({ tenantCompanyId }) => tenantCompanyId === id)[0].fullName
+    },
+    handleComSelectChange (id) {
+      this.createInvoiceFrom.entityName = this.getCompanicesName(id)
     },
     modifyInvoice () {
       this.$store.dispatch('updateInvoice', this.updateInvoiceForm).then(() => {
@@ -124,6 +160,7 @@ export default {
     }
   },
   mounted () {
+    this.getCompanies()
     this.invoiceId = this.$route.query.invoiceId
     this.getInvoice()
     this.updateInvoiceForm.invoiceId = this.invoiceId
@@ -136,10 +173,13 @@ export default {
     this.updateInvoiceForm.bank = this.invoice.bank
     this.updateInvoiceForm.invoiceRemark = this.invoice.invoiceRemark
     this.updateInvoiceForm.account = this.invoice.account
+    this.updateInvoiceForm.invoiceMoney = this.invoice.invoiceMoney
   },
   computed: {
     ...mapState({
-      invoice: state => state.invoice.invoice
+      invoice: state => state.invoice.invoice,
+      // 服务公司获取
+      companies: state => state.tenantCompany.serviceCompanys.page.list
     })
   }
 }
