@@ -155,7 +155,7 @@
                   </template>
                   <a-step :title="task.createUserName" :description="getNotAgentDate(task.createTime)"/>
                   <a-step title="服务中" description="服务中" />
-                  <a-step title="已完成" description="已完成" />
+                  <a-step :title="getFinish(task)" :description="getFinishDescription(task)" />
                 </a-steps>
               </el-col>
             </el-row>
@@ -256,6 +256,27 @@ export default {
     handleTabClick () {
       this.getOnceTaskFrom.page = 1
       this.getFlows()
+    },
+    getFinish ({ taskStatusName }) {
+      if (taskStatusName === '交接中') {
+        return '交接中'
+      }
+      if (taskStatusName === '已终止') {
+        return '已终止'
+      }
+      return '已完成'
+    },
+    getFinishDescription ({ taskStatusName }) {
+      if (taskStatusName === '交接中') {
+        return '交接中'
+      }
+      if (taskStatusName === '已终止') {
+        return '已终止'
+      }
+      if (taskStatusName === '已完成') {
+        return '已完成'
+      }
+      return '未开始'
     },
     getFlowLabels () {
       getLabels('task').then(({ data: flowLabels }) => {

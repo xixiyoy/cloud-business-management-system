@@ -13,11 +13,11 @@
             <el-col :span="21">
               <a-steps :current="0" class="agent-order-steps">
                 <template slot="progressDot" slot-scope="{ description }">
-                  <span class="ant-steps-icon-dot" :class="getStepsIconClass(description)"></span>
+                  <span class="ant-steps-icon-dot" :class="getStepsIconClass(description, false, agentOrder.baseInformation.task.taskStatusName)"></span>
                 </template>
-                <a-step title="老刘" description="2020-01-01" />
+                <a-step :title="agentOrder.baseInformation.task.createUserName" :description="getNotAgentDate(agentOrder.baseInformation.task.createTime)" />
                 <a-step title="服务中" description="服务中" />
-                <a-step title="已完成" description="未开始" />
+                <a-step :title="getFinish(agentOrder.baseInformation.task)" :description="getFinishDescription(agentOrder.baseInformation.task)"/>
               </a-steps>
             </el-col>
           </el-row>
@@ -289,6 +289,60 @@ export default {
     })
   },
   methods: {
+    getNotAgentDate (createTime) {
+      const date = new Date(createTime)
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    },
+    getFinish ({ taskStatusName }) {
+      if (taskStatusName === '交接中') {
+        return '交接中'
+      }
+      if (taskStatusName === '已终止') {
+        return '已终止'
+      }
+      return '已完成'
+    },
+    getFinishDescription ({ taskStatusName }) {
+      if (taskStatusName === '交接中') {
+        return '交接中'
+      }
+      if (taskStatusName === '已终止') {
+        return '已终止'
+      }
+      if (taskStatusName === '已完成') {
+        return '已完成'
+      }
+      return '未开始'
+    },
+    getStepsIconClass (description, isAgent, status) {
+      switch (description) {
+        case '未开始': {
+          return 'custom-wait'
+        }
+        case '已完成': {
+          if (!isAgent) {
+            if (status === '已完成') {
+              return 'custom-finish'
+            } else {
+              return 'custom-wait'
+            }
+          }
+          return 'custom-finish'
+        }
+        case '服务中': {
+          return 'custom-process'
+        }
+        case '交接中': {
+          return 'custom-jiaojie-zhong'
+        }
+        default: {
+          if (description.startsWith('2')) {
+            return 'custom-process'
+          }
+          return 'custom-forbiden'
+        }
+      }
+    },
     async getAgentOrderDetail () {
       this.taskId = this.$route.query.taskId
       this.$store.dispatch('getTaskById', this.taskId)
@@ -335,22 +389,6 @@ export default {
     handleStopTaskButtonClick () {
       this.terminationTaskDialogFormVisible = true
       this.stopTaskForm.taskId = this.taskId
-    },
-    getStepsIconClass (description) {
-      switch (description) {
-        case '未开始': {
-          return 'custom-wait'
-        }
-        case '已完成': {
-          return 'custom-finish'
-        }
-        case '服务中': {
-          return 'custom-process'
-        }
-        case '交接中': {
-          return 'custom-jiaojie-zhong'
-        }
-      }
     },
     getTaskFlows (taskFlows) {
       const availableTaskFlows = taskFlows.map(({ taxDate }) => ({

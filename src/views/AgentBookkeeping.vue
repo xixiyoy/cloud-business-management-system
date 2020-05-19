@@ -297,6 +297,18 @@
             <el-button @click="carryOutTaskDialogFormVisible = false">取 消</el-button>
           </div>
         </el-dialog>
+        <el-button @click="handleStartTaskButtonClick">开始记账</el-button>
+        <el-dialog title="开始记账" :visible.sync="carryOutTaskDialogFormVisible" width="40%">
+          <el-form>
+            <el-form-item label="备注: ">
+              <el-input v-model="completeTaskForm.remark"></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="completeTask">确 定</el-button>
+            <el-button @click="carryOutTaskDialogFormVisible = false">取 消</el-button>
+          </div>
+        </el-dialog>
       </el-row><br>
       <el-row>
         <el-button @click="handleStopTaskButtonClick">终止任务</el-button>
