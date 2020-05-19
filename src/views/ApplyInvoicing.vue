@@ -110,7 +110,6 @@ export default {
   },
   methods: {
     handleCreateInvoiceButtonClick () {
-      this.createInvoiceFrom.confirmUserName = this.userInfo.userName
       this.createInvoice()
     },
     createInvoice () {

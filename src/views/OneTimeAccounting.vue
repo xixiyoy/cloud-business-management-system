@@ -149,7 +149,7 @@
         <el-dialog title="交接任务: " :visible.sync="HandoverTaskDialogFormVisible" width="40%">
           <el-form>
             <el-form-item label="新负责人" required>
-              <el-select placeholder="请选择" v-model="transferTaskForm.receiveUserName" @change="handleReceiveUserSelectChange">
+              <el-select placeholder="请选择" v-model="transferTaskForm.receiveUserId" @change="handleReceiveUserSelectChange">
                 <el-option
                   v-for="(sysUser, index) in allUser.list"
                   :key="index"

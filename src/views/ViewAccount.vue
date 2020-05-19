@@ -88,7 +88,12 @@
               </el-col>
             </el-row>
             <el-row>
-              <el-col :span="12">
+              <el-col :span="8" v-show="isRoyaltyCoefficientShow">
+                <el-form-item label="提成系数：">
+                  <span>{{account.royaltyCoefficient}}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
                 <el-form-item label="备注: ">
                   <span>{{account.remark}}</span>
                 </el-form-item>
@@ -221,12 +226,15 @@
                       <el-row :gutter="20">
                         <el-col :span="12">
                           <el-form-item label="产品名称：">
-                            <span>{{account.taskList.productName}}</span>
+                            <span @change="handleAddTaskFormProductSelectChange">{{account.taskList.productName}}</span>
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                          <el-form-item label="财税顾问: ">
-                            <span>{{account.taskList.relUserName}}</span>
+                          <el-form-item label="财税顾问: " v-show="!isAngentDetail">
+                            <span @change="handleAddTaskFormFinancialAdviserSelectChange">{{account.taskList.relUserName}}</span>
+                          </el-form-item>
+                          <el-form-item label="负责人: " v-show="isAngentDetail">
+                            <span @change="handleAddTaskFormFinancialAdviserSelectChange">{{account.taskList.relUserName}}</span>
                           </el-form-item>
                         </el-col>
                       </el-row>
@@ -237,26 +245,26 @@
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                          <el-form-item label="会计助理: ">
-                            <span>{{account.taskList.relHelpUserName}}</span>
+                          <el-form-item label="会计助理: " v-show="!isAngentDetail">
+                            <span @change="handleEditTaskFormAccountingAssistantSelectChange">{{account.taskList.relHelpUserName}}</span>
                           </el-form-item>
                         </el-col>
                       </el-row>
                       <el-row :gutter="20">
                         <el-col :span="12">
-                          <el-form-item label="服务周期: ">
+                          <el-form-item label="服务周期: " v-show="!isAngentDetail">
                             <span>{{account.taskList.number}}</span>
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                          <el-form-item label="赠送: ">
+                          <el-form-item label="赠送: " v-show="!isAngentDetail">
                             <span>{{account.taskList.giftNumber}}</span>
                           </el-form-item>
                         </el-col>
                       </el-row>
                       <el-row>
                         <el-col>
-                          <el-form-item label="付费方式: ">
+                          <el-form-item label="付费方式: " v-show="!isAngentDetail">
                             <span>{{account.taskList.payCycle}}</span>
                           </el-form-item>
                         </el-col>
@@ -332,30 +340,70 @@ export default {
   },
   data () {
     return {
-      customerId: 0,
-      activeNames: ['1'],
+      customerId: '',
+      activeNames: [''],
       idCardImages: [''],
       businessLicenseImages: [''],
       contractImages: [''],
       processList: [],
-      editTaskDialogVisible: false
+      editTaskDialogVisible: false,
+      isAngentDetail: false
     }
   },
   mounted () {
     this.customerId = this.$route.query.customerId
     this.getCustomer()
     this.getUsers()
+    this.getProducts()
   },
   computed: {
+    isRoyaltyCoefficientShow () {
+      return this.isTasksContainAgentReport()
+    },
     isAgentReport () {
       return this.account.taskList.filter(process => process.productName === '代理记账').length > 0
     },
     ...mapState({
       account: state => state.customer.customer,
-      users: state => state.sysUser.users.list
+      users: state => state.sysUser.users.list,
+      products: state => state.product.products.page.list
     })
   },
   methods: {
+    handleEditTaskFormAccountingAssistantSelectChange (id) {
+      this.account.taskList.relHelpUserName = this.getUserName(id)
+    },
+    handleAddTaskFormFinancialAdviserSelectChange (id) {
+      this.account.taskList.relUserName = this.getUserName(id)
+    },
+    isTasksContainAgentReport () {
+      return this.account.taskList.filter(({ productName }) => productName === '代理记账').length > 0
+    },
+    getProducts () {
+      this.$store.dispatch('getProducts', this.getProductsForm)
+    },
+    // 根据 ID 获取产品
+    getProductById (id) {
+      return this
+        .products
+        .filter(({ productId }) => productId === id)[0]
+    },
+    getProductNameById (id) {
+      return this
+        .getProductById(id)
+        .productName
+    },
+    // 处理添加产品产品名称选择框改变事件
+    handleAddTaskFormProductSelectChange (id) {
+      // 根据产品 ID 获取产品名称并赋值给添加产品表单对应字段
+      const productName = this.getProductNameById(id)
+      if (productName === '代理记账') {
+        this.isAngentDetail = false
+      } else {
+        this.isAngentDetail = true
+      }
+      this.account.productName = this.getProductNameById(id)
+    },
     handleViewAgentClick (row) {
       this.$router.push({ path: '/agent-bookkeeping', query: { accountName: row.accountName } })
     },
@@ -374,8 +422,11 @@ export default {
       return giftNumber - (number - completeCount)
     },
     getLeftMonths (newestTask) {
-      const { number, completeCount } = newestTask
-      return completeCount - number
+      const { number, completeCount, giftNumber } = newestTask
+      if (completeCount <= number) {
+        return number - completeCount
+      }
+      return giftNumber - (completeCount - number)
     },
     handleEditTaskButtonClick (index) {
       const task = this.account.taskList[index]
@@ -383,12 +434,7 @@ export default {
       this.editTaskDialogVisible = true
     },
     getUsers () {
-      this
-        .$store
-        .dispatch(
-          'getUserList',
-          this.getUsersForm
-        )
+      this.$store.dispatch('getUserList', this.getUsersForm)
     }
   }
 }

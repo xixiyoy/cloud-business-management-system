@@ -124,10 +124,10 @@
             <el-table
               :data="createCustomerForm.taskList">
               <el-table-column label="序号"></el-table-column>
-              <el-table-column label="产品名称" prop="productName"></el-table-column>
-              <el-table-column label="服务单价" prop="price"></el-table-column>
-              <el-table-column label="服务周期（月）" prop="number" v-if="isRoyaltyCoefficientShow"></el-table-column>
-              <el-table-column label="赠送（月）" prop="giftNumber" v-if="isRoyaltyCoefficientShow"></el-table-column>
+              <el-table-column label="产品名称"></el-table-column>
+              <el-table-column label="服务单价"></el-table-column>
+              <el-table-column label="服务周期（月）" v-if="isRoyaltyCoefficientShow"></el-table-column>
+              <el-table-column label="赠送（月）" v-if="isRoyaltyCoefficientShow"></el-table-column>
               <el-table-column label="总额">
                 <template slot-scope="scope">
                   {{ scope.row.price * scope.row.number }}
@@ -540,13 +540,7 @@ export default {
   methods: {
     // 获取产品列表
     getProducts () {
-      // 这里还需要增加获取失败时的提示
-      this
-        .$store
-        .dispatch(
-          'getProducts',
-          this.getProductsForm
-        )
+      this.$store.dispatch('getProducts', this.getProductsForm)
     },
     // 根据 ID 获取产品
     getProductById (id) {
@@ -583,12 +577,7 @@ export default {
       this.addTaskDialogVisible = true
     },
     getUsers () {
-      this
-        .$store
-        .dispatch(
-          'getUserList',
-          this.getUsersForm
-        )
+      this.$store.dispatch('getUserList', this.getUsersForm)
     },
     getUser (id) {
       return this
@@ -685,6 +674,7 @@ export default {
           type: 'success'
         })
         this.isAccount = false
+        this.$router.push({ path: '/view-account' })
       }).catch(message => {
         Message({
           message,

@@ -17,11 +17,13 @@
             </div>
           </el-col>
           <el-col :span="11">
-            <div class="block">
-              <el-date-picker
-                type="date"
-                placeholder="统计年份">
-              </el-date-picker>
+            <div class="container">
+              <div class="block">
+                <el-date-picker
+                  type="year"
+                  placeholder="统计年份">
+                </el-date-picker>
+              </div>
             </div>
           </el-col>
           <!-- <el-col :span="3">

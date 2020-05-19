@@ -90,7 +90,8 @@
           prop="money"
           label="收支金额">
           <template slot-scope="scope">
-            <p :class="isAmountColor(scope.row)">{{ scope.row.money }}</p>
+            <p v-if="scope.row.fianceTypeName === '支出'" class="amount-red">-{{ scope.row.money }}</p>
+            <p v-else class="amount-green">{{ scope.row.money }}</p>
           </template>
         </el-table-column>
         <el-table-column
@@ -181,9 +182,6 @@ export default {
     },
     handleViewDiaryReportClick (row) {
       this.$router.push({ path: '/view-diary-report', query: { fianceId: row.fianceId } })
-    },
-    isAmountColor (row) {
-      return Number.parseFloat(row.RAEamount) > 0 ? 'amount-green' : 'amount-red'
     },
     getFianceList () {
       this.$store.dispatch('getDiaryReportList', this.getFiancesForm)
