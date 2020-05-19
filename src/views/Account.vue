@@ -15,14 +15,11 @@
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <el-dropdown style="float: right;">
-                <el-button>
-                  请选择<i class="el-icon-arrow-down el-icon--right"></i>
-                </el-button>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>服务中</el-dropdown-item>
-                  <el-dropdown-item>已完成</el-dropdown-item>
-                  <el-dropdown-item>全部</el-dropdown-item>
-                </el-dropdown-menu>
+                <el-select @change="handleStatusChange">
+                  <el-option value="0">服务中</el-option>
+                  <el-option value="1">已完成</el-option>
+                  <el-option>全部</el-option>
+                </el-select>
               </el-dropdown>
             </div>
           </el-col>
@@ -216,6 +213,9 @@ export default {
     }
   },
   methods: {
+    // 根据订单状态更新列表
+    handleStatusChange (value) {
+    },
     getCustomerLevelName (value) {
       if (value === '0') {
         return '普通'

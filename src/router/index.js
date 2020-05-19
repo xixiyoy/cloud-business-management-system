@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
-    component: Home
+    component: () => import('../views/Home')
   },
   {
     path: '/account',
@@ -96,9 +96,9 @@ const routes = [
     component: () => import('../views/ChannelDealerManagement')
   },
   {
-    path: '/login',
+    path: '/',
     name: 'Login',
-    component: () => import('../views/Login')
+    component: Login
   },
   {
     path: '/new-account-page',

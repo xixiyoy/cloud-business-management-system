@@ -218,65 +218,66 @@
               width="100">
                 <template slot-scope="scope">
                   <el-button size="mini" type="text" @click="handleEditTaskButtonClick(scope.$index)">查看</el-button>
-                  <el-dialog
-                    :visible="editTaskDialogVisible"
-                    width="50%"
-                    append-to-body>
-                    <el-form>
-                      <el-row :gutter="20">
-                        <el-col :span="12">
-                          <el-form-item label="产品名称：">
-                            <span @change="handleAddTaskFormProductSelectChange">{{account.taskList.productName}}</span>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="财税顾问: " v-show="!isAngentDetail">
-                            <span @change="handleAddTaskFormFinancialAdviserSelectChange">{{account.taskList.relUserName}}</span>
-                          </el-form-item>
-                          <el-form-item label="负责人: " v-show="isAngentDetail">
-                            <span @change="handleAddTaskFormFinancialAdviserSelectChange">{{account.taskList.relUserName}}</span>
-                          </el-form-item>
-                        </el-col>
-                      </el-row>
-                      <el-row :gutter="20">
-                        <el-col :span="12">
-                          <el-form-item label="服务单价: ">
-                            <span>{{account.taskList.price}}</span>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="会计助理: " v-show="!isAngentDetail">
-                            <span @change="handleEditTaskFormAccountingAssistantSelectChange">{{account.taskList.relHelpUserName}}</span>
-                          </el-form-item>
-                        </el-col>
-                      </el-row>
-                      <el-row :gutter="20">
-                        <el-col :span="12">
-                          <el-form-item label="服务周期: " v-show="!isAngentDetail">
-                            <span>{{account.taskList.number}}</span>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="赠送: " v-show="!isAngentDetail">
-                            <span>{{account.taskList.giftNumber}}</span>
-                          </el-form-item>
-                        </el-col>
-                      </el-row>
-                      <el-row>
-                        <el-col>
-                          <el-form-item label="付费方式: " v-show="!isAngentDetail">
-                            <span>{{account.taskList.payCycle}}</span>
-                          </el-form-item>
-                        </el-col>
-                      </el-row>
-                    </el-form>
-                    <span slot="footer" class="dialog-footer">
-                      <el-button @click="editTaskDialogVisible = false">取 消</el-button>
-                    </span>
-                  </el-dialog>
                 </template>
             </el-table-column>
           </el-table>
+          <el-dialog
+            v-if="task !== null"
+            :visible="editTaskDialogVisible"
+            width="50%"
+            append-to-body>
+            <el-form>
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item label="产品名称：">
+                    <span>{{task.productName}}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="财税顾问: " v-show="task.productName === '代理记账'">
+                    <span>{{task.relUserName}}</span>
+                  </el-form-item>
+                  <el-form-item label="负责人: " v-show="task.productName !== '代理记账'">
+                    <span>{{task.relUserName}}</span>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item label="服务单价: ">
+                    <span>{{task.price}}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="会计助理: " v-show="task.productName === '代理记账'">
+                    <span>{{task.relHelpUserName}}</span>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item label="服务周期: " v-show="task.productName === '代理记账'">
+                    <span>{{task.number}}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="赠送: " v-show="task.productName === '代理记账'">
+                    <span>{{task.giftNumber}}</span>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col>
+                  <el-form-item label="付费方式: " v-show="task.productName === '代理记账'">
+                    <span>{{task.payCycle}}</span>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="editTaskDialogVisible = false">取 消</el-button>
+            </span>
+          </el-dialog>
         </el-collapse-item>
         <img v-show="isAgentReport" class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="代帐收费: " name="5" v-show="isAgentReport">
@@ -347,7 +348,8 @@ export default {
       contractImages: [''],
       processList: [],
       editTaskDialogVisible: false,
-      isAngentDetail: false
+      isAngentDetail: false,
+      task: null
     }
   },
   mounted () {
@@ -413,6 +415,7 @@ export default {
     // 写一个获取id 得方法
     async getCustomer () {
       await this.$store.dispatch('getCustomerById', this.customerId)
+      console.log(this.account.taskList)
     },
     getLeftGifts (newestTask) {
       const { giftNumber, number, completeCount } = newestTask
@@ -429,8 +432,7 @@ export default {
       return giftNumber - (completeCount - number)
     },
     handleEditTaskButtonClick (index) {
-      const task = this.account.taskList[index]
-      this.account.taskList = task
+      this.task = this.account.taskList[index]
       this.editTaskDialogVisible = true
     },
     getUsers () {

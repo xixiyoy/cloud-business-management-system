@@ -155,7 +155,7 @@ export default {
   },
   methods: {
     signOut () {
-      this.$router.push({ path: './login' })
+      this.$router.push({ path: './' })
     },
     handleOpen (key, keyPath) {
       console.log(key, keyPath)
@@ -181,7 +181,7 @@ export default {
   },
   computed: {
     isLoginPage () {
-      return this.$route.path === '/login'
+      return this.$route.path === '/'
     },
     ...mapState({
       // 获取用户信息
