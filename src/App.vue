@@ -181,7 +181,7 @@ export default {
   },
   computed: {
     isLoginPage () {
-      return this.$route.path === '/'
+      return this.$route.path === '/home'
     },
     ...mapState({
       // 获取用户信息
