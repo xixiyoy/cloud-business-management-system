@@ -14,13 +14,14 @@
             </el-button></div></el-col>
           <el-col :span="4">
             <div class="grid-content bg-purple">
-              <el-dropdown style="float: right;">
-                <el-select @change="handleStatusChange">
-                  <el-option value="0">服务中</el-option>
-                  <el-option value="1">已完成</el-option>
-                  <el-option>全部</el-option>
-                </el-select>
-              </el-dropdown>
+              <el-select v-model="getCustomersForm.customerStatusName" @change="handleStatusChange">
+                <el-option
+                  v-for="(customerStatu, index) in customerStatus"
+                  :key="index"
+                  :label="customerStatu.name"
+                  :value="customerStatu.value">
+                </el-option>
+              </el-select>
             </div>
           </el-col>
           <el-col :span="5">
@@ -199,6 +200,20 @@ export default {
           value: '1'
         }
       ],
+      customerStatus: [
+        {
+          name: '服务中',
+          value: '0'
+        },
+        {
+          name: '已完成',
+          value: '1'
+        },
+        {
+          name: '全部',
+          value: '3'
+        }
+      ],
       multipleSelection: [],
       advancedSearchDialogVisible: false,
       accountLabels: [],
@@ -214,7 +229,20 @@ export default {
   },
   methods: {
     // 根据订单状态更新列表
-    handleStatusChange (value) {
+    handleStatusChange (name) {
+      this.getCustomersForm.customerStatusValue = this.getStatuName(name)
+      console.log(this.getStatuName(name))
+      this.getCustomersForm.status = this.getCustomersForm.customerStatusValue
+      this.getCustomers()
+    },
+    // 获取刷新的状态名
+    getStatuName (name) {
+      if (name === '0') {
+        return '0'
+      } else if (name === '1') {
+        return '1'
+      }
+      return this.getCustomers()
     },
     getCustomerLevelName (value) {
       if (value === '0') {
@@ -226,7 +254,6 @@ export default {
       this.advancedSearchForm.customerLevelName = this.getCustomerLevelName(value)
     },
     handleAdvancedSearchButtonClcik () {
-      console.log(this.advancedSearchForm)
       this.advancedSearchDialogVisible = false
     },
     getTotalAmount (row) {

@@ -5,22 +5,21 @@
         <p class="service-provider-title">基本信息</p>
         <div class="dividing-line"></div>
         <el-row>
-          <el-col :span="4">
-            <img src="" alt="">
-          </el-col>
           <el-col :span="8">
-            <img src="" alt="">
             <el-upload
-              class="upload-demo upload-logo-custom"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              list-type="picture">
-              <!-- <el-button size="small" type="primary">上传企业logo</el-button>
-              <div slot="tip" class="el-upload__tip">图片仅为png格式，建议尺寸为200*200(必须为1:1)</div> -->
-              <img id="u324_img" class="img " style="margin-left: 200px;" src="../assets/images/home/WechatIMG25.jpeg"/>
+              style="margin-left:280px;margin-top:50px;"
+              class="avatar-uploader"
+              action
+              :show-file-list="false"
+              :http-request="handleIdCardCopyUploadHttpRequest"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-col>
         </el-row>
-        <br><br><br>
+        <br>
         <el-row>
           <el-col :span="12">
             <el-form label-width="100px" class="demo-ruleForm">
@@ -486,7 +485,8 @@ export default {
         accountType: '',
         account: '',
         bank: ''
-      }
+      },
+      imageUrl: ''
     }
   },
   methods: {
@@ -787,6 +787,21 @@ export default {
           }
         })
       })
+    },
+    // 上传图片
+    handleAvatarSuccess (res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
+    },
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
     }
   },
   mounted () {
@@ -1061,5 +1076,28 @@ export default {
   }
   .clearfix:after {
     clear: both
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
   }
 </style>

@@ -365,24 +365,24 @@
       <el-collapse-item title="文档资料: " name="doc-info">
         <el-form label-width="100px">
           <el-row>
-            <el-col :span="8">
+            <el-col :span="10">
               <el-form-item label="身份证复印件: ">
                 <el-upload
                   action
                   :http-request="handleIdCardCopyUploadHttpRequest"
                   :file-list="idCardCopyFiles"
-                  list-type="picture"
-                  >
+                  list-type="picture">
                   <el-button size="small" type="primary">选择上传文件</el-button>
                   <div slot="tip">只能上传jpg/png文件，且不超过500kb</div>
                   </el-upload>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="10">
               <el-form-item label="营业执照复印件: ">
                 <el-upload
-                  class="upload-demo"
-                  action="https://jsonplaceholder.typicode.com/posts/"
+                  action
+                  :http-request="handleIdCardCopyUploadHttpRequest"
+                  :file-list="business"
                   list-type="picture">
                   <el-button size="small" type="primary">选择上传文件</el-button>
                   <div slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -391,11 +391,12 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="6">
+            <el-col :span="10">
               <el-form-item label="合同原件：">
                 <el-upload
-                  class="upload-demo"
-                  action="https://jsonplaceholder.typicode.com/posts/"
+                  action
+                  :http-request="handleIdCardCopyUploadHttpRequest"
+                  :file-list="contract"
                   list-type="picture">
                   <el-button size="small" type="primary">选择上传文件</el-button>
                   <div slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -407,8 +408,8 @@
           </el-row>
         </el-form>
       </el-collapse-item>
-    </el-collapse>
-    <div style="width: 50%; margin: 20px auto 0 auto;">
+    </el-collapse><br><br>
+    <div>
       <el-button type="primary" :loading="isAccount" @click="handleCreateCustomerButtonClick">保 存</el-button>
     </div>
   </div>
@@ -533,6 +534,8 @@ export default {
         fileType: '电子合同'
       },
       idCardCopyFiles: [],
+      business: [],
+      contract: [],
       isAngentDetail: false,
       isAccount: false
     }
@@ -643,9 +646,7 @@ export default {
             'createTask',
             this.addTaskForm
           )
-        console.log('success')
       } catch (message) {
-        console.log(message)
       }
     },
     getCustomers () {
@@ -697,7 +698,7 @@ export default {
           message: '上传成功',
           type: 'success'
         })
-        const { fileUrl: url } = this.file
+        const { fileUrl: url } = this.file.replace('/data/wwwroot/', '')
         this.idCardCopyFiles.push({
           url
         })
