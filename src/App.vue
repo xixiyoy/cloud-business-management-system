@@ -88,7 +88,7 @@
               background-color="#333"
               text-color="#fff"
               active-text-color="#ffd04b">
-              <el-menu-item index="/">
+              <el-menu-item index="/home">
                 <span slot="title">首页</span>
               </el-menu-item>
                 <el-menu-item index="/account">
@@ -181,7 +181,7 @@ export default {
   },
   computed: {
     isLoginPage () {
-      return this.$route.path === '/home'
+      return this.$route.path === '/'
     },
     ...mapState({
       // 获取用户信息

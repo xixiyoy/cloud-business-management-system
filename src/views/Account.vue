@@ -108,7 +108,7 @@
         </el-row>
     </div>
     <div class="account-table-custom">
-      <el-tabs type="border-card" v-model="getCustomersForm.type" @tab-click="handelTabClick">
+      <el-tabs type="border-card" v-model="getCustomersForm.data.type" @tab-click="handelTabClick">
         <el-tab-pane v-for="(tab, index) in accountLabels" :key="index" :label="tab.label" :name="tab.name">
           <el-table
             ref="multipleTable"
@@ -218,9 +218,13 @@ export default {
       advancedSearchDialogVisible: false,
       accountLabels: [],
       getCustomersForm: {
-        type: '',
-        limit: 10,
-        page: 1
+        params: {
+          limit: 10,
+          page: 1
+        },
+        data: {
+          type: ''
+        }
       },
       advancedSearchForm: {
         customerName: ''
@@ -229,20 +233,13 @@ export default {
   },
   methods: {
     // 根据订单状态更新列表
-    handleStatusChange (name) {
-      this.getCustomersForm.customerStatusValue = this.getStatuName(name)
-      console.log(this.getStatuName(name))
-      this.getCustomersForm.status = this.getCustomersForm.customerStatusValue
-      this.getCustomers()
-    },
-    // 获取刷新的状态名
-    getStatuName (name) {
-      if (name === '0') {
-        return '0'
-      } else if (name === '1') {
-        return '1'
+    handleStatusChange (statusValue) {
+      if (statusValue === '3') {
+        delete this.getCustomersForm.data.status
+      } else {
+        this.getCustomersForm.data.status = statusValue
       }
-      return this.getCustomers()
+      this.getCustomers()
     },
     getCustomerLevelName (value) {
       if (value === '0') {
@@ -256,8 +253,10 @@ export default {
     handleAdvancedSearchButtonClcik () {
       this.advancedSearchDialogVisible = false
     },
-    getTotalAmount (row) {
-      return row.taskList.map(task => task.price * task.number).reduce((x, y) => x + y)
+    getTotalAmount ({ taskList }) {
+      if (taskList.length !== 0) {
+        return taskList.map(task => task.price * task.number).reduce((x, y) => x + y)
+      }
     },
     toggleSelection (rows) {
       if (rows) {
@@ -290,7 +289,7 @@ export default {
             name
           }
         })
-        this.getCustomersForm.type = this.accountLabels[0].name
+        this.getCustomersForm.data.type = this.accountLabels[0].name
         this.getCustomers()
       })
     },
@@ -299,11 +298,11 @@ export default {
       this.$store.dispatch('getCustomers', this.getCustomersForm)
     },
     handelTabClick () {
-      this.getCustomersForm.page = 1
+      this.getCustomersForm.params.page = 1
       this.getCustomers()
     },
     handleCurrentChangeClick (currentPage) {
-      this.getCustomersForm.page = currentPage
+      this.getCustomersForm.params.page = currentPage
       this.getCustomers()
     }
   },

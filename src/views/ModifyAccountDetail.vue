@@ -72,13 +72,13 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <!-- <el-row :gutter="20">
+            <el-row :gutter="20">
               <el-col :span="12" v-show="isRoyaltyCoefficientShow">
                 <el-form-item label="提成系数：">
                   <el-input v-model="createCustomerForm.royaltyCoefficient"></el-input>
                 </el-form-item>
               </el-col>
-            </el-row> -->
+            </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="备注: ">

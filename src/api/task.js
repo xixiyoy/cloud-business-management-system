@@ -64,6 +64,11 @@ const backTask = backTaskForm => request({
   method: 'POST',
   params: backTaskForm
 })
+// 开始记账
+const startTask = startTaskForm => request({
+  url: '/task/startTask',
+  params: startTaskForm
+})
 
 export {
   getTaskList,
@@ -77,5 +82,6 @@ export {
   stopTask,
   backTask,
   getOnceTaskList,
-  deleteTask
+  deleteTask,
+  startTask
 }

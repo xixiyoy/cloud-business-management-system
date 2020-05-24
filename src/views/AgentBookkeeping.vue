@@ -285,8 +285,8 @@
         </el-dialog>
       </el-row><br>
       <el-row>
-        <el-button @click="handleCompleteTaskButtonClick">完成记账</el-button>
-        <el-dialog title="开始记账" :visible.sync="carryOutTaskDialogFormVisible" width="40%">
+        <el-button @click="handleCompleteTaskButtonClick" v-show="isStarted">完成记账</el-button>
+        <el-dialog title="完成记账" :visible.sync="carryOutTaskDialogFormVisible" width="40%">
           <el-form>
             <el-form-item label="备注: ">
               <el-input v-model="completeTaskForm.remark"></el-input>
@@ -297,16 +297,25 @@
             <el-button @click="carryOutTaskDialogFormVisible = false">取 消</el-button>
           </div>
         </el-dialog>
-        <el-button @click="handleStartTaskButtonClick">开始记账</el-button>
-        <el-dialog title="开始记账" :visible.sync="carryOutTaskDialogFormVisible" width="40%">
+        <el-button @click="handleStartTaskButtonClick" v-show="!isStarted">开始记账</el-button>
+        <el-dialog title="开始记账" :visible.sync="serviceStartTaskialogFormVisible" width="40%">
           <el-form>
+            <el-form-item label="服务开始月: ">
+              <div class="block">
+                <el-date-picker
+                  v-model="submitDate"
+                  type="month"
+                  placeholder="选择月">
+                </el-date-picker>
+              </div>
+            </el-form-item>
             <el-form-item label="备注: ">
-              <el-input v-model="completeTaskForm.remark"></el-input>
+              <el-input v-model="startTaskForm.remark"></el-input>
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="completeTask">确 定</el-button>
-            <el-button @click="carryOutTaskDialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="startTask">确 定</el-button>
+            <el-button @click="serviceStartTaskialogFormVisible = false">取 消</el-button>
           </div>
         </el-dialog>
       </el-row><br>
@@ -339,11 +348,13 @@ export default {
   },
   data () {
     return {
+      submitDate: '',
       HandoverTaskDialogFormVisible: false,
       WithdrawTaskDialogVisible: false,
       receiveOuterVisible: false,
       innerVisible: false,
       carryOutTaskDialogFormVisible: false,
+      serviceStartTaskialogFormVisible: false,
       terminationTaskDialogFormVisible: false,
       taskId: 0,
       year: [
@@ -382,6 +393,11 @@ export default {
         remark: '',
         taxDate: ''
       },
+      startTaskForm: {
+        taskId: 1,
+        remark: '',
+        serviceStartMonth: ''
+      },
       stopTaskForm: {
         taskId: 1,
         remark: ''
@@ -392,7 +408,10 @@ export default {
     ...mapState({
       agentOrder: state => state.task.task,
       allUser: state => state.sysUser.users
-    })
+    }),
+    isStarted () {
+      return this.agentOrder.baseInformation.task.taskStatusName === '服务中'
+    }
   },
   methods: {
     async getAgentOrderDetail () {
@@ -437,6 +456,10 @@ export default {
       this.carryOutTaskDialogFormVisible = true
       this.completeTaskForm.taskId = this.taskId
       // this.completeTaskForm.remark = this.
+    },
+    handleStartTaskButtonClick () {
+      this.serviceStartTaskialogFormVisible = true
+      this.startTaskForm.taskId = this.taskId
     },
     handleStopTaskButtonClick () {
       this.terminationTaskDialogFormVisible = true
@@ -559,6 +582,35 @@ export default {
         })
         this.innerVisible = false
       })
+    },
+    // 开始记账
+    startTask () {
+      const date = this.submitDate
+      const startTaskMonth = date.getMonth() + 1
+      const currentMonth = new Date().getMonth() + 1
+      if (startTaskMonth >= currentMonth) {
+        Message({
+          message: '开始记账月份必须小于当前月份！',
+          type: 'error'
+        })
+      } else {
+        this.startTaskForm.serviceStartMonth = `${date.getFullYear()}-${startTaskMonth}`
+        this.$store.dispatch('startTask', this.startTaskForm).then(() => {
+          Message({
+            message: '记账提交成功',
+            type: 'success'
+          })
+          this.serviceStartTaskialogFormVisible = false
+          this.startTaskForm.remark = ''
+          this.getAgentOrderDetail()
+        }).catch(message => {
+          Message({
+            message,
+            type: 'error'
+          })
+          this.serviceStartTaskialogFormVisible = false
+        })
+      }
     },
     // 完成记账
     completeTask () {

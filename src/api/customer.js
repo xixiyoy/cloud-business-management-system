@@ -11,10 +11,11 @@ const createCustomer = customer => request({
   method: 'POST',
   data: customer
 })
-const getCustomers = data => request({
-  url: `/customer/list?limit=${data.limit}&page=${data.page}`,
+const getCustomers = ({ params, data }) => request({
+  url: '/customer/list',
   method: 'POST',
-  data: { type: data.type }
+  params,
+  data
 })
 
 const getCustomerDetail = customerId => request({

@@ -415,7 +415,6 @@ export default {
     // 写一个获取id 得方法
     async getCustomer () {
       await this.$store.dispatch('getCustomerById', this.customerId)
-      console.log(this.account.taskList)
     },
     getLeftGifts (newestTask) {
       const { giftNumber, number, completeCount } = newestTask
