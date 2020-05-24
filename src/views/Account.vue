@@ -1,5 +1,5 @@
 <template>
-  <div id="base" class="account-custom">
+  <div class="customer">
     <div class="account-header-custom">
         <el-row :gutter="20" class="header-custom">
           <el-col :span="3">
