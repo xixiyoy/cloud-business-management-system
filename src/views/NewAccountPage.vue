@@ -381,8 +381,7 @@
               <el-form-item label="营业执照复印件: ">
                 <el-upload
                   action
-                  :http-request="handleIdCardCopyUploadHttpRequest"
-                  :file-list="business"
+                  :http-request="handleBusinessLicenseCopyImageUploadHttpRequest"
                   list-type="picture">
                   <el-button size="small" type="primary">选择上传文件</el-button>
                   <div slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -460,7 +459,8 @@ export default {
         remark: '',
         customerAddress: '',
         customerBusinessEmail: '',
-        taskList: []
+        taskList: [],
+        fileList: []
       },
       addTaskDialogVisible: false,
       editTaskDialogVisible: false,
@@ -530,14 +530,20 @@ export default {
       idCardCopyUploadForm: {
         type: 'customer',
         dataId: 10,
-        fileNameInfo: '用于测试',
-        fileType: '电子合同'
+        fileNameInfo: '身份证复印件图片',
+        fileType: '身份证复印件图片'
       },
       idCardCopyFiles: [],
       business: [],
       contract: [],
       isAngentDetail: false,
-      isAccount: false
+      isAccount: false,
+      businessLicenseCopyImageUploadForm: {
+        type: 'customer',
+        dataId: 10,
+        fileNameInfo: '营业执照复印件',
+        fileType: '营业执照复印件'
+      }
     }
   },
   methods: {
@@ -692,22 +698,52 @@ export default {
       formData.append('file', file)
       this.idCardCopyUpload(formData)
     },
+    handleBusinessLicenseCopyImageUploadHttpRequest ({ file }) {
+      const formData = new FormData()
+      formData.append('file', file)
+      this.businessLicenseCopyImageUpload(formData)
+    },
     idCardCopyUpload (formData) {
-      this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.idCardCopyUploadForm }).then(() => {
+      this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.idCardCopyUploadForm }).then(file => {
         Message({
           message: '上传成功',
           type: 'success'
         })
-        const { fileUrl: url } = this.file.replace('/data/wwwroot/', '')
-        this.idCardCopyFiles.push({
-          url
-        })
+        this.createCustomerForm.fileList.push(file)
       }).catch(message => {
         Message({
           message,
           type: 'error'
         })
       })
+    },
+    businessLicenseCopyImageUpload (formData) {
+      this
+        .$store
+        .dispatch(
+          'uploadFile',
+          {
+            formData,
+            uploadFileForm: this.businessLicenseCopyImageUploadForm
+          }
+        )
+        .then(file => {
+          Message({
+            message: '营业执照复印件图片上传成功！',
+            type: 'success'
+          })
+          this
+            .createCustomerForm
+            .fileList
+            .push(file)
+          console.log(this.createCustomerForm.fileList)
+        })
+        .catch(message => {
+          Message({
+            message,
+            type: 'error'
+          })
+        })
     }
   },
   mounted () {
@@ -721,8 +757,7 @@ export default {
       products: state => state.product.products.page.list,
       users: state => state.sysUser.users.list,
       customers: state => state.customer.customers.list,
-      channels: state => state.channel.channels.page.list,
-      file: state => state.file.file
+      channels: state => state.channel.channels.page.list
     }),
     isRoyaltyCoefficientShow () {
       return this.isTasksContainAgentReport()

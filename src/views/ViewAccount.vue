@@ -107,12 +107,12 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="身份证复印件: ">
-                  <img v-for="(image,index) in idCardImages" :key="index" :src="image" alt="">
+                  <img v-for="(url, index) in getImageUrls('身份证复印件图片')" :key="index" :src="url" alt="">
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="营业执照复印件: ">
-                  <img v-for="(image,index) in businessLicenseImages" :key="index" :src="image" alt="">
+                  <img v-for="(url, index) in getImageUrls('营业执照复印件')" :key="index" :src="url" alt="">
                 </el-form-item>
               </el-col>
             </el-row>
@@ -372,6 +372,13 @@ export default {
     })
   },
   methods: {
+    getImageUrls (type) {
+      return this
+        .account
+        .fileList
+        .filter(({ fileType }) => fileType === type)
+        .map(({ fileUrl }) => `http://39.100.120.137/${fileUrl.replace('/data/wwwroot/default/', '')}`)
+    },
     handleEditTaskFormAccountingAssistantSelectChange (id) {
       this.account.taskList.relHelpUserName = this.getUserName(id)
     },
