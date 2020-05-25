@@ -16,7 +16,7 @@
                   <span class="ant-steps-icon-dot" :class="getStepsIconClass(description, false, agentOrder.baseInformation.task.taskStatusName)"></span>
                 </template>
                 <a-step :title="agentOrder.baseInformation.task.createUserName" :description="getNotAgentDate(agentOrder.baseInformation.task.createTime)" />
-                <a-step title="服务中" description="服务中" />
+                <a-step title="服务中" description="" />
                 <a-step :title="getFinish(agentOrder.baseInformation.task)" :description="getFinishDescription(agentOrder.baseInformation.task)"/>
               </a-steps>
             </el-col>
@@ -36,48 +36,48 @@
           <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="任务状态: " prop="name">
+                <el-form-item label="任务状态: ">
                   <span>{{agentOrder.baseInformation.task.taskStatusName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="服务金额: " prop="name">
+                <el-form-item label="服务金额: ">
                   <span>{{agentOrder.baseInformation.task.price}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="客户名称: " prop="name">
+                <el-form-item label="客户名称: ">
                   <span>{{agentOrder.baseInformation.customer.customerName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="联系电话: " prop="name">
+                <el-form-item label="联系电话: ">
                   <span>{{agentOrder.baseInformation.customer.customerLinkerPhone}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="联系人: " prop="name">
+                <el-form-item label="联系人: ">
                   <span>{{agentOrder.baseInformation.customer.customerLinkerName}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="客户代表: " prop="name">
+                <el-form-item label="客户代表: ">
                   <span>{{agentOrder.baseInformation.customer.customerRelUserName}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="社会信用代码: " prop="name">
+                <el-form-item label="社会信用代码: ">
                   <span>{{agentOrder.baseInformation.customer.creditCode}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="备注: " prop="name">
+                <el-form-item label="备注: ">
                   <span></span>
                 </el-form-item>
               </el-col>
@@ -119,6 +119,25 @@
             <el-table-column
               label="类型"
               prop="type">
+            </el-table-column>
+            <el-table-column
+              label="备注"
+              prop="remark">
+            </el-table-column>
+          </el-table>
+        </el-collapse-item>
+        <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
+        <el-collapse-item title="环节备注: " name="4">
+          <el-table
+            :data="agentOrder.taskFlowList"
+            style="width: 100%">
+            <el-table-column
+              label="操作时间"
+              prop="createTime">
+            </el-table-column>
+            <el-table-column
+              label="负责专员"
+              prop="relUserName">
             </el-table-column>
             <el-table-column
               label="备注"

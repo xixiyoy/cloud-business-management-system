@@ -13,7 +13,7 @@ const getBillingDetail = invoiceId => request({
 const getBillings = data => request({
   url: `/invoice/list?limit=${data.limit}&page=${data.page}`,
   method: 'POST',
-  data: { type: data.type }
+  data: { type: data.type, invoiceStateValue: data.invoiceStateValue }
 })
 // 申请开票
 const createInvoice = createInvoiceForm => request({

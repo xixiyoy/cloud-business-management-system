@@ -327,7 +327,7 @@ export default {
       //   alert('密码错误请重新输入')
       // }
       this.$store.dispatch('loginByAccountNameAndPassword', { accountName, accountPassword, captcha }).then(() => {
-        this.$router.push({ path: '/' })
+        this.$router.push({ path: '/home' })
       }).catch(message => {
         Message({
           message,

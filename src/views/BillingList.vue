@@ -15,16 +15,14 @@
             </el-button></div></el-col>
           <el-col :span="4">
             <div class="grid-content bg-purple">
-              <el-dropdown style="float:right;">
-                <el-button>
-                  请选择<i class="el-icon-arrow-down el-icon--right"></i>
-                </el-button>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>服务中</el-dropdown-item>
-                  <el-dropdown-item>已完成</el-dropdown-item>
-                  <el-dropdown-item>全部</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
+              <el-select v-model="getBillingListForm.invoiceStateName" @change="handleStatusChange">
+                <el-option
+                  v-for="(invoiceStatu, index) in invoiceStatus"
+                  :key="index"
+                  :label="invoiceStatu.name"
+                  :value="invoiceStatu.value">
+                </el-option>
+              </el-select>
             </div>
           </el-col>
           <el-col :span="5">
@@ -128,11 +126,42 @@ export default {
         limit: 10,
         page: 1
       },
-      multipleSelection: []
+      multipleSelection: [],
+      invoiceStatus: [
+        {
+          name: '未开票',
+          value: '0'
+        },
+        {
+          name: '已开票',
+          value: '1'
+        },
+        {
+          name: '已作废',
+          value: '3'
+        },
+        {
+          name: '已驳回',
+          value: '2'
+        },
+        {
+          name: '全部',
+          value: '4'
+        }
+      ]
     }
   },
 
   methods: {
+    // 通过开票状态筛选列表
+    handleStatusChange (statusValue) {
+      if (statusValue === '4') {
+        delete this.getBillingListForm.invoiceStateValue
+      } else {
+        this.getBillingListForm.invoiceStateValue = statusValue
+      }
+      this.getBillings()
+    },
     toggleSelection (rows) {
       if (rows) {
         rows.forEach(row => {
@@ -216,9 +245,6 @@ export default {
 }
 .el-row {
     margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
   .el-col {
     border-radius: 4px;

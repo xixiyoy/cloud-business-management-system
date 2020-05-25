@@ -13,16 +13,12 @@
            </div>
          </el-col>
          <el-col :span="14">
-           <el-dropdown>
-            <el-button>
-              全部模块<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>模块一</el-dropdown-item>
-              <el-dropdown-item>模块二</el-dropdown-item>
-              <el-dropdown-item>模块三</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+           <div class="grid-content bg-purple">
+              <el-select>
+                <el-option>
+                </el-option>
+              </el-select>
+            </div>
          </el-col>
          <el-col :span="5" style="float: right;">
             <div class="grid-content bg-purple">

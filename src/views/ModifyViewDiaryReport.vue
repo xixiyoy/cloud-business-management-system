@@ -64,7 +64,8 @@
             <el-row>
               <el-col :span="10">
                 <el-form-item label="收支类型" required>
-                    <el-select
+                  <el-input v-model="report.fianceTypeName" disabled></el-input>
+                    <!-- <el-select disabled
                     v-model="updateFianceForm.fianceTypeValue"
                     @change="handleiFanceTypeSelectChange" style="width: 100%">
                     <el-option
@@ -72,25 +73,27 @@
                     :key="index"
                     :label="fianceType.name"
                     :value="fianceType.value"></el-option>
-                  </el-select>
+                  </el-select> -->
                 </el-form-item>
               </el-col>
               <el-col :span="10">
                 <el-form-item label="收支时间" required>
-                  <span class="block">
+                  <el-input v-model="report.fianceTime" disabled></el-input>
+                  <!-- <span class="block">
                     <el-date-picker
                       v-model="submitDate"
                       type="date"
+                      disabled
                       placeholder="选择日期">
                     </el-date-picker>
-                  </span>
+                  </span> -->
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="10">
                 <el-form-item label="收支金额: ">
-                  <el-input v-model="updateFianceForm.money"></el-input>
+                  <el-input v-model="report.money" disabled></el-input>
                 </el-form-item>
               </el-col>
             </el-row>

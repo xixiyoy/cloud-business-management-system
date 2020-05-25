@@ -25,28 +25,25 @@
           </el-col>
           <el-col :span="4">
             <div class="grid-content bg-purple">
-              <el-dropdown>
-                <el-button>
-                  请选择<i class="el-icon-arrow-down el-icon--right"></i>
-                </el-button>
-                <el-dropdown-menu>
-                  <el-dropdown-item>全部</el-dropdown-item>
-                  <el-dropdown-item>待审核</el-dropdown-item>
-                  <el-dropdown-item>已审核</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
+              <el-select v-model="getFiancesForm.statusName" @change="handleStatusChange">
+                <el-option
+                  v-for="(accountingStatu, index) in accountingStatus"
+                  :key="index"
+                  :label="accountingStatu.name"
+                  :value="accountingStatu.value">
+                </el-option>
+              </el-select>
             </div>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="5">
             <div class="grid-content bg-purple">
-              <el-dropdown>
-                <el-button>
-                  请选择<i class="el-icon-arrow-down el-icon--right"></i>
-                </el-button>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item v-for="(dept, index) in deptList" :key="index">{{dept.name}}</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
+              <el-select v-model="getFiancesForm.deptId" @change="handleDeptChange">
+                <el-option
+                v-for="(dept, index) in deptList" :key="index"
+                :label="dept.name"
+                :value="dept.deptId"
+                ></el-option>
+              </el-select>
             </div>
           </el-col>
           <el-col :span="4">
@@ -166,10 +163,40 @@ export default {
       },
       getTotalCashForm: {
         type: ''
-      }
+      },
+      accountingStatus: [
+        {
+          name: '未核算',
+          value: '0'
+        },
+        {
+          name: '已核算',
+          value: '1'
+        },
+        {
+          name: '全部',
+          value: '2'
+        }
+      ]
     }
   },
   methods: {
+    // 根据状态筛选列表
+    handleStatusChange (statusValue) {
+      if (statusValue === '2') {
+        delete this.getFiancesForm.statusValue
+      } else {
+        this.getFiancesForm.statusValue = statusValue
+      }
+      this.getFianceList()
+    },
+    // 根据部门筛选列表
+    handleDeptChange (deptId) {
+      if (deptId === this.getFiancesForm.deptId) {
+        this.getFiancesForm.deptId = deptId
+      }
+      this.getFianceList()
+    },
     diaryReportTableHeaderCellStyle ({ row, column, rowIndex, columnIndex }) {
       if (rowIndex === 0) {
         return `
