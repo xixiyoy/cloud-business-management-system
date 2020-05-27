@@ -394,7 +394,7 @@
               <el-form-item label="合同原件：">
                 <el-upload
                   action
-                  :http-request="handleIdCardCopyUploadHttpRequest"
+                  :http-request="handleContractloadHttpRequest"
                   :file-list="contract"
                   list-type="picture">
                   <el-button size="small" type="primary">选择上传文件</el-button>
@@ -543,6 +543,12 @@ export default {
         dataId: 10,
         fileNameInfo: '营业执照复印件',
         fileType: '营业执照复印件'
+      },
+      handleContractloadHttpRequestForm: {
+        type: 'customer',
+        dataId: 10,
+        fileNameInfo: '合同原件',
+        fileType: '合同原件'
       }
     }
   },
@@ -703,6 +709,11 @@ export default {
       formData.append('file', file)
       this.businessLicenseCopyImageUpload(formData)
     },
+    handleContractloadHttpRequest ({ file }) {
+      const formData = new FormData()
+      formData.append('file', file)
+      this.contractload(formData)
+    },
     idCardCopyUpload (formData) {
       this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.idCardCopyUploadForm }).then(file => {
         Message({
@@ -718,26 +729,34 @@ export default {
       })
     },
     businessLicenseCopyImageUpload (formData) {
-      this
-        .$store
-        .dispatch(
-          'uploadFile',
-          {
-            formData,
-            uploadFileForm: this.businessLicenseCopyImageUploadForm
-          }
-        )
-        .then(file => {
-          Message({
-            message: '营业执照复印件图片上传成功！',
-            type: 'success'
-          })
-          this
-            .createCustomerForm
-            .fileList
-            .push(file)
-          console.log(this.createCustomerForm.fileList)
+      this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.businessLicenseCopyImageUploadForm }).then(file => {
+        Message({
+          message: '营业执照复印件图片上传成功！',
+          type: 'success'
         })
+        this
+          .createCustomerForm
+          .fileList
+          .push(file)
+      })
+        .catch(message => {
+          Message({
+            message,
+            type: 'error'
+          })
+        })
+    },
+    contractload (formData) {
+      this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.handleContractloadHttpRequestForm }).then(file => {
+        Message({
+          message: '合同原件图片上传成功！',
+          type: 'success'
+        })
+        this
+          .createCustomerForm
+          .fileList
+          .push(file)
+      })
         .catch(message => {
           Message({
             message,

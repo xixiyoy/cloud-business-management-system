@@ -75,7 +75,7 @@
             <el-row :gutter="20">
               <el-col :span="12" v-show="isRoyaltyCoefficientShow">
                 <el-form-item label="提成系数：">
-                  <el-input v-model="createCustomerForm.royaltyCoefficient"></el-input>
+                  <el-input v-model="updateCustomerForm.royaltyCoefficient"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -94,19 +94,42 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="身份证复印件: " prop="name">
-                  <img v-for="(image,index) in idCardImages" :key="index" :src="image" alt="">
+                  <el-upload
+                  action
+                  :http-request="handleIdCardCopyUploadHttpRequest"
+                  :file-list="idCardCopyFiles"
+                  list-type="picture">
+                  <el-button size="small" type="primary">选择上传文件</el-button>
+                  <div slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                  </el-upload>
+                  <img v-for="(url, index) in getImageUrls('身份证复印件图片')" :key="index" :src="url" style="width: 100px;">
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="营业执照复印件: " prop="name">
-                  <img v-for="(image,index) in businessLicenseImages" :key="index" :src="image" alt="">
+                  <el-upload
+                  action
+                  :http-request="handleBusinessLicenseCopyImageUploadHttpRequest"
+                  list-type="picture">
+                  <el-button size="small" type="primary">选择上传文件</el-button>
+                  <div slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                </el-upload>
+                  <img v-for="(url,index) in getImageUrls('合同原件')" :key="index" :src="url" style="width: 100px;">
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="合同原件: " prop="name">
-                  <img v-for="(image,index) in contractImages" :key="index" :src="image" alt="">
+                <el-upload
+                  action
+                  :http-request="handleContractloadHttpRequest"
+                  :file-list="contract"
+                  list-type="picture">
+                  <el-button size="small" type="primary">选择上传文件</el-button>
+                  <div slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                </el-upload>
+                  <img v-for="(url,index) in getImageUrls('合同原件')" :key="index" :src="url" style="width: 100px;">
                 </el-form-item>
               </el-col>
             </el-row>
@@ -437,10 +460,104 @@ export default {
       getUsersForm: {
         limit: 10,
         page: 1
+      },
+      // 上传文件
+      idCardCopyFiles: [],
+      idCardCopyUploadForm: {
+        type: 'customer',
+        dataId: 10,
+        fileNameInfo: '身份证复印件图片',
+        fileType: '身份证复印件图片'
+      },
+      businessLicenseCopyImageUploadForm: {
+        type: 'customer',
+        dataId: 10,
+        fileNameInfo: '营业执照复印件',
+        fileType: '营业执照复印件'
+      },
+      handleContractloadHttpRequestForm: {
+        type: 'customer',
+        dataId: 10,
+        fileNameInfo: '合同原件',
+        fileType: '合同原件'
       }
     }
   },
   methods: {
+    // 上传文件的
+    handleIdCardCopyUploadHttpRequest ({ file }) {
+      const formData = new FormData()
+      formData.append('file', file)
+      this.idCardCopyUpload(formData)
+    },
+    handleBusinessLicenseCopyImageUploadHttpRequest ({ file }) {
+      const formData = new FormData()
+      formData.append('file', file)
+      this.businessLicenseCopyImageUpload(formData)
+    },
+    handleContractloadHttpRequest ({ file }) {
+      const formData = new FormData()
+      formData.append('file', file)
+      this.contractload(formData)
+    },
+    idCardCopyUpload (formData) {
+      this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.idCardCopyUploadForm }).then(file => {
+        Message({
+          message: '上传成功',
+          type: 'success'
+        })
+        this.createCustomerForm.fileList.push(file)
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
+    businessLicenseCopyImageUpload (formData) {
+      this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.businessLicenseCopyImageUploadForm }).then(file => {
+        Message({
+          message: '营业执照复印件图片上传成功！',
+          type: 'success'
+        })
+        this
+          .createCustomerForm
+          .fileList
+          .push(file)
+      })
+        .catch(message => {
+          Message({
+            message,
+            type: 'error'
+          })
+        })
+    },
+    contractload (formData) {
+      this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.handleContractloadHttpRequestForm }).then(file => {
+        Message({
+          message: '合同原件图片上传成功！',
+          type: 'success'
+        })
+        this
+          .createCustomerForm
+          .fileList
+          .push(file)
+      })
+        .catch(message => {
+          Message({
+            message,
+            type: 'error'
+          })
+        })
+    },
+    // 展示图片
+    getImageUrls (type) {
+      return this
+        .account
+        .fileList
+        .filter(({ fileType }) => fileType === type)
+        .map(({ fileUrl }) => `http://39.100.120.137/${fileUrl.replace('/data/wwwroot/default/', '')}`)
+    },
     // 根据 ID 获取客户
     getCustomer () {
       this

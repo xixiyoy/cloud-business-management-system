@@ -128,7 +128,7 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="服务开始月: " prop="name">
-                  <span>{{agentOrder.baseInformation.task.serviceStartMonth}}</span>
+                  <span>{{agentOrder.baseInformation.task.serviceStartMonth = agentOrder.baseInformation.task.serviceStartMonth.substring(0, 7)}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -145,7 +145,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="当前报税期: " prop="name">
-                  <span>{{agentOrder.baseInformation.task.taxDate}}</span>
+                  <span>{{agentOrder.baseInformation.task.taxDate = agentOrder.baseInformation.task.taxDate.substring(0, 7)}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -196,6 +196,7 @@
             </el-table-column>
             <el-table-column
               label="报税期"
+              :formatter="formatDate"
               :show-overflow-tooltip="true"
               prop="taxDate">
             </el-table-column>
@@ -414,6 +415,15 @@ export default {
     }
   },
   methods: {
+    formatDate (row, column) {
+      const data = row[column.property]
+      if (data == null) {
+        return null
+      }
+      const dt = new Date(data)
+      console.log(1111)
+      return dt.getFullYear() + '-' + (dt.getMonth() + 1)
+    },
     async getAgentOrderDetail () {
       this.$store.dispatch('getTaskById', this.taskId)
     },

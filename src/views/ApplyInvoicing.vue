@@ -6,7 +6,7 @@
     <el-form label-width="150px" class="demo-ruleForm">
       <el-row>
         <el-col :span="10">
-          <el-form-item label="发票类型: " required>
+          <el-form-item label="发票类型: " required style="width:100%;">
             <el-select v-model="createInvoiceFrom.invoiceTypeName" @change="handleTypeSelectChange" style="width:100%">
               <el-option value="0">增值税专用发票</el-option>
               <el-option value="1">增值税普通发票</el-option>
@@ -15,7 +15,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="服务公司: " required>
+          <el-form-item label="服务公司: " required style="width:100%;">
               <el-select class="account-source-left-custom" v-model="createInvoiceFrom.entityId" @change="handleComSelectChange" style="width: 100%" >
                 <el-option
                   v-for="(company, index) in companies"
@@ -60,7 +60,12 @@
       </el-row>
       <el-row>
         <el-col :span="20">
-          <el-form-item label="开户行及账号: ">
+          <el-form-item label="开户银行: ">
+            <el-input v-model="createInvoiceFrom.bank"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="20">
+          <el-form-item label="开户银行账号: ">
             <el-input v-model="createInvoiceFrom.account"></el-input>
           </el-form-item>
         </el-col>

@@ -264,11 +264,11 @@
       <el-form>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="收款账户：">
+            <el-form-item label="收款账户：" required>
               <el-select
                 v-model="submitCollectionForm.collectAccountId"
                 @change="handleSubmitCollectCollectAccountSelectChange">
-                <el-option
+                <el-option style="width:100%;"
                   v-for="(collectAccount, index) in collectAccounts"
                   :key="index"
                   :label="collectAccount.accountName"
@@ -280,7 +280,7 @@
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="收款月数：" required>
+            <el-form-item label="收款日数：" required>
             <div class="block">
               <el-date-picker
                 v-model="submitCollectionDate"
@@ -308,7 +308,7 @@
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="备注：">
+            <el-form-item label="备注：" required>
               <el-input v-model="submitCollectionForm.remark"></el-input>
             </el-form-item>
           </el-col>
@@ -1554,8 +1554,8 @@ export default {
     handleZeroZeroEdit () {
       const startDate = this.submitCollectionDate[0]
       const endDate = this.submitCollectionDate[1]
-      this.submitCollectionForm.collectStartMonth = `${startDate.getFullYear()}-${startDate.getMonth() + 1}`
-      this.submitCollectionForm.collectEndMonth = `${endDate.getFullYear()}-${endDate.getMonth() + 1}`
+      this.submitCollectionForm.collectStartMonth = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDay() + 1}`
+      this.submitCollectionForm.collectEndMonth = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDay() + 1}`
       const collectDate = this.submitCollectionReceiveDate
       this.submitCollectionForm.collectDate = `${collectDate.getFullYear()}-${collectDate.getMonth() + 1}-${collectDate.getDay()}`
       this.zeroZeroEditVisible = false
@@ -1580,8 +1580,8 @@ export default {
     submitReceiveMonth () {
       const startDate = this.submitReceiveMonths[0]
       const endDate = this.submitReceiveMonths[1]
-      this.submitCollectionForm.collectStartMonth = `${startDate.getFullYear()}-${startDate.getMonth() + 1}`
-      this.submitCollectionForm.collectEndMonth = `${endDate.getFullYear()}-${endDate.getMonth() + 1}`
+      this.submitCollectionForm.collectStartMonth = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDay() + 1}`
+      this.submitCollectionForm.collectEndMonth = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDay() + 1}`
     },
     // 修改收款信息
     updateCollect () {
@@ -1956,9 +1956,6 @@ export default {
 .approval{
   display: block;
 }
-.el-select .el-input {
-    width: 130px;
-  }
   .input-with-select .el-input-group__prepend {
     background-color: #fff;
   }

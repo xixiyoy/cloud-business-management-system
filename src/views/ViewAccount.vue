@@ -1,6 +1,13 @@
 <template>
   <div class="view-account">
-    <p class="view-account-title">公司名称</p>
+    <el-row>
+      <el-col :span="20">
+        <p class="view-account-title">公司名称</p>
+       </el-col>
+      <el-col :span="4">
+        <el-button @click="handleModifyViewAccount">修改内容</el-button>
+      </el-col>
+    </el-row>
     <div class="dividing-line"></div>
     <el-collapse v-model="activeNames">
       <div class="">
@@ -10,9 +17,6 @@
             <el-row :gutter="1">
               <el-col :span="20">
                 <el-button type="primary" round>{{account.customerStatusName}}</el-button>
-              </el-col>
-              <el-col :span="4">
-                <el-button @click="handleModifyViewAccount">修改内容</el-button>
               </el-col>
             </el-row>
             <el-row>
@@ -107,19 +111,19 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="身份证复印件: ">
-                  <img v-for="(url, index) in getImageUrls('身份证复印件图片')" :key="index" :src="url" alt="">
+                  <img v-for="(url, index) in getImageUrls('身份证复印件图片')" :key="index" :src="url" style="width: 100px;">
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="营业执照复印件: ">
-                  <img v-for="(url, index) in getImageUrls('营业执照复印件')" :key="index" :src="url" alt="">
+                  <img v-for="(url, index) in getImageUrls('营业执照复印件')" :key="index" :src="url" style="width: 100px;">
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="合同原件: ">
-                  <img v-for="(image,index) in contractImages" :key="index" :src="image" alt="">
+                  <img v-for="(url,index) in getImageUrls('合同原件')" :key="index" :src="url" style="width: 100px;">
                 </el-form-item>
               </el-col>
             </el-row>
@@ -141,7 +145,7 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="服务周期: ">
-                  <span>{{account.newestTask.number}}</span>
+                  <span>{{account.newestTask.number}}月 + 赠 {{account.newestTask.giftNumber}}月</span>
                 </el-form-item>
               </el-col>
             </el-row>
