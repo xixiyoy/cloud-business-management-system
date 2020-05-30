@@ -124,10 +124,10 @@
             <el-table
               :data="createCustomerForm.taskList">
               <el-table-column label="序号"></el-table-column>
-              <el-table-column label="产品名称"></el-table-column>
-              <el-table-column label="服务单价"></el-table-column>
-              <el-table-column label="服务周期（月）" v-if="isRoyaltyCoefficientShow"></el-table-column>
-              <el-table-column label="赠送（月）" v-if="isRoyaltyCoefficientShow"></el-table-column>
+              <el-table-column label="产品名称" prop="productName"></el-table-column>
+              <el-table-column label="服务单价" prop="price"></el-table-column>
+              <el-table-column label="服务周期（月）" v-if="isRoyaltyCoefficientShow" prop="number"></el-table-column>
+              <el-table-column label="赠送（月）" v-if="isRoyaltyCoefficientShow" prop="giftNumber"></el-table-column>
               <el-table-column label="总额">
                 <template slot-scope="scope">
                   {{ scope.row.price * scope.row.number }}
@@ -361,6 +361,9 @@
               </span>
             </el-dialog>
           </div>
+        <el-row>
+          <el-col>合计: {{getAddMoney}}</el-col>
+        </el-row>
       </el-collapse-item>
       <el-collapse-item title="文档资料: " name="doc-info">
         <el-form label-width="100px">
@@ -780,6 +783,11 @@ export default {
     }),
     isRoyaltyCoefficientShow () {
       return this.isTasksContainAgentReport()
+    },
+    // 累加
+    getAddMoney () {
+      const { taskList: tasks } = this.createCustomerForm
+      return tasks.length === 0 ? 0 : tasks.map(({ price, number }) => price * number).reduce((x, y) => x + y)
     }
   }
 }

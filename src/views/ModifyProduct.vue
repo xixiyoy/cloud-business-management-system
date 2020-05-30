@@ -6,7 +6,7 @@
       <el-form label-width="120px" class="demo-ruleForm">
         <el-row>
           <el-col :span="6">
-             <el-form-item label="产品板块: " prop="region" required>
+             <el-form-item label="产品板块: " required>
               <div class="block">
                 <el-cascader
                   v-model="productMoudleName"
@@ -17,7 +17,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="产品名称: " prop="name" required>
+            <el-form-item label="产品名称: " required>
               <el-input v-model="updateProductForm"></el-input>
             </el-form-item>
           </el-col>
@@ -30,7 +30,7 @@
               </el-col>
               <el-col class="line" :span="2" style="text-align: center;">至</el-col>
               <el-col :span="11">
-                <el-form-item prop="">
+                <el-form-item>
                   <el-input></el-input>
                 </el-form-item>
               </el-col>
@@ -39,15 +39,15 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="产品单位: " prop="region" required>
+            <el-form-item label="产品单位: " required>
               <el-select placeholder="次" style="width:290px;">
-                <el-option label="月" value="shanghai"></el-option>
-                <el-option label="人/天" value="beijing"></el-option>
+                <el-option label="月"></el-option>
+                <el-option label="人/天"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="概述: " prop="name">
+            <el-form-item label="概述: ">
               <el-input placeholder="请输入"></el-input>
             </el-form-item>
           </el-col>

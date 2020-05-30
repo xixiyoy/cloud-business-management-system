@@ -6,7 +6,7 @@
       <el-row>
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="渠道商名称" prop="name" required="">
+            <el-form-item label="渠道商名称" required>
               <el-input v-model="createChannelForm.name"></el-input>
             </el-form-item>
           </el-form>
@@ -15,8 +15,8 @@
       <el-row>
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="联系人" prop="name" required="">
-              <el-input v-model="createChannelForm.linker_name"></el-input>
+            <el-form-item label="联系人" required>
+              <el-input v-model="createChannelForm.linkerName"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -24,8 +24,8 @@
       <el-row>
         <el-col :span="8">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="手机号" prop="name" required="">
-              <el-input v-model="createChannelForm.linker_mobile"></el-input>
+            <el-form-item label="手机号" required>
+              <el-input v-model="createChannelForm.linkerMobile"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -33,10 +33,15 @@
       <el-row>
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="资源归属" prop="region" required="">
-              <el-select placeholder="请选择" v-model="createChannelForm.channelBelongName">
-                <el-option label="负责人归属" value="shanghai"></el-option>
-                <el-option label="公司资源" value="beijing"></el-option>
+            <el-form-item label="资源归属" required>
+              <el-select placeholder="请选择"
+              v-model="createChannelForm.channelBelongValue"
+              @change="handleChannelBelong">
+                <el-option
+                v-for="(channelBelongType, index)  in channelBelongTypes"
+                :key="index"
+                :label="channelBelongType.name"
+                :value="channelBelongType.value"></el-option>
               </el-select>
             </el-form-item>
           </el-form>
@@ -45,7 +50,7 @@
       <el-row>
         <el-col :span="12">
           <el-form label-width="100px" class="demo-ruleForm">
-            <el-form-item label="渠道负责人" prop="region" required="">
+            <el-form-item label="渠道负责人" required>
               <el-select
                 v-model="createChannelForm.dutyUserId"
                 @change="handleEditTaskFormFinancialAdviserSelectChange">
@@ -86,20 +91,44 @@ export default {
     return {
       createChannelForm: {
         name: '',
-        linker_name: '',
+        linkerName: '',
+        dutyUserId: '',
+        linkerMobile: '',
         remark: '',
         channelBelongName: '',
+        channelBelongValue: '',
         dutyUserName: ''
       },
+      channelBelongTypes: [
+        {
+          name: '公司资源',
+          value: '0'
+        },
+        {
+          name: '负责人归属',
+          value: '1'
+        }
+      ],
       isChannelProvider: false
     }
   },
   methods: {
+    handleChannelBelong (value) {
+      this.createChannelForm.channelBelongName = this.getChannelTypeName(value)
+    },
+    getChannelTypeName (value) {
+      if (value === '0') {
+        return '公司资源'
+      }
+      return '负责人归属'
+    },
     handelCreteChannelButtonClick () {
       this.createChannel(this.createChannelForm)
     },
     createChannel () {
       this.isChannelProvider = true
+      // this.createChannelForm.createUserId = this.userInfo.userId
+      // this.createChannelForm.createUserName = this.userInfo.userName
       this.$store.dispatch('createChannel', this.createChannelForm).then(() => {
         Message({
           message: '保存成功',
@@ -116,20 +145,29 @@ export default {
       })
     },
     handleEditTaskFormFinancialAdviserSelectChange (id) {
-      this.createChannelForm.dutyUserName = this.getUsers(id)
+      this.createChannelForm.dutyUserName = this.getUserName(id)
+    },
+    getUserName (id) {
+      return this.allUsers.filter(({ userId }) => userId === id)[0].userName
     },
     // 获取所有人员名称
     getUsers () {
       this.$store.dispatch('getUserList')
+    },
+    // 获取用户信息
+    getUserInfo () {
+      this.$store.dispatch('getSysInfo')
     }
   },
   mounted () {
     this.getUsers()
+    this.getUserInfo()
   },
   computed: {
     ...mapState({
       // 获取所有用户
-      allUsers: state => state.sysUser.users.list
+      allUsers: state => state.sysUser.users.list,
+      userInfo: state => state.sysUser.user.user
     })
   }
 }

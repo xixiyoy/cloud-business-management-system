@@ -152,7 +152,7 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="服务开始月: ">
-                  <span>{{account.newestTask.serviceStartMonth}}</span>
+                  <span>{{account.newestTask.serviceStartMonth| dateYM}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
@@ -169,7 +169,7 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="当前报税期: ">
-                  <span>{{account.newestTask.taxDate}}</span>
+                  <span>{{account.newestTask.taxDate| dateYM}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -184,6 +184,7 @@
         </el-collapse-item>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="流程列表: " name="4">
+          <p style="float:right;font-size:20px">总金额: {{getAddMoney(price)}}</p>
           <el-table
             :data="account.taskList"
             style="width: 100%">
@@ -221,7 +222,7 @@
               label="操作"
               width="100">
                 <template slot-scope="scope">
-                  <el-button size="mini" type="text" @click="handleEditTaskButtonClick(scope.$index)">查看</el-button>
+                  <el-button size="mini" type="text" @click="handleEditTaskButtonClick(scope.id)">查看</el-button>
                 </template>
             </el-table-column>
           </el-table>
@@ -376,6 +377,10 @@ export default {
     })
   },
   methods: {
+    // 累加
+    getAddMoney () {
+      return this.account.taskList.map(({ price }) => price).reduce((x, y) => x + y)
+    },
     getImageUrls (type) {
       return this
         .account
@@ -397,14 +402,10 @@ export default {
     },
     // 根据 ID 获取产品
     getProductById (id) {
-      return this
-        .products
-        .filter(({ productId }) => productId === id)[0]
+      return this.products.filter(({ productId }) => productId === id)[0]
     },
     getProductNameById (id) {
-      return this
-        .getProductById(id)
-        .productName
+      return this.getProductById(id).productName
     },
     // 处理添加产品产品名称选择框改变事件
     handleAddTaskFormProductSelectChange (id) {
@@ -441,9 +442,14 @@ export default {
       }
       return giftNumber - (completeCount - number)
     },
-    handleEditTaskButtonClick (index) {
-      this.task = this.account.taskList[index]
-      this.editTaskDialogVisible = true
+    handleEditTaskButtonClick (id) {
+      const productName = this.getProductNameById(id)
+      if (productName === '代理记账') {
+        this.$router.push({ path: '/agent-bookkeeping', query: { taskId: id.taskId } })
+      }
+      this.$router.push({ path: '/one-time-accounting', query: { taskId: id.taskId } })
+      // this.task = this.account.taskList[index]
+      // this.editTaskDialogVisible = true
     },
     getUsers () {
       this.$store.dispatch('getUserList', this.getUsersForm)

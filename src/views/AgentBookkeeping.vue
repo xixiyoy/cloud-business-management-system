@@ -121,19 +121,19 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="服务周期: " prop="name">
-                  <span>{{agentOrder.baseInformation.task.number}}</span>
+                  <span>{{agentOrder.baseInformation.task.number}} + 赠{{agentOrder.accountInformation.giftNumber}}月</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="服务开始月: " prop="name">
-                  <span>{{agentOrder.baseInformation.task.serviceStartMonth = agentOrder.baseInformation.task.serviceStartMonth.substring(0, 7)}}</span>
+                  <span>{{agentOrder.baseInformation.task.serviceStartMonth| dateYM}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="赠送月: " prop="name">
-                  <span>{{agentOrder.accountInformation.surplusGiftNum}}</span>
+                <el-form-item label="剩余赠送月: " prop="name">
+                  <span>{{ getLeftGifts(agentOrder.baseInformation.task) }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -145,7 +145,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="当前报税期: " prop="name">
-                  <span>{{agentOrder.baseInformation.task.taxDate = agentOrder.baseInformation.task.taxDate.substring(0, 7)}}</span>
+                  <span>{{agentOrder.baseInformation.task.taxDate| dateYM}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -165,6 +165,7 @@
               label="报税期"
               :show-overflow-tooltip="true"
               prop="taxDate">
+              <template slot-scope="scope">{{scope.row.date| dateYM}}</template>
             </el-table-column>
             <el-table-column
               label="操作人"
@@ -289,7 +290,7 @@
         <el-button @click="handleCompleteTaskButtonClick" v-show="isStarted">完成记账</el-button>
         <el-dialog title="完成记账" :visible.sync="carryOutTaskDialogFormVisible" width="40%">
           <el-form>
-            <el-form-item label="备注: ">
+            <el-form-item label="备注: " required>
               <el-input v-model="completeTaskForm.remark"></el-input>
             </el-form-item>
           </el-form>
@@ -415,13 +416,20 @@ export default {
     }
   },
   methods: {
+    // 剩余赠送月计算
+    getLeftGifts (task) {
+      const { giftNumber, number, completeCount } = task
+      if (completeCount < number) {
+        return giftNumber
+      }
+      return giftNumber - (completeCount - number)
+    },
     formatDate (row, column) {
       const data = row[column.property]
       if (data == null) {
         return null
       }
       const dt = new Date(data)
-      console.log(1111)
       return dt.getFullYear() + '-' + (dt.getMonth() + 1)
     },
     async getAgentOrderDetail () {

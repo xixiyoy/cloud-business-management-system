@@ -10,11 +10,27 @@ const loginByUserNameAndPassword = (userName, password, captcha) => request({
   }
 })
 
+const loginByPhone = params => request({
+  url: '/codeLogin',
+  method: 'POST',
+  params
+})
+
 const logout = () => request({
   url: '/logout'
 })
 
+const getCaptcha = phone => request({
+  params: {
+    phone
+  },
+  url: '/getVerifyCode',
+  method: 'POST'
+})
+
 export {
   loginByUserNameAndPassword,
-  logout
+  logout,
+  loginByPhone,
+  getCaptcha
 }

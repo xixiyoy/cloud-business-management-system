@@ -24,6 +24,8 @@ import VueFroala from 'vue-froala-wysiwyg'
 
 import { Button, Steps, Row, Col } from 'ant-design-vue'
 
+import moment from 'moment'
+
 const { Step } = Steps
 
 Vue.config.productionTip = false
@@ -39,7 +41,16 @@ Vue.component(Steps.name, Steps)
 Vue.component(Row.name, Row)
 Vue.component(Col.name, Col)
 Vue.component(Step.name, Step)
-
+Vue.use(require('vue-moment'))
+Vue.prototype.moment = moment
+// 时间年月日
+Vue.filter('dateYMDHMSFormat', function (dateStr, pattern = 'YYYY-MM-DD') {
+  return moment(dateStr).format(pattern)
+})
+// 时间年月
+Vue.filter('dateYM', function (dateStr, pattern = 'YYYY-MM') {
+  return moment(dateStr).format(pattern)
+})
 new Vue({
   router,
   store,

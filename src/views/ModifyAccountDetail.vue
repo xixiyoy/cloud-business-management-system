@@ -124,7 +124,6 @@
                 <el-upload
                   action
                   :http-request="handleContractloadHttpRequest"
-                  :file-list="contract"
                   list-type="picture">
                   <el-button size="small" type="primary">选择上传文件</el-button>
                   <div slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -370,9 +369,9 @@
       </el-collapse-item>
       </div>
     </el-collapse>
-    <div>
+    <div><br>
       <el-button type="primary" @click="handleUpdateCustomerButtonClick">保 存</el-button>
-      <el-button>取 消</el-button>
+      <el-button><a href="javascript :;" onClick="javascript :history.back(-1);">取 消</a></el-button>
     </div>
   </div>
 </template>
@@ -501,12 +500,12 @@ export default {
       this.contractload(formData)
     },
     idCardCopyUpload (formData) {
+      this.idCardCopyUploadForm.dataId = this.account.customerId
       this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.idCardCopyUploadForm }).then(file => {
         Message({
           message: '上传成功',
           type: 'success'
         })
-        this.createCustomerForm.fileList.push(file)
       }).catch(message => {
         Message({
           message,
@@ -515,15 +514,12 @@ export default {
       })
     },
     businessLicenseCopyImageUpload (formData) {
+      this.businessLicenseCopyImageUploadForm.dataId = this.account.customerId
       this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.businessLicenseCopyImageUploadForm }).then(file => {
         Message({
           message: '营业执照复印件图片上传成功！',
           type: 'success'
         })
-        this
-          .createCustomerForm
-          .fileList
-          .push(file)
       })
         .catch(message => {
           Message({
@@ -533,15 +529,12 @@ export default {
         })
     },
     contractload (formData) {
+      this.handleContractloadHttpRequestForm.dataId = this.account.customerId
       this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.handleContractloadHttpRequestForm }).then(file => {
         Message({
           message: '合同原件图片上传成功！',
           type: 'success'
         })
-        this
-          .createCustomerForm
-          .fileList
-          .push(file)
       })
         .catch(message => {
           Message({
@@ -577,6 +570,7 @@ export default {
     },
     // 修改客户信息
     updateCustomer () {
+      console.log(this.updateCustomerForm)
       this.$store.dispatch('updateCustomer', this.updateCustomerForm).then(() => {
         Message({
           message: '修改成功',

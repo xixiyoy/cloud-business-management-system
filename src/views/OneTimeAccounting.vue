@@ -8,7 +8,7 @@
         <el-card class="box-card">
           <el-row>
             <el-col :span="3">
-              企业变更
+              {{agentOrder.baseInformation.task.productName}}
             </el-col>
             <el-col :span="21">
               <a-steps :current="0" class="agent-order-steps">
@@ -106,7 +106,7 @@
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
         <el-collapse-item title="交接信息: " name="3">
           <el-table
-            :data="agentOrder.baseInformation.relList"
+            :data="agentOrder.relList"
             style="width: 100%">
             <el-table-column
               label="操作时间"

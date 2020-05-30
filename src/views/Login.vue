@@ -233,7 +233,7 @@
 
                 <!-- 用户名 (文本框) -->
                 <div id="u90" class="ax_default text_field" data-label="用户名">
-                  <input id="u90_input" placeholder="请输入手机号码" type="text" v-model="accountLoginForm.accountPhoneNumber"/>
+                  <input id="u90_input" placeholder="请输入手机号码" type="text" v-model="phoneLoginForm.mobileNumber"/>
                 </div>
               </div>
 
@@ -247,7 +247,7 @@
 
                 <!-- 密码 (文本框) -->
                 <div id="u93" class="ax_default text_field" data-label="密码">
-                  <input id="u93_input" type="number" value=""/>
+                  <input id="u93_input" type="number" v-model="phoneLoginForm.validCode"/>
                 </div>
 
                 <!-- Unnamed (SVG) -->
@@ -259,7 +259,7 @@
                 <div id="u95" class="ax_default label">
                   <div id="u95_div" class=""></div>
                   <div id="u95_text" class="text ">
-                    <p><span>发送验证码</span></p>
+                    <p><span @click="getCaptcha">发送验证码</span></p>
                   </div>
                 </div>
 
@@ -299,6 +299,10 @@ export default {
         accountPassword: '',
         accountPhoneNumber: '',
         captcha: ''
+      },
+      phoneLoginForm: {
+        mobileNumber: '',
+        validCode: ''
       },
       isAccountLoginTabShow: true
     }
@@ -364,14 +368,35 @@ export default {
         return false
       }
     },
+    getCaptcha () {
+      this.$store.dispatch('getCaptcha', this.phoneLoginForm.mobileNumber).then(() => {
+        Message({
+          message: '发送验证码成功！',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
     handleLoginByAccountPhoneNumber () {
-      const accountPhoneNumber = this.accountLoginForm.accountPhoneNumber
-      if (this.isPhoneNumberNull(accountPhoneNumber)) {
-        alert('请输入手机号')
-      } else if (this.isPhoneNumberExist(accountPhoneNumber)) {
-      } else {
-        alert('手机号码不存在，请重新输入')
-      }
+      // const accountPhoneNumber = this.accountLoginForm.accountPhoneNumber
+      // if (this.isPhoneNumberNull(accountPhoneNumber)) {
+      //   alert('请输入手机号')
+      // } else if (this.isPhoneNumberExist(accountPhoneNumber)) {
+      // } else {
+      //   alert('手机号码不存在，请重新输入')
+      // }
+      this.$store.dispatch('loginByPhone', this.phoneLoginForm).then(() => {
+        this.$router.push({ path: '/home' })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
     },
     handlePhoneNumberTabLoginClick () {
       this.isAccountLoginTabShow = false

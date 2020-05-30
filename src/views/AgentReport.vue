@@ -43,7 +43,7 @@
             </div>
           </el-col> -->
           <el-col :span="10">
-            <div class="input-with-select">
+            <!-- <div class="input-with-select">
               <el-input>
                 <el-select v-model="select" slot="prepend" placeholder="请选择">
                   <el-option label="餐厅名" value="1"></el-option>
@@ -57,7 +57,7 @@
                 </el-select>
                 <el-button slot="append" icon="el-icon-search"></el-button>
               </el-input>
-            </div>
+            </div> -->
           </el-col>
         </el-row>
     </div>
@@ -372,7 +372,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="handleOneZeroEditClick">修 改</el-button>
-        <el-button type="primary" @click="oneZeroSelfEditVisible = false">取消</el-button>
+        <el-button @click="oneZeroSelfEditVisible = false">取消</el-button>
         <!-- 1 0 提交者的修改的弹框start -->
         <el-dialog title="修改收款" :visible.sync="modifyOneZreoDialogFormVisible" append-to-body>
           <el-form>
@@ -554,6 +554,11 @@
               <span>{{collectDetail.remark}}</span>
             </el-form-item>
           </el-col>
+          <el-col :span="24">
+            <el-form-item label="收据编号:" >
+              <span>{{collectDetail.collectNo}}</span>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -625,7 +630,7 @@
               <div class="block">
               <el-date-picker
                 v-model="submitRoyaltyFormMonths"
-                type="daterange"
+                type="monthrange"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
@@ -658,13 +663,20 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="提成月数:" required>
-              <span></span>
+            <el-form-item label="提成月数:">
+              <span>{{ formatRoyaltyMonths(royaltyDetail) | dateYM }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="创建日期:" required>
+            <el-form-item label="申请日期:">
               <span>{{royaltyDetail.royaltyAppliDate}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-form-item label="申请人:">
+              <span>{{royaltyDetail.royaltyAppliUserName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -772,12 +784,19 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="提成月数:" required>
-              <span>{{ formatRoyaltyMonths(royaltyDetail) }}</span>
+              <span>{{ formatRoyaltyMonths(royaltyDetail) | dateYM }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="创建日期:" required>
+            <el-form-item label="申请日期:" required>
               <span>{{royaltyDetail.royaltyAppliDate}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-form-item label="申请人:" required>
+              <span>{{royaltyDetail.royaltyAppliUserName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -865,8 +884,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="创建日期:" required>
+            <el-form-item label="申请日期:" required>
               <span>{{royaltyDetail.royaltyAppliDate}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-form-item label="申请人:" required>
+              <span>{{royaltyDetail.royaltyAppliUserName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -963,12 +989,19 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="提成月数:" required>
-              <span>{{ formatRoyaltyMonths(royaltyDetail) }}</span>
+              <span>{{ formatRoyaltyMonths(royaltyDetail) | dateYM }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="创建日期:" required>
+            <el-form-item label="申请日期:" required>
               <span>{{royaltyDetail.royaltyAppliDate}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-form-item label="申请人:" required>
+              <span>{{royaltyDetail.royaltyAppliUserName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -1064,12 +1097,19 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="提成月数:" required>
-              <span>{{ formatRoyaltyMonths(royaltyDetail) }}</span>
+              <span>{{ formatRoyaltyMonths(royaltyDetail) | dateYM }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="创建日期:" required>
+            <el-form-item label="申请日期:" required>
               <span>{{royaltyDetail.royaltyAppliDate}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-form-item label="申请日人:" required>
+              <span>{{royaltyDetail.royaltyAppliUserName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -1158,8 +1198,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="创建日期:" required>
+            <el-form-item label="申请日期:" required>
               <span>{{royaltyDetail.royaltyAppliDate}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-form-item label="申请人:" required>
+              <span>{{royaltyDetail.royaltyAppliUserName}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -1221,6 +1268,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
+
         <el-button @click="treeFiveViewVisible = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -1294,7 +1342,8 @@ export default {
       updateRoyaltyForm: {
         royaltyStartMonth: '',
         royaltyEndMonth: '',
-        royaltyMoney: ''
+        royaltyMoney: '',
+        royaltyAppliUserId: ''
       },
       modifyRoyaltyDialogFormVisible: false,
       // 驳回提成
@@ -1362,6 +1411,9 @@ export default {
       if (collectStatusValue === '1') {
         return true
       }
+      if (collectStatusValue === '2' && royaltyStatusValue === '0') {
+        return true
+      }
       if (collectStatusValue === '3' && royaltyStatusValue === '0') {
         return true
       }
@@ -1372,6 +1424,12 @@ export default {
         return true
       }
       if (collectStatusValue === '3' && royaltyStatusValue === '3') {
+        return true
+      }
+      if (collectStatusValue === '3' && royaltyStatusValue === '4') {
+        return true
+      }
+      if (collectStatusValue === '3' && royaltyStatusValue === '5') {
         return true
       }
     },
@@ -1491,12 +1549,22 @@ export default {
     },
     // 所有编辑
     handleEditCommandClick (customer) {
-      console.log(customer)
       const { collectStatusValue, royaltyStatusValue } = customer
       if (collectStatusValue === '0' && royaltyStatusValue === '0') {
         this.zeroZeroEditVisible = true
       }
+      if (collectStatusValue === '3' && royaltyStatusValue === '5') {
+        this.zeroZeroEditVisible = true
+      }
       if (collectStatusValue === '1') {
+        this.getCollectDetail()
+        if (this.isSelf()) {
+          this.oneZeroSelfEditVisible = true
+        } else {
+          this.oneZeroOtherEditVisible = true
+        }
+      }
+      if (collectStatusValue === '2' && royaltyStatusValue === '0') {
         this.getCollectDetail()
         if (this.isSelf()) {
           this.oneZeroSelfEditVisible = true
@@ -1508,6 +1576,14 @@ export default {
         this.threeZeroEditVisible = true
       }
       if (collectStatusValue === '3' && royaltyStatusValue === '1') {
+        this.getRoyaltyDetail()
+        if (this.isSelf()) {
+          this.treeOneEditVisible = true
+        } else {
+          this.threeOneBusinessVisible = true
+        }
+      }
+      if (collectStatusValue === '3' && royaltyStatusValue === '4') {
         this.getRoyaltyDetail()
         if (this.isSelf()) {
           this.treeOneEditVisible = true
@@ -1640,6 +1716,11 @@ export default {
     // 确认收款
     handleConfirenCollect () {
       this.confirmReceiptForm.collectId = this.collectId
+      const collectNo = this.confirmReceiptForm.collectNo
+      if (collectNo === null || collectNo === '') {
+        alert('收据编号不能为空')
+        return false
+      }
       this.confirmCollect()
       this.oneZeroOtherEditVisible = false
     },
@@ -1711,6 +1792,8 @@ export default {
       this.updateRoyaltyForm.royaltyStartMonth = `${startDate.getFullYear()}-${startDate.getMonth() + 1}`
       this.updateRoyaltyForm.royaltyEndMonth = `${endDate.getFullYear()}-${endDate.getMonth() + 1}`
       this.updateRoyaltyForm.customerId = this.customerId
+      this.updateRoyaltyForm.royaltyAppliUserId = this.royaltyDetail.royaltyAppliUserId
+      this.updateRoyaltyForm.royaltyStatusValue = this.royaltyDetail.royaltyStatusValue
       this.updateRoyalty()
     },
     updateRoyalty () {
@@ -1816,7 +1899,6 @@ export default {
     // 获取收款列表里的收款账户
     getCollectAccounts () {
       this.$store.dispatch('getTenantAccountList').then(() => {
-        console.log(this.collectAccounts)
       }).catch(message => {
         Message({
           type: 'error',
@@ -1918,6 +2000,8 @@ export default {
   width: 157px;
   text-align: center;
   display: inline-block;
+  position: relative;
+  top: 23px;
   }
 .approval-two{
   width:157px;

@@ -15,7 +15,7 @@ const updateChannel = channel => request({
 const createChannel = createChannelFrom => request({
   url: '/channel/save',
   method: 'POST',
-  params: createChannelFrom
+  data: createChannelFrom
 })
 const getChannelInformation = channelId => request({
   url: `/channel/info/${channelId}`

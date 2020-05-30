@@ -1,5 +1,5 @@
 import { updateSysInfo, getSysInfo, updatePassWord, getUserList } from '../../api/sysUser'
-import { loginByUserNameAndPassword } from '../../api/sys.login'
+import { loginByUserNameAndPassword, loginByPhone, getCaptcha } from '../../api/sys.login'
 
 const state = {
   user: {
@@ -40,6 +40,18 @@ const actions = {
   },
   async loginByAccountNameAndPassword ({ commit }, { accountName, accountPassword, captcha }) {
     const { data: { code, msg } } = await loginByUserNameAndPassword(accountName, accountPassword, captcha)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
+  },
+  async loginByPhone ({ commit }, form) {
+    const { data: { code, msg } } = await loginByPhone(form)
+    if (code !== 0) {
+      return Promise.reject(msg)
+    }
+  },
+  async getCaptcha ({ commit }, phoneNumber) {
+    const { data: { code, msg } } = await getCaptcha(phoneNumber)
     if (code !== 0) {
       return Promise.reject(msg)
     }

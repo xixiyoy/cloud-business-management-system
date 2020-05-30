@@ -69,6 +69,7 @@
           prop="createTime"
           :show-overflow-tooltip="true"
           label="收支时间">
+          <template slot-scope="scope">{{scope.row.date| dateYMDHMSFormat}}</template>
         </el-table-column>
         <el-table-column
           prop="comment"
