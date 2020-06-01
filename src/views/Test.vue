@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <img src="http://39.100.120.137:8080/captcha.jpg?t=1585229310369"/>
+    <img src="http://www.qixiangyun.net/captcha.jpg?t=1585229310369"/>
     <el-input v-model="form.userName"></el-input>
     <el-input v-model="form.password"></el-input>
     <el-input v-model="form.captcha"></el-input>

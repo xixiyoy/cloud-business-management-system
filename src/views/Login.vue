@@ -103,7 +103,7 @@
               <div class="captcha">
                 <el-row>
                   <el-col :span="12">
-                    <img style="border-radius: 95px 0px 0px 95px;" src="http://39.100.120.137:8080/captcha.jpg?t=1585229310369"/>
+                    <img style="border-radius: 95px 0px 0px 95px;" src="http://www.qixiangyun.net/captcha.jpg?t=1585229310369"/>
                   </el-col>
                   <el-col :span="12">
                     <div>

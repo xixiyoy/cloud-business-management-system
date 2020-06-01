@@ -354,7 +354,18 @@ export default {
       processList: [],
       editTaskDialogVisible: false,
       isAngentDetail: false,
-      task: null
+      task: null,
+      account: {
+        newestTask:
+          {
+            price: '',
+            number: '',
+            serviceStartMonth: '',
+            taxDate: '',
+            payCycle: ''
+          }
+      },
+      fileList: []
     }
   },
   mounted () {
