@@ -689,7 +689,7 @@
                       <div class="approval-content">
                         <p>申请提交</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
@@ -701,7 +701,7 @@
                       <div class="approval-content">
                         <p>业务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
@@ -713,7 +713,7 @@
                       <div class="approval-content">
                         <p>财务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyFianceUserName }}</p>
@@ -725,7 +725,7 @@
                       <div class="approval-content">
                         <p>出纳确认</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyCashUserName }}</p>
@@ -809,7 +809,7 @@
                       <div class="approval-content">
                         <p>申请提交</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
@@ -821,7 +821,7 @@
                       <div class="approval-content">
                         <p>业务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
@@ -833,7 +833,7 @@
                       <div class="approval-content">
                         <p>财务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyFianceUserName }}</p>
@@ -845,7 +845,7 @@
                       <div class="approval-content">
                         <p>出纳确认</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyCashUserName }}</p>
@@ -905,7 +905,7 @@
                       <div class="approval-content">
                         <p>申请提交</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
@@ -917,7 +917,7 @@
                       <div class="approval-content">
                         <p>业务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
@@ -929,7 +929,7 @@
                       <div class="approval-content">
                         <p>财务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyFianceUserName }}</p>
@@ -941,7 +941,7 @@
                       <div class="approval-content">
                         <p>出纳确认</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyCashUserName }}</p>
@@ -1014,7 +1014,7 @@
                       <div class="approval-content">
                         <p>申请提交</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
@@ -1026,7 +1026,7 @@
                       <div class="approval-content">
                         <p>业务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
@@ -1038,7 +1038,7 @@
                       <div class="approval-content">
                         <p>财务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyFianceUserName }}1111</p>
@@ -1050,7 +1050,7 @@
                       <div class="approval-content">
                         <p>出纳确认</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyCashUserName }}</p>
@@ -1122,7 +1122,7 @@
                       <div class="approval-content">
                         <p>申请提交</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
@@ -1134,7 +1134,7 @@
                       <div class="approval-content">
                         <p>业务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
@@ -1146,7 +1146,7 @@
                       <div class="approval-content">
                         <p>财务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyFianceUserName }}</p>
@@ -1158,7 +1158,7 @@
                       <div class="approval-content">
                         <p>出纳确认</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyCashUserName }}</p>
@@ -1219,7 +1219,7 @@
                       <div class="approval-content">
                         <p>申请提交</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyAppliUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyAppliUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyAppliUserName }}</p>
@@ -1231,7 +1231,7 @@
                       <div class="approval-content">
                         <p>业务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyBusinessUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyBusinessUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyBusinessUserName }}</p>
@@ -1243,7 +1243,7 @@
                       <div class="approval-content">
                         <p>财务审批</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyFianceUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyFianceUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyFianceUserName }}</p>
@@ -1255,7 +1255,7 @@
                       <div class="approval-content">
                         <p>出纳确认</p>
                         <div class="approval">
-                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/等待审核.png" alt="">
+                          <img v-if="!hasApproval(royaltyDetail.royaltyCashUserName)" class="wait-statu" src="../assets/images/agentReport/ddsh.png" alt="">
                           <i v-if="hasApproval(royaltyDetail.royaltyCashUserName)" class="el-icon-success" style="color:green;"></i><br>
                         </div>
                         <p>{{ royaltyDetail.royaltyCashUserName }}</p>

@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div id="base" class="">
+    <div id="base">
 
       <!-- 蒙版 (矩形) -->
       <div id="u54" class="ax_default box_3" data-label="蒙版">
@@ -17,7 +17,7 @@
 
         <!-- Unnamed (矩形) -->
         <div id="u57" class="ax_default box_2">
-          <div id="u57_div" class=""></div>
+          <div id="u57_div"></div>
           <div id="u57_text" class="text ">
             <p><span>企享云客户管理系统</span></p>
           </div>
@@ -31,7 +31,7 @@
 
             <!-- Unnamed (矩形) -->
             <div id="u59" class="ax_default box_2">
-              <div id="u59_div" class=""></div>
+              <div id="u59_div"></div>
             </div>
 
             <!-- 1 (组 合) -->
@@ -39,12 +39,12 @@
 
               <!-- Unnamed (矩形) -->
               <div id="u61" class="ax_default box_2">
-                <div id="u61_div" class=""></div>
+                <div id="u61_div"></div>
               </div>
 
               <!-- Unnamed (矩形) -->
               <div id="u62" class="ax_default box_2" @click="handleAccountTabLoginClick">
-                <div id="u62_div" class=""></div>
+                <div id="u62_div"></div>
                 <div id="u62_text" class="text ">
                   <p><span>账户登录</span></p>
                 </div>
@@ -53,7 +53,7 @@
 
             <!-- Unnamed (矩形) -->
             <div id="u63" class="ax_default box_2" @click="handleLoginButtonClick">
-              <div id="u63_div" class=""></div>
+              <div id="u63_div"></div>
               <div id="u63_text" class="text" style="text-align:center;S">
                 <p><span>登&nbsp; 录</span></p>
               </div>
@@ -67,7 +67,7 @@
 
                 <!-- Unnamed (矩形) -->
                 <div id="u66" class="ax_default box_2">
-                  <div id="u66_div" class=""></div>
+                  <div id="u66_div"></div>
                 </div>
 
                 <!-- Unnamed (SVG) -->
@@ -86,7 +86,7 @@
 
                 <!-- Unnamed (矩形) -->
                 <div id="u70" class="ax_default box_2">
-                  <div id="u70_div" class=""></div>
+                  <div id="u70_div"></div>
                 </div>
 
                 <!-- 密码 (文本框) -->
@@ -103,7 +103,7 @@
               <div class="captcha">
                 <el-row>
                   <el-col :span="12">
-                    <img style="border-radius: 95px 0px 0px 95px;" src="http://www.qixiangyun.net/captcha.jpg?t=1585229310369"/>
+                    <img style="border-radius: 95px 0px 0px 95px;" src="https://www.qixiangyun.net/captcha.jpg?t=1585229310369"/>
                   </el-col>
                   <el-col :span="12">
                     <div>
@@ -143,7 +143,7 @@
 
               <!-- Unnamed (矩形) -->
               <div id="u77" class="ax_default box_2">
-                <div id="u77_div" class=""></div>
+                <div id="u77_div"></div>
                 <div id="u77_text" class="text ">
                   <p><span>记住我</span></p>
                 </div>
@@ -152,7 +152,7 @@
 
             <!-- Unnamed (矩形) -->
             <div id="u78" class="ax_default box_2">
-              <div id="u78_div" class=""></div>
+              <div id="u78_div"></div>
               <div id="u78_text" class="text ">
                 <p><span>忘记密码？</span></p>
               </div>
@@ -165,7 +165,7 @@
 
                   <!-- Unnamed (矩形) -->
                   <div id="u80" class="ax_default box_2">
-                    <div id="u80_div" class=""></div>
+                    <div id="u80_div"></div>
                     <div id="u80_text" class="text ">
                       <p><span>用户名或密码不正确！</span></p>
                     </div>
@@ -177,7 +177,7 @@
 
                   <!-- Unnamed (矩形) -->
                   <div id="u81" class="ax_default box_2">
-                    <div id="u81_div" class=""></div>
+                    <div id="u81_div"></div>
                     <div id="u81_text" class="text ">
                       <p><span>请输入用户名/手机号/邮箱</span></p>
                     </div>
@@ -189,7 +189,7 @@
 
                   <!-- Unnamed (矩形) -->
                   <div id="u82" class="ax_default box_2">
-                    <div id="u82_div" class=""></div>
+                    <div id="u82_div"></div>
                     <div id="u82_text" class="text ">
                       <p><span>请输入登录密码</span></p>
                     </div>
@@ -203,12 +203,12 @@
 
               <!-- Unnamed (矩形) -->
               <div id="u84" class="ax_default box_2">
-                <div id="u84_div" class=""></div>
+                <div id="u84_div"></div>
               </div>
 
               <!-- Unnamed (矩形) -->
               <div id="u85" class="ax_default box_2" @click="handlePhoneNumberTabLoginClick">
-                <div id="u85_div" class=""></div>
+                <div id="u85_div"></div>
                 <div id="u85_text" class="text ">
                   <p><span>手机登录</span></p>
                 </div>
@@ -223,7 +223,7 @@
 
                 <!-- Unnamed (矩形) -->
                 <div id="u88" class="ax_default box_2">
-                  <div id="u88_div" class=""></div>
+                  <div id="u88_div"></div>
                 </div>
 
                 <!-- Unnamed (SVG) -->
@@ -242,7 +242,7 @@
 
                 <!-- Unnamed (矩形) -->
                 <div id="u92" class="ax_default box_2">
-                  <div id="u92_div" class=""></div>
+                  <div id="u92_div"></div>
                 </div>
 
                 <!-- 密码 (文本框) -->
@@ -257,7 +257,7 @@
 
                 <!-- Unnamed (矩形) -->
                 <div id="u95" class="ax_default label">
-                  <div id="u95_div" class=""></div>
+                  <div id="u95_div"></div>
                   <div id="u95_text" class="text ">
                     <p><span @click="getCaptcha">发送验证码</span></p>
                   </div>
@@ -275,7 +275,7 @@
 
       <!-- Unnamed (矩形) -->
       <div id="u97" class="ax_default label">
-        <div id="u97_div" class=""></div>
+        <div id="u97_div"></div>
         <div id="u97_text" class="text ">
           <p><span style="font-family:'Helvetica Regular', 'Helvetica';">&nbsp;&nbsp;&nbsp; CopyRight @ 企享</span><span style="font-family:'PingFang SC Regular', 'PingFang SC';">科技&nbsp;&nbsp; 2020</span></p>
         </div>
@@ -428,14 +428,9 @@ export default {
   background-size:cover;
   position:static;
   left:auto;
-  /* width:1366px; */
   margin-left:0;
   margin-right:0;
   text-align:left;
-}
-#base {
-  position:absolute;
-  z-index:0;
 }
 #u54_img {
   border-width:0px;
@@ -443,16 +438,22 @@ export default {
   left:0px;
   top:0px;
   /* 暂时用 css 弥补 js */
-  width:2090px;
-  height:110%;
+  width:100%;
+  height:100%;
+}
+#base {
+  position:absolute;
+  z-index:0;
+  width: 100%;
+  height: 100%;
 }
 #u54 {
   border-width:0px;
   position:absolute;
   left:0px;
   top:0px;
-  width:1366px;
-  height:768px;
+  width:100%;
+  height:100%;
 }
 #u54_text {
   border-width:0px;

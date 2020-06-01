@@ -121,7 +121,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="服务周期: " prop="name">
-                  <span>{{agentOrder.baseInformation.task.number}} + 赠{{agentOrder.accountInformation.giftNumber}}月</span>
+                  <span>{{agentOrder.baseInformation.task.number}}</span>
                 </el-form-item>
               </el-col>
             </el-row>

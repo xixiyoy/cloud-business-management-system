@@ -11,7 +11,7 @@
                   <p class="dynamic-value">{{ homeBaseInfo.customerCount }}</p><br><br>
                 </div>
                 <div class="icon-custom">
-                  <img class="date-icon-custom" src="../assets/images/home/客户.png" alt="">
+                  <img class="date-icon-custom" src="../assets/images/home/kh.png" alt="">
                 </div>
               </div>
               <div class="date-total-show">
@@ -32,7 +32,7 @@
                   <p class="dynamic-value">{{ homeBaseInfo.accountCustomerCount }}</p><br><br>
                 </div>
                 <div class="icon-custom">
-                  <img class="date-icon-custom" src="../assets/images/home/订单.png" alt="">
+                  <img class="date-icon-custom" src="../assets/images/home/order.png" alt="">
                 </div>
               </div>
               <div class="date-total-show">
@@ -53,7 +53,7 @@
                   <p class="dynamic-value">{{ homeBaseInfo.taskCount }}</p><br><br>
                 </div>
                 <div class="icon-custom">
-                  <img class="date-icon-custom" src="../assets/images/home/代账服务费.png" alt="">
+                  <img class="date-icon-custom" src="../assets/images/home/agentMount.png" alt="">
                 </div>
               </div>
               <div class="date-total-show">
@@ -74,7 +74,7 @@
                   <p class="dynamic-value">{{ homeBaseInfo.invoiceCount }}</p><br><br>
                 </div>
                 <div class="icon-custom">
-                  <img class="date-icon-custom" src="../assets/images/home/开票总额.png" alt="">
+                  <img class="date-icon-custom" src="../assets/images/home/totalLists.png" alt="">
                 </div>
               </div>
               <div class="date-total-show">
