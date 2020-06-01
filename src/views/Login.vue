@@ -4,7 +4,7 @@
 
       <!-- 蒙版 (矩形) -->
       <div id="u54" class="ax_default box_3" data-label="蒙版">
-        <img id="u54_img" class="img " src="../assets/images/login/蒙版_u54.png"/>
+        <img id="u54_img" class="img " src="../assets/images/login/mb_u54.png"/>
       </div>
 
       <!-- logo (组 合) -->
