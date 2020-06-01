@@ -140,43 +140,43 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="月服务费: ">
-                  <span>{{ account.newestTask.price }}</span>
+                  <span>{{ account.newestTask ? account.newestTask.price : '' }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="服务周期: ">
-                  <span>{{account.newestTask.number}}月 + 赠 {{account.newestTask.giftNumber}}月</span>
+                  <span>{{ account.newestTask ? account.newestTask.number : '' }}月 + 赠 {{ account.newestTask ? account.newestTask.giftNumber : ''}}月</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="服务开始月: ">
-                  <span>{{account.newestTask.serviceStartMonth| dateYM}}</span>
+                  <span>{{ account.newestTask ? (account.newestTask.serviceStartMonth | dateYM) : '' }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="剩余赠送月: ">
-                  <span>{{ getLeftGifts(account.newestTask) }}</span>
+                  <span>{{ account.newestTask ? getLeftGifts(account.newestTask) : '' }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="剩余服务月: ">
-                  <span>{{ getLeftMonths(account.newestTask) }}</span>
+                  <span>{{ account.newestTask ? getLeftMonths(account.newestTask) : '' }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="当前报税期: ">
-                  <span>{{account.newestTask.taxDate| dateYM}}</span>
+                  <span>{{ account.newestTask ? (account.newestTask.taxDate | dateYM) : '' }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="付费周期: ">
-                  <span>{{account.newestTask.payCycle}}</span>
+                  <span>{{ account.newestTask ? account.newestTask.payCycle : ''}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -222,7 +222,7 @@
               label="操作"
               width="100">
                 <template slot-scope="scope">
-                  <el-button size="mini" type="text" @click="handleEditTaskButtonClick(scope.id)">查看</el-button>
+                  <el-button size="mini" type="text" @click="handleEditTaskButtonClick(scope.row)">查看</el-button>
                 </template>
             </el-table-column>
           </el-table>
@@ -355,16 +355,16 @@ export default {
       editTaskDialogVisible: false,
       isAngentDetail: false,
       task: null,
-      account: {
-        newestTask:
-          {
-            price: '',
-            number: '',
-            serviceStartMonth: '',
-            taxDate: '',
-            payCycle: ''
-          }
-      },
+      // account: {
+      //   newestTask:
+      //     {
+      //       price: '',
+      //       number: '',
+      //       serviceStartMonth: '',
+      //       taxDate: '',
+      //       payCycle: ''
+      //     }
+      // },
       fileList: []
     }
   },
@@ -379,6 +379,7 @@ export default {
       return this.isTasksContainAgentReport()
     },
     isAgentReport () {
+      console.log(this.account.taskList)
       return this.account.taskList.filter(process => process.productName === '代理记账').length > 0
     },
     ...mapState({
@@ -393,11 +394,15 @@ export default {
       return this.account.taskList.map(({ price }) => price).reduce((x, y) => x + y)
     },
     getImageUrls (type) {
-      return this
-        .account
-        .fileList
-        .filter(({ fileType }) => fileType === type)
-        .map(({ fileUrl }) => `http://39.100.120.137/${fileUrl.replace('/data/wwwroot/default/', '')}`)
+      const files = this.account.fileList
+      if (files) {
+        return this
+          .account
+          .fileList
+          .filter(({ fileType }) => fileType === type)
+          .map(({ fileUrl }) => `http://39.100.120.137/${fileUrl.replace('/data/wwwroot/default/', '')}`)
+      }
+      return []
     },
     handleEditTaskFormAccountingAssistantSelectChange (id) {
       this.account.taskList.relHelpUserName = this.getUserName(id)
@@ -413,6 +418,7 @@ export default {
     },
     // 根据 ID 获取产品
     getProductById (id) {
+      console.log(this.products)
       return this.products.filter(({ productId }) => productId === id)[0]
     },
     getProductNameById (id) {
@@ -453,14 +459,10 @@ export default {
       }
       return giftNumber - (completeCount - number)
     },
-    handleEditTaskButtonClick (id) {
-      const productName = this.getProductNameById(id)
-      if (productName === '代理记账') {
-        this.$router.push({ path: '/agent-bookkeeping', query: { taskId: id.taskId } })
-      }
-      this.$router.push({ path: '/one-time-accounting', query: { taskId: id.taskId } })
-      // this.task = this.account.taskList[index]
-      // this.editTaskDialogVisible = true
+    handleEditTaskButtonClick ({ taskId, productName }) {
+      this
+        .$router
+        .push({ path: productName === '代理记账' ? '/agent-bookkeeping' : '/one-time-accounting', query: { taskId } })
     },
     getUsers () {
       this.$store.dispatch('getUserList', this.getUsersForm)
