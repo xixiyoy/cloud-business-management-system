@@ -64,8 +64,8 @@
                     <div id="u325" class="ax_default box_2">
                       <div id="u325_div" class=""></div>
                       <div id="u325_text" class="text " style="position: relative;top: 22px;">
-                        <p><span>{{ userInfo.deptName }}</span></p>
-                        <p><span>{{ userInfo.userName }}</span></p>
+                        <p><span style="margin-left: 48px;">{{ userInfo.deptName }}</span></p>
+                        <p><span style="margin-left: 48px;">{{ userInfo.userName }}</span></p>
                       </div>
                     </div>
 
@@ -251,8 +251,8 @@ export default {
   border-width:0px;
   position:absolute;
   left:-1px;
-  top:60px;
-  width:200px;
+  top:75px;
+  width:270px;
   height:230px;
   overflow:hidden;
 }
@@ -261,7 +261,7 @@ export default {
   position:absolute;
   left:0px;
   top:0px;
-  width:200px;
+  width:270px;
   height:230px;
   -ms-overflow-x:hidden;
   overflow-x:hidden;
@@ -286,17 +286,17 @@ export default {
   border-width:0px;
   position:absolute;
   left:0px;
-  top:0px;
-  width:215px;
-  height:230px;
+  top:15px;
+  width:270px;
+  height:auto;
 }
 #u323 {
   border-width:0px;
   position:absolute;
   left:-1px;
   top:60px;
-  width:215px;
-  height:230px;
+  width:270px;
+  height:auto;
 }
 #u323_text {
   border-width:0px;
@@ -310,7 +310,7 @@ export default {
 #u324_img {
   border-width:0px;
   position:absolute;
-  left:-10px;
+  left:17px;
   top:7px;
   width:100px;
   height:100px;
@@ -393,7 +393,7 @@ export default {
 #u326 {
   border-width:0px;
   position:absolute;
-  left:49px;
+  left:75px;
   top:232px;
   width:101px;
   height:30px;
