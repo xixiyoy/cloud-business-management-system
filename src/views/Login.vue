@@ -100,7 +100,7 @@
                 </div>
               </div>
               <!-- 验证码 -->
-              <div class="captcha">
+              <!-- <div class="captcha">
                 <el-row>
                   <el-col :span="12">
                     <img style="border-radius: 95px 0px 0px 95px;" src="https://www.qixiangyun.net/captcha.jpg?t=1585229310369"/>
@@ -113,7 +113,7 @@
                     </div>
                   </el-col>
                 </el-row>
-            </div>
+            </div> -->
             </div>
 
             <!-- Unnamed (组 合) -->
