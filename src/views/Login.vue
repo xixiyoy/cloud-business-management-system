@@ -468,7 +468,7 @@ export default {
   border-width:0px;
   position:absolute;
   left:0px;
-  top:0px;
+  top:10%;
   width:0px;
   height:0px;
 }
@@ -1661,7 +1661,7 @@ export default {
   border-width:0px;
   position:absolute;
   left:0px;
-  top:0px;
+  top:125%;
   width:225px;
   white-space:nowrap;
 }
