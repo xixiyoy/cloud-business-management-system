@@ -7,11 +7,11 @@
               <el-button type="primary" @click="handleClickCreateAccount">新  建</el-button>
             </div>
           </el-col>
-          <el-col :span="10"><div class="grid-content bg-purple">
-            <el-button class="new-seetings">
-              <img id="u829_img" class="img " src="../assets/images/account/u829.png">
-              <span style="padding-left:10px;">导出</span>
-            </el-button></div></el-col>
+          <el-col :span="10">
+            <div class="grid-content bg-purple">
+              <el-button >导  出</el-button>
+            </div>
+          </el-col>
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <el-select v-model="getCustomersForm.customerStatusName" @change="handleStatusChange">

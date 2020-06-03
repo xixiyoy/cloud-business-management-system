@@ -381,7 +381,13 @@ import { mapState } from 'vuex'
 
 export default {
   metaInfo: {
-    title: '修改详情'
+    title: '修改详情',
+    meta: [
+      {
+        name: 'referrer',
+        content: 'no-referrer'
+      }
+    ]
   },
   data () {
     return {
@@ -549,16 +555,26 @@ export default {
         .account
         .fileList
         .filter(({ fileType }) => fileType === type)
-        .map(({ fileUrl }) => `http://39.100.120.137/${fileUrl.replace('/data/wwwroot/default/', '')}`)
+        .map(({ fileUrl }) => `https://${fileUrl.replace('/data/wwwroot/', '')}`)
     },
     // 根据 ID 获取客户
     getCustomer () {
-      this
-        .$store
-        .dispatch(
-          'getCustomerById',
-          this.customerId
-        )
+      this.$store.dispatch('getCustomerById', this.customerId).then(() => {
+        this.updateCustomerForm.customerId = this.account.customerId
+        this.updateCustomerForm.customerStatusName = this.account.customerStatusName
+        this.updateCustomerForm.customerName = this.account.customerName
+        this.updateCustomerForm.customerLinkerName = this.account.customerLinkerName
+        this.updateCustomerForm.customerLinkerPhone = this.account.customerLinkerPhone
+        this.updateCustomerForm.customerBusinessPhone = this.account.customerBusinessPhone
+        this.updateCustomerForm.customerLevelName = this.account.customerLevelName
+        this.updateCustomerForm.customerAddress = this.account.customerAddress
+        this.updateCustomerForm.customerBusinessEmail = this.account.customerBusinessEmail
+        this.updateCustomerForm.customerFromWay = this.account.customerFromWay
+        this.updateCustomerForm.customerRelUserName = this.account.customerRelUserName
+        this.updateCustomerForm.remark = this.account.remark
+        this.updateCustomerForm.creditCode = this.account.creditCode
+        this.taskList = this.account.taskList
+      })
     },
     handleAddTaskDialogOkButtonClick () {
       if (this.addTaskForm.productName === '代理记账') {

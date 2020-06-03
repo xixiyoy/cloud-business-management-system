@@ -145,7 +145,7 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="服务周期: ">
-                  <span>{{ account.newestTask ? account.newestTask.number : '' }}月 + 赠 {{ account.newestTask ? account.newestTask.giftNumber : ''}}月</span>
+                  <span>{{ account.newestTask ? account.newestTask.number : '' }}月</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -342,7 +342,13 @@ import { mapState } from 'vuex'
 
 export default {
   metaInfo: {
-    title: '客户详情'
+    title: '客户详情',
+    meta: [
+      {
+        name: 'referrer',
+        content: 'no-referrer'
+      }
+    ]
   },
   data () {
     return {
@@ -355,16 +361,6 @@ export default {
       editTaskDialogVisible: false,
       isAngentDetail: false,
       task: null,
-      // account: {
-      //   newestTask:
-      //     {
-      //       price: '',
-      //       number: '',
-      //       serviceStartMonth: '',
-      //       taxDate: '',
-      //       payCycle: ''
-      //     }
-      // },
       fileList: []
     }
   },
@@ -379,7 +375,6 @@ export default {
       return this.isTasksContainAgentReport()
     },
     isAgentReport () {
-      console.log(this.account.taskList)
       return this.account.taskList.filter(process => process.productName === '代理记账').length > 0
     },
     ...mapState({
@@ -400,7 +395,7 @@ export default {
           .account
           .fileList
           .filter(({ fileType }) => fileType === type)
-          .map(({ fileUrl }) => `http://39.100.120.137/${fileUrl.replace('/data/wwwroot/default/', '')}`)
+          .map(({ fileUrl }) => `https://${fileUrl.replace('/data/wwwroot/', '')}`)
       }
       return []
     },
@@ -418,7 +413,6 @@ export default {
     },
     // 根据 ID 获取产品
     getProductById (id) {
-      console.log(this.products)
       return this.products.filter(({ productId }) => productId === id)[0]
     },
     getProductNameById (id) {

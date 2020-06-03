@@ -162,7 +162,21 @@ export default {
   },
   methods: {
     getFiance () {
-      this.$store.dispatch('getFianceById', this.fianceId)
+      this.$store.dispatch('getFianceById', this.fianceId).then(() => {
+        this.updateFianceForm.fianceId = this.report.fianceId
+        this.updateFianceForm.customerName = this.report.customerName
+        this.updateFianceForm.customerRelName = this.report.customerRelName
+        this.updateFianceForm.fianceDeptName = this.report.fianceDeptName
+        this.updateFianceForm.fianceDeptId = this.report.fianceDeptId
+        this.updateFianceForm.fianceUserName = this.report.fianceUserName
+        this.updateFianceForm.fianceUserId = this.report.fianceUserId
+        this.updateFianceForm.money = this.report.money
+        this.updateFianceForm.balance = this.report.balance
+        this.updateFianceForm.createUserName = this.report.createUserName
+        // this.updateFianceForm.createTime = this.report.createTime
+        this.updateFianceForm.fianceTime = this.report.fianceTime
+        this.updateFianceForm.comment = this.report.comment
+      })
     },
     handleUpdateFianceButtonClick () {
       this.modifyFiance()
@@ -210,19 +224,6 @@ export default {
     this.getUsers()
     this.fianceId = this.$route.query.fianceId
     this.getFiance()
-    this.updateFianceForm.fianceId = this.report.fianceId
-    this.updateFianceForm.customerName = this.report.customerName
-    this.updateFianceForm.customerRelName = this.report.customerRelName
-    this.updateFianceForm.fianceDeptName = this.report.fianceDeptName
-    this.updateFianceForm.fianceDeptId = this.report.fianceDeptId
-    this.updateFianceForm.fianceUserName = this.report.fianceUserName
-    this.updateFianceForm.fianceUserId = this.report.fianceUserId
-    this.updateFianceForm.money = this.report.money
-    this.updateFianceForm.balance = this.report.balance
-    this.updateFianceForm.createUserName = this.report.createUserName
-    // this.updateFianceForm.createTime = this.report.createTime
-    this.updateFianceForm.fianceTime = this.report.fianceTime
-    this.updateFianceForm.comment = this.report.comment
   },
   computed: {
     ...mapState({

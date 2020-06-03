@@ -6,7 +6,7 @@
       <el-collapse-item
         title="基础信息"
         name="base-info">
-        <el-form label-width="150px" label-position="right">
+        <el-form label-width="200px" label-position="right">
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="客户名称：" required>
@@ -849,10 +849,10 @@ export default {
     font-size: 17px;
 }
 .el-form-item__label{
-  width: 132px !important;
+  width: 160px !important;
 }
 .el-form-item__content{
-  margin-left: 135px !important;
+  margin-left: 175px !important;
 }
 .IDnumber-upload{
   padding: 14px 160px !important;

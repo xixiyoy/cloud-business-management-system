@@ -85,7 +85,15 @@ export default {
   },
   methods: {
     getChannel () {
-      this.$store.dispatch('getChannelById', this.channelId)
+      this.$store.dispatch('getChannelById', this.channelId).then(() => {
+        this.updateChannelForm.channelId = this.channel.channelId
+        this.updateChannelForm.name = this.channel.name
+        this.updateChannelForm.linkerName = this.channel.linkerName
+        this.updateChannelForm.channelBelongName = this.channel.channelBelongName
+        this.updateChannelForm.dutyUserName = this.channel.dutyUserName
+        this.updateChannelForm.remark = this.channel.remark
+        this.updateChannelForm.linkerMobile = this.channel.linkerMobile
+      })
     },
     handleUpdateChannelButtonClick () {
       this.updateChannel()
@@ -108,13 +116,6 @@ export default {
   mounted () {
     this.channelId = this.$route.query.channelId
     this.getChannel()
-    this.updateChannelForm.channelId = this.channel.channelId
-    this.updateChannelForm.name = this.channel.name
-    this.updateChannelForm.linkerName = this.channel.linkerName
-    this.updateChannelForm.channelBelongName = this.channel.channelBelongName
-    this.updateChannelForm.dutyUserName = this.channel.dutyUserName
-    this.updateChannelForm.remark = this.channel.remark
-    this.updateChannelForm.linkerMobile = this.channel.linkerMobile
   },
   computed: {
     ...mapState({

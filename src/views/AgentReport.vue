@@ -5,10 +5,9 @@
           <el-col :span="3">
             <div class="grid-content bg-purple">
               <el-dropdown>
-                <el-button>
-                  <img id="u829_img" class="img " src="../assets/images/account/u829.png">
-                  <span style="padding-left:10px;">导出</span>
-                </el-button>
+                <div class="grid-content bg-purple">
+                  <el-button >导  出</el-button>
+                </div>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>导出提成</el-dropdown-item>
                 <el-dropdown-item>导出列表</el-dropdown-item>

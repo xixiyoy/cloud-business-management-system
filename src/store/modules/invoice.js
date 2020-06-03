@@ -27,7 +27,9 @@ const actions = {
   },
   // 获取开票详情
   async getBillingById ({ commit }, invoiceId) {
+    console.log(22222)
     const { data: invoice } = await getBillingDetail(invoiceId)
+    console.log(invoice)
     commit('SET_BILLING', invoice)
   },
   // 修改开票

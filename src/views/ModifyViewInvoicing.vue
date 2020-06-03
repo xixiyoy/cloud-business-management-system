@@ -117,7 +117,19 @@ export default {
   },
   methods: {
     getInvoice () {
-      this.$store.dispatch('getBillingById', this.invoiceId)
+      this.$store.dispatch('getBillingById', this.invoiceId).then(() => {
+        this.updateInvoiceForm.invoiceId = this.invoiceId
+        this.updateInvoiceForm.invoiceTypeName = this.invoice.invoiceTypeName
+        this.updateInvoiceForm.entityName = this.invoice.entityName
+        this.updateInvoiceForm.invoiceHead = this.invoice.invoiceHead
+        this.updateInvoiceForm.creditCode = this.invoice.creditCode
+        this.updateInvoiceForm.phone = this.invoice.phone
+        this.updateInvoiceForm.address = this.invoice.address
+        this.updateInvoiceForm.bank = this.invoice.bank
+        this.updateInvoiceForm.invoiceRemark = this.invoice.invoiceRemark
+        this.updateInvoiceForm.account = this.invoice.account
+        this.updateInvoiceForm.invoiceMoney = this.invoice.invoiceMoney
+      })
     },
     handleUpdateInvoiceButtonClick () {
       this.modifyInvoice()
@@ -163,17 +175,6 @@ export default {
     this.getCompanies()
     this.invoiceId = this.$route.query.invoiceId
     this.getInvoice()
-    this.updateInvoiceForm.invoiceId = this.invoiceId
-    this.updateInvoiceForm.invoiceTypeName = this.invoice.invoiceTypeName
-    this.updateInvoiceForm.entityName = this.invoice.entityName
-    this.updateInvoiceForm.invoiceHead = this.invoice.invoiceHead
-    this.updateInvoiceForm.creditCode = this.invoice.creditCode
-    this.updateInvoiceForm.phone = this.invoice.phone
-    this.updateInvoiceForm.address = this.invoice.address
-    this.updateInvoiceForm.bank = this.invoice.bank
-    this.updateInvoiceForm.invoiceRemark = this.invoice.invoiceRemark
-    this.updateInvoiceForm.account = this.invoice.account
-    this.updateInvoiceForm.invoiceMoney = this.invoice.invoiceMoney
   },
   computed: {
     ...mapState({
