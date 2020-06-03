@@ -145,7 +145,6 @@
                     <el-table-column label="产品名称" prop="productName"></el-table-column>
                     <el-table-column label="服务单价" prop="price"></el-table-column>
                     <el-table-column label="服务周期（月）" prop="number" v-if="isRoyaltyCoefficientShow"></el-table-column>
-                    <el-table-column label="赠送（月）" prop="giftNumber" v-if="isRoyaltyCoefficientShow"></el-table-column>
                     <el-table-column label="总额">
                       <template slot-scope="scope">
                         {{ scope.row.price * scope.row.number }}
@@ -214,15 +213,6 @@
                                     :min="1"
                                     :step="1"
                                     v-model="updateTaskForm.number">
-                                  </el-input-number>
-                                </el-form-item>
-                              </el-col>
-                              <el-col :span="12">
-                                <el-form-item label="赠送：">
-                                  <el-input-number
-                                    :min="0"
-                                    :step="1"
-                                    v-model="updateTaskForm.giftNumber">
                                   </el-input-number>
                                 </el-form-item>
                               </el-col>
@@ -334,15 +324,6 @@
                             </el-input-number>
                           </el-form-item>
                         </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="赠送：" v-show="!isAngentDetail">
-                            <el-input-number
-                              :min="0"
-                              :step="1"
-                              v-model="addTaskForm.giftNumber">
-                            </el-input-number>
-                          </el-form-item>
-                        </el-col>
                       </el-row>
                       <el-row>
                         <el-col>
@@ -411,8 +392,6 @@ export default {
         relHelpUserName: '',
         // 服务周期
         number: '',
-        // 赠送
-        giftNumber: '',
         // 付费方式
         payCycle: '',
         longTerm: '0'
@@ -432,8 +411,6 @@ export default {
         relHelpUserName: '',
         // 服务周期
         number: '',
-        // 赠送
-        giftNumber: '',
         // 付费方式
         payCycle: '',
         longTerm: '0'

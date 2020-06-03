@@ -127,7 +127,6 @@
               <el-table-column label="产品名称" prop="productName"></el-table-column>
               <el-table-column label="服务单价" prop="price"></el-table-column>
               <el-table-column label="服务周期（月）" v-if="isRoyaltyCoefficientShow" prop="number"></el-table-column>
-              <el-table-column label="赠送（月）" v-if="isRoyaltyCoefficientShow" prop="giftNumber"></el-table-column>
               <el-table-column label="总额">
                 <template slot-scope="scope">
                   {{ scope.row.price * scope.row.number }}
@@ -209,15 +208,6 @@
                               :min="1"
                               :step="1"
                               v-model="editTaskForm.number">
-                            </el-input-number>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="赠送：" v-show="!isAngentDetail">
-                            <el-input-number
-                              :min="0"
-                              :step="1"
-                              v-model="editTaskForm.giftNumber">
                             </el-input-number>
                           </el-form-item>
                         </el-col>
@@ -326,15 +316,6 @@
                         :min="1"
                         :step="1"
                         v-model="addTaskForm.number">
-                      </el-input-number>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="赠送：" v-show="!isAngentDetail">
-                      <el-input-number
-                        :min="0"
-                        :step="1"
-                        v-model="addTaskForm.giftNumber">
                       </el-input-number>
                     </el-form-item>
                   </el-col>
@@ -492,7 +473,6 @@ export default {
         // 服务周期
         number: '',
         // 赠送
-        giftNumber: '',
         // 付费方式
         payCycle: '',
         longTerm: '0'
@@ -511,8 +491,6 @@ export default {
         relHelpUserName: '',
         // 服务周期
         number: '',
-        // 赠送
-        giftNumber: '',
         // 付费方式
         payCycle: '',
         longTerm: '0'

@@ -10,7 +10,6 @@
           <el-col :span="1"><el-button type="text"></el-button></el-col>
           <el-col :span="10"><div class="grid-content bg-purple">
             <el-button class="new-seetings">
-              <img id="u829_img" class="img " src="../assets/images/account/u829.png">
               <span style="padding-left:10px;">数据导出</span>
             </el-button></div></el-col>
           <el-col :span="4">

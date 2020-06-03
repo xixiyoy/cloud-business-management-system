@@ -3,13 +3,13 @@ import request from './request'
 const getTaskList = data => request({
   url: `/task/longTask?limit=${data.limit}&page=${data.page}`,
   method: 'POST',
-  data: { type: data.type }
+  data: { type: data.type, taskStatusValue: data.taskStatusValue }
 })
 // 一次性订单
 const getOnceTaskList = data => request({
   url: `/task/shortTask?limit=${data.limit}&page=${data.page}`,
   method: 'POST',
-  data: { type: data.type }
+  data: { type: data.type, taskStatusValue: data.taskStatusValue }
 })
 // 删除订单
 const deleteTask = taskId => request({

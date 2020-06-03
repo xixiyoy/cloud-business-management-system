@@ -2,25 +2,20 @@
   <div class="flow">
     <div class="flow-header-custom">
         <el-row :gutter="20" class="header-custom">
-          <el-col :span="13"><div class="grid-content bg-purple">
+          <el-col :span="12"><div class="grid-content bg-purple">
             <el-button>
-              <img id="u829_img" class="img " src="../assets/images/account/u829.png">
               <span style="padding-left:10px;">导出</span>
             </el-button></div></el-col>
-          <el-col :span="3">
+          <el-col :span="4">
             <div class="grid-content bg-purple">
-              <el-dropdown>
-                <el-button >
-                  请选择<i class="el-icon-arrow-down el-icon--right"></i>
-                </el-button>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>未开始</el-dropdown-item>
-                  <el-dropdown-item>服务中</el-dropdown-item>
-                  <el-dropdown-item>已完成</el-dropdown-item>
-                  <el-dropdown-item>已终止</el-dropdown-item>
-                  <el-dropdown-item>全部</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
+              <el-select v-model="getFlowForm.taskStatusName" @change="handleStatusChange">
+                <el-option
+                  v-for="(tasksStatu, index) in taskStatus"
+                  :key="index"
+                  :label="tasksStatu.name"
+                  :value="tasksStatu.value">
+                </el-option>
+              </el-select>
             </div>
           </el-col>
           <el-col :span="5">
@@ -113,7 +108,7 @@
     <div class="flow-table-show">
       <el-tabs type="border-card" v-model="getFlowForm.type" @tab-click="handleTabClick">
         <el-tab-pane v-for="(tab, index) in flowLabels" :key="index" :label="tab.label" :name="tab.name">
-          <el-card class="box-card" v-for="(task, index) in tasks.rows" :key="index" style="margin: 10px 0;">
+          <!-- <el-card class="box-card" v-for="(task, index) in tasks.rows" :key="index" style="margin: 10px 0;">
             <div slot="header" class="clearfix">
               <el-row :gutter="20">
                 <el-col :span="5">公司名称: {{ task.customerName }}</el-col>
@@ -146,7 +141,6 @@
             </el-row>
             <el-row v-if="!isAgentOrder(task)">
               <el-col :span="3">
-                <!-- 企业变更 -->
               </el-col>
               <el-col :span="21">
                 <a-steps :current="0" class="agent-order-steps">
@@ -182,13 +176,65 @@
                 <el-button type="primary" round @click="handleViewOrder(task)">进入流程 ></el-button>
               </el-col>
             </el-row>
-          </el-card>
+          </el-card> -->
+          <el-table
+            ref="multipleTable"
+            :data="tasks.rows"
+            tooltip-effect="dark"
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
+            <el-table-column
+              fixed
+              type="selection">
+            </el-table-column>
+            <el-table-column
+              prop="customerName"
+              :show-overflow-tooltip="true"
+              label="客户名称">
+            </el-table-column>
+            <el-table-column
+              prop="taskStatusName"
+              label="产品状态">
+            </el-table-column>
+            <el-table-column
+              prop="relUserName"
+              label="负责会计">
+            </el-table-column>
+            <el-table-column
+              prop="customerRelUserName"
+              :show-overflow-tooltip="true"
+              label="客户代表">
+            </el-table-column>
+            <el-table-column
+              prop="serviceStartMonth:null"
+              label="服务开始月">
+            </el-table-column>
+            <el-table-column
+              prop="taxDate:null"
+              label="当前报税期">
+            </el-table-column>
+            <el-table-column
+              prop="price"
+              label="服务金额">
+            </el-table-column>
+            <el-table-column
+              prop="taskNo"
+              :show-overflow-tooltip="true"
+              label="订单编号">
+            </el-table-column>
+            <el-table-column
+              prop="operating"
+              label="操作">
+              <template slot-scope="scope">
+                <el-button @click="handleVieAgentaOrder(scope.row)" type="text" size="small">查看</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
       </el-tabs>
       <div style="margin-top: 20px">
         <el-pagination
           background
-          :page-size="2"
           layout="total,prev, pager, next"
           @current-change="handleCurrentChangeClick"
           :current-page="getFlowForm.page"
@@ -215,27 +261,45 @@ export default {
       advancedSearchDialogVisible: false,
       getFlowForm: {
         type: '',
-        limit: 2,
+        limit: 10,
         page: 1
       },
+      multipleSelection: [],
       flowLabels: [],
-      year: [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12
+      taskStatus: [
+        {
+          name: '未开始',
+          value: '0'
+        },
+        {
+          name: '服务中',
+          value: '1'
+        },
+        {
+          name: '已完成',
+          value: '3'
+        },
+        {
+          name: '已终止',
+          value: '2'
+        },
+        {
+          name: '全部',
+          value: '4'
+        }
       ]
     }
   },
   methods: {
+    // 通过状态筛选订单
+    handleStatusChange (statusValue) {
+      if (statusValue === '4') {
+        delete this.getFlowForm.taskStatusValue
+      } else {
+        this.getFlowForm.taskStatusValue = statusValue
+      }
+      this.getFlows()
+    },
     getNotAgentDate (createTime) {
       const date = new Date(createTime)
       return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
@@ -247,14 +311,14 @@ export default {
       this.getFlowForm.page = currentPage
       this.getFlows()
     },
+    handleSelectionChange (val) {
+      this.multipleSelection = val
+    },
     handleVieAgentaOrder (row) {
       this.$router.push({ path: '/agent-bookkeeping', query: { taskId: row.taskId } })
     },
-    handleViewOrder (row) {
-      this.$router.push({ path: '/one-time-accounting', query: { taskId: row.taskId } })
-    },
     handleTabClick () {
-      this.getFlowForm.page = 1
+      this.getFlowForm.params.page = 1
       this.getFlows()
     },
     getFlowLabels () {

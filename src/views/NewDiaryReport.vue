@@ -118,7 +118,7 @@
             </el-row>
             <!-- 3.4 将 3.3 定义的方法绑定到 click 事件上 -->
             <el-button type="primary" :loading="isDiaryReport" @click="handleCreateFianceButtonClick">保 存</el-button>
-            <el-button >取 消</el-button>
+            <a href="javascript:history.go(-1)"><el-button>取 消</el-button></a>
           </el-form>
       </div>
   </div>

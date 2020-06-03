@@ -4,19 +4,18 @@
       <el-tab-pane label="基本信息">
         <p class="service-provider-title">基本信息</p>
         <div class="dividing-line"></div>
-        <el-row>
-          <el-col :span="8">
+        <el-row><br>
+          <el-col :span="12">
             <el-upload
-              style="margin-left:280px;margin-top:50px;"
               class="avatar-uploader"
               action
+              :http-request="handleUploadHttpRequest"
+              :file-list="avatarCopyUploadFile"
               :show-file-list="false"
-              :http-request="handleIdCardCopyUploadHttpRequest"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload">
-              <img v-if="imageUrl" :src="imageUrl" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
+            <img v-for="(url, index) in getImageUrls('头像')" :key="index" :src="url">
           </el-col>
         </el-row>
         <br>
@@ -486,10 +485,45 @@ export default {
         account: '',
         bank: ''
       },
-      imageUrl: ''
+      imageUrl: '',
+      // 头像上传
+      avatarCopyUploadForm: {
+        type: 'user',
+        dataId: 10,
+        fileNameInfo: '头像',
+        fileType: '头像'
+      },
+      avatarCopyUploadFile: []
     }
   },
   methods: {
+    // 头像上传
+    getImageUrls (type) {
+      return this
+        .tenantDetail
+        .logoUrl
+        .filter(({ fileType }) => fileType === type)
+        .map(({ fileUrl }) => `https://${fileUrl.replace('/data/wwwroot/', '')}`)
+    },
+    handleUploadHttpRequest ({ file }) {
+      const formData = new FormData()
+      formData.append('file', file)
+      this.avatarCopyUpload(formData)
+    },
+    avatarCopyUpload (formData) {
+      this.avatarCopyUploadForm.dataId = this.tenantDetail.tenantId
+      this.$store.dispatch('uploadFile', { formData, uploadFileForm: this.avatarCopyUploadForm }).then(file => {
+        Message({
+          message: '上传成功',
+          type: 'success'
+        })
+      }).catch(message => {
+        Message({
+          message,
+          type: 'error'
+        })
+      })
+    },
     handleEditCollectAccountButtonClick (row) {
       // 更新收款账户信息
       this.updateTenantAccountForm = row
@@ -1083,6 +1117,32 @@ export default {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+  /* 头像设置 */
+  .avatar-uploader {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    width: 178px;
+    margin: 0 auto;
   }
   .avatar-uploader .el-upload:hover {
     border-color: #409EFF;

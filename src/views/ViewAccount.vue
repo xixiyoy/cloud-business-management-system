@@ -156,8 +156,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="剩余赠送月: ">
-                  <span>{{ account.newestTask ? getLeftGifts(account.newestTask) : '' }}</span>
+                <el-form-item label="付费周期: ">
+                  <span>{{ account.newestTask ? account.newestTask.payCycle : ''}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -170,13 +170,6 @@
               <el-col :span="8">
                 <el-form-item label="当前报税期: ">
                   <span>{{ account.newestTask ? (account.newestTask.taxDate | dateYM) : '' }}</span>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="8">
-                <el-form-item label="付费周期: ">
-                  <span>{{ account.newestTask ? account.newestTask.payCycle : ''}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -263,11 +256,6 @@
                 <el-col :span="12">
                   <el-form-item label="服务周期: " v-show="task.productName === '代理记账'">
                     <span>{{task.number}}</span>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="赠送: " v-show="task.productName === '代理记账'">
-                    <span>{{task.giftNumber}}</span>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -447,11 +435,8 @@ export default {
       return giftNumber - (number - completeCount)
     },
     getLeftMonths (newestTask) {
-      const { number, completeCount, giftNumber } = newestTask
-      if (completeCount <= number) {
-        return number - completeCount
-      }
-      return giftNumber - (completeCount - number)
+      const { number, completeCount } = newestTask
+      return number - completeCount
     },
     handleEditTaskButtonClick ({ taskId, productName }) {
       this
