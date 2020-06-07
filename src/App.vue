@@ -104,6 +104,7 @@
                 <el-menu-item-group>
                   <el-menu-item index="/flow">代理记账</el-menu-item>
                   <el-menu-item index="/once-flow">单次业务</el-menu-item>
+                  <el-menu-item index="/escrow">托管业务</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
               <el-submenu index="1">
