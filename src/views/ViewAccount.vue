@@ -140,24 +140,24 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="月服务费: ">
-                  <span>{{ account.newestTask ? account.newestTask.price : '' }}</span>
+                  <span>{{ account.newestTask.price ? account.newestTask.price : '' }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="服务周期: ">
-                  <span>{{ account.newestTask ? account.newestTask.number : '' }}月</span>
+                  <span>{{ account.newestTask.number ? account.newestTask.number : '' }}月</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item label="服务开始月: ">
-                  <span>{{ account.newestTask ? (account.newestTask.serviceStartMonth | dateYM) : '' }}</span>
+                  <span>{{ account.newestTask.serviceStartMonth ? (account.newestTask.serviceStartMonth | dateYM) : '' }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="付费周期: ">
-                  <span>{{ account.newestTask ? account.newestTask.payCycle : ''}}</span>
+                  <span>{{ account.newestTask.payCycle ? account.newestTask.payCycle : ''}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -169,7 +169,7 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="当前报税期: ">
-                  <span>{{ account.newestTask ? (account.newestTask.taxDate | dateYM) : '' }}</span>
+                  <span>{{ account.newestTask.taxDate ? (account.newestTask.taxDate | dateYM) : '' }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -232,7 +232,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="财税顾问: " v-show="task.productName === '代理记账'">
+                  <el-form-item label="负责会计: " v-show="task.productName === '代理记账'">
                     <span>{{task.relUserName}}</span>
                   </el-form-item>
                   <el-form-item label="负责人: " v-show="task.productName !== '代理记账'">
@@ -340,8 +340,8 @@ export default {
   },
   data () {
     return {
+      activeNames: ['1', '2', '3', '4', '5'],
       customerId: '',
-      activeNames: [''],
       idCardImages: [''],
       businessLicenseImages: [''],
       contractImages: [''],

@@ -1,4 +1,4 @@
-import { getCustomers, getCustomerDetail, updateCustomer, createCustomer } from '../../api/customer'
+import { getCustomers, getCustomerDetail, updateCustomer, createCustomer, getAllCustomers } from '../../api/customer'
 
 const state = {
   customers: [],
@@ -97,7 +97,8 @@ const state = {
     latestCollectId: null,
     latestRoyaltyId: null,
     newestTask: null
-  }
+  },
+  allCustomer: {}
 }
 
 const mutations = {
@@ -106,6 +107,9 @@ const mutations = {
   },
   'SET_CUSTOMER' (state, customer) {
     state.customer = customer
+  },
+  'SET_ALLCUSTOMER' (state, allCustomer) {
+    state.allCustomer = allCustomer
   }
 }
 
@@ -118,6 +122,11 @@ const actions = {
     const response = await getCustomerDetail(customerId)
     const customer = response.data.customer.customer
     commit('SET_CUSTOMER', customer)
+  },
+  async getAllCustomers ({ commit }, allCustomerForm) {
+    const { data: allCustomer } = await getAllCustomers(allCustomerForm)
+    console.log(allCustomer)
+    commit('SET_ALLCUSTOMER', allCustomer)
   },
   async updateCustomer ({ commit }, updateCustomerForm) {
     await updateCustomer(updateCustomerForm)

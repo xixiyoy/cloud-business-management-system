@@ -91,7 +91,7 @@
             </el-row>
             <el-row>
               <el-col :span="24">
-                <el-form-item label="财税顾问: " prop="region">
+                <el-form-item label="负责会计: " prop="region">
                   <span>{{agentOrder.baseInformation.task.relUserName}}</span>
                 </el-form-item>
               </el-col>
@@ -128,24 +128,19 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="服务开始月: " prop="name">
-                  <span>{{agentOrder.baseInformation.task.serviceStartMonth| dateYM}}</span>
+                  <span>{{ agentOrder.baseInformation.task.serviceStartMonth ? (agentOrder.baseInformation.task.serviceStartMonth| dateYM) : '' }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="剩余赠送月: " prop="name">
-                  <span>{{ getLeftGifts(agentOrder.baseInformation.task) }}</span>
+                <el-form-item label="当前报税期: " prop="name">
+                  <span>{{ agentOrder.baseInformation.task.taxDate ? (agentOrder.baseInformation.task.taxDate| dateYM) : '' }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="剩余服务月: " prop="name">
-                  <span>{{agentOrder.accountInformation.surplusNum}}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="当前报税期: " prop="name">
-                  <span>{{agentOrder.baseInformation.task.taxDate| dateYM}}</span>
+                  <span>{{agentOrder.baseInformation.task.number - agentOrder.baseInformation.task.completeCount}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -202,7 +197,7 @@
               prop="taxDate">
             </el-table-column>
             <el-table-column
-              label="财税顾问"
+              label="负责会计"
               prop="relUserName">
             </el-table-column>
             <el-table-column
@@ -416,14 +411,6 @@ export default {
     }
   },
   methods: {
-    // 剩余赠送月计算
-    getLeftGifts (task) {
-      const { giftNumber, number, completeCount } = task
-      if (completeCount < number) {
-        return giftNumber
-      }
-      return giftNumber - (completeCount - number)
-    },
     formatDate (row, column) {
       const data = row[column.property]
       if (data == null) {

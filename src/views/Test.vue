@@ -1,24 +1,31 @@
 <template>
   <div class="test">
-    <img src="http://www.qixiangyun.net/captcha.jpg?t=1585229310369"/>
+    <!-- <img src="http://www.qixiangyun.net/captcha.jpg?t=1585229310369"/>
     <el-input v-model="form.userName"></el-input>
     <el-input v-model="form.password"></el-input>
     <el-input v-model="form.captcha"></el-input>
     <el-button @click="handleLoginButtonClick">登录</el-button>
-    <el-button @click="handleLogoutButtonClick">注销</el-button>
+    <el-button @click="handleLogoutButtonClick">注销</el-button> -->
+    <customer-representative-select message="非默认" v-model="test"></customer-representative-select>
+    <button @click="show"/>
   </div>
 </template>
 
 <script>
 import { loginByUserNameAndPassword, logout } from '../api/sys.login'
+import CustomerRepresentativeSelect from '../components/customer/CustomerRepresentativeSelect'
 
 export default {
   metaInfo: {
     title: '测试'
   },
+  components: {
+    CustomerRepresentativeSelect
+  },
   name: 'Test',
   data () {
     return {
+      test: 'fdsfds',
       form: {
         userName: '',
         password: '',
@@ -27,6 +34,9 @@ export default {
     }
   },
   methods: {
+    show () {
+      console.log(this.test)
+    },
     handleLoginButtonClick () {
       const { userName, password, captcha } = this.form
       loginByUserNameAndPassword(userName, password, captcha).then(response => {

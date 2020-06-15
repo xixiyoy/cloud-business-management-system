@@ -603,7 +603,7 @@ export default {
     handleCreateCustomerFormCustomerSourceSelectChange (customerSource) {
       switch (customerSource) {
         case '老客户': {
-          this.customerSourceDetails = this.customers.map(({ customerName }) => customerName)
+          this.customerSourceDetails = this.allCustomers.map(({ customerName }) => customerName)
           break
         }
         case '渠道': {
@@ -644,6 +644,9 @@ export default {
     },
     getCustomers () {
       this.$store.dispatch('getCustomers', this.getCustomersForm)
+    },
+    getAllCustomers () {
+      this.$store.dispatch('getAllCustomers', this.allCustomerForm)
     },
     getChannels () {
       this.$store.dispatch('getChannelList', this.getChannelsForm)
@@ -751,13 +754,15 @@ export default {
     this.getUsers()
     this.getCustomers()
     this.getChannels()
+    this.getAllCustomers()
   },
   computed: {
     ...mapState({
       products: state => state.product.products.page.list,
       users: state => state.sysUser.users.list,
       customers: state => state.customer.customers.list,
-      channels: state => state.channel.channels.page.list
+      channels: state => state.channel.channels.page.list,
+      allCustomers: state => state.customer.allCustomer.customerList
     }),
     isRoyaltyCoefficientShow () {
       return this.isTasksContainAgentReport()

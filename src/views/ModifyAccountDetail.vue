@@ -44,7 +44,14 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="客户等级: ">
-                  <el-input v-model="updateCustomerForm.customerLevelName"></el-input>
+                  <el-select v-model="updateCustomerForm.customerLevelValue" style="width: 100%;" @change="handleCustomerLevelSelectChange">
+                  <el-option
+                    v-for="(customerLevel, index)  in customerLevels"
+                    :key="index"
+                    :label="customerLevel.name"
+                    :value="customerLevel.value">
+                  </el-option>
+                </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -63,7 +70,27 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户来源: ">
-                  <el-input v-model="updateCustomerForm.customerFromWay"></el-input>
+                  <el-select
+                  style="width: 50%;"
+                  v-model="updateCustomerForm.customerFromWay"
+                  @change="handleCreateCustomerFormCustomerSourceSelectChange">
+                  <el-option
+                    v-for="(customerSource, index) in customerSources"
+                    :key="index"
+                    :label="customerSource"
+                    :value="customerSource">
+                  </el-option>
+                </el-select>
+                <el-select
+                  style="width: 50%;"
+                  v-model="updateCustomerForm.customerFromDetail">
+                  <el-option
+                    v-for="(customerSourceDetail, index) in customerSourceDetails"
+                    :key="index"
+                    :label="customerSourceDetail"
+                    :value="customerSourceDetail">
+                  </el-option>
+                </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
@@ -135,9 +162,9 @@
           </el-form>
         </el-collapse-item>
         <img class="base-information-icon" src="../assets/images/newAccountPage/arrow.png" alt="">
-              <el-collapse-item
+          <el-collapse-item
               title="订单列表"
-              name="task-table">
+              name="3">
                 <div class="tasks-table">
                   <el-table
                     :data="taskList">
@@ -167,7 +194,7 @@
                                 </el-form-item>
                               </el-col>
                               <el-col :span="12">
-                                <el-form-item label="财税顾问：">
+                                <el-form-item label="负责会计：">
                                   <el-select
                                     v-model="updateTaskForm.relUserId"
                                     @change="handleupdateTaskFormFinancialAdviserSelectChange">
@@ -263,7 +290,7 @@
                           </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                          <el-form-item label="财税顾问：" v-show="!isAngentDetail">
+                          <el-form-item label="负责会计：" v-show="!isAngentDetail">
                             <el-select
                               v-model="addTaskForm.relUserId"
                               @change="handleAddTaskFormFinancialAdviserSelectChange">
@@ -373,16 +400,26 @@ export default {
   data () {
     return {
       customerId: 1,
-      activeNames: ['1'],
+      activeNames: ['1', '2', '3', '4', '5'],
       idCardImages: [''],
       businessLicenseImages: [''],
       contractImages: [''],
       addTaskDialogVisible: false,
+      customerLevels: [
+        {
+          name: '普通',
+          value: '0'
+        },
+        {
+          name: 'VIP',
+          value: '1'
+        }
+      ],
       addTaskForm: {
         // 产品名称
         productId: '',
         productName: '',
-        // 财税顾问
+        // 负责会计
         relUserId: '',
         relUserName: '',
         // 服务单价
@@ -401,7 +438,7 @@ export default {
         // 产品名称
         productId: '',
         productName: '',
-        // 财税顾问
+        // 负责会计
         relUserId: '',
         relUserName: '',
         // 服务单价
@@ -415,6 +452,7 @@ export default {
         payCycle: '',
         longTerm: '0'
       },
+      customerSourceDetails: [],
       updateCustomerForm: {
         customerName: '',
         customerLinkerName: '',
@@ -443,6 +481,14 @@ export default {
         limit: 10,
         page: 1
       },
+      getChannelsForm: {
+        limit: 10,
+        page: 1
+      },
+      getProductsForm: {
+        limit: 10,
+        page: 1
+      },
       // 上传文件
       idCardCopyFiles: [],
       idCardCopyUploadForm: {
@@ -462,10 +508,40 @@ export default {
         dataId: 10,
         fileNameInfo: '合同原件',
         fileType: '合同原件'
-      }
+      },
+      customerSources: [
+        '老客户',
+        '渠道',
+        '同事'
+      ]
     }
   },
   methods: {
+    handleCreateCustomerFormCustomerSourceSelectChange (customerSource) {
+      switch (customerSource) {
+        case '老客户': {
+          this.customerSourceDetails = this.allCustomers.map(({ customerName }) => customerName)
+          break
+        }
+        case '渠道': {
+          this.customerSourceDetails = this.channels.map(({ name }) => name)
+          break
+        }
+        case '同事': {
+          this.customerSourceDetails = this.users.map(({ userName }) => userName)
+          break
+        }
+      }
+    },
+    getCustomerLevelName (value) {
+      if (value === '0') {
+        return '普通'
+      }
+      return 'VIP'
+    },
+    handleCustomerLevelSelectChange (value) {
+      this.updateCustomerForm.customerLevelName = this.getCustomerLevelName(value)
+    },
     // 上传文件的
     handleIdCardCopyUploadHttpRequest ({ file }) {
       const formData = new FormData()
@@ -528,13 +604,17 @@ export default {
     },
     // 展示图片
     getImageUrls (type) {
-      return this
-        .account
-        .fileList
-        .filter(({ fileType }) => fileType === type)
-        .map(({ fileUrl }) => `https://${fileUrl.replace('/data/wwwroot/', '')}`)
+      const { fileList: files } = this.account
+      return files
+        ? files
+          .filter(({ fileType }) => fileType === type)
+          .map(({ fileUrl }) => `https://${fileUrl.replace('/data/wwwroot/', '')}`)
+        : []
     },
     // 根据 ID 获取客户
+    getAllCustomers () {
+      this.$store.dispatch('getAllCustomers', this.allCustomerForm)
+    },
     getCustomer () {
       this.$store.dispatch('getCustomerById', this.customerId).then(() => {
         this.updateCustomerForm.customerId = this.account.customerId
@@ -563,7 +643,6 @@ export default {
     },
     // 修改客户信息
     updateCustomer () {
-      console.log(this.updateCustomerForm)
       this.$store.dispatch('updateCustomer', this.updateCustomerForm).then(() => {
         Message({
           message: '修改成功',
@@ -656,7 +735,6 @@ export default {
             this.addTaskForm
           )
       } catch (message) {
-        console.log(message)
       }
     },
     handleAddTaskFormFinancialAdviserSelectChange (id) {
@@ -716,6 +794,9 @@ export default {
         .users
         .filter(({ userId }) => userId === id)[0]
     },
+    getChannels () {
+      this.$store.dispatch('getChannelList', this.getChannelsForm)
+    },
     getUserName (id) {
       return this
         .getUser(id)
@@ -729,9 +810,13 @@ export default {
     this.customerId = this.$route.query.customerId
     this.getCustomer()
     this.getProducts()
+    this.getChannels()
+    this.getUsers()
+    this.getAllCustomers()
     // 基本信息
     this.updateCustomerForm.customerId = this.account.customerId
     this.updateCustomerForm.customerStatusName = this.account.customerStatusName
+    this.updateCustomerForm.royaltyCoefficient = this.account.royaltyCoefficient
     this.updateCustomerForm.customerName = this.account.customerName
     this.updateCustomerForm.customerLinkerName = this.account.customerLinkerName
     this.updateCustomerForm.customerLinkerPhone = this.account.customerLinkerPhone
@@ -753,7 +838,9 @@ export default {
     ...mapState({
       products: state => state.product.products.page.list,
       account: state => state.customer.customer,
-      users: state => state.sysUser.users.list
+      users: state => state.sysUser.users.list,
+      channels: state => state.channel.channels.page.list,
+      allCustomers: state => state.customer.allCustomer.customerList
     }),
     isRoyaltyCoefficientShow () {
       return this.isTasksContainAgentReport()

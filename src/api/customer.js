@@ -6,6 +6,11 @@ const updateCustomer = customer => request({
   params: customer
 })
 
+const getAllCustomers = allCustomer => request({
+  url: '/customer/all',
+  data: allCustomer
+})
+
 const createCustomer = customer => request({
   url: '/customer/add',
   method: 'POST',
@@ -25,5 +30,6 @@ export {
   createCustomer,
   getCustomers,
   getCustomerDetail,
-  updateCustomer
+  updateCustomer,
+  getAllCustomers
 }

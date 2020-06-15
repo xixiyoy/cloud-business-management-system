@@ -191,7 +191,7 @@
             </el-table-column>
             <el-table-column
               prop="newestTask.relUserName"
-              label="财税顾问"
+              label="负责会计"
               header-align="center">
             </el-table-column>
             <el-table-column

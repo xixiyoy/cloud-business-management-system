@@ -159,6 +159,11 @@ const routes = [
     path: '/new-test',
     name: 'NewTest',
     component: () => import('../views/NewTest')
+  },
+  {
+    path: '/escrow',
+    name: 'Escrow',
+    component: () => import('../views/Escrow')
   }
 ]
 

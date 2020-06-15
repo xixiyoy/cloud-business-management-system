@@ -66,10 +66,10 @@
           width="55">
         </el-table-column>
         <el-table-column
-          prop="createTime"
+          prop="fianceTime"
           :show-overflow-tooltip="true"
           label="收支时间">
-          <template slot-scope="scope">{{scope.row.date| dateYMDHMSFormat}}</template>
+          <template slot-scope="scope">{{scope.row.fianceTime| dateYMDHMSFormat}}</template>
         </el-table-column>
         <el-table-column
           prop="comment"
@@ -100,7 +100,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="createUserName"
+          prop="fianceUserName"
           label="收支人员">
         </el-table-column>
         <el-table-column
